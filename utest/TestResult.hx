@@ -1,0 +1,5 @@
+package utest;
+
+class TestResult {
+
+}
