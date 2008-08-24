@@ -6,14 +6,12 @@ class TestHandler<T> {
 	private static inline var POLLING_TIME = 10;
 	public var results(default, null) : List<Assertation>;
 	public var fixture(default, null) : TestFixture<T>;
-//	var expectedasynccalls : Int;
 	var asyncStack : List<Dynamic>;
 	public function new(fixture : TestFixture<T>) {
 		if(fixture == null) throw "fixture argument is null";
 		this.fixture = fixture;
 		results      = new List();
 		asyncStack   = new List();
-//		expectedasynccalls = 0;
 	}
 
 	public function execute() {
@@ -33,7 +31,6 @@ class TestHandler<T> {
 
 	function checkTested() {
 #if (flash || js)
-//		trace(expireson+" "+expectedasynccalls+" "+haxe.Timer.stamp());
 		if(expireson == null || asyncStack.length == 0) {
 			tested();
 		} else if(haxe.Timer.stamp() > expireson) {
@@ -101,14 +98,26 @@ class TestHandler<T> {
 	function tested() {
 		if(results.length == 0)
 			results.add(Warning("no assertions"));
-		onTested();
+		onTested(this);
+		completed();
 	}
 
 	function timeout() {
 		results.add(TimeoutError(asyncStack.length));
-		onTimeout();
+		onTimeout(this);
+		completed();
 	}
 
-	public dynamic function onTested();
-	public dynamic function onTimeout();
+	function completed() {
+		try {
+			executeMethod(fixture.teardown);
+		} catch(e : Dynamic) {
+			results.add(TeardownError(e));
+		}
+		onCompleted(this);
+	}
+
+	public dynamic function onTested(handler : TestHandler<T>);
+	public dynamic function onTimeout(handler : TestHandler<T>);
+	public dynamic function onCompleted(handler : TestHandler<T>);
 }

@@ -1,0 +1,55 @@
+# Neko
+-neko ../bin/main.n
+-main tests.Iteration1
+-debug
+-cp ../
+
+--next
+# PHP
+-php ../bin
+-main tests.Iteration1
+-debug
+-cp ../
+--php-front main.php
+
+--next
+# F9
+-swf9 ../bin/mainf9.swf
+-main tests.Iteration1
+-debug
+-cp ../
+-swf-header 410:240:120:ffffff
+
+--next
+# F8
+-swf ../bin/mainf8.swf
+-main tests.Iteration1
+-debug
+-cp ../
+-swf-version 8
+-swf-header 410:240:120:ffffff
+
+--next
+# F7
+-swf ../bin/mainf7.swf
+-main tests.Iteration1
+-debug
+-cp ../
+-swf-version 7
+-swf-header 410:240:120:ffffff
+
+--next
+# 
+-swf ../bin/mainf6.swf
+-main tests.Iteration1
+-debug
+-cp ../
+-swf-version 6
+-swf-header 410:240:120:ffffff
+
+--next
+# JS
+-js ../bin/main.js
+-main tests.Iteration1
+-debug
+-cp ../

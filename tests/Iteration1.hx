@@ -128,7 +128,7 @@ class Iteration1 {
 		var fixture = new TestFixture(new FixtureSubject(), "test");
 		var handler = new TestHandler(fixture);
 		var flag = false;
-		handler.onTested = function() {
+		handler.onTested = function(h) {
 			flag = true;
 		}
 		handler.execute();
@@ -157,11 +157,11 @@ class Iteration1 {
 		handler.addAsync(function() {
 			// do nothing
 		}, TIMEOUT);
-		handler.onTimeout = function() {
+		handler.onTimeout = function(h) {
 			trace(flag1 ? "OK #15" : "FAIL");
 			flag2 = true;
 		}
-		handler.onTested = function() {
+		handler.onTested = function(h) {
 			trace("FAIL");
 		}
 		trace(flag1 ? "FAIL" : "OK #16");
@@ -183,10 +183,10 @@ class Iteration1 {
 			trace(flag ? "FAIL" : "OK #18");
 			flag = true;
 		}, TIMEOUT*2);
-		handler.onTimeout = function() {
+		handler.onTimeout = function(h) {
 			trace("TIMEOUT");
 		}
-		handler.onTested = function() {
+		handler.onTested = function(h) {
 			trace(flag ? "OK #19" : "FAIL");
 		}
 #if (flash || js)
@@ -207,10 +207,10 @@ class Iteration1 {
 			trace(s == expected ? "OK #20" : "FAIL");
 			value = s;
 		}, TIMEOUT*2);
-		handler.onTimeout = function() {
+		handler.onTimeout = function(h) {
 			trace("TIMEOUT");
 		}
-		handler.onTested = function() {
+		handler.onTested = function(h) {
 			trace(value == expected ? "OK #21" : "FAIL");
 		}
 #if (flash || js)
@@ -232,10 +232,10 @@ class Iteration1 {
 		var async2 = handler.addAsync(function() {
 			value += "2";
 		}, TIMEOUT*2);
-		handler.onTimeout = function() {
+		handler.onTimeout = function(h) {
 			trace("TIMEOUT");
 		}
-		handler.onTested = function() {
+		handler.onTested = function(h) {
 			trace(value == "12" ? "OK #22" : "FAIL");
 		}
 #if (flash || js)
@@ -256,10 +256,10 @@ class Iteration1 {
 		var async = handler.addAsync(function() {
 			value++;
 		}, TIMEOUT*2);
-		handler.onTimeout = function() {
+		handler.onTimeout = function(h) {
 			trace("TIMEOUT");
 		}
-		handler.onTested = function() {
+		handler.onTested = function(h) {
 			trace(value == 1 ? "OK #23" : "FAIL");
 		}
 		async();
@@ -273,10 +273,10 @@ class Iteration1 {
 		var handler = new TestHandler(fixture);
 		var value = 0;
 		var async = handler.addAsync(function() { }, TIMEOUT*2);
-		handler.onTimeout = function() {
+		handler.onTimeout = function(h) {
 			trace("TIMEOUT");
 		}
-		handler.onTested = function() {
+		handler.onTested = function(h) {
 			switch(handler.results.pop()) {
 				case AsyncError(_):
 					trace("OK #24");
@@ -295,7 +295,7 @@ class Iteration1 {
 		var handler = new TestHandler(fixture);
 		var value = 0;
 		var async = handler.addAsync(function() { }, TIMEOUT);
-		handler.onTimeout = function() {
+		handler.onTimeout = function(h) {
 			switch(handler.results.pop()) {
 				case TimeoutError(i):
 					trace(i == 1 ? "OK #25" : "FAIL");
@@ -311,7 +311,7 @@ class Iteration1 {
 		var fixture = new TestFixture(new FixtureSubject(), "test");
 		var handler = new TestHandler(fixture);
 		var async = handler.addAsync(function() throw "error", TIMEOUT);
-		handler.onTested = function() {
+		handler.onTested = function(h) {
 			switch(handler.results.pop()) {
 				case AsyncError(_):
 					trace("OK #26");
@@ -338,6 +338,112 @@ class Iteration1 {
 			default:
 				trace("FAIL");
 		}
+	}
+
+	// #22
+	public function testOnCompleted() {
+		var fixture = new TestFixture(new FixtureSubject(), "test");
+		var handler = new TestHandler(fixture);
+		handler.onCompleted = function(h) {
+			trace("OK #28");
+		}
+		handler.execute();
+	}
+
+	// #23
+	public function testOnCompletedSequence() {
+		var fixture = new TestFixture(new FixtureSubject(), "test");
+		var handler = new TestHandler(fixture);
+		var value = "";
+		handler.onTested = function(h) {
+			value += "1";
+		}
+		handler.onTimeout = function(h) {
+			value += "2";
+		}
+		handler.onCompleted = function(h) {
+			trace(value == "1" ? "OK #29" : "FAIL");
+		}
+		handler.execute();
+	}
+
+	// #24
+	public function testOnCompletedSequenceAsyncOk() {
+		var fixture = new TestFixture(new FixtureSubject(), "test");
+		var handler = new TestHandler(fixture);
+		var async = handler.addAsync(function() {}, TIMEOUT);
+		var value = "";
+		handler.onTested = function(h) {
+			value += "1";
+		}
+		handler.onTimeout = function(h) {
+			value += "2";
+		}
+		handler.onCompleted = function(h) {
+			trace(value == "1" ? "OK #30" : "FAIL");
+		}
+#if (flash || js)
+		haxe.Timer.delay(function() async(), DELAY);
+#else
+		async();
+#end
+		handler.execute();
+	}
+
+	// #25
+	public function testOnCompletedSequenceAsyncTimeout() {
+		var fixture = new TestFixture(new FixtureSubject(), "test");
+		var handler = new TestHandler(fixture);
+		handler.addAsync(function() {}, DELAY);
+		var value = "";
+		handler.onTested = function(h) {
+			value += "1";
+		}
+		handler.onTimeout = function(h) {
+			value += "2";
+		}
+		handler.onCompleted = function(h) {
+			trace(value == "2" ? "OK #31" : "FAIL");
+		}
+		handler.execute();
+	}
+
+	// #26
+	public function testTeardown() {
+		var fixture = new TestFixture(new FixtureSubject(), "test", null, "teardown");
+		var handler = new TestHandler(fixture);
+		handler.onTested = function(h) {
+			trace(fixture.target.doneteardown ? "FAIL" : "OK #32");
+		}
+		handler.onTimeout = function(h) {
+			trace("FAIL");
+		}
+		handler.onCompleted = function(h) {
+			trace(fixture.target.doneteardown ? "OK #33" : "FAIL");
+		}
+		handler.execute();
+	}
+
+	// #27
+	public function testTeardownAsync() {
+		var fixture = new TestFixture(new FixtureSubject(), "test", null, "teardown");
+		var handler = new TestHandler(fixture);
+		var async = handler.addAsync(function(){}, TIMEOUT);
+		handler.onTested = function(h) {
+			trace(fixture.target.doneteardown ? "FAIL" : "OK #34");
+		}
+		handler.onTimeout = function(h) {
+			trace("FAIL");
+		}
+		handler.onCompleted = function(h) {
+			trace(fixture.target.doneteardown ? "OK #35" : "FAIL");
+		}
+#if (flash || js)
+		haxe.Timer.delay(function() async(), DELAY);
+#else
+		async();
+#end
+		handler.execute();
 	}
 
 	public static function main() {
@@ -368,6 +474,12 @@ class Iteration1 {
 		t.testTimeoutGeneratesError();
 		t.testAsyncThrowException();
 		t.testEmptyTestGeneratesWarning();
+		t.testOnCompleted();
+		t.testOnCompletedSequence();
+		t.testOnCompletedSequenceAsyncOk();
+		t.testOnCompletedSequenceAsyncTimeout();
+		t.testTeardown();
+		t.testTeardownAsync();
 	}
 }
 

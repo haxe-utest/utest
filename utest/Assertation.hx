@@ -7,6 +7,7 @@ enum Assertation {
 	Failure(msg : String, pos : PosInfos);
 	Error(e : Dynamic);
 	SetupError(e : Dynamic);
+	TeardownError(e : Dynamic);
 	TimeoutError(missedAsyncs : Int);
 	AsyncError(e : Dynamic);
 	Warning(msg : String);
