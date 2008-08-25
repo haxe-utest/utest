@@ -6,19 +6,22 @@ class TestHandler<T> {
 	private static inline var POLLING_TIME = 10;
 	public var results(default, null) : List<Assertation>;
 	public var fixture(default, null) : TestFixture<T>;
+	public var executionTime(default, null) : Int;
 	var asyncStack : List<Dynamic>;
 	public function new(fixture : TestFixture<T>) {
 		if(fixture == null) throw "fixture argument is null";
-		this.fixture = fixture;
-		results      = new List();
-		asyncStack   = new List();
+		this.fixture  = fixture;
+		results       = new List();
+		asyncStack    = new List();
+		executionTime = -1;
 	}
 
+	var startTime : Null<Float>;
 	public function execute() {
-		Assert.results = results;
 		try {
 			executeMethod(fixture.setup);
 			try {
+				startTime = haxe.Timer.stamp();
 				executeMethod(fixture.method);
 			} catch(e : Dynamic) {
 				results.add(Error(e));
@@ -52,6 +55,17 @@ class TestHandler<T> {
 		expireson = (expireson == null) ? newexpire : (newexpire > expireson ? newexpire : expireson);
 	}
 
+	function bindHandler() {
+		Assert.results     = this.results;
+		Assert.createAsync = this.addAsync;
+		Assert.createEvent = this.addEvent;
+	}
+
+	function unbindHandler() {
+		Assert.results     = null;
+		Assert.createAsync = function(f, ?t){ return function(){}};
+		Assert.createEvent = function(f, ?t){ return function(e){}};
+	}
 
 	public function addAsync(f : Void->Void, timeout = 250) {
 		asyncStack.add(f);
@@ -62,9 +76,8 @@ class TestHandler<T> {
 				handler.results.add(AsyncError("method already executed"));
 				return;
 			}
-			Assert.results = handler.results;
 			try {
-				Assert.results = handler.results;
+				handler.bindHandler();
 				f();
 			} catch(e : Dynamic) {
 				handler.results.add(AsyncError(e));
@@ -82,7 +95,7 @@ class TestHandler<T> {
 				return;
 			}
 			try {
-				Assert.results = handler.results;
+				handler.bindHandler();
 				f(e);
 			} catch(e : Dynamic) {
 				handler.results.add(AsyncError(e));
@@ -92,10 +105,13 @@ class TestHandler<T> {
 
 	function executeMethod(name : String) {
 		if(name == null) return;
+		bindHandler();
 		Reflect.callMethod(fixture.target, Reflect.field(fixture.target, name), []);
 	}
 
 	function tested() {
+		if(startTime != null)
+			executionTime = Std.int((haxe.Timer.stamp() - startTime)*1000);
 		if(results.length == 0)
 			results.add(Warning("no assertions"));
 		onTested(this);
@@ -114,10 +130,11 @@ class TestHandler<T> {
 		} catch(e : Dynamic) {
 			results.add(TeardownError(e));
 		}
-		onCompleted(this);
+		unbindHandler();
+		onComplete(this);
 	}
 
 	public dynamic function onTested(handler : TestHandler<T>);
 	public dynamic function onTimeout(handler : TestHandler<T>);
-	public dynamic function onCompleted(handler : TestHandler<T>);
+	public dynamic function onComplete(handler : TestHandler<T>);
 }
