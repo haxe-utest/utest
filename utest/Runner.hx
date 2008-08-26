@@ -41,23 +41,24 @@ class Runner {
 
 	var testsToRun : Int;
 	public function run() {
+		counter = 0;
 		testsToRun = fixtures.length;
 		onStart(this);
 		runNext();
 	}
 
 	function runNext() {
-		onProgress(this, testsToRun-fixtures.length, testsToRun);
 		if(fixtures.length > 0)
 			runFixture(fixtures.pop());
 		else
 			onComplete(this);
 	}
 
-	public dynamic function onProgress(runner : Runner, done : Int, totals : Int);
+	public dynamic function onProgress(runner : Runner, result : TestResult, done : Int, totals : Int);
 	public dynamic function onStart(r : Runner);
 	public dynamic function onComplete(r : Runner);
 
+	var counter : Int;
 	function runFixture(fixture : TestFixture<Dynamic>) {
 		var handler = new TestHandler(fixture);
 		handler.onComplete = testComplete;
@@ -65,7 +66,9 @@ class Runner {
 	}
 
 	function testComplete(h : TestHandler<Dynamic>) {
-		results.add(TestResult.ofHandler(h));
+		var result = TestResult.ofHandler(h);
+		onProgress(this, result, fixtures.length+1, testsToRun);
+		results.add(result);
 		runNext();
 	}
 }
