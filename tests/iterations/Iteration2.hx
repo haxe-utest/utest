@@ -1,4 +1,4 @@
-package tests;
+package tests.iterations;
 
 import utest.Assert;
 import utest.Runner;
@@ -19,7 +19,7 @@ class Iteration2 {
 	public function testAssertCreateAsync() {
 		var r = new Runner();
 		r.fixtures.add(new TestFixture(new TestClass(), "assertAsync"));
-		r.onCompleted = function(r){
+		r.onComplete = function(r){
 			trace(r.results.length == 1 ? "OK @2" : "FAIL");
 		}
 		r.run();
@@ -32,7 +32,7 @@ class Iteration2 {
 		r.fixtures.add(new TestFixture(test, "test1"));
 		r.fixtures.add(new TestFixture(test, "test2"));
 		r.fixtures.add(new TestFixture(test, "test3"));
-		r.onCompleted = function(r){
+		r.onComplete = function(r){
 			trace(test.seq == "123" ? "OK @3" : "FAIL");
 		}
 		r.run();
@@ -123,15 +123,4 @@ class TestSequenceClass {
 		var async = Assert.createAsync(function() me.seq += "3");
 		async();
 	}
-}
-
-class TestCaseClass {
-	public function new();
-
-	public function _setup() {}
-	public function teardown() {}
-
-	public function testOne() {}
-	public function TestTwo() {}
-	public function _testThree() {}
 }

@@ -1,4 +1,4 @@
-package tests;
+package tests.iterations;
 
 import utest.Assert;
 import utest.TestFixture;

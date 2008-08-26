@@ -39,18 +39,24 @@ class Runner {
 		}
 	}
 
+	var testsToRun : Int;
 	public function run() {
+		testsToRun = fixtures.length;
+		onStart(this);
 		runNext();
 	}
 
 	function runNext() {
+		onProgress(this, testsToRun-fixtures.length, testsToRun);
 		if(fixtures.length > 0)
 			runFixture(fixtures.pop());
 		else
-			onCompleted(this);
+			onComplete(this);
 	}
 
-	public dynamic function onCompleted(r : Runner);
+	public dynamic function onProgress(runner : Runner, done : Int, totals : Int);
+	public dynamic function onStart(r : Runner);
+	public dynamic function onComplete(r : Runner);
 
 	function runFixture(fixture : TestFixture<Dynamic>) {
 		var handler = new TestHandler(fixture);
@@ -59,7 +65,7 @@ class Runner {
 	}
 
 	function testComplete(h : TestHandler<Dynamic>) {
-		results.add(new TestResult());
+		results.add(TestResult.ofHandler(h));
 		runNext();
 	}
 }
