@@ -1,0 +1,34 @@
+# F7
+-swf ../bin/requests/request1f7.swf
+-main tests.requests.Request1
+-debug
+-cp ../
+-swf-version 7
+-swf-header 410:240:120:ffffff
+
+--next
+
+# F8
+-swf ../bin/requests/request1f8.swf
+-main tests.requests.Request1
+-debug
+-cp ../
+-swf-version 8
+-swf-header 410:240:120:ffffff
+
+--next
+
+# F9
+-swf ../bin/requests/request1f9.swf
+-main tests.requests.Request1
+-debug
+-cp ../
+-swf-header 410:240:120:ffffff
+
+--next
+
+# JS
+-js ../bin/requests/request1.js
+-main tests.requests.Request1
+-debug
+-cp ../
