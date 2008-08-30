@@ -2,6 +2,7 @@ package tests.requests;
 
 import utest.Assert;
 import utest.Runner;
+import utest.ui.text.TraceReport;
 
 #if php
 import php.Web;
@@ -13,8 +14,14 @@ import flash.external.ExternalInterface;
 
 class RequestTest {
 	static inline var TIMEOUT = 500;
-
 	public function new();
+	
+	public static function main() {
+		var runner = new Runner();
+		runner.addCase(new RequestTest());
+		var report = new TraceReport(runner);
+		runner.run();
+	}
 
 	public function testWorkingHttp() {
 		var requestor = new haxe.Http( getUrl("real.html") );

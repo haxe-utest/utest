@@ -2,5 +2,5 @@
 DEPLOY_DIR=/var/www/utest/
 
 rm -rf $DEPLOY_DIR*
-haxe Request1.hxml
+haxe RequestTest.hxml
 cp -r ../bin/* $DEPLOY_DIR

@@ -11,17 +11,19 @@ class Iteration2 {
 	public function testRunnerRun() {
 		var r = new Runner();
 		r.fixtures.add(new TestFixture(new TestClass(), "assertTrue"));
+		r.onProgress = function(runner, result, done, totals) {
+			trace(done == 1 ? "OK @1" : "FAIL");
+		};
 		r.run();
-		trace(r.results.length == 1 ? "OK @1" : "FAIL");
 	}
 
 	// #2
 	public function testAssertCreateAsync() {
 		var r = new Runner();
 		r.fixtures.add(new TestFixture(new TestClass(), "assertAsync"));
-		r.onComplete = function(r){
-			trace(r.results.length == 1 ? "OK @2" : "FAIL");
-		}
+		r.onProgress = function(runner, result, done, totals) {
+			trace(done == 1 ? "OK @2" : "FAIL");
+		};
 		r.run();
 	}
 
