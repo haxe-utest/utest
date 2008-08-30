@@ -53,6 +53,10 @@ class Assert {
 		isTrue(false, msg, pos);
 	}
 
+	public static function warn(msg) {
+		results.add(Warning(msg));
+	}
+
 	public static dynamic function createAsync(f : Void->Void, ?timeout : Int) {
 		return function(){};
 	}
