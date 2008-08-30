@@ -3,10 +3,8 @@ package utest;
 
 class Runner {
 	public var fixtures(default, null) : List<TestFixture<Dynamic>>;
-	public var results (default, null) : List<TestResult>;
 	public function new() {
 		fixtures = new List();
-		results  = new List();
 	}
 
 	public function addCase(test : Dynamic, setup = "setup", teardown = "teardown", prefix = "test", ?pattern : EReg) {
@@ -66,9 +64,7 @@ class Runner {
 	}
 
 	function testComplete(h : TestHandler<Dynamic>) {
-		var result = TestResult.ofHandler(h);
-		onProgress(this, result, fixtures.length+1, testsToRun);
-		results.add(result);
+		onProgress(this, TestResult.ofHandler(h), fixtures.length+1, testsToRun);
 		runNext();
 	}
 }
