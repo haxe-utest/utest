@@ -67,7 +67,7 @@ class TraceReport {
 			var pack = result.getPackage(pname);
 			for(cname in pack.classNames()) {
 				var cls = pack.getClass(cname);
-				buf.add(pname+newline);
+				buf.add(pname+"."+cname+newline);
 				for(mname in cls.methodNames()) {
 					var fix = cls.get(mname);
 					buf.add(indents(1)+mname+": ");
