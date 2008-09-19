@@ -11,9 +11,9 @@ class Iteration2 {
 	public function testRunnerRun() {
 		var r = new Runner();
 		r.fixtures.add(new TestFixture(new TestClass(), "assertTrue"));
-		r.onProgress = function(runner, result, done, totals) {
-			trace(done == 1 ? "OK @1" : "FAIL");
-		};
+		r.onProgress.add(function(e) {
+			trace(e.done == 1 ? "OK @1" : "FAIL");
+		});
 		r.run();
 	}
 
@@ -21,9 +21,9 @@ class Iteration2 {
 	public function testAssertCreateAsync() {
 		var r = new Runner();
 		r.fixtures.add(new TestFixture(new TestClass(), "assertAsync"));
-		r.onProgress = function(runner, result, done, totals) {
-			trace(done == 1 ? "OK @2" : "FAIL");
-		};
+		r.onProgress.add(function(e) {
+			trace(e.done == 1 ? "OK @2" : "FAIL");
+		});
 		r.run();
 	}
 
@@ -34,9 +34,9 @@ class Iteration2 {
 		r.fixtures.add(new TestFixture(test, "test1"));
 		r.fixtures.add(new TestFixture(test, "test2"));
 		r.fixtures.add(new TestFixture(test, "test3"));
-		r.onComplete = function(r){
+		r.onComplete.add(function(r){
 			trace(test.seq == "123" ? "OK @3" : "FAIL");
-		}
+		});
 		r.run();
 	}
 

@@ -14,9 +14,7 @@ class TraceReport {
 	var indent : String;
 	public function new(runner : Runner) {
 		aggregator = new ResultAggregator(runner, true);
-		aggregator.onComplete = complete;
-		aggregator.onStart    = start;
-		aggregator.onProgress = progress;
+		aggregator.onComplete.add(complete);
 #if php
 		if(php.Lib.isCli()) {
 			newline = "\n";
@@ -46,20 +44,15 @@ class TraceReport {
 		return s;
 	}
 
-	function start() {
-
-	}
-
 	function complete(result : PackageResult) {
 		var buf = new StringBuf();
-		buf.add("results: " + (result.isOk ? "ALL TESTS OK" : "SOME TESTS FAILURES")+newline+" "+newline);
+		buf.add("results: " + (result.stats.isOk ? "ALL TESTS OK" : "SOME TESTS FAILURES")+newline+" "+newline);
 
-		buf.add("assertations: " + result.assertations+newline);
-		buf.add("successes: "    + result.successes+newline);
-		buf.add("errors: "       + result.errors+newline);
-		buf.add("failures: "     + result.failures+newline);
-		buf.add("warnings: "     + result.warnings+newline);
-		buf.add("total time: "   + result.executionTime+newline);
+		buf.add("assertations: " + result.stats.assertations+newline);
+		buf.add("successes: "    + result.stats.successes+newline);
+		buf.add("errors: "       + result.stats.errors+newline);
+		buf.add("failures: "     + result.stats.failures+newline);
+		buf.add("warnings: "     + result.stats.warnings+newline);
 		buf.add(newline);
 
 
@@ -71,13 +64,13 @@ class TraceReport {
 				for(mname in cls.methodNames()) {
 					var fix = cls.get(mname);
 					buf.add(indents(1)+mname+": ");
-					if(fix.isOk) {
+					if(fix.stats.isOk) {
 						buf.add("OK ");
-					} else if(fix.hasErrors) {
+					} else if(fix.stats.hasErrors) {
 						buf.add("ERROR ");
-					} else if(fix.hasFailures) {
+					} else if(fix.stats.hasFailures) {
 						buf.add("FAILURE ");
-					} else if(fix.hasWarnings) {
+					} else if(fix.stats.hasWarnings) {
 						buf.add("WARNING ");
 					}
 					var messages = '';
@@ -114,8 +107,5 @@ class TraceReport {
 			}
 		}
 		trace(buf.toString());
-	}
-
-	function progress(done : Int, totals : Int) {
 	}
 }

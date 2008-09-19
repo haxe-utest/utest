@@ -1,10 +1,20 @@
 package utest;
 
+import utest.Dispatcher;
+
 
 class Runner {
 	public var fixtures(default, null) : List<TestFixture<Dynamic>>;
+
+	public var onProgress(default, null) : Dispatcher<{ result : TestResult, done : Int, totals : Int }>;
+	public var onStart(default, null)    : Dispatcher<Runner>;
+	public var onComplete(default, null) : Dispatcher<Runner>;
+
 	public function new() {
-		fixtures = new List();
+		fixtures   = new List();
+		onProgress = new Dispatcher();
+		onStart    = new Dispatcher();
+		onComplete = new Dispatcher();
 	}
 
 	public function addCase(test : Dynamic, setup = "setup", teardown = "teardown", prefix = "test", ?pattern : EReg) {
@@ -41,7 +51,7 @@ class Runner {
 	public function run() {
 		counter = 0;
 		testsToRun = fixtures.length;
-		onStart(this);
+		onStart.dispatch(this);
 		runNext();
 	}
 
@@ -49,22 +59,18 @@ class Runner {
 		if(fixtures.length > 0)
 			runFixture(fixtures.pop());
 		else
-			onComplete(this);
+			onComplete.dispatch(this);
 	}
-
-	public dynamic function onProgress(runner : Runner, result : TestResult, done : Int, totals : Int);
-	public dynamic function onStart(r : Runner);
-	public dynamic function onComplete(r : Runner);
 
 	var counter : Int;
 	function runFixture(fixture : TestFixture<Dynamic>) {
 		var handler = new TestHandler(fixture);
-		handler.onComplete = testComplete;
+		handler.onComplete.add(testComplete);
 		handler.execute();
 	}
 
 	function testComplete(h : TestHandler<Dynamic>) {
-		onProgress(this, TestResult.ofHandler(h), fixtures.length+1, testsToRun);
+		onProgress.dispatch({ result : TestResult.ofHandler(h), done : fixtures.length+1, totals : testsToRun });
 		runNext();
 	}
 }

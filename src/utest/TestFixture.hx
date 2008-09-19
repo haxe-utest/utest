@@ -7,17 +7,6 @@ class TestFixture<T> {
 	public var teardown(default, null) : String;
 	public function new(target : T, method : String, ?setup : String, ?teardown : String) {
 		this.target   = target;
-		/*
-		if(!Reflect.isObject(target))  throw "target argument is not an object";
-
-
-		checkMethod(method, "method");
-
-		if(setup != null)
-			checkMethod(setup, "setup");
-		if(teardown != null)
-			checkMethod(teardown, "teardown");
-*/
 		this.method   = method;
 		this.setup    = setup;
 		this.teardown = teardown;

@@ -3,48 +3,26 @@ package utest.ui.common;
 import utest.Assertation;
 
 class FixtureResult {
-	public var executionTime(default, null) : Int;
 	public var methodName(default, null) : String;
-
-	public var assertations(default, null) : Int;
-	public var successes(default, null) : Int;
-	public var failures(default, null) : Int;
-	public var errors(default, null) : Int;
-	public var warnings(default, null) : Int;
-
-	public var isOk(default, null) : Bool;
-	public var hasFailures(default, null) : Bool;
-	public var hasErrors(default, null) : Bool;
-	public var hasWarnings(default, null) : Bool;
-
 	public var hasTestError(default, null) : Bool;
 	public var hasSetupError(default, null) : Bool;
 	public var hasTeardownError(default, null) : Bool;
 	public var hasTimeoutError(default, null) : Bool;
 	public var hasAsyncError(default, null) : Bool;
 
+	public var stats(default, null) : ResultStats;
+
 	var list(default, null) : List<Assertation>;
-	public function new(executionTime : Int, methodName : String) {
-		this.executionTime = executionTime;
+	public function new(methodName : String) {
 		this.methodName = methodName;
 		this.list = new List();
-
-		assertations = 0;
-		successes = 0;
-		failures = 0;
-		errors = 0;
-		warnings = 0;
-
-		isOk = true;
-		hasFailures = false;
-		hasErrors = false;
-		hasWarnings = false;
-
 		hasTestError = false;
 		hasSetupError = false;
 		hasTeardownError = false;
 		hasTimeoutError = false;
 		hasAsyncError = false;
+
+		stats = new ResultStats();
 	}
 
 	public function iterator() {
@@ -53,43 +31,27 @@ class FixtureResult {
 
 	public function add(assertation : Assertation) {
 		list.add(assertation);
-		assertations++;
 		switch(assertation) {
 			case Success(_):
-				successes++;
+				stats.addSuccesses(1);
 			case Failure(_, _):
-				failures++;
-				hasFailures = true;
-				isOk = false;
+				stats.addFailures(1);
 			case Error(_):
-				errors++;
-				hasErrors = true;
-				hasTestError = true;
-				isOk = false;
+				stats.addErrors(1);
 			case SetupError(_):
-				errors++;
-				hasErrors = true;
+				stats.addErrors(1);
 				hasSetupError = true;
-				isOk = false;
 			case TeardownError(_):
-				errors++;
-				hasErrors = true;
+				stats.addErrors(1);
 				hasTeardownError = true;
-				isOk = false;
 			case TimeoutError(_):
-				errors++;
-				hasErrors = true;
+				stats.addErrors(1);
 				hasTimeoutError = true;
-				isOk = false;
 			case AsyncError(_):
-				errors++;
-				hasErrors = true;
+				stats.addErrors(1);
 				hasAsyncError = true;
-				isOk = false;
 			case Warning(_):
-				warnings++;
-				hasWarnings = true;
-				isOk = false;
+				stats.addWarnings(1);
 		}
 	}
 }

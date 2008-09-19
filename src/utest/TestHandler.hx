@@ -6,22 +6,26 @@ class TestHandler<T> {
 	private static inline var POLLING_TIME = 10;
 	public var results(default, null) : List<Assertation>;
 	public var fixture(default, null) : TestFixture<T>;
-	public var executionTime(default, null) : Int;
 	var asyncStack : List<Dynamic>;
+
+	public var onTested(default, null) : Dispatcher<TestHandler<T>>;
+	public var onTimeout(default, null) : Dispatcher<TestHandler<T>>;
+	public var onComplete(default, null) : Dispatcher<TestHandler<T>>;
+
 	public function new(fixture : TestFixture<T>) {
 		if(fixture == null) throw "fixture argument is null";
 		this.fixture  = fixture;
 		results       = new List();
 		asyncStack    = new List();
-		executionTime = -1;
+		onTested   = new Dispatcher();
+		onTimeout  = new Dispatcher();
+		onComplete = new Dispatcher();
 	}
 
-	var startTime : Null<Float>;
 	public function execute() {
 		try {
 			executeMethod(fixture.setup);
 			try {
-				startTime = haxe.Timer.stamp();
 				executeMethod(fixture.method);
 			} catch(e : Dynamic) {
 				results.add(Error(e));
@@ -110,17 +114,15 @@ class TestHandler<T> {
 	}
 
 	function tested() {
-		if(startTime != null)
-			executionTime = Std.int((haxe.Timer.stamp() - startTime)*1000);
 		if(results.length == 0)
 			results.add(Warning("no assertions"));
-		onTested(this);
+		onTested.dispatch(this);
 		completed();
 	}
 
 	function timeout() {
 		results.add(TimeoutError(asyncStack.length));
-		onTimeout(this);
+		onTimeout.dispatch(this);
 		completed();
 	}
 
@@ -131,10 +133,6 @@ class TestHandler<T> {
 			results.add(TeardownError(e));
 		}
 		unbindHandler();
-		onComplete(this);
+		onComplete.dispatch(this);
 	}
-
-	public dynamic function onTested(handler : TestHandler<T>);
-	public dynamic function onTimeout(handler : TestHandler<T>);
-	public dynamic function onComplete(handler : TestHandler<T>);
 }

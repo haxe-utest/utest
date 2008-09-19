@@ -17,7 +17,8 @@ class Assert {
 		isTrue(value == false, msg, pos);
 	}
 
-	public static function isNull(value : Dynamic, msg = "expected null but was not null", ?pos : PosInfos) {
+	public static function isNull(value : Dynamic, ?msg : String, ?pos : PosInfos) {
+		if(msg == null) msg = "expected null but was " + Std.string(value);
 		isTrue(value == null, msg, pos);
 	}
 
@@ -38,6 +39,35 @@ class Assert {
 	public static function floatEquals(expected : Float, value : Float, ?msg : String , ?pos : PosInfos) {
 		if(msg == null) msg = "expected " + expected + " but was " + value;
 		isTrue(Math.abs(value-expected) < 1e-5, msg, pos);
+	}
+
+	/**
+	* Check that value is an object and contains at least the same fields and values found in expcted.
+	* The default behavior is to check nested objects in fields recursively.
+	*/
+	public static function like(expected : Dynamic, value : Dynamic, recursive = true, ?path = '', ?msg : String, ?pos : PosInfos) {
+		if(expected == null && value == null) {
+			isTrue(true, msg, pos);
+			return;
+		}
+		var fields = Reflect.fields(expected);
+		for(field in fields) {
+			if(!Reflect.hasField(value, field)) {
+				Assert.fail("value doesn't have the expected field '"+path+field+"'");
+				return;
+			}
+			var e = Reflect.field(expected, field);
+			var v = Reflect.field(value, field);
+			if(Reflect.isObject(e) && recursive) {
+				like(e, v, true, field+'.', msg, pos);
+			} else {
+				if(e != v) {
+					Assert.fail("the expected value for the field '"+path+field+"' was '"+e+"' but it is '"+v+"'");
+					return;
+				}
+			}
+		}
+		Assert.isTrue(true, msg, pos);
 	}
 
 	public static function raises(method:Void -> Void, type:Class<Dynamic>, ?msg : String , ?pos : PosInfos) {

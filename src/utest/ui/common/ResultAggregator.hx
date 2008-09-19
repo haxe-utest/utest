@@ -3,6 +3,7 @@
 */
 package utest.ui.common;
 
+import utest.Dispatcher;
 import utest.Runner;
 import utest.TestResult;
 
@@ -10,18 +11,27 @@ class ResultAggregator {
 	var runner : Runner;
 	var flattenPackage : Bool;
 	public var root(default, null) : PackageResult;
+
+	public var onStart(default, null) : Notifier;
+	public var onComplete(default, null) : Dispatcher<PackageResult>;
+	public var onProgress(default, null) : Dispatcher<{ done : Int, totals : Int }>;
+
 	public function new(runner : Runner, flattenPackage = false) {
 		if(runner == null) throw "runner argument is null";
 		this.flattenPackage = flattenPackage;
 		this.runner = runner;
-		runner.onStart = start;
-		runner.onProgress = progress;
-		runner.onComplete = complete;
+		runner.onStart.add(start);
+		runner.onProgress.add(progress);
+		runner.onComplete.add(complete);
+
+		onStart = new Notifier();
+		onComplete = new Dispatcher();
+		onProgress = new Dispatcher();
 	}
 
 	function start(runner : Runner) {
 		root = new PackageResult(null);
-		onStart();
+		onStart.dispatch();
 	}
 
 	function getOrCreatePackage(pack : String, flat : Bool, ?ref : PackageResult) {
@@ -50,22 +60,18 @@ class ResultAggregator {
 	}
 
 	function createFixture(result : TestResult) {
-		var f = new FixtureResult(result.executionTime, result.method);
+		var f = new FixtureResult(result.method);
 		for(assertation in result.assertations)
 			f.add(assertation);
 		return f;
 	}
 
-	function progress(runner : Runner, result : TestResult, done : Int, totals : Int) {
-		root.addResult(result, flattenPackage);
-		onProgress(done, totals);
+	function progress(e) {
+		root.addResult(e.result, flattenPackage);
+		onProgress.dispatch(e);
 	}
 
 	function complete(runner : Runner) {
-		onComplete(root);
+		onComplete.dispatch(root);
 	}
-
-	public dynamic function onStart();
-	public dynamic function onComplete(pack : PackageResult);
-	public dynamic function onProgress(done : Int, totals : Int);
 }

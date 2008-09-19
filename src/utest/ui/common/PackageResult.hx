@@ -7,68 +7,30 @@ import utest.TestResult;
 import utest.Assertation;
 
 class PackageResult {
-	public var executionTime(default, null) : Int;
 	public var packageName(default, null) : String;
 	var classes : Hash<ClassResult>;
 	var packages : Hash<PackageResult>;
 
-	public var assertations(default, null) : Int;
-	public var successes(default, null) : Int;
-	public var failures(default, null) : Int;
-	public var errors(default, null) : Int;
-	public var warnings(default, null) : Int;
-
-	public var isOk(default, null) : Bool;
-	public var hasFailures(default, null) : Bool;
-	public var hasErrors(default, null) : Bool;
-	public var hasWarnings(default, null) : Bool;
+	public var stats(default, null) : ResultStats;
 
 	public function new(packageName : String) {
 		this.packageName = packageName;
-
-		executionTime = 0;
 		classes = new Hash();
 		packages = new Hash();
-
-		assertations = 0;
-		successes = 0;
-		failures = 0;
-		errors = 0;
-		warnings = 0;
-
-		isOk = true;
-		hasFailures = false;
-		hasErrors = false;
-		hasWarnings = false;
+		stats = new ResultStats();
 	}
 
 	public function addResult(result : TestResult, flattenPackage : Bool) {
 		var pack = getOrCreatePackage(result.pack, flattenPackage, this);
 		var cls = getOrCreateClass(pack, result.cls, result.setup, result.teardown);
-		var fix = createFixtureAndIncrement(result.method, result.executionTime, result.assertations);
+		var fix = createFixture(result.method, result.assertations);
 		cls.add(fix);
 	}
 
-	function createFixtureAndIncrement(method : String, executionTime : Int, assertations : Iterable<Assertation>) {
-		var f = new FixtureResult(executionTime, method);
+	function createFixture(method : String, assertations : Iterable<Assertation>) {
+		var f = new FixtureResult(method);
 		for(assertation in assertations)
 			f.add(assertation);
-
-		executionTime += f.executionTime;
-		this.assertations += f.assertations;
-		successes += f.successes;
-		failures += f.failures;
-		errors += f.errors;
-		warnings += f.warnings;
-
-		isOk = isOk && f.isOk;
-		if(f.hasFailures)
-			hasFailures = true;
-		if(f.hasErrors)
-			hasErrors = true;
-		if(f.hasWarnings)
-			hasWarnings = true;
-
 		return f;
 	}
 
@@ -98,40 +60,12 @@ class PackageResult {
 
 	public function addClass(result : ClassResult) {
 		classes.set(result.className, result);
-
-		executionTime += result.executionTime;
-		assertations += result.assertations;
-		successes += result.successes;
-		failures += result.failures;
-		errors += result.errors;
-		warnings += result.warnings;
-
-		isOk = isOk && result.isOk;
-		if(result.hasFailures)
-			hasFailures = true;
-		if(result.hasErrors)
-			hasErrors = true;
-		if(result.hasWarnings)
-			hasWarnings = true;
+		stats.wire(result.stats);
 	}
 
 	public function addPackage(result : PackageResult) {
 		packages.set(result.packageName, result);
-
-		executionTime += result.executionTime;
-		assertations += result.assertations;
-		successes += result.successes;
-		failures += result.failures;
-		errors += result.errors;
-		warnings += result.warnings;
-
-		isOk = isOk && result.isOk;
-		if(result.hasFailures)
-			hasFailures = true;
-		if(result.hasErrors)
-			hasErrors = true;
-		if(result.hasWarnings)
-			hasWarnings = true;
+		stats.wire(result.stats);
 	}
 
 	public function existsPackage(name : String) {
@@ -157,19 +91,19 @@ class PackageResult {
 		if(errorsHavePriority) {
 			var me = this;
 			names.sort(function(a, b) {
-				var afix = me.getClass(a);
-				var bfix = me.getClass(b);
-				if(afix.hasErrors) {
-					return (!bfix.hasErrors) ? -1 : (afix.errors == bfix.errors ? Reflect.compare(a, b) : Reflect.compare(afix.errors, bfix.errors));
-				} else if(bfix.hasErrors) {
+				var as = me.getClass(a).stats;
+				var bs = me.getClass(b).stats;
+				if(as.hasErrors) {
+					return (!bs.hasErrors) ? -1 : (as.errors == bs.errors ? Reflect.compare(a, b) : Reflect.compare(as.errors, bs.errors));
+				} else if(bs.hasErrors) {
 					return 1;
-				} else if(afix.hasFailures) {
-					return (!bfix.hasFailures) ? -1 : (afix.failures == bfix.failures ? Reflect.compare(a, b) : Reflect.compare(afix.failures, bfix.failures));
-				} else if(bfix.hasFailures) {
+				} else if(as.hasFailures) {
+					return (!bs.hasFailures) ? -1 : (as.failures == bs.failures ? Reflect.compare(a, b) : Reflect.compare(as.failures, bs.failures));
+				} else if(bs.hasFailures) {
 					return 1;
-				} else if(afix.hasWarnings) {
-					return (!bfix.hasWarnings) ? -1 : (afix.warnings == bfix.warnings ? Reflect.compare(a, b) : Reflect.compare(afix.warnings, bfix.warnings));
-				} else if(bfix.hasWarnings) {
+				} else if(as.hasWarnings) {
+					return (!bs.hasWarnings) ? -1 : (as.warnings == bs.warnings ? Reflect.compare(a, b) : Reflect.compare(as.warnings, bs.warnings));
+				} else if(bs.hasWarnings) {
 					return 1;
 				} else {
 					return Reflect.compare(a, b);
@@ -190,19 +124,19 @@ class PackageResult {
 		if(errorsHavePriority) {
 			var me = this;
 			names.sort(function(a, b) {
-				var afix = me.getPackage(a);
-				var bfix = me.getPackage(b);
-				if(afix.hasErrors) {
-					return (!bfix.hasErrors) ? -1 : (afix.errors == bfix.errors ? Reflect.compare(a, b) : Reflect.compare(afix.errors, bfix.errors));
-				} else if(bfix.hasErrors) {
+				var as = me.getPackage(a).stats;
+				var bs = me.getPackage(b).stats;
+				if(as.hasErrors) {
+					return (!bs.hasErrors) ? -1 : (as.errors == bs.errors ? Reflect.compare(a, b) : Reflect.compare(as.errors, bs.errors));
+				} else if(bs.hasErrors) {
 					return 1;
-				} else if(afix.hasFailures) {
-					return (!bfix.hasFailures) ? -1 : (afix.failures == bfix.failures ? Reflect.compare(a, b) : Reflect.compare(afix.failures, bfix.failures));
-				} else if(bfix.hasFailures) {
+				} else if(as.hasFailures) {
+					return (!bs.hasFailures) ? -1 : (as.failures == bs.failures ? Reflect.compare(a, b) : Reflect.compare(as.failures, bs.failures));
+				} else if(bs.hasFailures) {
 					return 1;
-				} else if(afix.hasWarnings) {
-					return (!bfix.hasWarnings) ? -1 : (afix.warnings == bfix.warnings ? Reflect.compare(a, b) : Reflect.compare(afix.warnings, bfix.warnings));
-				} else if(bfix.hasWarnings) {
+				} else if(as.hasWarnings) {
+					return (!bs.hasWarnings) ? -1 : (as.warnings == bs.warnings ? Reflect.compare(a, b) : Reflect.compare(as.warnings, bs.warnings));
+				} else if(bs.hasWarnings) {
 					return 1;
 				} else {
 					return Reflect.compare(a, b);

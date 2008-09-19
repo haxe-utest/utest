@@ -128,9 +128,9 @@ class Iteration1 {
 		var fixture = new TestFixture(new TestClass(), "test");
 		var handler = new TestHandler(fixture);
 		var flag = false;
-		handler.onTested = function(h) {
+		handler.onTested.add(function(h) {
 			flag = true;
-		}
+		});
 		handler.execute();
 		trace(flag ? "OK #12" : "FAIL");
 	}
@@ -157,13 +157,13 @@ class Iteration1 {
 		handler.addAsync(function() {
 			// do nothing
 		}, TIMEOUT);
-		handler.onTimeout = function(h) {
+		handler.onTimeout.add(function(h) {
 			trace(flag1 ? "OK #15" : "FAIL");
 			flag2 = true;
-		}
-		handler.onTested = function(h) {
+		});
+		handler.onTested.add(function(h) {
 			trace("FAIL");
-		}
+		});
 		trace(flag1 ? "FAIL" : "OK #16");
 		flag1 = true;
 		handler.execute();
@@ -183,12 +183,12 @@ class Iteration1 {
 			trace(flag ? "FAIL" : "OK #18");
 			flag = true;
 		}, TIMEOUT*2);
-		handler.onTimeout = function(h) {
+		handler.onTimeout.add(function(h) {
 			trace("TIMEOUT");
-		}
-		handler.onTested = function(h) {
+		});
+		handler.onTested.add(function(h) {
 			trace(flag ? "OK #19" : "FAIL");
-		}
+		});
 #if (flash || js)
 		haxe.Timer.delay(function() async(), DELAY);
 #else
@@ -207,12 +207,12 @@ class Iteration1 {
 			trace(s == expected ? "OK #20" : "FAIL");
 			value = s;
 		}, TIMEOUT*2);
-		handler.onTimeout = function(h) {
+		handler.onTimeout.add(function(h) {
 			trace("TIMEOUT");
-		}
-		handler.onTested = function(h) {
+		});
+		handler.onTested.add(function(h) {
 			trace(value == expected ? "OK #21" : "FAIL");
-		}
+		});
 #if (flash || js)
 		haxe.Timer.delay(function() async(expected), DELAY);
 #else
@@ -232,12 +232,12 @@ class Iteration1 {
 		var async2 = handler.addAsync(function() {
 			value += "2";
 		}, TIMEOUT*2);
-		handler.onTimeout = function(h) {
+		handler.onTimeout.add(function(h) {
 			trace("TIMEOUT");
-		}
-		handler.onTested = function(h) {
+		});
+		handler.onTested.add(function(h) {
 			trace(value == "12" ? "OK #22" : "FAIL");
-		}
+		});
 #if (flash || js)
 		haxe.Timer.delay(function() async2(), TIMEOUT*2);
 		async1();
@@ -256,12 +256,12 @@ class Iteration1 {
 		var async = handler.addAsync(function() {
 			value++;
 		}, TIMEOUT*2);
-		handler.onTimeout = function(h) {
+		handler.onTimeout.add(function(h) {
 			trace("TIMEOUT");
-		}
-		handler.onTested = function(h) {
+		});
+		handler.onTested.add(function(h) {
 			trace(value == 1 ? "OK #23" : "FAIL");
-		}
+		});
 		async();
 		async();
 		handler.execute();
@@ -273,17 +273,17 @@ class Iteration1 {
 		var handler = new TestHandler(fixture);
 		var value = 0;
 		var async = handler.addAsync(function() { }, TIMEOUT*2);
-		handler.onTimeout = function(h) {
+		handler.onTimeout.add(function(h) {
 			trace("TIMEOUT");
-		}
-		handler.onTested = function(h) {
+		});
+		handler.onTested.add(function(h) {
 			switch(handler.results.pop()) {
 				case AsyncError(_):
 					trace("OK #24");
 				default:
 					trace("FAIL");
 			}
-		}
+		});
 		async();
 		async();
 		handler.execute();
@@ -295,14 +295,14 @@ class Iteration1 {
 		var handler = new TestHandler(fixture);
 		var value = 0;
 		var async = handler.addAsync(function() { }, TIMEOUT);
-		handler.onTimeout = function(h) {
+		handler.onTimeout.add(function(h) {
 			switch(handler.results.pop()) {
 				case TimeoutError(i):
 					trace(i == 1 ? "OK #25" : "FAIL");
 				default:
 					trace("FAIL");
 			}
-		}
+		});
 		handler.execute();
 	}
 
@@ -311,14 +311,14 @@ class Iteration1 {
 		var fixture = new TestFixture(new TestClass(), "test");
 		var handler = new TestHandler(fixture);
 		var async = handler.addAsync(function() throw "error", TIMEOUT);
-		handler.onTested = function(h) {
+		handler.onTested.add(function(h) {
 			switch(handler.results.pop()) {
 				case AsyncError(_):
 					trace("OK #26");
 				default:
 					trace("FAIL");
 			}
-		}
+		});
 #if (flash || js)
 		haxe.Timer.delay(function() async(), DELAY);
 #else
@@ -344,9 +344,9 @@ class Iteration1 {
 	public function testOnComplete() {
 		var fixture = new TestFixture(new TestClass(), "test");
 		var handler = new TestHandler(fixture);
-		handler.onComplete = function(h) {
+		handler.onComplete.add(function(h) {
 			trace("OK #28");
-		}
+		});
 		handler.execute();
 	}
 
@@ -355,15 +355,15 @@ class Iteration1 {
 		var fixture = new TestFixture(new TestClass(), "test");
 		var handler = new TestHandler(fixture);
 		var value = "";
-		handler.onTested = function(h) {
+		handler.onTested.add(function(h) {
 			value += "1";
-		}
-		handler.onTimeout = function(h) {
+		});
+		handler.onTimeout.add(function(h) {
 			value += "2";
-		}
-		handler.onComplete = function(h) {
+		});
+		handler.onComplete.add(function(h) {
 			trace(value == "1" ? "OK #29" : "FAIL");
-		}
+		});
 		handler.execute();
 	}
 
@@ -373,15 +373,15 @@ class Iteration1 {
 		var handler = new TestHandler(fixture);
 		var async = handler.addAsync(function() {}, TIMEOUT);
 		var value = "";
-		handler.onTested = function(h) {
+		handler.onTested.add(function(h) {
 			value += "1";
-		}
-		handler.onTimeout = function(h) {
+		});
+		handler.onTimeout.add(function(h) {
 			value += "2";
-		}
-		handler.onComplete = function(h) {
+		});
+		handler.onComplete.add(function(h) {
 			trace(value == "1" ? "OK #30" : "FAIL");
-		}
+		});
 #if (flash || js)
 		haxe.Timer.delay(function() async(), DELAY);
 #else
@@ -396,15 +396,15 @@ class Iteration1 {
 		var handler = new TestHandler(fixture);
 		handler.addAsync(function() {}, DELAY);
 		var value = "";
-		handler.onTested = function(h) {
+		handler.onTested.add(function(h) {
 			value += "1";
-		}
-		handler.onTimeout = function(h) {
+		});
+		handler.onTimeout.add(function(h) {
 			value += "2";
-		}
-		handler.onComplete = function(h) {
+		});
+		handler.onComplete.add(function(h) {
 			trace(value == "2" ? "OK #31" : "FAIL");
-		}
+		});
 		handler.execute();
 	}
 
@@ -412,15 +412,15 @@ class Iteration1 {
 	public function testTeardown() {
 		var fixture = new TestFixture(new TestClass(), "test", null, "teardown");
 		var handler = new TestHandler(fixture);
-		handler.onTested = function(h) {
+		handler.onTested.add(function(h) {
 			trace(fixture.target.doneteardown ? "FAIL" : "OK #32");
-		}
-		handler.onTimeout = function(h) {
+		});
+		handler.onTimeout.add(function(h) {
 			trace("FAIL");
-		}
-		handler.onComplete = function(h) {
+		});
+		handler.onComplete.add(function(h) {
 			trace(fixture.target.doneteardown ? "OK #33" : "FAIL");
-		}
+		});
 		handler.execute();
 	}
 
@@ -429,15 +429,15 @@ class Iteration1 {
 		var fixture = new TestFixture(new TestClass(), "test", null, "teardown");
 		var handler = new TestHandler(fixture);
 		var async = handler.addAsync(function(){}, TIMEOUT);
-		handler.onTested = function(h) {
+		handler.onTested.add(function(h) {
 			trace(fixture.target.doneteardown ? "FAIL" : "OK #34");
-		}
-		handler.onTimeout = function(h) {
+		});
+		handler.onTimeout.add(function(h) {
 			trace("FAIL");
-		}
-		handler.onComplete = function(h) {
+		});
+		handler.onComplete.add(function(h) {
 			trace(fixture.target.doneteardown ? "OK #35" : "FAIL");
-		}
+		});
 #if (flash || js)
 		haxe.Timer.delay(function() async(), DELAY);
 #else
@@ -446,38 +446,6 @@ class Iteration1 {
 		handler.execute();
 	}
 
-	// #28
-	public function testExecutionTime() {
-		var fixture = new TestFixture(new TestClass(), "test");
-		var handler = new TestHandler(fixture);
-		var start = haxe.Timer.stamp();
-		handler.execute();
-		var time = Std.int(1000*(haxe.Timer.stamp() - start));
-		trace((!Math.isNaN(handler.executionTime))? "OK #36" : "FAIL");
-		trace(handler.executionTime >= 0          ? "OK #37" : "FAIL");
-		trace(handler.executionTime <= time       ? "OK #38" : "FAIL");
-	}
-
-	// #29
-	public function testExecutionTimeAsync() {
-		var fixture = new TestFixture(new TestClass(), "test");
-		var handler = new TestHandler(fixture);
-		var async = handler.addAsync(function(){}, TIMEOUT);
-		var start = haxe.Timer.stamp();
-		handler.onComplete = function(h) {
-			var time = Std.int(1000*(haxe.Timer.stamp() - start));
-			trace((!Math.isNaN(handler.executionTime))? "OK #39" : "FAIL");
-			trace(handler.executionTime >= 0          ? "OK #40" : "FAIL");
-			trace(handler.executionTime <= time       ? "OK #41" : "FAIL");
-		}
-
-#if (flash || js)
-		haxe.Timer.delay(function() async(), DELAY);
-#else
-		async();
-#end
-		handler.execute();
-	}
 
 	public static function main() {
 		var t = new Iteration1();
@@ -508,7 +476,5 @@ class Iteration1 {
 		t.testOnCompleteSequenceAsyncTimeout();
 		t.testTeardown();
 		t.testTeardownAsync();
-		t.testExecutionTime();
-		t.testExecutionTimeAsync();
 	}
 }
