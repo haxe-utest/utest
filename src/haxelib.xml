@@ -1,0 +1,5 @@
+<project name="utest" url="http://code.google.com/p/utest" license="LGPL">
+    <user name="fponticelli"/>
+    <description>Unit Testing System for haXe</description>
+    <version name="0.1.0">initial release</version>
+</project>

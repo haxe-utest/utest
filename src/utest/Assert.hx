@@ -41,33 +41,210 @@ class Assert {
 		isTrue(Math.abs(value-expected) < 1e-5, msg, pos);
 	}
 
-	/**
-	* Check that value is an object and contains at least the same fields and values found in expcted.
-	* The default behavior is to check nested objects in fields recursively.
-	*/
-	public static function like(expected : Dynamic, value : Dynamic, recursive = true, ?path = '', ?msg : String, ?pos : PosInfos) {
-		if(expected == null && value == null) {
-			isTrue(true, msg, pos);
-			return;
+	static function getTypeName(v : Dynamic) {
+		try {
+			if(v == null) return null;
+			if(Std.is(v, Bool)) return "Bool";
+			if(Std.is(v, Int)) return "Int";
+			if(Std.is(v, Float)) return "Float";
+			if(Std.is(v, String)) return "String";
+			var s = Type.getClassName(Type.getClass(v));
+			if(s != null) return s;
+			if(Reflect.isObject(v)) return "{}";
+			return Type.getEnumName(Type.getEnum(v));
+		} catch(e : Dynamic) {
+			trace("ERROR: "+v + " (" + Type.typeof(v) + ")");
+			return null;
 		}
-		var fields = Reflect.fields(expected);
-		for(field in fields) {
-			if(!Reflect.hasField(value, field)) {
-				Assert.fail("value doesn't have the expected field '"+path+field+"'");
-				return;
+	}
+
+	static function isIterable(v : Dynamic, isAnonym : Bool) {
+		var fields = isAnonym ? Reflect.fields(v) : Type.getInstanceFields(Type.getClass(v));
+		if(!Lambda.has(fields, "iterator")) return false;
+		return Reflect.isFunction(Reflect.field(v, "iterator"));
+	}
+
+	static function isIterator(v : Dynamic, isAnonym : Bool) {
+		var fields = isAnonym ? Reflect.fields(v) : Type.getInstanceFields(Type.getClass(v));
+		if(!Lambda.has(fields, "next") || !Lambda.has(fields, "hasNext")) return false;
+		return Reflect.isFunction(Reflect.field(v, "next")) && Reflect.isFunction(Reflect.field(v, "hasNext"));
+	}
+
+	static function sameAs(expected : Dynamic, value : Dynamic, status : LikeStatus) {
+		var texpected = getTypeName(expected);
+		var tvalue = getTypeName(value);
+		var isanonym = texpected == '{}';
+
+		if(texpected != tvalue) {
+			status.error = "expected type "+texpected+" but it is " + tvalue + (status.path == '' ? '' : ' at '+status.path);
+			return false;
+		}
+
+		// null
+		if(expected == null) {
+			if(value != null) {
+				status.error = "expected null but it is " + value + (status.path == '' ? '' : ' at '+status.path);
+				return false;
 			}
-			var e = Reflect.field(expected, field);
-			var v = Reflect.field(value, field);
-			if(Reflect.isObject(e) && recursive) {
-				like(e, v, true, field+'.', msg, pos);
-			} else {
-				if(e != v) {
-					Assert.fail("the expected value for the field '"+path+field+"' was '"+e+"' but it is '"+v+"'");
-					return;
+			return true;
+		}
+
+		// bool, int, float, string
+		if(Std.is(expected, Bool) || Std.is(expected, Int) || Std.is(expected, Float) || Std.is(expected, String)) {
+			if(expected != value) {
+				status.error = "expected "+expected+" but it is " + value + (status.path == '' ? '' : ' at '+status.path);
+				return false;
+			}
+			return true;
+		}
+
+		// date
+		if(Std.is(expected, Date)) {
+			if(expected.getTime() != value.getTime()) {
+				status.error = "expected "+expected+" but it is " + value + (status.path == '' ? '' : ' at '+status.path);
+				return false;
+			}
+			return true;
+		}
+
+		// enums
+		if(Type.getEnum(expected) != null) {
+			if(status.recursive || status.path == '') {
+				var ename = Type.enumIndex(expected);
+				var vname = Type.enumIndex(value);
+				if(ename != vname) {
+					status.error = "expected "+ename+" constructor but is "+vname + (status.path == '' ? '' : ' at '+status.path);
+					return false;
+				}
+				var eparams = Type.enumParameters(expected);
+				var vparams = Type.enumParameters(value);
+				var path = status.path;
+				for(i in 0...eparams.length) {
+					status.path = path == '' ? 'enum['+i+']' : path + '['+i+']';
+					if(!sameAs(eparams[i], vparams[i], status))
+						return false;
 				}
 			}
+			return true;
 		}
-		Assert.isTrue(true, msg, pos);
+
+		// arrays
+		if(Std.is(expected, Array)) {
+			if(status.recursive || status.path == '') {
+				if(expected.length != value.length) {
+					status.error = "expected "+expected.length+" elements but they were "+value.length + (status.path == '' ? '' : ' at '+status.path);
+					return false;
+				}
+				var path = status.path;
+				for(i in 0...expected.length) {
+					status.path = path == '' ? 'array['+i+']' : path + '['+i+']';
+					if(!sameAs(expected[i], value[i], status))
+						return false;
+				}
+			}
+			return true;
+		}
+
+		// hash, inthash
+		if(Std.is(expected, Hash) || Std.is(expected, IntHash)) {
+			if(status.recursive || status.path == '') {
+				var keys  = Lambda.array({ iterator : function() return expected.keys() });
+				var vkeys = Lambda.array({ iterator : function() return value.keys() });
+				if(keys.length != vkeys.length) {
+					status.error = "expected "+keys.length+" keys but they were "+vkeys.length + (status.path == '' ? '' : ' at '+status.path);
+					return false;
+				}
+				var path = status.path;
+				for(key in keys) {
+					status.path = path == '' ? 'hash['+key+']' : path + '['+key+']';
+					if(!sameAs(expected.get(key), value.get(key), status))
+						return false;
+				}
+			}
+			return true;
+		}
+
+		// iterator
+		if(isIterator(expected, isanonym)) {
+			if(isanonym && !(isIterator(value, true))) {
+				status.error = "expected Iterable but it is not " + (status.path == '' ? '' : ' at '+status.path);
+				return false;
+			}
+			if(status.recursive || status.path == '') {
+				var evalues = Lambda.array({ iterator : function() return expected });
+				var vvalues = Lambda.array({ iterator : function() return value });
+				if(evalues.length != vvalues.length) {
+					status.error = "expected "+evalues.length+" values in Iterator but they were "+vvalues.length + (status.path == '' ? '' : ' at '+status.path);
+					return false;
+				}
+				var path = status.path;
+				for(i in 0...evalues.length) {
+					status.path = path == '' ? 'iterator['+i+']' : path + '['+i+']';
+					if(!sameAs(evalues[i], vvalues[i], status))
+						return false;
+				}
+			}
+			return true;
+		}
+
+		// iterable
+		if(isIterable(expected, isanonym)) {
+			if(isanonym && !(isIterable(value, true))) {
+				status.error = "expected Iterator but it is not " + (status.path == '' ? '' : ' at '+status.path);
+				return false;
+			}
+			if(status.recursive || status.path == '') {
+				var evalues = Lambda.array(expected);
+				var vvalues = Lambda.array(value);
+				if(evalues.length != vvalues.length) {
+					status.error = "expected "+evalues.length+" values in Iterable but they were "+vvalues.length + (status.path == '' ? '' : ' at '+status.path);
+					return false;
+				}
+				var path = status.path;
+				for(i in 0...evalues.length) {
+					status.path = path == '' ? 'iterable['+i+']' : path + '['+i+']';
+					if(!sameAs(evalues[i], vvalues[i], status))
+						return false;
+				}
+			}
+			return true;
+		}
+
+		// objects
+		if(Reflect.isObject(expected)) {
+			if(status.recursive || status.path == '') {
+				var fields = texpected == "{}" ? Reflect.fields(expected) : Type.getInstanceFields(Type.getClass(expected));
+				var path = status.path;
+				for(field in fields) {
+					status.path = path == '' ? field : path+'.'+field;
+					if(texpected == "{}" && !Reflect.hasField(value, field)) {
+						status.error = "expected field "+status.path+" does not exist in " + value;
+						return false;
+					}
+					var e = Reflect.field(expected, field);
+					if(Reflect.isFunction(e)) continue;
+					var v = Reflect.field(value, field);
+					if(!sameAs(e, v, status))
+						return false;
+				}
+			}
+			return true;
+		}
+
+		return throw "Unable to compare values: " +expected+" and " + value;
+	}
+
+	/**
+	* Check that value is an object with the same fields and values found in expected.
+	* The default behavior is to check nested objects in fields recursively.
+	*/
+	public static function same(expected : Dynamic, value : Dynamic, recursive : Null<Bool> = true, ?msg : String, ?pos : PosInfos) {
+		var status = { recursive : recursive, path : '', error : null };
+		if(sameAs(expected, value, status)) {
+			Assert.isTrue(true, msg, pos);
+		} else {
+			Assert.fail(msg == null ? status.error : msg, pos);
+		}
 	}
 
 	public static function raises(method:Void -> Void, type:Class<Dynamic>, ?msg : String , ?pos : PosInfos) {
@@ -94,3 +271,9 @@ class Assert {
 		return function(e){};
 	}
 }
+
+private typedef LikeStatus = {
+	recursive : Bool,
+	path : String,
+	error : String
+};

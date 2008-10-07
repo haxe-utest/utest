@@ -14,6 +14,7 @@ class TraceReport {
 	var indent : String;
 	public function new(runner : Runner) {
 		aggregator = new ResultAggregator(runner, true);
+		runner.onStart.add(start);
 		aggregator.onComplete.add(complete);
 #if php
 		if(php.Lib.isCli()) {
@@ -37,6 +38,11 @@ class TraceReport {
 #end
 	}
 
+	var startTime : Float;
+	function start(e) {
+		startTime = haxe.Timer.stamp();
+	}
+
 	function indents(c : Int) {
 		var s = '';
 		for(_ in 0...c)
@@ -45,14 +51,23 @@ class TraceReport {
 	}
 
 	function complete(result : PackageResult) {
+		var end = haxe.Timer.stamp();
+#if php
+		var scripttime = Std.int(php.Sys.cpuTime()*1000)/1000;
+#end
+		var time = Std.int((end-startTime)*1000)/1000;
 		var buf = new StringBuf();
 		buf.add("results: " + (result.stats.isOk ? "ALL TESTS OK" : "SOME TESTS FAILURES")+newline+" "+newline);
 
-		buf.add("assertations: " + result.stats.assertations+newline);
-		buf.add("successes: "    + result.stats.successes+newline);
-		buf.add("errors: "       + result.stats.errors+newline);
-		buf.add("failures: "     + result.stats.failures+newline);
-		buf.add("warnings: "     + result.stats.warnings+newline);
+		buf.add("assertations: "   + result.stats.assertations+newline);
+		buf.add("successes: "      + result.stats.successes+newline);
+		buf.add("errors: "         + result.stats.errors+newline);
+		buf.add("failures: "       + result.stats.failures+newline);
+		buf.add("warnings: "       + result.stats.warnings+newline);
+		buf.add("execution time: " + time+newline);
+#if php
+		buf.add("script time: "    + scripttime+newline);
+#end
 		buf.add(newline);
 
 
