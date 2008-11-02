@@ -92,7 +92,7 @@ class TestAssert {
 		expect(expectedsuccess, i-expectedsuccess);
 	}
 
-	public function testLikePrimitive() {
+	public function testSamePrimitive() {
 		bypass();
 		Assert.same(null, 1);
 		Assert.same(1, 1);
@@ -106,7 +106,7 @@ class TestAssert {
 		expect(3, 4);
 	}
 
-	public function testLikeType() {
+	public function testSameType() {
 		bypass();
 		Assert.same(null, {});
 		Assert.same(null, null);
@@ -120,7 +120,7 @@ class TestAssert {
 		expect(1, 6);
 	}
 
-	public function testLikeArray() {
+	public function testSameArray() {
 		bypass();
 		Assert.same([], []);
 		Assert.same([1], ["1"]);
@@ -135,7 +135,7 @@ class TestAssert {
 		expect(4, 4);
 	}
 
-	public function testLikeObject() {
+	public function testSameObject() {
 		bypass();
 		Assert.same({}, {});
 		Assert.same({a:1}, {a:"1"});
@@ -152,7 +152,7 @@ class TestAssert {
 
 	public var value : String;
 	public var sub : TestAssert;
-	public function testLikeInstance() {
+	public function testSameInstance() {
 		var c1 = new TestAssert();
 		c1.value = "a";
 		var c2 = new TestAssert();
@@ -180,7 +180,7 @@ class TestAssert {
 		expect(4, 2);
 	}
 
-	public function testLikeIterable() {
+	public function testSameIterable() {
 		var list1 = new List<Dynamic>();
 		list1.add("a");
 		list1.add(1);
@@ -208,7 +208,7 @@ class TestAssert {
 		expect(3, 2);
 	}
 
-	public function testLikeHash() {
+	public function testSameHash() {
 		var h1 = new Hash();
 		h1.set('a', 'b');
 		h1.set('c', 'd');
@@ -235,7 +235,7 @@ class TestAssert {
 		expect(2, 2);
 	}
 
-	public function testLikeEnums() {
+	public function testSameEnums() {
 		bypass();
 
 		Assert.same(None, None);

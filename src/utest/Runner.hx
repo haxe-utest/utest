@@ -4,17 +4,19 @@ import utest.Dispatcher;
 
 
 class Runner {
-	public var fixtures(default, null) : List<TestFixture<Dynamic>>;
+	var fixtures(default, null) : Array<TestFixture<Dynamic>>;
 
 	public var onProgress(default, null) : Dispatcher<{ result : TestResult, done : Int, totals : Int }>;
 	public var onStart(default, null)    : Dispatcher<Runner>;
 	public var onComplete(default, null) : Dispatcher<Runner>;
+	public var length(default, null)      : Int;
 
 	public function new() {
-		fixtures   = new List();
+		fixtures   = new Array();
 		onProgress = new Dispatcher();
 		onStart    = new Dispatcher();
 		onComplete = new Dispatcher();
+		length = 0;
 	}
 
 	public function addCase(test : Dynamic, setup = "setup", teardown = "teardown", prefix = "test", ?pattern : EReg) {
@@ -28,15 +30,24 @@ class Runner {
 			for(field in fields) {
 				if(!StringTools.startsWith(field, prefix)) continue;
 				if(!isMethod(test, field)) continue;
-				fixtures.add(new TestFixture(test, field, setup, teardown));
+				addFixture(new TestFixture(test, field, setup, teardown));
 			}
 		} else {
 			for(field in fields) {
 				if(!pattern.match(field)) continue;
 				if(!isMethod(test, field)) continue;
-				fixtures.add(new TestFixture(test, field, setup, teardown));
+				addFixture(new TestFixture(test, field, setup, teardown));
 			}
 		}
+	}
+	
+	public function addFixture(fixture : TestFixture<Dynamic>) {
+		fixtures.push(fixture);
+		length++;
+	}
+	
+	public function getFixture(index : Int) {
+		return fixtures[index];
 	}
 
 	function isMethod(test : Dynamic, name : String) {
@@ -47,22 +58,20 @@ class Runner {
 		}
 	}
 
-	var testsToRun : Int;
+	var pos : Int;
 	public function run() {
-		counter = 0;
-		testsToRun = fixtures.length;
+		pos = 0;
 		onStart.dispatch(this);
 		runNext();
 	}
 
 	function runNext() {
-		if(fixtures.length > 0)
-			runFixture(fixtures.pop());
+		if(fixtures.length > pos)
+			runFixture(fixtures[pos++]);
 		else
 			onComplete.dispatch(this);
 	}
 
-	var counter : Int;
 	function runFixture(fixture : TestFixture<Dynamic>) {
 		var handler = new TestHandler(fixture);
 		handler.onComplete.add(testComplete);
@@ -70,7 +79,7 @@ class Runner {
 	}
 
 	function testComplete(h : TestHandler<Dynamic>) {
-		onProgress.dispatch({ result : TestResult.ofHandler(h), done : fixtures.length+1, totals : testsToRun });
+		onProgress.dispatch({ result : TestResult.ofHandler(h), done : pos, totals : length });
 		runNext();
 	}
 }

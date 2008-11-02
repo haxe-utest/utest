@@ -256,6 +256,14 @@ class Assert {
 		}
 	}
 
+	public static function allow<T>(possibilities : Array<T>, value : T, ?msg : String , ?pos : PosInfos) {
+		if(Lambda.has(possibilities, value)) {
+			isTrue(true, msg, pos);
+		} else {
+			fail(msg == null ? "value "+value+" not found in the expected possibilities "+possibilities : msg, pos);
+		}
+	}
+
 	public static function fail(msg = "failure expected", ?pos : PosInfos) {
 		isTrue(false, msg, pos);
 	}

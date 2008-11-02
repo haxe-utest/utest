@@ -10,7 +10,7 @@ class Iteration2 {
 	// #1
 	public function testRunnerRun() {
 		var r = new Runner();
-		r.fixtures.add(new TestFixture(new TestClass(), "assertTrue"));
+		r.addFixture(new TestFixture(new TestClass(), "assertTrue"));
 		r.onProgress.add(function(e) {
 			trace(e.done == 1 ? "OK @1" : "FAIL");
 		});
@@ -20,7 +20,7 @@ class Iteration2 {
 	// #2
 	public function testAssertCreateAsync() {
 		var r = new Runner();
-		r.fixtures.add(new TestFixture(new TestClass(), "assertAsync"));
+		r.addFixture(new TestFixture(new TestClass(), "assertAsync"));
 		r.onProgress.add(function(e) {
 			trace(e.done == 1 ? "OK @2" : "FAIL");
 		});
@@ -31,9 +31,9 @@ class Iteration2 {
 	public function testRunnerSequenceOnAsync() {
 		var r = new Runner();
 		var test = new TestSequenceClass();
-		r.fixtures.add(new TestFixture(test, "test1"));
-		r.fixtures.add(new TestFixture(test, "test2"));
-		r.fixtures.add(new TestFixture(test, "test3"));
+		r.addFixture(new TestFixture(test, "test1"));
+		r.addFixture(new TestFixture(test, "test2"));
+		r.addFixture(new TestFixture(test, "test3"));
 		r.onComplete.add(function(r){
 			trace(test.seq == "123" ? "OK @3" : "FAIL");
 		});
@@ -44,8 +44,8 @@ class Iteration2 {
 	public function testRunnerAddCase() {
 		var r = new Runner();
 		r.addCase(new TestCaseClass());
-		trace(r.fixtures.length == 1     ? "OK @4" : "FAIL");
-		var fix = r.fixtures.pop();
+		trace(r.length == 1     ? "OK @4" : "FAIL");
+		var fix = r.getFixture(0);
 		trace(fix.method   == "testOne"  ? "OK @5" : "FAIL");
 		trace(fix.setup    == null       ? "OK @6" : "FAIL");
 		trace(fix.teardown == "teardown" ? "OK @7" : "FAIL");
@@ -55,7 +55,7 @@ class Iteration2 {
 	public function testRunnerAddCaseCustomFun() {
 		var r = new Runner();
 		r.addCase(new TestCaseClass(), "_setup", "_teardown");
-		var fix = r.fixtures.pop();
+		var fix = r.getFixture(0);
 		trace(fix.setup    == "_setup" ? "OK @8" : "FAIL");
 		trace(fix.teardown == null     ? "OK @9" : "FAIL");
 	}
@@ -64,8 +64,8 @@ class Iteration2 {
 	public function testRunnerAddCaseCustomPrefix() {
 		var r = new Runner();
 		r.addCase(new TestCaseClass(), "_setup", "teardown", "Test");
-		trace(r.fixtures.length == 1     ? "OK @10" : "FAIL ");
-		var fix = r.fixtures.pop();
+		trace(r.length == 1     ? "OK @10" : "FAIL ");
+		var fix = r.getFixture(0);
 		trace(fix.method   == "TestTwo"  ? "OK @11" : "FAIL");
 		trace(fix.setup    == "_setup"   ? "OK @12" : "FAIL");
 		trace(fix.teardown == "teardown" ? "OK @13" : "FAIL");
@@ -75,7 +75,7 @@ class Iteration2 {
 	public function testRunnerAddCaseCustomPattern() {
 		var r = new Runner();
 		r.addCase(new TestCaseClass(), null, null, ~/test/i);
-		trace(r.fixtures.length == 3     ? "OK @14" : "FAIL");
+		trace(r.length == 3     ? "OK @14" : "FAIL");
 	}
 
 

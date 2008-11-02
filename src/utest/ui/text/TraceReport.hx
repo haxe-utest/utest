@@ -64,12 +64,12 @@ class TraceReport {
 		buf.add("errors: "         + result.stats.errors+newline);
 		buf.add("failures: "       + result.stats.failures+newline);
 		buf.add("warnings: "       + result.stats.warnings+newline);
+		buf.add("classes: "        + result.classNames(false).length+newline);
 		buf.add("execution time: " + time+newline);
 #if php
 		buf.add("script time: "    + scripttime+newline);
 #end
 		buf.add(newline);
-
 
 		for(pname in result.packageNames()) {
 			var pack = result.getPackage(pname);
