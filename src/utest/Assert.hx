@@ -256,11 +256,19 @@ class Assert {
 		}
 	}
 
-	public static function allow<T>(possibilities : Array<T>, value : T, ?msg : String , ?pos : PosInfos) {
+	public static function allows<T>(possibilities : Array<T>, value : T, ?msg : String , ?pos : PosInfos) {
 		if(Lambda.has(possibilities, value)) {
 			isTrue(true, msg, pos);
 		} else {
 			fail(msg == null ? "value "+value+" not found in the expected possibilities "+possibilities : msg, pos);
+		}
+	}
+
+	public static function contains<T>(match : T, values : Array<T>, ?msg : String , ?pos : PosInfos) {
+		if(Lambda.has(values, match)) {
+			isTrue(true, msg, pos);
+		} else {
+			fail(msg == null ? "values "+values+" do not contain "+match: msg, pos);
 		}
 	}
 

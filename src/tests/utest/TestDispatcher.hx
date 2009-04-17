@@ -2,10 +2,19 @@ package tests.utest;
 
 import utest.Assert;
 import utest.Dispatcher;
+import utest.Runner;
+import utest.ui.text.TraceReport;
 
 class TestDispatcher {
 	public function new();
 
+	public static function main() {
+		var runner = new Runner();
+		runner.addCase(new TestDispatcher());
+		var report = new TraceReport(runner);
+		runner.run();
+	}
+	
 	public function testBase() {
 		var dispatcher : Dispatcher<String> = new Dispatcher();
 		Assert.isFalse(dispatcher.has());

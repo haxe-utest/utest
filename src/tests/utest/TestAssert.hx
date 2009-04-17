@@ -2,10 +2,19 @@ package tests.utest;
 
 import utest.Assert;
 import utest.Assertation;
+import utest.Runner;
+import utest.ui.text.TraceReport;
 
 class TestAssert {
 	public function new();
 
+	public static function main() {
+		var runner = new Runner();
+		runner.addCase(new TestAssert());
+		var report = new TraceReport(runner);
+		runner.run();
+	}
+	
 	var resultsbypass : List<Assertation>;
 	var results : List<Assertation>;
 	public function bypass() {

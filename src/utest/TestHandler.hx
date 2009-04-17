@@ -71,6 +71,30 @@ class TestHandler<T> {
 		Assert.createEvent = function(f, ?t){ return function(e){}};
 	}
 
+	/**
+	* Adds a function that is called asynchronously.
+	*
+	* Example:
+	* <pre>
+	* var fixture = new TestFixture(new TestClass(), "test");
+	* var handler = new TestHandler(fixture);
+	* var flag = false;
+	* var async = handler.addAsync(function() {
+	*   flag = true;
+	* }, 50);
+	* handler.onTimeout.add(function(h) {
+	*  trace("TIMEOUT");
+	* });
+	* handler.onTested.add(function(h) {
+	*   trace(flag ? "OK" : "FAILED");
+	* });
+	* haxe.Timer.delay(function() async(), 10);
+	* handler.execute();
+	* </pre>
+	* @param	f, the function that is called asynchrnously
+	* @param	timeout, the maximum time to wait for f() (default is 250)
+	* @return	returns a function closure that must be executed asynchrnously
+	*/
 	public function addAsync(f : Void->Void, timeout = 250) {
 		asyncStack.add(f);
 		var handler = this;
