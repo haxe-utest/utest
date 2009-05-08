@@ -1,0 +1,955 @@
+// generated from class.mtt
+// temploc v0.9.0
+
+			String = $loader.String;
+			Array = $loader.Array;
+			iter = $loader.iter;
+			buffer_new = $loader.loadprim("std@buffer_new", 0);
+			buffer_add = $loader.loadprim("std@buffer_add", 2);
+			buffer_string = $loader.loadprim("std@buffer_string", 1);
+			string_split = $loader.loadprim("std@string_split", 2);
+			replace = function( h, n, r ){
+				var l = string_split(h, n);
+				if (l[1] == null)
+					return h;
+				var res = buffer_new();
+				buffer_add(res, l[0]);
+				l = l[1];
+				while (l != null){
+					buffer_add(res, r);
+					buffer_add(res, l[0]);
+					l = l[1];
+				}
+				return buffer_string(res);
+			}
+			html_escape = function( data ){
+				var t = $typeof(data);
+				if (t == $tint)
+					return data;
+				if (t != $tstring)
+					data = $string(data);
+				if (data == "")
+					return data;
+				data = replace(data, "&", "&amp;");
+				data = replace(data, "<", "&lt;");
+				data = replace(data, ">", "&gt;");
+				data = replace(data, "\"", "&quot;");
+				return data;
+			}
+			is_true = function( data ){
+				if (data == "") return false;
+				return $istrue(data);
+			}
+			new_repeat = function( data ){
+				var result = $new(null);
+				result.data = data;
+				result.index = 0-1;
+				result.number = 0;
+				result.first = true;
+				result.last = false;
+				result.odd = true;
+				result.even = false;
+				if (data.get_length != null) result.size = data.get_length();
+				else if (data.length != null) result.size = data.length;
+				else if (data.size != null) result.size = data.size();
+				else result.size = null;
+				result.next = function(v){
+					this.current = v;
+					this.index = this.index + 1;
+					this.first = this.index == 0;
+					this.number = this.number + 1;
+					this.last = (this.number == this.size);
+					this.even = (this.number % 2) == 0;
+					this.odd = (this.even == false);
+				}
+				return result;
+			}
+			new_output_buffer = function( parent ){
+				var result = $new(null);
+				result.parent = parent;
+				result.buf = buffer_new();
+				result.add = function(str){ return buffer_add(this.buf, str); }
+				result.str = function(){ return buffer_string(this.buf); }
+				return result;
+			}
+			new_context = function( parent, vars ){
+				var result = $new(null);
+				result.parent = parent;
+				result.__isTemplateContext = true;
+				if (vars == null){
+					result.vars = $new(null);
+				}
+				else {
+					result.vars = vars;
+				}
+				result.get = function( field ){
+					if ($objfield(this.vars, field)) return $objget(this.vars, field);
+					if (this.parent == null) return null;
+					return this.parent.get(field);
+				}
+				result.set = function( field, v ){
+					$objset(this.vars, field, v);
+				}
+				return result;
+			}
+			template = function( macro, params ){
+				var __ctx = null;
+				if (params.__isTemplateContext) {
+					__ctx = new_context(params, null);
+				}
+				else {
+					__ctx = new_context(null, params);
+				}
+				var __glb = __ctx;
+				var __out = new_output_buffer(null);
+//--- HERE COMES THE TEMPLATE CODE ---
+__out.add("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/tr/html4/loose.dtd\">\n<html>\n<head>\n	");
+__out.add(__ctx.get(988470062).comment);
+__out.add("\n	<title>");
+__out.add(html_escape(__ctx.get(-922783157)));
+__out.add(" (");
+__out.add(html_escape(__ctx.get(-942516542).title));
+__out.add(")</title>\n	<meta name=\"date\" content=\"");
+__out.add(html_escape(__ctx.get(-933672251).date));
+__out.add("\"/>\n");
+var loop = __ctx.get(-933672251).keywords;
+__ctx.vars.repeat_kw = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_kw.next(__item);
+__ctx.set(23980, __item);
+__out.add("	<meta name=\"keywords\" content=\"");
+__out.add(html_escape(__ctx.get(23980)));
+__out.add("\"/>\n");
+});
+__out.add("	<link href=\"");
+__out.add(html_escape(__ctx.get(-933672251).stylesheet));
+__out.add("\" type=\"text/css\" rel=\"stylesheet\"/>\n<script type=\"text/javascript\">\nfunction windowTitle()\n{\n    if (location.href.indexOf('is-external=true') == -1) {\n        parent.document.title=\"");
+__out.add(html_escape(__ctx.get(-922783157)));
+__out.add(" (");
+__out.add(html_escape(__ctx.get(-942516542).title));
+__out.add(")\";\n    }\n}\n</script>\n<noscript></noscript>\n</head>\n<body onload=\"windowTitle();\">\n	<script type=\"text/javascript\" language=\"javascript\" src=\"");
+__out.add(html_escape(__ctx.get(753096974)));
+__out.add("../chxdoc.js\"></script>\n	<div class=\"type-frame\" id=\"class-frame\">\n	<!-- ======== START OF class DATA ======== -->\n	<h1 class=\"");
+__out.add(html_escape(__ctx.get(-855051590)));
+__out.add("\">");
+__out.add(html_escape(__ctx.get(1056249269)));
+__out.add(__ctx.get(-310707386));
+__out.add("</h1>\n	<dl>\n		<dt>type</dt>\n		<dd>");
+__out.add(html_escape(__ctx.get(-855051590)));
+__out.add("</dd>\n");
+if (is_true(__ctx.get(195497160) != null)){
+__out.add("		<dt>extends</dt>\n		<dd>");
+__out.add(__ctx.get(195497160));
+__out.add("</dd>\n");
+}
+if (is_true(__ctx.get(225290809))){
+__out.add("		<dt>private</dt>\n		<dd>yes</dd>\n");
+}
+if (is_true(__ctx.get(731801381).length > 0)){
+__out.add("		<dt>implements</dt>\n");
+var loop = __ctx.get(731801381);
+__ctx.vars.repeat_i = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_i.next(__item);
+__ctx.set(105, __item);
+__out.add("		<dd>");
+__out.add(__ctx.get(105));
+__out.add("</dd>\n	");
+});
+}
+if (is_true(__ctx.get(-1059900244) != null && __ctx.get(-1059900244).length > 0)){
+__out.add("		<dt>defined in</dt>\n		<dd>");
+__out.add(html_escape(__ctx.get(-1059900244)));
+__out.add("</dd>\n");
+}
+if (is_true(__ctx.get(413783334).length > 0)){
+__out.add("		<dt>subclasses</dt>\n		<dd>");
+var loop = __ctx.get(413783334);
+__ctx.vars.repeat_sc = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_sc.next(__item);
+__ctx.set(25744, __item);
+if (is_true(false == __ctx.vars.repeat_sc.first)){
+__out.add(", ");
+}
+__out.add("<a href=\"");
+__out.add(__ctx.get(25744).href);
+__out.add("\">");
+__out.add(__ctx.get(25744).text);
+__out.add("</a>");
+});
+__out.add("</dd>\n");
+}
+if (is_true(__ctx.get(310553184).length > 0)){
+__out.add("		<dt>available in</dt>\n		<dd>");
+var loop = __ctx.get(310553184);
+__ctx.vars.repeat_p = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_p.next(__item);
+__ctx.set(112, __item);
+if (is_true(false == __ctx.vars.repeat_p.first)){
+__out.add(", ");
+}
+__out.add(html_escape(__ctx.get(112)));
+});
+__out.add("</dd>\n");
+}
+__out.add("	</dl>\n\n	<div class=\"doc\">\n");
+if (is_true(__ctx.get(-1032984837) != null)){
+__out.add("			<!-- Comment block -->\n");
+if (is_true(__ctx.get(-1032984837).comments != null)){
+__out.add("			");
+__out.add(__ctx.get(-1032984837).comments);
+__out.add("\n		");
+}
+__out.add("	");
+}
+__out.add("	</div>\n");
+if (is_true(__ctx.get(804594554).length > 0)){
+__out.add("	<!-- ============ STATIC VAR DETAIL =========== -->\n	<div class=\"members-panel\">\n		<h2><a name=\"static_var_detail\"></a>Static Variables</h2>\n		<div class=\"members\">\n");
+var loop = __ctx.get(804594554);
+__ctx.vars.repeat_f = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_f.next(__item);
+__ctx.set(102, __item);
+__out.add("			<div class=\"member\">\n				<div class=\"header\">\n		<h3>\n			<a name=\"");
+__out.add(html_escape((__ctx.get(102)).name));
+__out.add("\"></a>\n");
+if (is_true(__ctx.get(-942516542).developer)){
+__out.add("		<span class=\"");
+__out.add(html_escape((__ctx.get(102)).access));
+__out.add("\">");
+__out.add(html_escape((__ctx.get(102)).access));
+__out.add("</span>\n	");
+}
+__out.add("	<span class=\"name\">");
+__out.add(html_escape((__ctx.get(102)).name));
+__out.add("</span>");
+__out.add((__ctx.get(102)).rights);
+__out.add(" : ");
+__out.add((__ctx.get(102)).returns);
+__out.add("\n		</h3>\n");
+if (is_true((__ctx.get(102)).isInherited)){
+__out.add("		<div class=\"inherited\">inherited from <a href=\"");
+__out.add((__ctx.get(102)).inheritance.link.href);
+__out.add("#");
+__out.add(html_escape((__ctx.get(102)).name));
+__out.add("\">");
+__out.add((__ctx.get(102)).inheritance.link.text);
+__out.add("</a></div>\n	");
+}
+__out.add("	</div>\n				<div class=\"body\">\n		<!-- platforms -->\n");
+if (is_true((__ctx.get(102)).platforms != null)){
+__out.add("			<dl>\n");
+if (is_true((__ctx.get(102)).platforms.length != 0 && (__ctx.get(310553184) == null || __ctx.get(310553184).length > (__ctx.get(102)).platforms.length))){
+__out.add("				<dt>platforms:</dt>\n				<dd>");
+var loop = (__ctx.get(102)).platforms;
+__ctx.vars.repeat_p = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_p.next(__item);
+__ctx.set(112, __item);
+if (is_true(false == __ctx.vars.repeat_p.first)){
+__out.add(", ");
+}
+__out.add(html_escape(__ctx.get(112)));
+});
+__out.add("</dd>\n		");
+}
+__out.add("			</dl>\n	");
+}
+__out.add("		<!-- Comment block -->\n");
+if (is_true((__ctx.get(102)).docs != null && (__ctx.get(102)).docs.comments != null)){
+__out.add("		<div class=\"comment\">");
+__out.add((__ctx.get(102)).docs.comments);
+__out.add("</div>\n	");
+}
+__out.add("	</div>\n			</div>\n		");
+});
+__out.add("		</div>\n	</div>\n");
+}
+if (is_true(__ctx.get(760179556).length > 0)){
+__out.add("	<!-- ============ STATIC METHOD DETAIL ========== -->\n	<div class=\"members-panel\">\n		<h2><a name=\"function_detail\"></a>Static Methods</h2>\n		<div class=\"members\">\n");
+var loop = __ctx.get(760179556);
+__ctx.vars.repeat_m = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_m.next(__item);
+__ctx.set(109, __item);
+__out.add("			<div class=\"member\">\n				<div class=\"header\">\n		<h3>\n			<a name=\"");
+__out.add((__ctx.get(109)).name);
+__out.add("()\"></a>\n");
+if (is_true(__ctx.get(-942516542).developer)){
+__out.add("		<span class=\"");
+__out.add(html_escape((__ctx.get(109)).access));
+__out.add("\">");
+__out.add(html_escape((__ctx.get(109)).access));
+__out.add("</span>\n	");
+}
+if (is_true((__ctx.get(109)).isDynamic)){
+__out.add("		<span class=\"dynamic\">dynamic</span>\n	");
+}
+__out.add("	<span class=\"name\">");
+__out.add((__ctx.get(109)).name);
+__out.add("</span>");
+__out.add(html_escape((__ctx.get(109)).params));
+__out.add("(");
+if (is_true((__ctx.get(109)).args != null)){
+__out.add((__ctx.get(109)).args);
+}
+__out.add(") : ");
+__out.add((__ctx.get(109)).returns);
+__out.add("\n		</h3>\n");
+if (is_true((__ctx.get(109)).isOverride)){
+__out.add("				<div class=\"overrides\">overrides</div>\n			");
+}
+else if (is_true((__ctx.get(109)).isInherited)){
+__out.add("\n				<div class=\"inherited\">inherited from <a href=\"");
+__out.add((__ctx.get(109)).inheritance.link.href);
+__out.add("#");
+__out.add(html_escape((__ctx.get(109)).name));
+__out.add("()\">");
+__out.add((__ctx.get(109)).inheritance.link.text);
+__out.add("</a></div>\n		");
+}
+__out.add("	</div>\n				<div class=\"body\">\n");
+if (is_true((__ctx.get(109)).docs != null || (__ctx.get(109)).platforms != null)){
+__out.add("			<dl>\n");
+if (is_true((__ctx.get(109)).docs != null)){
+__out.add("				<!-- deprecated -->\n");
+if (is_true((__ctx.get(109)).docs.deprecated)){
+__out.add("					<dt><span class=\"deprecated\">deprecated:</span></dt>\n					<dd>");
+__out.add((__ctx.get(109)).docs.deprecatedMsg);
+__out.add("</dd>\n			");
+}
+__out.add("				<!-- type params -->\n");
+if (is_true((__ctx.get(109)).docs.typeParams.length != 0)){
+__out.add("					<dt>types:</dt>\n");
+var loop = (__ctx.get(109)).docs.typeParams;
+__ctx.vars.repeat_pd = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_pd.next(__item);
+__ctx.set(25076, __item);
+__out.add("					<dd><code>");
+__out.add(html_escape(__ctx.get(25076).arg));
+__out.add("</code> ");
+__out.add(__ctx.get(25076).desc);
+__out.add("</dd>\n				");
+});
+__out.add("			");
+}
+__out.add("				<!-- method call parameters -->\n");
+if (is_true((__ctx.get(109)).docs.params.length != 0)){
+__out.add("					<dt>parameters:</dt>\n");
+var loop = (__ctx.get(109)).docs.params;
+__ctx.vars.repeat_pd = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_pd.next(__item);
+__ctx.set(25076, __item);
+__out.add("					<dd><code>");
+__out.add(html_escape(__ctx.get(25076).arg));
+__out.add("</code> ");
+__out.add(__ctx.get(25076).desc);
+__out.add("</dd>\n				");
+});
+__out.add("			");
+}
+__out.add("				<!-- method return types comments -->\n");
+if (is_true((__ctx.get(109)).docs.returns.length != 0)){
+__out.add("					<dt>returns:</dt>\n");
+var loop = (__ctx.get(109)).docs.returns;
+__ctx.vars.repeat_s = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_s.next(__item);
+__ctx.set(115, __item);
+__out.add("					<dd>");
+__out.add(__ctx.get(115));
+__out.add("</dd>\n				");
+});
+__out.add("			");
+}
+__out.add("				<!-- method throws -->\n");
+if (is_true((__ctx.get(109)).docs.throws.length != 0)){
+__out.add("					<dt>throws:</dt>\n");
+var loop = (__ctx.get(109)).docs.throws;
+__ctx.vars.repeat_td = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_td.next(__item);
+__ctx.set(25968, __item);
+__out.add("					<dd><a href=\"");
+__out.add(__ctx.get(25968).uri);
+__out.add("\"><code>");
+__out.add(html_escape(__ctx.get(25968).name));
+__out.add("</code></a> ");
+__out.add(__ctx.get(25968).desc);
+__out.add("</dd>\n				");
+});
+__out.add("			");
+}
+__out.add("				<!-- requires -->\n");
+if (is_true((__ctx.get(109)).docs.requires.length != 0)){
+__out.add("					<dt>requires:</dt>\n");
+var loop = (__ctx.get(109)).docs.requires;
+__ctx.vars.repeat_i = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_i.next(__item);
+__ctx.set(105, __item);
+__out.add("					<dd>");
+__out.add(__ctx.get(105));
+__out.add("</dd>\n				");
+});
+__out.add("			");
+}
+__out.add("				<!-- see -->\n");
+if (is_true((__ctx.get(109)).docs.see.length != 0)){
+__out.add("					<dt>see:</dt>\n");
+var loop = (__ctx.get(109)).docs.see;
+__ctx.vars.repeat_i = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_i.next(__item);
+__ctx.set(105, __item);
+__out.add("					<dd>");
+__out.add(__ctx.get(105));
+__out.add("</dd>\n				");
+});
+__out.add("			");
+}
+__out.add("				<!-- todo -->\n");
+if (is_true((__ctx.get(109)).docs.todos.length != 0)){
+__out.add("					<dt>todo:</dt>\n");
+var loop = (__ctx.get(109)).docs.todos;
+__ctx.vars.repeat_i = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_i.next(__item);
+__ctx.set(105, __item);
+__out.add("					<dd>");
+__out.add(__ctx.get(105));
+__out.add("</dd>\n				");
+});
+__out.add("			");
+}
+__out.add("				<!-- authors -->\n");
+if (is_true((__ctx.get(109)).docs.authors.length != 0)){
+__out.add("					<dt>authors:</dt>\n");
+var loop = (__ctx.get(109)).docs.authors;
+__ctx.vars.repeat_i = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_i.next(__item);
+__ctx.set(105, __item);
+__out.add("					<dd>");
+__out.add(__ctx.get(105));
+__out.add("</dd>\n				");
+});
+__out.add("			");
+}
+__out.add("		");
+}
+__out.add("			<!-- platforms -->\n");
+if (is_true((__ctx.get(109)).platforms != null)){
+if (is_true((__ctx.get(109)).platforms.length != 0 && (__ctx.get(310553184) == null || __ctx.get(310553184).length > (__ctx.get(109)).platforms.length))){
+__out.add("\n					<dt>platforms:</dt>\n					<dd>");
+var loop = (__ctx.get(109)).platforms;
+__ctx.vars.repeat_p = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_p.next(__item);
+__ctx.set(112, __item);
+if (is_true(false == __ctx.vars.repeat_p.first)){
+__out.add(", ");
+}
+__out.add(html_escape(__ctx.get(112)));
+});
+__out.add("</dd>\n			");
+}
+__out.add("		");
+}
+__out.add("			</dl>\n	");
+}
+__out.add("		<!-- Comment block -->\n");
+if (is_true((__ctx.get(109)).docs != null && (__ctx.get(109)).docs.comments != null)){
+__out.add("		<div class=\"comment\">");
+__out.add((__ctx.get(109)).docs.comments);
+__out.add("</div>\n	");
+}
+__out.add("	</div>\n			</div>\n		");
+});
+__out.add("		</div>\n	</div>\n");
+}
+if (is_true(__ctx.get(398798074) != null)){
+__out.add("	<!-- ========= CONSTRUCTOR DETAIL ======== -->\n	<div class=\"members-panel\">\n		<h2><a name=\"constructor_detail\"></a>Constructor</h2>\n		<div class=\"members\">\n			<div class=\"member\">\n				<div class=\"header\">\n					<a name=\"");
+__out.add(__ctx.get(398798074).name);
+__out.add("()\"></a>\n");
+if (is_true(__ctx.get(-942516542).developer)){
+__out.add("		<span class=\"");
+__out.add(html_escape((__ctx.get(398798074)).access));
+__out.add("\">");
+__out.add(html_escape((__ctx.get(398798074)).access));
+__out.add("</span>\n	");
+}
+__out.add("	<span class=\"name\">");
+__out.add(__ctx.get(398798074).name);
+__out.add("</span>(");
+if (is_true(__ctx.get(398798074).args != null)){
+__out.add(__ctx.get(398798074).args);
+}
+__out.add(")\n				</div>\n				<div class=\"body\">\n");
+if (is_true((__ctx.get(398798074)).docs != null || (__ctx.get(398798074)).platforms != null)){
+__out.add("			<dl>\n");
+if (is_true((__ctx.get(398798074)).docs != null)){
+__out.add("				<!-- deprecated -->\n");
+if (is_true((__ctx.get(398798074)).docs.deprecated)){
+__out.add("					<dt><span class=\"deprecated\">deprecated:</span></dt>\n					<dd>");
+__out.add((__ctx.get(398798074)).docs.deprecatedMsg);
+__out.add("</dd>\n			");
+}
+__out.add("				<!-- type params -->\n");
+if (is_true((__ctx.get(398798074)).docs.typeParams.length != 0)){
+__out.add("					<dt>types:</dt>\n");
+var loop = (__ctx.get(398798074)).docs.typeParams;
+__ctx.vars.repeat_pd = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_pd.next(__item);
+__ctx.set(25076, __item);
+__out.add("					<dd><code>");
+__out.add(html_escape(__ctx.get(25076).arg));
+__out.add("</code> ");
+__out.add(__ctx.get(25076).desc);
+__out.add("</dd>\n				");
+});
+__out.add("			");
+}
+__out.add("				<!-- method call parameters -->\n");
+if (is_true((__ctx.get(398798074)).docs.params.length != 0)){
+__out.add("					<dt>parameters:</dt>\n");
+var loop = (__ctx.get(398798074)).docs.params;
+__ctx.vars.repeat_pd = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_pd.next(__item);
+__ctx.set(25076, __item);
+__out.add("					<dd><code>");
+__out.add(html_escape(__ctx.get(25076).arg));
+__out.add("</code> ");
+__out.add(__ctx.get(25076).desc);
+__out.add("</dd>\n				");
+});
+__out.add("			");
+}
+__out.add("				<!-- method return types comments -->\n");
+if (is_true((__ctx.get(398798074)).docs.returns.length != 0)){
+__out.add("					<dt>returns:</dt>\n");
+var loop = (__ctx.get(398798074)).docs.returns;
+__ctx.vars.repeat_s = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_s.next(__item);
+__ctx.set(115, __item);
+__out.add("					<dd>");
+__out.add(__ctx.get(115));
+__out.add("</dd>\n				");
+});
+__out.add("			");
+}
+__out.add("				<!-- method throws -->\n");
+if (is_true((__ctx.get(398798074)).docs.throws.length != 0)){
+__out.add("					<dt>throws:</dt>\n");
+var loop = (__ctx.get(398798074)).docs.throws;
+__ctx.vars.repeat_td = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_td.next(__item);
+__ctx.set(25968, __item);
+__out.add("					<dd><a href=\"");
+__out.add(__ctx.get(25968).uri);
+__out.add("\"><code>");
+__out.add(html_escape(__ctx.get(25968).name));
+__out.add("</code></a> ");
+__out.add(__ctx.get(25968).desc);
+__out.add("</dd>\n				");
+});
+__out.add("			");
+}
+__out.add("				<!-- requires -->\n");
+if (is_true((__ctx.get(398798074)).docs.requires.length != 0)){
+__out.add("					<dt>requires:</dt>\n");
+var loop = (__ctx.get(398798074)).docs.requires;
+__ctx.vars.repeat_i = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_i.next(__item);
+__ctx.set(105, __item);
+__out.add("					<dd>");
+__out.add(__ctx.get(105));
+__out.add("</dd>\n				");
+});
+__out.add("			");
+}
+__out.add("				<!-- see -->\n");
+if (is_true((__ctx.get(398798074)).docs.see.length != 0)){
+__out.add("					<dt>see:</dt>\n");
+var loop = (__ctx.get(398798074)).docs.see;
+__ctx.vars.repeat_i = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_i.next(__item);
+__ctx.set(105, __item);
+__out.add("					<dd>");
+__out.add(__ctx.get(105));
+__out.add("</dd>\n				");
+});
+__out.add("			");
+}
+__out.add("				<!-- todo -->\n");
+if (is_true((__ctx.get(398798074)).docs.todos.length != 0)){
+__out.add("					<dt>todo:</dt>\n");
+var loop = (__ctx.get(398798074)).docs.todos;
+__ctx.vars.repeat_i = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_i.next(__item);
+__ctx.set(105, __item);
+__out.add("					<dd>");
+__out.add(__ctx.get(105));
+__out.add("</dd>\n				");
+});
+__out.add("			");
+}
+__out.add("				<!-- authors -->\n");
+if (is_true((__ctx.get(398798074)).docs.authors.length != 0)){
+__out.add("					<dt>authors:</dt>\n");
+var loop = (__ctx.get(398798074)).docs.authors;
+__ctx.vars.repeat_i = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_i.next(__item);
+__ctx.set(105, __item);
+__out.add("					<dd>");
+__out.add(__ctx.get(105));
+__out.add("</dd>\n				");
+});
+__out.add("			");
+}
+__out.add("		");
+}
+__out.add("			<!-- platforms -->\n");
+if (is_true((__ctx.get(398798074)).platforms != null)){
+if (is_true((__ctx.get(398798074)).platforms.length != 0 && (__ctx.get(310553184) == null || __ctx.get(310553184).length > (__ctx.get(398798074)).platforms.length))){
+__out.add("\n					<dt>platforms:</dt>\n					<dd>");
+var loop = (__ctx.get(398798074)).platforms;
+__ctx.vars.repeat_p = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_p.next(__item);
+__ctx.set(112, __item);
+if (is_true(false == __ctx.vars.repeat_p.first)){
+__out.add(", ");
+}
+__out.add(html_escape(__ctx.get(112)));
+});
+__out.add("</dd>\n			");
+}
+__out.add("		");
+}
+__out.add("			</dl>\n	");
+}
+__out.add("		<!-- Comment block -->\n");
+if (is_true((__ctx.get(398798074)).docs != null && (__ctx.get(398798074)).docs.comments != null)){
+__out.add("		<div class=\"comment\">");
+__out.add((__ctx.get(398798074)).docs.comments);
+__out.add("</div>\n	");
+}
+__out.add("	</div>\n			</div>\n		</div>\n	</div>\n");
+}
+if (is_true(__ctx.get(-834065492).length > 0)){
+__out.add("	<!-- ============ FIELD field_detail =========== -->\n	<div class=\"members-panel\">\n		<h2><a name=\"member_var_detail\"></a>Instance Variables\n");
+if (is_true(__ctx.get(-137270677).length > 0)){
+__out.add("			<span class=\"hideInheritedVar\" id=\"hideInheritedVar\">\n				<a href=\"#member_var_detail\" class=\"showHideLink\" onclick=\"javascript:showInherited('Var', false);\">\n				hide inherited\n				</a>\n			</span>\n			<span class=\"showInheritedVar\" id=\"showInheritedVar\">\n				<a href=\"#member_var_detail\" class=\"showHideLink\" onclick=\"javascript:showInherited('Var', true);\">\n				show inherited\n				</a>\n			</span>\n		");
+}
+__out.add("		</h2>\n		<div class=\"members\">\n");
+var loop = __ctx.get(-834065492);
+__ctx.vars.repeat_f = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_f.next(__item);
+__ctx.set(102, __item);
+if (is_true(__ctx.get(102).isInherited == true)){
+__ctx.set(-521293554, (String.new("hideInheritedVar")));
+}
+else {
+__ctx.set(-521293554, (String.new("showVar")));
+}
+__out.add("			<span class=\"");
+__out.add(html_escape(__ctx.get(-521293554)));
+__out.add("\">\n				<div class=\"member\">\n					<div class=\"header\">\n		<h3>\n			<a name=\"");
+__out.add(html_escape((__ctx.get(102)).name));
+__out.add("\"></a>\n");
+if (is_true(__ctx.get(-942516542).developer)){
+__out.add("		<span class=\"");
+__out.add(html_escape((__ctx.get(102)).access));
+__out.add("\">");
+__out.add(html_escape((__ctx.get(102)).access));
+__out.add("</span>\n	");
+}
+__out.add("	<span class=\"name\">");
+__out.add(html_escape((__ctx.get(102)).name));
+__out.add("</span>");
+__out.add((__ctx.get(102)).rights);
+__out.add(" : ");
+__out.add((__ctx.get(102)).returns);
+__out.add("\n		</h3>\n");
+if (is_true((__ctx.get(102)).isInherited)){
+__out.add("		<div class=\"inherited\">inherited from <a href=\"");
+__out.add((__ctx.get(102)).inheritance.link.href);
+__out.add("#");
+__out.add(html_escape((__ctx.get(102)).name));
+__out.add("\">");
+__out.add((__ctx.get(102)).inheritance.link.text);
+__out.add("</a></div>\n	");
+}
+__out.add("	</div>\n					<div class=\"body\">\n		<!-- platforms -->\n");
+if (is_true((__ctx.get(102)).platforms != null)){
+__out.add("			<dl>\n");
+if (is_true((__ctx.get(102)).platforms.length != 0 && (__ctx.get(310553184) == null || __ctx.get(310553184).length > (__ctx.get(102)).platforms.length))){
+__out.add("				<dt>platforms:</dt>\n				<dd>");
+var loop = (__ctx.get(102)).platforms;
+__ctx.vars.repeat_p = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_p.next(__item);
+__ctx.set(112, __item);
+if (is_true(false == __ctx.vars.repeat_p.first)){
+__out.add(", ");
+}
+__out.add(html_escape(__ctx.get(112)));
+});
+__out.add("</dd>\n		");
+}
+__out.add("			</dl>\n	");
+}
+__out.add("		<!-- Comment block -->\n");
+if (is_true((__ctx.get(102)).docs != null && (__ctx.get(102)).docs.comments != null)){
+__out.add("		<div class=\"comment\">");
+__out.add((__ctx.get(102)).docs.comments);
+__out.add("</div>\n	");
+}
+__out.add("	</div>\n				</div>\n			</span>\n		");
+});
+__out.add("		</div>\n	</div>\n");
+}
+if (is_true(__ctx.get(641535602).length > 0)){
+__out.add("	<!-- ============ METHOD DETAIL ========== -->\n	<div class=\"members-panel\">\n		<h2><a name=\"method_detail\"></a>Instance Methods\n");
+if (is_true(__ctx.get(-137270677).length > 0)){
+__out.add("			<span class=\"hideInheritedMethod\" id=\"hideInheritedMethod\">\n				<a href=\"#method_detail\" class=\"showHideLink\" onclick=\"javascript:showInherited('Method', false);\">\n				hide inherited\n				</a>\n			</span>\n			<span class=\"showInheritedMethod\" id=\"showInheritedMethod\">\n				<a href=\"#method_detail\" class=\"showHideLink\" onclick=\"javascript:showInherited('Method', true);\">\n				show inherited\n				</a>\n			</span>\n		");
+}
+__out.add("		</h2>\n		<div class=\"members\">\n");
+var loop = __ctx.get(641535602);
+__ctx.vars.repeat_m = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_m.next(__item);
+__ctx.set(109, __item);
+if (is_true(__ctx.get(109).isInherited == true)){
+__ctx.set(-521293554, (String.new("hideInheritedMethod")));
+}
+else {
+__ctx.set(-521293554, (String.new("showMethod")));
+}
+__out.add("			<span class=\"");
+__out.add(html_escape(__ctx.get(-521293554)));
+__out.add("\">\n				<div class=\"member\">\n					<div class=\"header\">\n		<h3>\n			<a name=\"");
+__out.add((__ctx.get(109)).name);
+__out.add("()\"></a>\n");
+if (is_true(__ctx.get(-942516542).developer)){
+__out.add("		<span class=\"");
+__out.add(html_escape((__ctx.get(109)).access));
+__out.add("\">");
+__out.add(html_escape((__ctx.get(109)).access));
+__out.add("</span>\n	");
+}
+if (is_true((__ctx.get(109)).isDynamic)){
+__out.add("		<span class=\"dynamic\">dynamic</span>\n	");
+}
+__out.add("	<span class=\"name\">");
+__out.add((__ctx.get(109)).name);
+__out.add("</span>");
+__out.add(html_escape((__ctx.get(109)).params));
+__out.add("(");
+if (is_true((__ctx.get(109)).args != null)){
+__out.add((__ctx.get(109)).args);
+}
+__out.add(") : ");
+__out.add((__ctx.get(109)).returns);
+__out.add("\n		</h3>\n");
+if (is_true((__ctx.get(109)).isOverride)){
+__out.add("				<div class=\"overrides\">overrides</div>\n			");
+}
+else if (is_true((__ctx.get(109)).isInherited)){
+__out.add("\n				<div class=\"inherited\">inherited from <a href=\"");
+__out.add((__ctx.get(109)).inheritance.link.href);
+__out.add("#");
+__out.add(html_escape((__ctx.get(109)).name));
+__out.add("()\">");
+__out.add((__ctx.get(109)).inheritance.link.text);
+__out.add("</a></div>\n		");
+}
+__out.add("	</div>\n					<div class=\"body\">\n");
+if (is_true((__ctx.get(109)).docs != null || (__ctx.get(109)).platforms != null)){
+__out.add("			<dl>\n");
+if (is_true((__ctx.get(109)).docs != null)){
+__out.add("				<!-- deprecated -->\n");
+if (is_true((__ctx.get(109)).docs.deprecated)){
+__out.add("					<dt><span class=\"deprecated\">deprecated:</span></dt>\n					<dd>");
+__out.add((__ctx.get(109)).docs.deprecatedMsg);
+__out.add("</dd>\n			");
+}
+__out.add("				<!-- type params -->\n");
+if (is_true((__ctx.get(109)).docs.typeParams.length != 0)){
+__out.add("					<dt>types:</dt>\n");
+var loop = (__ctx.get(109)).docs.typeParams;
+__ctx.vars.repeat_pd = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_pd.next(__item);
+__ctx.set(25076, __item);
+__out.add("					<dd><code>");
+__out.add(html_escape(__ctx.get(25076).arg));
+__out.add("</code> ");
+__out.add(__ctx.get(25076).desc);
+__out.add("</dd>\n				");
+});
+__out.add("			");
+}
+__out.add("				<!-- method call parameters -->\n");
+if (is_true((__ctx.get(109)).docs.params.length != 0)){
+__out.add("					<dt>parameters:</dt>\n");
+var loop = (__ctx.get(109)).docs.params;
+__ctx.vars.repeat_pd = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_pd.next(__item);
+__ctx.set(25076, __item);
+__out.add("					<dd><code>");
+__out.add(html_escape(__ctx.get(25076).arg));
+__out.add("</code> ");
+__out.add(__ctx.get(25076).desc);
+__out.add("</dd>\n				");
+});
+__out.add("			");
+}
+__out.add("				<!-- method return types comments -->\n");
+if (is_true((__ctx.get(109)).docs.returns.length != 0)){
+__out.add("					<dt>returns:</dt>\n");
+var loop = (__ctx.get(109)).docs.returns;
+__ctx.vars.repeat_s = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_s.next(__item);
+__ctx.set(115, __item);
+__out.add("					<dd>");
+__out.add(__ctx.get(115));
+__out.add("</dd>\n				");
+});
+__out.add("			");
+}
+__out.add("				<!-- method throws -->\n");
+if (is_true((__ctx.get(109)).docs.throws.length != 0)){
+__out.add("					<dt>throws:</dt>\n");
+var loop = (__ctx.get(109)).docs.throws;
+__ctx.vars.repeat_td = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_td.next(__item);
+__ctx.set(25968, __item);
+__out.add("					<dd><a href=\"");
+__out.add(__ctx.get(25968).uri);
+__out.add("\"><code>");
+__out.add(html_escape(__ctx.get(25968).name));
+__out.add("</code></a> ");
+__out.add(__ctx.get(25968).desc);
+__out.add("</dd>\n				");
+});
+__out.add("			");
+}
+__out.add("				<!-- requires -->\n");
+if (is_true((__ctx.get(109)).docs.requires.length != 0)){
+__out.add("					<dt>requires:</dt>\n");
+var loop = (__ctx.get(109)).docs.requires;
+__ctx.vars.repeat_i = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_i.next(__item);
+__ctx.set(105, __item);
+__out.add("					<dd>");
+__out.add(__ctx.get(105));
+__out.add("</dd>\n				");
+});
+__out.add("			");
+}
+__out.add("				<!-- see -->\n");
+if (is_true((__ctx.get(109)).docs.see.length != 0)){
+__out.add("					<dt>see:</dt>\n");
+var loop = (__ctx.get(109)).docs.see;
+__ctx.vars.repeat_i = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_i.next(__item);
+__ctx.set(105, __item);
+__out.add("					<dd>");
+__out.add(__ctx.get(105));
+__out.add("</dd>\n				");
+});
+__out.add("			");
+}
+__out.add("				<!-- todo -->\n");
+if (is_true((__ctx.get(109)).docs.todos.length != 0)){
+__out.add("					<dt>todo:</dt>\n");
+var loop = (__ctx.get(109)).docs.todos;
+__ctx.vars.repeat_i = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_i.next(__item);
+__ctx.set(105, __item);
+__out.add("					<dd>");
+__out.add(__ctx.get(105));
+__out.add("</dd>\n				");
+});
+__out.add("			");
+}
+__out.add("				<!-- authors -->\n");
+if (is_true((__ctx.get(109)).docs.authors.length != 0)){
+__out.add("					<dt>authors:</dt>\n");
+var loop = (__ctx.get(109)).docs.authors;
+__ctx.vars.repeat_i = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_i.next(__item);
+__ctx.set(105, __item);
+__out.add("					<dd>");
+__out.add(__ctx.get(105));
+__out.add("</dd>\n				");
+});
+__out.add("			");
+}
+__out.add("		");
+}
+__out.add("			<!-- platforms -->\n");
+if (is_true((__ctx.get(109)).platforms != null)){
+if (is_true((__ctx.get(109)).platforms.length != 0 && (__ctx.get(310553184) == null || __ctx.get(310553184).length > (__ctx.get(109)).platforms.length))){
+__out.add("\n					<dt>platforms:</dt>\n					<dd>");
+var loop = (__ctx.get(109)).platforms;
+__ctx.vars.repeat_p = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_p.next(__item);
+__ctx.set(112, __item);
+if (is_true(false == __ctx.vars.repeat_p.first)){
+__out.add(", ");
+}
+__out.add(html_escape(__ctx.get(112)));
+});
+__out.add("</dd>\n			");
+}
+__out.add("		");
+}
+__out.add("			</dl>\n	");
+}
+__out.add("		<!-- Comment block -->\n");
+if (is_true((__ctx.get(109)).docs != null && (__ctx.get(109)).docs.comments != null)){
+__out.add("		<div class=\"comment\">");
+__out.add((__ctx.get(109)).docs.comments);
+__out.add("</div>\n	");
+}
+__out.add("	</div>\n				</div>\n			</span>\n		");
+});
+__out.add("		</div>\n	</div>\n");
+}
+__out.add("	</div>\n<!-- ========= END OF class DATA ========= -->\n	");
+if (is_true(__ctx.get(-942516542).footerText != null)){
+__out.add("<div id=\"footer\">");
+__out.add(__ctx.get(-942516542).footerText);
+__out.add("</div>");
+}
+__out.add("\n</body>\n</html>\n");
+//--- END OF TEMPLATE CODE ---
+				return __out.str();
+			}
+
+			$exports.template = template;
+		

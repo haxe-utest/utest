@@ -1,0 +1,152 @@
+// generated from package.mtt
+// temploc v0.9.0
+
+			String = $loader.String;
+			Array = $loader.Array;
+			iter = $loader.iter;
+			buffer_new = $loader.loadprim("std@buffer_new", 0);
+			buffer_add = $loader.loadprim("std@buffer_add", 2);
+			buffer_string = $loader.loadprim("std@buffer_string", 1);
+			string_split = $loader.loadprim("std@string_split", 2);
+			replace = function( h, n, r ){
+				var l = string_split(h, n);
+				if (l[1] == null)
+					return h;
+				var res = buffer_new();
+				buffer_add(res, l[0]);
+				l = l[1];
+				while (l != null){
+					buffer_add(res, r);
+					buffer_add(res, l[0]);
+					l = l[1];
+				}
+				return buffer_string(res);
+			}
+			html_escape = function( data ){
+				var t = $typeof(data);
+				if (t == $tint)
+					return data;
+				if (t != $tstring)
+					data = $string(data);
+				if (data == "")
+					return data;
+				data = replace(data, "&", "&amp;");
+				data = replace(data, "<", "&lt;");
+				data = replace(data, ">", "&gt;");
+				data = replace(data, "\"", "&quot;");
+				return data;
+			}
+			is_true = function( data ){
+				if (data == "") return false;
+				return $istrue(data);
+			}
+			new_repeat = function( data ){
+				var result = $new(null);
+				result.data = data;
+				result.index = 0-1;
+				result.number = 0;
+				result.first = true;
+				result.last = false;
+				result.odd = true;
+				result.even = false;
+				if (data.get_length != null) result.size = data.get_length();
+				else if (data.length != null) result.size = data.length;
+				else if (data.size != null) result.size = data.size();
+				else result.size = null;
+				result.next = function(v){
+					this.current = v;
+					this.index = this.index + 1;
+					this.first = this.index == 0;
+					this.number = this.number + 1;
+					this.last = (this.number == this.size);
+					this.even = (this.number % 2) == 0;
+					this.odd = (this.even == false);
+				}
+				return result;
+			}
+			new_output_buffer = function( parent ){
+				var result = $new(null);
+				result.parent = parent;
+				result.buf = buffer_new();
+				result.add = function(str){ return buffer_add(this.buf, str); }
+				result.str = function(){ return buffer_string(this.buf); }
+				return result;
+			}
+			new_context = function( parent, vars ){
+				var result = $new(null);
+				result.parent = parent;
+				result.__isTemplateContext = true;
+				if (vars == null){
+					result.vars = $new(null);
+				}
+				else {
+					result.vars = vars;
+				}
+				result.get = function( field ){
+					if ($objfield(this.vars, field)) return $objget(this.vars, field);
+					if (this.parent == null) return null;
+					return this.parent.get(field);
+				}
+				result.set = function( field, v ){
+					$objset(this.vars, field, v);
+				}
+				return result;
+			}
+			template = function( macro, params ){
+				var __ctx = null;
+				if (params.__isTemplateContext) {
+					__ctx = new_context(params, null);
+				}
+				else {
+					__ctx = new_context(null, params);
+				}
+				var __glb = __ctx;
+				var __out = new_output_buffer(null);
+//--- HERE COMES THE TEMPLATE CODE ---
+__out.add("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/tr/html4/loose.dtd\">\n<html>\n	<head>\n		");
+__out.add(__ctx.get(988470062).comment);
+__out.add("\n		<title>Package ");
+__out.add(html_escape(__ctx.get(-922783157)));
+__out.add(" Type List</title>\n		<meta name=\"date\" content=\"");
+__out.add(html_escape(__ctx.get(-933672251).date));
+__out.add("\"/>\n");
+var loop = __ctx.get(-933672251).keywords;
+__ctx.vars.repeat_kw = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_kw.next(__item);
+__ctx.set(23980, __item);
+__out.add("		<meta name=\"keywords\" content=\"");
+__out.add(html_escape(__ctx.get(23980)));
+__out.add("\"/>\n");
+});
+__out.add("		<link href=\"");
+__out.add(html_escape(__ctx.get(-933672251).stylesheet));
+__out.add("\" type=\"text/css\" rel=\"stylesheet\"/>\n	</head>\n	<body>\n		<div class=\"onepackage\" id=\"types-frame\">\n			<h1>");
+__out.add(html_escape(__ctx.get(-1010505329)));
+__out.add("</h1>\n			<ul class=\"packages\">\n");
+var loop = __ctx.get(449540217);
+__ctx.vars.repeat_i = new_repeat(loop);
+iter(loop, function(__item){
+__ctx.vars.repeat_i.next(__item);
+__ctx.set(105, __item);
+__out.add("\n				<li class=\"");
+__out.add(html_escape(__ctx.get(105).type));
+__out.add("\"><a href=\"");
+__out.add(html_escape(__ctx.get(753096974)));
+__out.add("../types/");
+__out.add(html_escape(__ctx.get(105).subdir));
+__out.add(html_escape(__ctx.get(105).name));
+__out.add(html_escape(__ctx.get(-942516542).htmlFileExtension));
+__out.add("\" target=\"classFrame\" title=\"");
+__out.add(html_escape(__ctx.get(105).name));
+__out.add("\">");
+__out.add(html_escape(__ctx.get(105).name));
+__out.add("</a></li>\n");
+});
+__out.add("\n			</ul>\n		</div>\n	</body>\n</html>\n\n\n");
+//--- END OF TEMPLATE CODE ---
+				return __out.str();
+			}
+
+			$exports.template = template;
+		
