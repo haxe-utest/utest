@@ -1,12 +1,13 @@
 ﻿package tests.iterations;
 
+import utest.Runner;
 import utest.ui.text.TraceReport;
 
 class TestLang {
 	static function main() {
 		var runner = new Runner();
 		runner.addCase(new tests.lang.AnonymousObject());
-//		runner.addCase(new tests.lang.ArraySyntax());
+		runner.addCase(new tests.lang.ArraySyntax());
 		runner.addCase(new tests.lang.Bitwise());
 		runner.addCase(new tests.lang.Callback());
 		runner.addCase(new tests.lang.Casts());
@@ -20,7 +21,7 @@ class TestLang {
 		runner.addCase(new tests.lang.EnumSyntax());
 		runner.addCase(new tests.lang.EqualityOperators());
 // problem with doc
-//		runner.addCase(new tests.lang.Extensions());
+		runner.addCase(new tests.lang.Extensions());
 		runner.addCase(new tests.lang.ForAccess());
 		runner.addCase(new tests.lang.IfAccess());
 		runner.addCase(new tests.lang.InterfaceAccess());
@@ -36,7 +37,7 @@ class TestLang {
 		runner.addCase(new tests.lang.SwitchCaseAccess());
 		runner.addCase(new tests.lang.TryCatch());
 // problem with doc
-//		runner.addCase(new tests.lang.TypedefAccess());
+		runner.addCase(new tests.lang.TypedefAccess());
 		runner.addCase(new tests.lang.UnusualConstructs());
 		runner.addCase(new tests.lang.WhileAccess());
 		var report = new TraceReport(runner);
