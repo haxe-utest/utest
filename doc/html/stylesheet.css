@@ -65,7 +65,7 @@ a, a:active, a:visited {
 }
 
 ul.types, ul.packages, #packages-header ul{
-	margin: 5px;
+	margin: 5px 5px 10px 5px;
 }
 
 #types-frame h1, #packages-frame h1 {
@@ -152,6 +152,7 @@ dt {
 	border-bottom: 1px solid #dddddd;
 	background-color: #f0f0f0;
 	padding: 2px 2px 2px 4px;
+	line-height: 1.2em;
 }
 
 dd {
@@ -163,6 +164,7 @@ dd {
 	border-bottom: 1px solid #dddddd;
 	font-size: 85%;
 	background-color: #f9f9f9;
+	line-height: 1.2em;
 }
 
 pre {
@@ -236,7 +238,7 @@ div.inherited, div.overrides {
 }
 
 .deprecated {
-	color: #FF0000;
+	color: #CC0000;
 }
 
 .keyword {

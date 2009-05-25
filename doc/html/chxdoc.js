@@ -55,4 +55,10 @@ function getCookie(name) {
 	return "";
 }
 
+function isIE() {
+	if(navigator.appName.indexOf("Microsoft") != -1)
+		return true;
+	return false;
+}
+
 initShowInherited();
