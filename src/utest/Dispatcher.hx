@@ -4,6 +4,9 @@ private enum EventException {
 	StopPropagation;
 }
 
+/**
+* @todo add documentation
+*/
 class Dispatcher<T> {
 
 	private var handlers : Array<T -> Void>;

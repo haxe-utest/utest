@@ -1,0 +1,63 @@
+# Neko
+-neko _
+-cp src
+-xml doc/doc.neko.xml
+--no-output
+utest.Assert
+utest.Runner
+utest.ui.text.TraceReport
+--next
+# PHP
+-php _
+-cp src
+-xml doc/doc.php.xml
+--no-output
+utest.Assert
+utest.Runner
+utest.ui.text.TraceReport
+--next
+# F9
+-swf9 _
+-cp src
+-xml doc/doc.f9.xml
+--no-output
+utest.Assert
+utest.Runner
+utest.ui.text.TraceReport
+--next
+# Other Flash
+-swf _
+-cp src
+-swf-version 8
+-xml doc/doc.f8.xml
+--no-output
+utest.Assert
+utest.Runner
+utest.ui.text.TraceReport
+--next
+-swf _
+-swf-version 7
+-cp src
+-xml doc/doc.f7.xml
+--no-output
+utest.Assert
+utest.Runner
+utest.ui.text.TraceReport
+--next
+-swf _
+-swf-version 6
+-cp src
+-xml doc/doc.f6.xml
+--no-output
+utest.Assert
+utest.Runner
+utest.ui.text.TraceReport
+--next
+# JS
+-js _
+-cp src
+-xml doc/doc.js.xml
+--no-output
+utest.Assert
+utest.Runner
+utest.ui.text.TraceReport

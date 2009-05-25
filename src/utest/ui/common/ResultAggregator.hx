@@ -1,12 +1,13 @@
-/*
-* TODO: this class needs to be tested
-*/
 package utest.ui.common;
 
 import utest.Dispatcher;
 import utest.Runner;
 import utest.TestResult;
 
+/**
+* @todo add documentation
+* @todo add tests for this class
+*/
 class ResultAggregator {
 	var runner : Runner;
 	var flattenPackage : Bool;

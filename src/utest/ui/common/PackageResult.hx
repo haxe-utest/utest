@@ -1,11 +1,12 @@
-/*
-* TODO: this class needs to be tested
-*/
 package utest.ui.common;
 
 import utest.TestResult;
 import utest.Assertation;
 
+/**
+* @todo add documentation
+* @todo add tests for this class
+*/
 class PackageResult {
 	public var packageName(default, null) : String;
 	var classes : Hash<ClassResult>;
@@ -77,6 +78,7 @@ class PackageResult {
 	}
 
 	public function getPackage(name : String) {
+		if (packageName == null && name == "") return this;
 		return packages.get(name);
 	}
 
@@ -119,6 +121,7 @@ class PackageResult {
 
 	public function packageNames(errorsHavePriority = true) : Array<String> {
 		var names = [];
+		if (packageName == null) names.push("");
 		for(name in packages.keys())
 			names.push(name);
 		if(errorsHavePriority) {

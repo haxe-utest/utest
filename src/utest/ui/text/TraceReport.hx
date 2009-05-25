@@ -7,7 +7,9 @@ import utest.TestResult;
 import utest.ui.common.ResultAggregator;
 import utest.ui.common.PackageResult;
 
-
+/**
+* @todo add documentation
+*/
 class TraceReport {
 	var aggregator : ResultAggregator;
 	var newline : String;
@@ -64,18 +66,17 @@ class TraceReport {
 		buf.add("errors: "         + result.stats.errors+newline);
 		buf.add("failures: "       + result.stats.failures+newline);
 		buf.add("warnings: "       + result.stats.warnings+newline);
-		buf.add("classes: "        + result.classNames(false).length+newline);
 		buf.add("execution time: " + time+newline);
 #if php
 		buf.add("script time: "    + scripttime+newline);
 #end
 		buf.add(newline);
-
+		
 		for(pname in result.packageNames()) {
 			var pack = result.getPackage(pname);
 			for(cname in pack.classNames()) {
 				var cls = pack.getClass(cname);
-				buf.add(pname+"."+cname+newline);
+				buf.add((pname == '' ? '' : pname+".")+cname+newline);
 				for(mname in cls.methodNames()) {
 					var fix = cls.get(mname);
 					buf.add(indents(1)+mname+": ");

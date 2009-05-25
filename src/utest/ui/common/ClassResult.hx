@@ -2,6 +2,9 @@ package utest.ui.common;
 
 import utest.TestResult;
 
+/**
+* @todo add documentation
+*/
 class ClassResult {
 	var fixtures : Hash<FixtureResult>;
 	public var className(default, null) : String;

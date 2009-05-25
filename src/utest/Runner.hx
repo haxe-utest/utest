@@ -7,6 +7,7 @@ import utest.Dispatcher;
 * Once all the tests are register they are axecuted on the run() call.
 * Note that Runner does not provide any visual output. To visualize the test results use one of
 * the classes in the utest.ui package.
+* @todo complete documentation
 */
 class Runner {
 	var fixtures(default, null) : Array<TestFixture<Dynamic>>;

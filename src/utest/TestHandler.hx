@@ -2,6 +2,9 @@ package utest;
 
 import utest.Assertation;
 
+/**
+* @todo add documentation
+*/
 class TestHandler<T> {
 	private static inline var POLLING_TIME = 10;
 	public var results(default, null) : List<Assertation>;
@@ -83,7 +86,7 @@ class TestHandler<T> {
 	*   flag = true;
 	* }, 50);
 	* handler.onTimeout.add(function(h) {
-	*  trace("TIMEOUT");
+	*   trace("TIMEOUT");
 	* });
 	* handler.onTested.add(function(h) {
 	*   trace(flag ? "OK" : "FAILED");
