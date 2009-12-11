@@ -1,6 +1,7 @@
 package utest;
 
 import haxe.PosInfos;
+import haxe.Stack;
 
 /**
 * Enumerates the states available as a result of
@@ -25,29 +26,29 @@ enum Assertation {
 	* futher assertion to be tested.
 	* @param e: The captured error/exception
 	*/
-	Error(e : Dynamic);
+	Error(e : Dynamic, stack : Array<StackItem>);
 	/**
-	* An error has occurred during the Setup phase of the test. It prevents 
+	* An error has occurred during the Setup phase of the test. It prevents
 	* the test to be run.
 	* @param e: The captured error/exception
 	*/
-	SetupError(e : Dynamic);
+	SetupError(e : Dynamic, stack : Array<StackItem>);
 	/**
 	* An error has occurred during the Teardown phase of the test.
 	* @param e: The captured error/exception
 	*/
-	TeardownError(e : Dynamic);
+	TeardownError(e : Dynamic, stack : Array<StackItem>);
 	/**
 	* The asynchronous phase of a test has gone into timeout.
 	* @param missedAsyncs: The number of asynchronous calls that was expected
 	* to be performed before the timeout.
 	*/
-	TimeoutError(missedAsyncs : Int);
+	TimeoutError(missedAsyncs : Int, stack : Array<StackItem>);
 	/**
 	* An error has occurred during an asynchronous test.
 	* @param e: The captured error/exception
 	*/
-	AsyncError(e : Dynamic);
+	AsyncError(e : Dynamic, stack : Array<StackItem>);
 	/**
 	* A warning state. This can be declared explicitely by an Assert call
 	* or can denote a test method that contains no assertions at all.

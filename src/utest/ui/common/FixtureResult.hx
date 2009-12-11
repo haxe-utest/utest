@@ -39,18 +39,18 @@ class FixtureResult {
 				stats.addSuccesses(1);
 			case Failure(_, _):
 				stats.addFailures(1);
-			case Error(_):
+			case Error(_, _):
 				stats.addErrors(1);
-			case SetupError(_):
+			case SetupError(_, _):
 				stats.addErrors(1);
 				hasSetupError = true;
-			case TeardownError(_):
+			case TeardownError(_, _):
 				stats.addErrors(1);
 				hasTeardownError = true;
-			case TimeoutError(_):
+			case TimeoutError(_, _):
 				stats.addErrors(1);
 				hasTimeoutError = true;
-			case AsyncError(_):
+			case AsyncError(_, _):
 				stats.addErrors(1);
 				hasAsyncError = true;
 			case Warning(_):

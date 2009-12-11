@@ -28,37 +28,6 @@ class PackageResult {
 		cls.add(fix);
 	}
 
-	function createFixture(method : String, assertations : Iterable<Assertation>) {
-		var f = new FixtureResult(method);
-		for(assertation in assertations)
-			f.add(assertation);
-		return f;
-	}
-
-	function getOrCreateClass(pack : PackageResult, cls : String, setup : String, teardown : String) {
-		if(pack.existsClass(cls)) return pack.getClass(cls);
-		var c = new ClassResult(cls, setup, teardown);
-		pack.addClass(c);
-		return c;
-	}
-
-	function getOrCreatePackage(pack : String, flat : Bool, ref : PackageResult) {
-		if(pack == null || pack == '') return ref;
-		if(flat) {
-			if(ref.existsPackage(pack))
-				return ref.getPackage(pack);
-			var p = new PackageResult(pack);
-			ref.addPackage(p);
-			return p;
-		} else {
-			var parts = pack.split('.');
-			for(part in parts) {
-				ref = getOrCreatePackage(part, true, ref);
-			}
-			return ref;
-		}
-	}
-
 	public function addClass(result : ClassResult) {
 		classes.set(result.className, result);
 		stats.wire(result.stats);
@@ -151,5 +120,36 @@ class PackageResult {
 			});
 		}
 		return names;
+	}
+	
+	function createFixture(method : String, assertations : Iterable<Assertation>) {
+		var f = new FixtureResult(method);
+		for(assertation in assertations)
+			f.add(assertation);
+		return f;
+	}
+
+	function getOrCreateClass(pack : PackageResult, cls : String, setup : String, teardown : String) {
+		if(pack.existsClass(cls)) return pack.getClass(cls);
+		var c = new ClassResult(cls, setup, teardown);
+		pack.addClass(c);
+		return c;
+	}
+
+	function getOrCreatePackage(pack : String, flat : Bool, ref : PackageResult) {
+		if(pack == null || pack == '') return ref;
+		if(flat) {
+			if(ref.existsPackage(pack))
+				return ref.getPackage(pack);
+			var p = new PackageResult(pack);
+			ref.addPackage(p);
+			return p;
+		} else {
+			var parts = pack.split('.');
+			for(part in parts) {
+				ref = getOrCreatePackage(part, true, ref);
+			}
+			return ref;
+		}
 	}
 }

@@ -30,13 +30,24 @@ class TestHandler<T> {
 			executeMethod(fixture.setup);
 			try {
 				executeMethod(fixture.method);
-			} catch(e : Dynamic) {
-				results.add(Error(e));
+			} catch (e : Dynamic) {
+				
+				results.add(Error(e, exceptionStack()));
 			}
 		} catch(e : Dynamic) {
-			results.add(SetupError(e));
+			results.add(SetupError(e, exceptionStack()));
 		}
 		checkTested();
+	}
+	
+	static function exceptionStack(pops = 2)
+	{
+		var stack = haxe.Stack.exceptionStack();
+		while (pops-- > 0)
+		{
+			stack.pop();
+		}
+		return stack;
 	}
 
 	function checkTested() {
@@ -104,14 +115,14 @@ class TestHandler<T> {
 		setTimeout(timeout);
 		return function() {
 			if(!handler.asyncStack.remove(f)) {
-				handler.results.add(AsyncError("method already executed"));
+				handler.results.add(AsyncError("method already executed", []));
 				return;
 			}
 			try {
 				handler.bindHandler();
 				f();
 			} catch(e : Dynamic) {
-				handler.results.add(AsyncError(e));
+				handler.results.add(AsyncError(e, exceptionStack(0))); // TODO check the correct number of functions is popped from the stack
 			}
 		};
 	}
@@ -122,14 +133,14 @@ class TestHandler<T> {
 		setTimeout(timeout);
 		return function(e : EventArg) {
 			if(!handler.asyncStack.remove(f)) {
-				handler.results.add(AsyncError("event already executed"));
+				handler.results.add(AsyncError("event already executed", []));
 				return;
 			}
 			try {
 				handler.bindHandler();
 				f(e);
 			} catch(e : Dynamic) {
-				handler.results.add(AsyncError(e));
+				handler.results.add(AsyncError(e, exceptionStack(0))); // TODO check the correct number of functions is popped from the stack
 			}
 		};
 	}
@@ -148,7 +159,7 @@ class TestHandler<T> {
 	}
 
 	function timeout() {
-		results.add(TimeoutError(asyncStack.length));
+		results.add(TimeoutError(asyncStack.length, []));
 		onTimeout.dispatch(this);
 		completed();
 	}
@@ -157,7 +168,7 @@ class TestHandler<T> {
 		try {
 			executeMethod(fixture.teardown);
 		} catch(e : Dynamic) {
-			results.add(TeardownError(e));
+			results.add(TeardownError(e, exceptionStack(2))); // TODO check the correct number of functions is popped from the stack
 		}
 		unbindHandler();
 		onComplete.dispatch(this);

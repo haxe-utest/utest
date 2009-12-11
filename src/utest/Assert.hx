@@ -52,7 +52,7 @@ class Assert {
 	* unless you know what you are doing.
 	*/
 	public static function isNull(value : Dynamic, ?msg : String, ?pos : PosInfos) {
-		if(msg == null) msg = "expected null but was " + Std.string(value);
+		if(msg == null) msg = "expected null but was " + q(value);
 		isTrue(value == null, msg, pos);
 	}
 	/**
@@ -74,7 +74,7 @@ class Assert {
 	* unless you know what you are doing.
 	*/
 	public static function is(value : Dynamic, type : Dynamic, ?msg : String , ?pos : PosInfos) {
-		if(msg == null) msg = "expected type " + Std.string(type) + " but was " + Type.typeof(value);
+		if(msg == null) msg = "expected type " + type + " but was " + Type.typeof(value);
 		isTrue(Std.is(value, type), msg, pos);
 	}
 	/**
@@ -89,7 +89,7 @@ class Assert {
 	* unless you know what you are doing.
 	*/
 	public static function equals(expected : Dynamic, value : Dynamic, ?msg : String , ?pos : PosInfos) {
-		if(msg == null) msg = "expected " + expected + " but was " + value;
+		if(msg == null) msg = "expected " + q(expected) + " but was " + q(value);
 		isTrue(expected == value, msg, pos);
 	}
 
@@ -146,14 +146,14 @@ class Assert {
 		var isanonym = texpected == '{}';
 
 		if(texpected != tvalue) {
-			status.error = "expected type "+texpected+" but it is " + tvalue + (status.path == '' ? '' : ' at '+status.path);
+			status.error = "expected type " + texpected + " but it is " + tvalue + (status.path == '' ? '' : ' at ' + status.path);
 			return false;
 		}
 
 		// null
 		if(expected == null) {
 			if(value != null) {
-				status.error = "expected null but it is " + value + (status.path == '' ? '' : ' at '+status.path);
+				status.error = "expected null but it is " + q(value) + (status.path == '' ? '' : ' at '+status.path);
 				return false;
 			}
 			return true;
@@ -162,7 +162,7 @@ class Assert {
 		// bool, int, float, string
 		if(Std.is(expected, Bool) || Std.is(expected, Int) || Std.is(expected, Float) || Std.is(expected, String)) {
 			if(expected != value) {
-				status.error = "expected "+expected+" but it is " + value + (status.path == '' ? '' : ' at '+status.path);
+				status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' at '+status.path);
 				return false;
 			}
 			return true;
@@ -171,7 +171,7 @@ class Assert {
 		// date
 		if(Std.is(expected, Date)) {
 			if(expected.getTime() != value.getTime()) {
-				status.error = "expected "+expected+" but it is " + value + (status.path == '' ? '' : ' at '+status.path);
+				status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' at '+status.path);
 				return false;
 			}
 			return true;
@@ -180,10 +180,8 @@ class Assert {
 		// enums
 		if(Type.getEnum(expected) != null) {
 			if(status.recursive || status.path == '') {
-				var ename = Type.enumIndex(expected);
-				var vname = Type.enumIndex(value);
-				if(ename != vname) {
-					status.error = "expected "+ename+" constructor but is "+vname + (status.path == '' ? '' : ' at '+status.path);
+				if(Type.enumIndex(expected) != Type.enumIndex(value)) {
+					status.error = 'expected ' + q(Type.enumConstructor(expected)) + ' but is ' + q(Type.enumConstructor(value)) + (status.path == '' ? '' : ' at '+status.path);
 					return false;
 				}
 				var eparams = Type.enumParameters(expected);
@@ -288,7 +286,7 @@ class Assert {
 				for(field in fields) {
 					status.path = path == '' ? field : path+'.'+field;
 					if(texpected == "{}" && !Reflect.hasField(value, field)) {
-						status.error = "expected field "+status.path+" does not exist in " + value;
+						status.error = "expected field " + status.path + " does not exist in " + value;
 						return false;
 					}
 					var e = Reflect.field(expected, field);
@@ -301,7 +299,17 @@ class Assert {
 			return true;
 		}
 
-		return throw "Unable to compare values: " +expected+" and " + value;
+		return throw "Unable to compare values: " + q(expected) + " and " + q(value);
+	}
+	
+	static function q(v : Dynamic)
+	{
+		if (Std.is(v, String))
+			return '"' + StringTools.replace(v, '"', '\\"') + '"';
+		else if (v == null)
+			return "{null}";
+		else
+			return "" + v;
 	}
 
 	/**
@@ -367,7 +375,7 @@ class Assert {
 		if(Lambda.has(possibilities, value)) {
 			isTrue(true, msg, pos);
 		} else {
-			fail(msg == null ? "value "+value+" not found in the expected possibilities "+possibilities : msg, pos);
+			fail(msg == null ? "value " + q(value) + " not found in the expected possibilities " + possibilities : msg, pos);
 		}
 	}
 	/**
@@ -382,9 +390,41 @@ class Assert {
 		if(Lambda.has(values, match)) {
 			isTrue(true, msg, pos);
 		} else {
-			fail(msg == null ? "values "+values+" do not contain "+match: msg, pos);
+			fail(msg == null ? "values " + values + " do not contain "+match: msg, pos);
 		}
 	}
+	
+	/**
+	* Checks that the test array does not contain the match parameter.
+	* @param match: The element that must NOT be included in the tested array
+	* @param values: The values to test
+	* @param msg: An optional error message. If not passed a default one will be used
+	* @param pos: Code position where the Assert call has been executed. Don't fill it
+	* unless you know what you are doing.
+	*/
+	public static function notContains<T>(match : T, values : Array<T>, ?msg : String , ?pos : PosInfos) {
+		if(!Lambda.has(values, match)) {
+			isTrue(true, msg, pos);
+		} else {
+			fail(msg == null ? "values " + values + " do contain "+match: msg, pos);
+		}
+	}
+	
+	/**
+	 * Checks that the expected values is contained in value.
+	 * @param match: the string value that must be contained in value
+	 * @param value: the value to test
+	 * @param msg: An optional error message. If not passed a default one will be used
+	* @param pos: Code position where the Assert call has been executed. Don't fill it
+	 */
+	public static function stringContains(match : String, value : String, ?msg : String , ?pos : PosInfos) {
+		if (value != null && value.indexOf(match) >= 0) {
+			isTrue(true, msg, pos);
+		} else {
+			fail(msg == null ? "value " + q(value) + " does not contain " + q(match) : msg, pos);
+		}
+	}
+	
 	/**
 	* Forces a failure.
 	* @param msg: An optional error message. If not passed a default one will be used
