@@ -1,4 +1,4 @@
-package tests.iterations;
+package iterations;
 
 class TestCaseClass {
 	public function new();

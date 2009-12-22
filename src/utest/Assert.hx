@@ -1,5 +1,6 @@
 package utest;
 
+import haxe.io.Bytes;
 import utest.Assertation;
 import haxe.PosInfos;
 
@@ -27,7 +28,7 @@ class Assert {
 	* @param pos: Code position where the Assert call has been executed. Don't fill it
 	* unless you know what you are doing.
 	*/
-	public static function isTrue(cond : Bool, msg = "true expected", ?pos : PosInfos) {
+	public static function isTrue(cond : Bool, msg = "expected true", ?pos : PosInfos) {
 		if(results == null) throw "Assert.results is not currently bound to any assert context";
 		if(cond)
 			results.add(Success(pos));
@@ -41,7 +42,7 @@ class Assert {
 	* @param pos: Code position where the Assert call has been executed. Don't fill it
 	* unless you know what you are doing.
 	*/
-	public static function isFalse(value : Bool, msg = "expected false but was true", ?pos : PosInfos) {
+	public static function isFalse(value : Bool, msg = "expected false", ?pos : PosInfos) {
 		isTrue(value == false, msg, pos);
 	}
 	/**
@@ -62,7 +63,7 @@ class Assert {
 	* @param pos: Code position where the Assert call has been executed. Don't fill it
 	* unless you know what you are doing.
 	*/
-	public static function notNull(value : Dynamic, msg = "expected not null but was null", ?pos : PosInfos) {
+	public static function notNull(value : Dynamic, msg = "expected not null", ?pos : PosInfos) {
 		isTrue(value != null, msg, pos);
 	}
 	/**
@@ -74,9 +75,26 @@ class Assert {
 	* unless you know what you are doing.
 	*/
 	public static function is(value : Dynamic, type : Dynamic, ?msg : String , ?pos : PosInfos) {
-		if(msg == null) msg = "expected type " + type + " but was " + Type.typeof(value);
+		if (msg == null) msg = "expected type " + typeToString(type) + " but was " + typeToString(value);
 		isTrue(Std.is(value, type), msg, pos);
 	}
+	
+	/**
+	* Asserts successfully when the value parameter is not the same as the expected one.
+	* <pre>
+	* Assert.notEquals(10, age);
+	* </pre>
+	* @param expected: The expected value to check against
+	* @param value: The value to test
+	* @param msg: An optional error message. If not passed a default one will be used
+	* @param pos: Code position where the Assert call has been executed. Don't fill it
+	* unless you know what you are doing.
+	*/
+	public static function notEquals(expected : Dynamic, value : Dynamic, ?msg : String , ?pos : PosInfos) {
+		if(msg == null) msg = "expected " + q(expected) + " and testa value " + q(value) + " should be different";
+		isFalse(expected == value, msg, pos);
+	}
+	
 	/**
 	* Asserts successfully when the value parameter is equal to the expected one.
 	* <pre>
@@ -91,6 +109,22 @@ class Assert {
 	public static function equals(expected : Dynamic, value : Dynamic, ?msg : String , ?pos : PosInfos) {
 		if(msg == null) msg = "expected " + q(expected) + " but was " + q(value);
 		isTrue(expected == value, msg, pos);
+	}
+	
+	/**
+	* Asserts successfully when the value parameter does match against the passed EReg instance.
+	* <pre>
+	* Assert.match(~/x/i, "haXe");
+	* </pre>
+	* @param pattern: The pattern to match against
+	* @param value: The value to test
+	* @param msg: An optional error message. If not passed a default one will be used
+	* @param pos: Code position where the Assert call has been executed. Don't fill it
+	* unless you know what you are doing.
+	*/
+	public static function match(pattern : EReg, value : Dynamic, ?msg : String , ?pos : PosInfos) {
+		if(msg == null) msg = "the value " + q(value) + "does not match the provided pattern";
+		isTrue(pattern.match(value), msg, pos);
 	}
 
 	/**
@@ -112,20 +146,22 @@ class Assert {
 	}
 
 	static function getTypeName(v : Dynamic) {
-		try {
-			if(v == null) return null;
-			if(Std.is(v, Bool)) return "Bool";
-			if(Std.is(v, Int)) return "Int";
-			if(Std.is(v, Float)) return "Float";
-			if(Std.is(v, String)) return "String";
-			var s = Type.getClassName(Type.getClass(v));
-			if(s != null) return s;
-			if(Reflect.isObject(v)) return "{}";
-			return Type.getEnumName(Type.getEnum(v));
-		} catch(e : Dynamic) {
-			trace("ERROR: "+v + " (" + Type.typeof(v) + ")");
-			return null;
-		}
+		if(v == null) return null;
+		if(Std.is(v, Bool)) return "Bool";
+		if(Std.is(v, Int)) return "Int";
+		if(Std.is(v, Float)) return "Float";
+		if (Std.is(v, String)) return "String";
+			
+		var s = null;
+		try s = Type.getClassName(Type.getClass(v)) catch (e:Dynamic) { }
+		if (s != null) return s;
+		if (Reflect.isObject(v)) return "{}";
+		
+		try s = Type.getEnumName(Type.getEnum(v)) catch (e:Dynamic){}
+		if (s != null) return s;
+		
+		try s = Std.string(Type.typeof(v)) catch (e:Dynamic) { }
+		return s;
 	}
 
 	static function isIterable(v : Dynamic, isAnonym : Bool) {
@@ -189,8 +225,10 @@ class Assert {
 				var path = status.path;
 				for(i in 0...eparams.length) {
 					status.path = path == '' ? 'enum['+i+']' : path + '['+i+']';
-					if(!sameAs(eparams[i], vparams[i], status))
+					if (!sameAs(eparams[i], vparams[i], status)) {
+						status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' at '+status.path);
 						return false;
+					}
 				}
 			}
 			return true;
@@ -206,9 +244,28 @@ class Assert {
 				var path = status.path;
 				for(i in 0...expected.length) {
 					status.path = path == '' ? 'array['+i+']' : path + '['+i+']';
-					if(!sameAs(expected[i], value[i], status))
+					if (!sameAs(expected[i], value[i], status))
+					{
+						status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' at '+status.path);
 						return false;
+					}
 				}
+			}
+			return true;
+		}
+		
+		// bytes
+		if(Std.is(expected, Bytes)) {
+			if(status.recursive || status.path == '') {
+				var ebytes : Bytes = expected;
+				var vbytes : Bytes = value;
+				if (ebytes.length != vbytes.length) return false;
+				for (i in 0...ebytes.length)
+					if (ebytes.get(i) != vbytes.get(i))
+					{
+						status.error = "expected byte " + ebytes.get(i) + " but wss " + ebytes.get(i) + (status.path == '' ? '' : ' at '+status.path);
+						return false;
+					}
 			}
 			return true;
 		}
@@ -225,8 +282,11 @@ class Assert {
 				var path = status.path;
 				for(key in keys) {
 					status.path = path == '' ? 'hash['+key+']' : path + '['+key+']';
-					if(!sameAs(expected.get(key), value.get(key), status))
+					if (!sameAs(expected.get(key), value.get(key), status))
+					{
+						status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' at '+status.path);
 						return false;
+					}
 				}
 			}
 			return true;
@@ -248,8 +308,11 @@ class Assert {
 				var path = status.path;
 				for(i in 0...evalues.length) {
 					status.path = path == '' ? 'iterator['+i+']' : path + '['+i+']';
-					if(!sameAs(evalues[i], vvalues[i], status))
+					if (!sameAs(evalues[i], vvalues[i], status))
+					{
+						status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' at '+status.path);
 						return false;
+					}
 				}
 			}
 			return true;
@@ -326,7 +389,9 @@ class Assert {
 	* @param pos: Code position where the Assert call has been executed. Don't fill it
 	* unless you know what you are doing.
 	*/
-	public static function same(expected : Dynamic, value : Dynamic, recursive : Null<Bool> = true, ?msg : String, ?pos : PosInfos) {
+	public static function same(expected : Dynamic, value : Dynamic, ?recursive : Bool, ?msg : String, ?pos : PosInfos) {
+		if (null == recursive)
+			recursive = true;
 		var status = { recursive : recursive, path : '', error : null };
 		if(sameAs(expected, value, status)) {
 			Assert.isTrue(true, msg, pos);
@@ -425,6 +490,35 @@ class Assert {
 		}
 	}
 	
+	public static function stringSequence(sequence : Array<String>, value : String, ?msg : String , ?pos : PosInfos) {
+		if (null == value)
+		{
+			fail(msg == null ? "null argument value" : msg);
+			return;
+		}
+		var p = 0;
+		for (s in sequence)
+		{
+			var pos = value.indexOf(s, p);
+			if (pos < 0)
+			{
+				if (msg == null)
+				{
+					msg = "expected '" + s + "' after ";
+					var cut = value.substr(Std.int(Math.max(0, value.length - 20)));
+					if (p > 0)
+						msg += " '" + (cut.length != value.length ? '...' : '') + cut + "'" ;
+					else
+						msg += " begin";
+				}
+				fail(msg);
+				return;
+			}
+			p = pos + s.length;
+		}
+		isTrue(true, msg, pos);
+	}
+	
 	/**
 	* Forces a failure.
 	* @param msg: An optional error message. If not passed a default one will be used
@@ -468,6 +562,15 @@ class Assert {
 	*/
 	public static dynamic function createEvent<EventArg>(f : EventArg->Void, ?timeout : Int) {
 		return function(e){};
+	}
+	
+	static function typeToString(t : Dynamic)
+	{
+		try return Type.getClassName(t) catch(e : Dynamic) {}
+		try return Type.getEnumName(t) catch(e : Dynamic) {}
+		try return Std.string(Type.typeof(t)) catch (e : Dynamic) { }
+		try return Std.string(t) catch (e : Dynamic) { }
+		return '<unable to retrieve type name>';
 	}
 }
 

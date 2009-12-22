@@ -1,4 +1,4 @@
-package tests.utest;
+package utest;
 
 import utest.Assert;
 import utest.Dispatcher;

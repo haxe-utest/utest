@@ -1,4 +1,4 @@
-package tests.iterations;
+package iterations;
 
 import utest.Assert;
 

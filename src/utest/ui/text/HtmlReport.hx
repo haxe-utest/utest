@@ -2,6 +2,10 @@
 
 import haxe.PosInfos;
 import haxe.Timer;
+import utest.ui.common.ClassResult;
+import utest.ui.common.FixtureResult;
+import utest.ui.common.IReport;
+import utest.ui.common.HeaderDisplayMode;
 
 import utest.Runner;
 import utest.TestResult;
@@ -10,26 +14,32 @@ import utest.ui.common.PackageResult;
 import utest.ui.common.ResultStats;
 import haxe.Stack;
 
+using utest.ui.common.ReportTools;
+
 /**
 * @todo add documentation
 */
-class HtmlReport {
+class HtmlReport implements IReport {
 	public var traceRedirected(default, null) : Bool;
+	public var displaySuccessResults : SuccessResultsDisplayMode;
+	public var displayHeader : HeaderDisplayMode;
 	
 	var aggregator : ResultAggregator;
-	var outpudtandler : String -> Void;
+	var outputhandler : String -> Void;
 	var returnFullPage : Bool;
 	var oldTrace : Dynamic;
 	var _traces : Array<{ msg : String, infos : PosInfos, time : Float, delta : Float, stack : Array<StackItem> }>;
 	
-	public function new(runner : Runner, outpudtandler : String -> Void, returnFullPage = false, traceRedirected = true) {
+	public function new(runner : Runner, outputhandler : String -> Void, returnFullPage = false, traceRedirected = true) {
 		aggregator = new ResultAggregator(runner, true);
 		runner.onStart.add(start);
 		aggregator.onComplete.add(complete);
-		this.outpudtandler = outpudtandler;
+		this.outputhandler = outputhandler;
 		this.returnFullPage = returnFullPage;
 		if (traceRedirected)
 			redirectTrace();
+		displaySuccessResults = AlwaysShowSuccessResults;
+		displayHeader = AlwaysShowHeader;
 	}
 	
 	public function redirectTrace()
@@ -80,8 +90,13 @@ class HtmlReport {
 			return 'ok';
 	}
 	
-	function addTitle(buf : StringBuf, stats : ResultStats, time : Float)
+	function addTitle(buf : StringBuf, stats : ResultStats)
 	{
+		if (!this.hasHeader(stats))
+			return;
+
+		var end = haxe.Timer.stamp();
+		var time = Std.int((end-startTime)*1000)/1000;
 		var msg = 'TESTS ARE OK';
 		if (stats.hasErrors)
 			msg = 'TESTS HAVE ERRORS';
@@ -94,9 +109,7 @@ class HtmlReport {
 		var platform = #if neko 'neko' #elseif php 'php' #else 'unknown' #end;
 		buf.add('<div class="headerinfo">');
 		
-//		buf.add(' ');
 		resultNumbers(buf, stats);
-//		buf.add('');
 		buf.add(' performed on <strong>' + platform + '</strong>, executed in <strong> ' + time + ' sec. </strong></div >\n ');
 	}
 	
@@ -163,74 +176,84 @@ class HtmlReport {
 		return "<div>" + s + "</div>"+nl;
 	}
 	
-	function addPackage(buf : StringBuf, result : PackageResult)
+	function addFixture(buf : StringBuf, result : FixtureResult, name : String, isOk : Bool)
 	{
-		buf.add('<ul>\n');
-		for (pname in result.packageNames(false))
+		if (this.skipResult(result.stats, isOk)) return;
+		buf.add('<li class="fixture"><div class="li">');
+		buf.add('<span class="' + cls(result.stats) + 'bg fixtureresult">');
+		if(result.stats.isOk) {
+			buf.add("OK ");
+		} else if(result.stats.hasErrors) {
+			buf.add("ERROR ");
+		} else if(result.stats.hasFailures) {
+			buf.add("FAILURE ");
+		} else if(result.stats.hasWarnings) {
+			buf.add("WARNING ");
+		}
+		buf.add('</span>');
+		buf.add('<div class="fixturedetails">');
+		buf.add('<strong>' + name + '</strong>');
+		buf.add(': ');
+		resultNumbers(buf, result.stats);
+		var messages = [];
+		for(assertation in result.iterator()) {
+			switch(assertation) {
+				case Success(pos):
+				case Failure(msg, pos):
+					messages.push("<strong>line " + pos.lineNumber + "</strong>: <em>" + msg + "</em>");
+				case Error(e, s):
+					messages.push("<strong>error</strong>: <em>" + Std.string(e) + "</em>\n" + formatStack(s));
+				case SetupError(e, s):
+					messages.push("<strong>setup error</strong>: " + Std.string(e) + "\n" + formatStack(s));
+				case TeardownError(e, s):
+					messages.push("<strong>tear-down error</strong>: " + Std.string(e) + "\n" + formatStack(s));
+				case TimeoutError(missedAsyncs, s):
+					messages.push("<strong>missed async call(s)</strong>: " + missedAsyncs);
+				case AsyncError(e, s):
+					messages.push("<strong>async error</strong>: " + Std.string(e) + "\n" + formatStack(s));
+				case Warning(msg):
+					messages.push( msg);
+			}
+		}
+		if (messages.length > 0)
 		{
-			var pack = result.getPackage(pname);
-			if (pname == '' && pack.classNames().length == 0) continue;
+			buf.add('<div class="testoutput">');
+			buf.add(messages.join('<br/>'));
+			buf.add('</div>\n');
+		}
+		buf.add('</div>\n');
+		buf.add('</div></li>\n');
+	}
+	
+	function addClass(buf : StringBuf, result : ClassResult, name : String, isOk : Bool)
+	{
+		if (this.skipResult(result.stats, isOk)) return;
+		buf.add('<li>');
+		buf.add('<h2 class="classname">' + name + '</h2>');
+		blockNumbers(buf, result.stats);
+		buf.add('<ul>\n');
+		for (mname in result.methodNames()) {
+			addFixture(buf, result.get(mname), mname, isOk);
+		}
+		buf.add('</ul>\n');
+		buf.add('</li>\n');
+	}
+	
+	function addPackage(buf : StringBuf, result : PackageResult, isOk : Bool)
+	{
+		if (this.skipResult(result.stats, isOk)) return;
+		buf.add('<ul>\n');
+		for (name in result.packageNames(false))
+		{
+			var pack = result.getPackage(name);
+			if (this.skipResult(pack.stats, isOk)) continue;
+			if (name == '' && pack.classNames().length == 0) continue;
 			buf.add('<li>');
-			buf.add('<h2>' + pname + '</h2>');
+			buf.add('<h2>' + name + '</h2>');
 			blockNumbers(buf, pack.stats);
 			buf.add('<ul>\n');
 			for (cname in pack.classNames())
-			{
-				buf.add('<li>');
-				var c = pack.getClass(cname);
-				buf.add('<h2 class="classname">' + cname + '</h2>');
-				blockNumbers(buf, c.stats);
-				buf.add('<ul>\n');
-				for (mname in c.methodNames()) {
-					buf.add('<li class="fixture"><div class="li">');
-					var fix = c.get(mname);
-					buf.add('<span class="' + cls(fix.stats) + 'bg fixtureresult">');
-					if(fix.stats.isOk) {
-						buf.add("OK ");
-					} else if(fix.stats.hasErrors) {
-						buf.add("ERROR ");
-					} else if(fix.stats.hasFailures) {
-						buf.add("FAILURE ");
-					} else if(fix.stats.hasWarnings) {
-						buf.add("WARNING ");
-					}
-					buf.add('</span>');
-					buf.add('<div class="fixturedetails">');
-					buf.add('<strong>' + mname + '</strong>');
-					buf.add(': ');
-					resultNumbers(buf, fix.stats);
-					var messages = [];
-					for(assertation in fix.iterator()) {
-						switch(assertation) {
-							case Success(pos):
-							case Failure(msg, pos):
-								messages.push("<strong>line " + pos.lineNumber + "</strong>: <em>" + msg + "</em>");
-							case Error(e, s):
-								messages.push("<strong>error</strong>: <em>" + Std.string(e) + "</em>\n" + formatStack(s));
-							case SetupError(e, s):
-								messages.push("<strong>setup error</strong>: " + Std.string(e) + "\n" + formatStack(s));
-							case TeardownError(e, s):
-								messages.push("<strong>tear-down error</strong>: " + Std.string(e) + "\n" + formatStack(s));
-							case TimeoutError(missedAsyncs, s):
-								messages.push("<strong>missed async call(s)</strong>: " + missedAsyncs);
-							case AsyncError(e, s):
-								messages.push("<strong>async error</strong>: " + Std.string(e) + "\n" + formatStack(s));
-							case Warning(msg):
-								messages.push( msg);
-						}
-					}
-					if (messages.length > 0)
-					{
-						buf.add('<div class="testoutput">');
-						buf.add(messages.join('<br/>'));
-						buf.add('</div>\n');
-					}
-					buf.add('</div>\n');
-					buf.add('</div></li>\n');
-				}
-				buf.add('</ul>\n');
-				buf.add('</li>\n');
-			}
+				addClass(buf, pack.getClass(cname), cname, isOk);
 			buf.add('</ul>\n');
 			// classes
 			// sub packages
@@ -240,39 +263,34 @@ class HtmlReport {
 	}
 	
 	function complete(result : PackageResult) {
-		var end = haxe.Timer.stamp();
-		var time = Std.int((end-startTime)*1000)/1000;
+		if (!this.hasOutput(result.stats))
+		{
+			outputhandler("");
+			restoreTrace();
+			return;
+		}
 		var buf = new StringBuf();
-		addTitle(buf, result.stats, time);
+		addTitle(buf, result.stats);
 		addTrace(buf);
-		addPackage(buf, result);
-		if(returnFullPage)
-			outpudtandler(wrapHtml(buf.toString()));
+		addPackage(buf, result, result.stats.isOk);
+		if(returnFullPage )
+			outputhandler(wrapHtml(buf.toString()));
 		else
-			outpudtandler(buf.toString());
+			outputhandler(buf.toString());
 		restoreTrace();
 	}
-	
 	
 	function addTrace(buf : StringBuf)
 	{
 		if (_traces == null || _traces.length == 0) return;
 		buf.add('<div class="trace"><h2>traces</h2><ol>');
-		var lastmethod = null;
 		for (t in _traces)
 		{
 			buf.add('<li><div class="li">');
 			var stack = StringTools.replace(formatStack(t.stack, false), "'", "\\'");
 			var method = '<span class="tracepackage">' + t.infos.className + "</span><br/>" + t.infos.methodName + "(" + t.infos.lineNumber + ")";
-			if (lastmethod != method)
-			{
-				buf.add('<span class="tracepos" onmouseover="utestTooltip(this.parentNode, \'' + stack + '\')" onmouseout="utestRemoveTooltip()">');
-				buf.add(method);
-				lastmethod = method;
-			} else {
-				buf.add('<span class="traceposempty">');
-				buf.add('&nbsp;');
-			}
+			buf.add('<span class="tracepos" onmouseover="utestTooltip(this.parentNode, \'' + stack + '\')" onmouseout="utestRemoveTooltip()">');
+			buf.add(method);
 			
 			// time
 			buf.add('</span><span class="tracetime">');

@@ -1,26 +1,34 @@
 package utest.ui.text;
 
 import haxe.PosInfos;
+import utest.ui.common.IReport;
+import utest.ui.common.HeaderDisplayMode;
 
 import utest.Runner;
 import utest.TestResult;
 import utest.ui.common.ResultAggregator;
+using utest.ui.common.ReportTools;
 import utest.ui.common.PackageResult;
 import haxe.Stack;
 
 /**
 * @todo add documentation
 */
-class StringReport {
+class StringReport implements IReport {
+	public var displaySuccessResults : SuccessResultsDisplayMode;
+	public var displayHeader : HeaderDisplayMode;
+	
 	var aggregator : ResultAggregator;
 	var newline : String;
 	var indent : String;
-	var outputHandler : String -> Void
+	var outputHandler : String -> Void;
 	public function new(runner : Runner, outputHandler : String -> Void) {
 		aggregator = new ResultAggregator(runner, true);
 		runner.onStart.add(start);
 		aggregator.onComplete.add(complete);
 		this.outputHandler = outputHandler;
+		displaySuccessResults = AlwaysShowSuccessResults;
+		displayHeader = AlwaysShowHeader;
 	}
 
 	var startTime : Float;
@@ -35,21 +43,32 @@ class StringReport {
 		return s;
 	}
 	
-	function dumpStack(s : Array<StackItem>)
+	function dumpStack(stack : Array<StackItem>)
 	{
-		if (s.length == 0)
+		if (stack.length == 0)
 			return "";
-		else
-			return newline + Stack.toString(s);
+		
+		var parts = Stack.toString(stack).split("\n");
+		var r = [];
+		for (part in parts)
+		{
+			if (part.indexOf(" utest.") >= 0) continue;
+			r.push(part);
+		}
+		return r.join(newline);
 	}
 
-	function complete(result : PackageResult) {
+	function addHeader(buf : StringBuf, result : PackageResult)
+	{
+		if (!this.hasHeader(result.stats))
+			return;
+		
 		var end = haxe.Timer.stamp();
 #if php
 		var scripttime = Std.int(php.Sys.cpuTime()*1000)/1000;
 #end
 		var time = Std.int((end-startTime)*1000)/1000;
-		var buf = new StringBuf();
+		
 		buf.add("results: " + (result.stats.isOk ? "ALL TESTS OK" : "SOME TESTS FAILURES")+newline+" "+newline);
 
 		buf.add("assertations: "   + result.stats.assertations+newline);
@@ -62,14 +81,24 @@ class StringReport {
 		buf.add("script time: "    + scripttime+newline);
 #end
 		buf.add(newline);
+	}
+
+	function complete(result : PackageResult) {
+		
+		var buf = new StringBuf();
+		
+		addHeader(buf, result);
 		
 		for(pname in result.packageNames()) {
 			var pack = result.getPackage(pname);
+			if (this.skipResult(pack.stats, result.stats.isOk)) continue;
 			for(cname in pack.classNames()) {
 				var cls = pack.getClass(cname);
+				if (this.skipResult(cls.stats, result.stats.isOk)) continue;
 				buf.add((pname == '' ? '' : pname+".")+cname+newline);
 				for(mname in cls.methodNames()) {
 					var fix = cls.get(mname);
+					if (this.skipResult(fix.stats, result.stats.isOk)) continue;
 					buf.add(indents(1)+mname+": ");
 					if(fix.stats.isOk) {
 						buf.add("OK ");

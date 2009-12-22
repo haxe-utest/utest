@@ -1,5 +1,7 @@
 <project name="utest" url="http://code.google.com/p/utest" license="LGPL">
     <user name="fponticelli"/>
+	<tag v="cross"/>
+	<tag v="unittesting" />
     <description>Unit Testing System for haXe</description>
-    <version name="0.1.1">Added Assert.same() to compare any kind of value. Added proper testings for the Assert class. Minor issues fixed</version>
+    <version name="0.1.2">improved methods in utest.Assert</version>
 </project>

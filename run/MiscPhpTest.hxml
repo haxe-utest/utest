@@ -1,6 +1,0 @@
-# PHP
--php ../bin/www/tests
--main tests.native.php.MiscPhpTest
--debug
--cp ../src
---php-front main.php

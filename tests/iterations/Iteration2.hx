@@ -1,4 +1,4 @@
-package tests.iterations;
+package iterations;
 
 import utest.Assert;
 import utest.Runner;
@@ -7,7 +7,7 @@ import utest.TestFixture;
 class Iteration2 {
 	public function new();
 
-	// #1
+	// @1
 	public function testRunnerRun() {
 		var r = new Runner();
 		r.addFixture(new TestFixture(new TestClass(), "assertTrue"));
@@ -17,7 +17,7 @@ class Iteration2 {
 		r.run();
 	}
 
-	// #2
+	// @2
 	public function testAssertCreateAsync() {
 		var r = new Runner();
 		r.addFixture(new TestFixture(new TestClass(), "assertAsync"));
@@ -27,7 +27,7 @@ class Iteration2 {
 		r.run();
 	}
 
-	// #3
+	// @3
 	public function testRunnerSequenceOnAsync() {
 		var r = new Runner();
 		var test = new TestSequenceClass();
@@ -40,7 +40,7 @@ class Iteration2 {
 		r.run();
 	}
 
-	// #4
+	// @4
 	public function testRunnerAddCase() {
 		var r = new Runner();
 		r.addCase(new TestCaseClass());
@@ -51,7 +51,7 @@ class Iteration2 {
 		trace(fix.teardown == "teardown" ? "OK @7" : "FAIL");
 	}
 
-	// #5
+	// @5
 	public function testRunnerAddCaseCustomFun() {
 		var r = new Runner();
 		r.addCase(new TestCaseClass(), "_setup", "_teardown");
@@ -60,7 +60,7 @@ class Iteration2 {
 		trace(fix.teardown == null     ? "OK @9" : "FAIL");
 	}
 
-	// #6
+	// @6
 	public function testRunnerAddCaseCustomPrefix() {
 		var r = new Runner();
 		r.addCase(new TestCaseClass(), "_setup", "teardown", "Test");
@@ -71,7 +71,7 @@ class Iteration2 {
 		trace(fix.teardown == "teardown" ? "OK @13" : "FAIL");
 	}
 
-	// #7
+	// @7
 	public function testRunnerAddCaseCustomPattern() {
 		var r = new Runner();
 		r.addCase(new TestCaseClass(), null, null, ~/test/i);
