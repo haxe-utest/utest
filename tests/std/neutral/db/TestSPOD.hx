@@ -1,4 +1,4 @@
-package std.neutral;
+package std.neutral.db;
 
 import utest.Assert;
 
@@ -15,37 +15,32 @@ import neko.db.Object;
 #end
 
 class TestSPOD {
-	public function new() { }
+	var db : IDb;
+	public function new(db : IDb) {
+		this.db = db;
+	}
 
-	function createSql() {
-		return "CREATE TABLE User (
-    id INT NOT NULL auto_increment,
-    name VARCHAR(32) NOT NULL,
-    age INT NOT NULL,
-	parentId INT NULL,
-    PRIMARY KEY (id),
-	FOREIGN KEY (parentId) REFERENCES User(id) ON DELETE SET NULL
-) ENGINE=InnoDB";
+	function createTable() {
+		db.createTable("User",
+			['id',        'name',    'age',          'parentId'],
+			['INCREMENT', 'VARCHAR', 'INT NOT NULL', 'INT NULL']);
 	}
 
 	public function setup() {
-		Manager.cnx = MysqlConnection.get();
+		db.setup();
+		Manager.cnx = db.conn;
 		if(Manager.cnx == null)
 			throw "DB Connection Failed";
 		Manager.initialize();
-		Manager.cnx.request(createSql());
-	}
-
-	function dropSql() {
-		return "DROP TABLE IF EXISTS User;";
+		createTable();
 	}
 
 	public function teardown() {
+		db.dropTable("User");
 		if(Manager.cnx != null) {
-			Manager.cnx.request(dropSql());
 			Manager.cleanup();
-			Manager.cnx.close();
 		}
+		db.teardown();
 	}
 
 	private function createSampleUser() {
@@ -78,7 +73,7 @@ class TestSPOD {
 		user.insert();
 		user = User.manager.get(1);
 		Assert.equals(1, user.id);
-		Manager.cnx.request(dropSql());
+		db.dropTable("User");
 		user = User.manager.get(1);
 		Assert.equals(1, user.id);
 	}
@@ -89,6 +84,7 @@ class TestSPOD {
 
 		var other = new User();
 		other.name = "Neko";
+		other.age = 30;
 		other.insert();
 		other.parent = user;
 		other.update();

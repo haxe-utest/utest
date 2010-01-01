@@ -50,7 +50,9 @@ class TestReflect {
 		Assert.equals( n, l.length );
 
 		l = Type.getClassFields(Type.getClass(new TestReflectClass()));
-		Assert.equals( 3, l.length );
+		Assert.equals(2, l.length);
+		Assert.contains("staticVar", l);
+		Assert.contains("staticFunction", l);
 	}
 
 	// fails on flash9
@@ -314,10 +316,12 @@ class TestReflect {
 
 	public function testFunctionNullityOnInstance() {
 		var o : Dynamic = this;
+#if !flash9
 		Assert.isTrue(o.f == null);
 		Assert.isTrue(null == o.f);
 		Assert.isFalse(o.f != null);
 		Assert.isFalse(null != o.f);
+#end
 		Assert.isTrue(o.testFunctionNullityOnInstance != null);
 		Assert.isTrue(null != o.testFunctionNullityOnInstance);
 		Assert.isFalse(o.testFunctionNullityOnInstance == null);
@@ -361,7 +365,7 @@ class TestReflect {
 
 	public function testImplementsDynamic() {
 		var d = new TestImplementsDynamic();
-		Assert.equals("std.TestImplementsDynamic", Std.string(d));
+		Assert.equals("std.TestImplementsDynamic", Type.getClassName(Type.getClass(d)));
 		Assert.isNull(d.name);
 		Assert.isFalse(Reflect.hasField(d, "name"));
 		d.name = "haXe";

@@ -20,8 +20,7 @@ class TestAll
 		runner.addCase(new std.TestHash());
 		runner.addCase(new std.TestIntHash());
 		runner.addCase(new std.TestList());
-// TODO: causes segmentation fault on Neko under linux (not in cygwin)
-//		runner.addCase(new std.TestReflect());
+		runner.addCase(new std.TestReflect());
 		runner.addCase(new std.TestStd());
 		runner.addCase(new std.TestString());
 		runner.addCase(new std.TestStringTools());

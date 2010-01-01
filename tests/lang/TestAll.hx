@@ -11,9 +11,8 @@ class TestAll
 {
 	public static function addTests(runner : Runner)
 	{
-// TODO commented tests cause Segmentation Fault on Unix
 		runner.addCase(new lang.TestAnonymousObject());
-//		runner.addCase(new lang.TestArraySyntax());
+		runner.addCase(new lang.TestArraySyntax());
 		runner.addCase(new lang.TestBitwise());
 		runner.addCase(new lang.TestCallback());
 		runner.addCase(new lang.TestCasts());
@@ -22,16 +21,16 @@ class TestAll
 		runner.addCase(new lang.TestCodeBlocks());
 		runner.addCase(new lang.TestCompareTest());
 		runner.addCase(new lang.TestDynamicClass());
-//		runner.addCase(new lang.TestDynamicFunction());
-//		runner.addCase(new lang.TestEnumAccess());
+		runner.addCase(new lang.TestDynamicFunction());
+		runner.addCase(new lang.TestEnumAccess());
 
 		runner.addCase(new lang.TestEnumSyntax());
-//		runner.addCase(new lang.TestEqualityOperators());
+		runner.addCase(new lang.TestEqualityOperators());
 		runner.addCase(new lang.TestExtensions());
-//		runner.addCase(new lang.TestForAccess());
-//		runner.addCase(new lang.TestIfAccess());
+		runner.addCase(new lang.TestForAccess());
+		runner.addCase(new lang.TestIfAccess());
 		runner.addCase(new lang.TestInterfaceAccess());
-//		runner.addCase(new lang.TestIntIteratorAccess());
+		runner.addCase(new lang.TestIntIteratorAccess());
 		runner.addCase(new lang.TestNativeArray());
 		runner.addCase(new lang.TestNativeString());
 		runner.addCase(new lang.TestPrivateClassAccess());
@@ -41,7 +40,7 @@ class TestAll
 		runner.addCase(new lang.TestTryCatch());
 		runner.addCase(new lang.TestTypedefAccess());
 		runner.addCase(new lang.TestUnusualConstructs());
-//		runner.addCase(new lang.TestWhileAccess());
+		runner.addCase(new lang.TestWhileAccess());
 
 #if php
 		runner.addCase(new lang.TestPhpDollarEscape());

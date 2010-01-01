@@ -14,21 +14,27 @@ import haxe.Stack;
 /**
 * @todo add documentation
 */
-class StringReport implements IReport {
+class PlainTextReport implements IReport<PlainTextReport> {
 	public var displaySuccessResults : SuccessResultsDisplayMode;
 	public var displayHeader : HeaderDisplayMode;
+	public var handler : PlainTextReport -> Void;
 	
 	var aggregator : ResultAggregator;
 	var newline : String;
 	var indent : String;
-	var outputHandler : String -> Void;
-	public function new(runner : Runner, outputHandler : String -> Void) {
+	public function new(runner : Runner, ?outputHandler : PlainTextReport -> Void) {
 		aggregator = new ResultAggregator(runner, true);
 		runner.onStart.add(start);
 		aggregator.onComplete.add(complete);
-		this.outputHandler = outputHandler;
+		if (null != outputHandler)
+			setHandler(outputHandler);
 		displaySuccessResults = AlwaysShowSuccessResults;
 		displayHeader = AlwaysShowHeader;
+	}
+	
+	public function setHandler(handler : PlainTextReport -> Void) : Void
+	{
+		this.handler = handler;
 	}
 
 	var startTime : Float;
@@ -82,11 +88,11 @@ class StringReport implements IReport {
 #end
 		buf.add(newline);
 	}
-
-	function complete(result : PackageResult) {
-		
+	
+	var result : PackageResult;
+	public function getResults() : String
+	{
 		var buf = new StringBuf();
-		
 		addHeader(buf, result);
 		
 		for(pname in result.packageNames()) {
@@ -142,6 +148,11 @@ class StringReport implements IReport {
 				}
 			}
 		}
-		outputHandler(buf.toString());
+		return buf.toString();
+	}
+
+	function complete(result : PackageResult) {
+		this.result = result;
+		handler(this);
 	}
 }

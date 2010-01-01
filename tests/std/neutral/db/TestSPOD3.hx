@@ -1,4 +1,4 @@
-package std.neutral;
+package std.neutral.db;
 
 import utest.Assert;
 
@@ -14,33 +14,30 @@ import neko.db.Manager;
 import neko.db.Object;
 #end
 
-class TestSPOD4 {
-	public function new() { }
-
-	function createSql1() {
-		return "CREATE TABLE Book (
-    id INT NOT NULL auto_increment,
-    title VARCHAR(32) NOT NULL,
-    shelf_id INT NULL,
-    PRIMARY KEY (id)
-) ENGINE=InnoDB";
+class TestSPOD3 {
+	var db : IDb;
+	public function new(db : IDb) {
+		this.db = db;
 	}
 
-	function createSql2() {
-		return "CREATE TABLE Shelf (
-    id INT NOT NULL auto_increment,
-    name VARCHAR(32) NOT NULL,
-    PRIMARY KEY (id)
-) ENGINE=InnoDB";
+	function createTable1() {
+		db.createTable("Book",
+			['id',        'title',   'shelf_id'],
+			['INCREMENT', 'VARCHAR', 'INT NULL']);
+	}
+	
+	function createTable2() {
+		db.createTable("Shelf",
+			['id',        'name'],
+			['INCREMENT', 'VARCHAR']);
 	}
 
 	public function setup() {
-		Manager.cnx = MysqlConnection.get();
-		if(Manager.cnx == null)
-			throw "DB Connection Failed";
+		db.setup();
+		Manager.cnx = db.conn;
 		Manager.initialize();
-		Manager.cnx.request(createSql1());
-		Manager.cnx.request(createSql2());
+		createTable1();
+		createTable2();
 	}
 
 	static var entries = [
@@ -50,21 +47,11 @@ class TestSPOD4 {
 		"INSERT INTO Book (id, title, shelf_id) VALUES (3, 'haXe for Dummies', 1);",
 	];
 
-	function dropSql1() {
-		return "DROP TABLE IF EXISTS Book;";
-	}
-
-	function dropSql2() {
-		return "DROP TABLE IF EXISTS Shelf;";
-	}
-
 	public function teardown() {
-		if(Manager.cnx != null) {
-			Manager.cnx.request(dropSql1());
-			Manager.cnx.request(dropSql2());
-			Manager.cleanup();
-			Manager.cnx.close();
-		}
+		db.dropTable('Book');
+		db.dropTable('Shelf');
+		Manager.cleanup();
+		db.teardown();
 	}
 
 	public function testUse() {

@@ -4,7 +4,7 @@
   <output>
     <movie disabled="False" />
     <movie input="" />
-    <movie path="bin/index.9.swf" />
+    <movie path="bin\utest-f9.swf" />
     <movie fps="30" />
     <movie width="600" />
     <movie height="900" />

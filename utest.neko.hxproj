@@ -4,7 +4,7 @@
   <output>
     <movie disabled="False" />
     <movie input="" />
-    <movie path="bin/index.n" />
+    <movie path="bin\index.n" />
     <movie fps="0" />
     <movie width="0" />
     <movie height="0" />

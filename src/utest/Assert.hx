@@ -370,7 +370,7 @@ class Assert {
 		if (Std.is(v, String))
 			return '"' + StringTools.replace(v, '"', '\\"') + '"';
 		else if (v == null)
-			return "{null}";
+			return "null";
 		else
 			return "" + v;
 	}
@@ -566,7 +566,17 @@ class Assert {
 	
 	static function typeToString(t : Dynamic)
 	{
-		try return Type.getClassName(t) catch(e : Dynamic) {}
+		try {
+			var _t = Type.getClass(t);
+			if (_t != null)
+				t = _t;
+		} catch(e : Dynamic) { }
+		try return Type.getClassName(t) catch (e : Dynamic) { }
+		try {
+			var _t = Type.getEnum(t);
+			if (_t != null)
+				t = _t;
+		} catch(e : Dynamic) { }
 		try return Type.getEnumName(t) catch(e : Dynamic) {}
 		try return Std.string(Type.typeof(t)) catch (e : Dynamic) { }
 		try return Std.string(t) catch (e : Dynamic) { }

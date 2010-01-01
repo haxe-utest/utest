@@ -6,32 +6,44 @@ import utest.Assert;
 import php.FileSystem;
 import php.io.File;
 import php.Sys;
+import php.Web;
 #else
 import neko.FileSystem;
 import neko.io.File;
 import neko.Sys;
+import neko.Web;
 #end
 
 class TestFile {
-	var base : String;
-	var testfile : String;
-	static var filename = #if neko "neko.test" #else "php.test" #end;
-	public function new() {
-		base = Sys.getCwd().substr(0, -1);
-		testfile = base + "/" + filename;
+	static function testfile()
+	{
+		var file = #if neko "neko.test" #else "php.test" #end;
+		return base() + "/" + file;
 	}
+	
+	static function base()
+	{
+		var dir = Sys.getCwd();
+		if ("/" == dir || "\\" == dir)
+			dir = Web.getCwd();
+		var last = dir.substr( -1);
+		if ("/" == last || "\\" == last)
+			dir = dir.substr(0, -1);
+		return dir;
+	}
+	
+	public function new();
 
 	public function teardown() {
-		if(FileSystem.exists(testfile))
-			FileSystem.deleteFile(testfile);
+		TestFileSystem.aggressiveDelete(testfile());
 	}
 
 	public function testOutput() {
-		var out = File.write(testfile, false);
+		var out = File.write(testfile(), false);
 		out.writeString('haxe\nneko\nphp');
 		out.close();
 
-		var input = File.read(testfile, false);
+		var input = File.read(testfile(), false);
 		Assert.equals('h'.charCodeAt(0), input.readByte());
 		Assert.equals('axe\n', input.readString(4));
 		Assert.equals('neko', input.readLine());
@@ -40,7 +52,7 @@ class TestFile {
 	}
 
 	public function testBin() {
-		var out = File.write(testfile, true);
+		var out = File.write(testfile(), true);
 		out.write(haxe.io.Bytes.ofString('haxe'));
 		out.writeByte(46);
 		out.writeBytes(haxe.io.Bytes.ofString('haxehaxe'), 2, 4);
@@ -51,7 +63,7 @@ class TestFile {
 
 		out.close();
 
-		var input = File.read(testfile, true);
+		var input = File.read(testfile(), true);
 		Assert.equals('haxe', input.readString(4));
 		Assert.equals(46, input.readByte());
 		var b = haxe.io.Bytes.ofString('    ');
@@ -62,5 +74,6 @@ class TestFile {
 		Assert.floatEquals(-1.23456, input.readFloat());
 		Assert.equals(99, input.readInt16());
 		Assert.equals(1000, haxe.Int32.toInt(input.readInt32()));
+		input.close();
 	}
 }

@@ -16,30 +16,48 @@ import haxe.Stack;
 
 using utest.ui.common.ReportTools;
 
+#if php
+import php.Lib;
+#elseif neko
+import neko.Lib;
+#elseif cpp
+import cpp.Lib;
+#elseif js
+import js.Lib;
+#end
+
 /**
 * @todo add documentation
 */
-class HtmlReport implements IReport {
+class HtmlReport implements IReport < HtmlReport > {
+	static var platform = #if neko 'neko' #elseif php 'php'  #elseif cpp 'cpp'  #elseif js 'javascript' #elseif flash 'flash' #else 'unknown' #end;
+	
 	public var traceRedirected(default, null) : Bool;
 	public var displaySuccessResults : SuccessResultsDisplayMode;
 	public var displayHeader : HeaderDisplayMode;
+	public var handler : HtmlReport -> Void;
 	
 	var aggregator : ResultAggregator;
-	var outputhandler : String -> Void;
-	var returnFullPage : Bool;
 	var oldTrace : Dynamic;
 	var _traces : Array<{ msg : String, infos : PosInfos, time : Float, delta : Float, stack : Array<StackItem> }>;
 	
-	public function new(runner : Runner, outputhandler : String -> Void, returnFullPage = false, traceRedirected = true) {
+	public function new(runner : Runner, ?outputHandler : HtmlReport -> Void, traceRedirected = true) {
 		aggregator = new ResultAggregator(runner, true);
 		runner.onStart.add(start);
 		aggregator.onComplete.add(complete);
-		this.outputhandler = outputhandler;
-		this.returnFullPage = returnFullPage;
+		if (null == outputHandler)
+			setHandler(_handler);
+		else
+			setHandler(outputHandler);
 		if (traceRedirected)
 			redirectTrace();
 		displaySuccessResults = AlwaysShowSuccessResults;
 		displayHeader = AlwaysShowHeader;
+	}
+	
+	public function setHandler(handler : HtmlReport -> Void) : Void
+	{
+		this.handler = handler;
 	}
 	
 	public function redirectTrace()
@@ -64,7 +82,7 @@ class HtmlReport implements IReport {
 		var time = Timer.stamp();
 		var delta = _traceTime == null ? 0 : time - _traceTime;
 		_traces.push( {
-			msg : Std.string(v),
+			msg : StringTools.htmlEscape(Std.string(v)),
 			infos : infos,
 			time : time - startTime,
 			delta : delta,
@@ -88,29 +106,6 @@ class HtmlReport implements IReport {
 			return 'warn';
 		else
 			return 'ok';
-	}
-	
-	function addTitle(buf : StringBuf, stats : ResultStats)
-	{
-		if (!this.hasHeader(stats))
-			return;
-
-		var end = haxe.Timer.stamp();
-		var time = Std.int((end-startTime)*1000)/1000;
-		var msg = 'TESTS ARE OK';
-		if (stats.hasErrors)
-			msg = 'TESTS HAVE ERRORS';
-		else if (stats.hasFailures)
-			msg = 'TESTS ARE FAILED';
-		else if (stats.hasWarnings)
-			msg = 'WARNINGS REPORTED';
-			
-		buf.add('<h1 class="' + cls(stats) + 'bg header">' + msg + "</h1>\n");
-		var platform = #if neko 'neko' #elseif php 'php' #else 'unknown' #end;
-		buf.add('<div class="headerinfo">');
-		
-		resultNumbers(buf, stats);
-		buf.add(' performed on <strong>' + platform + '</strong>, executed in <strong> ' + time + ' sec. </strong></div >\n ');
 	}
 	
 	function resultNumbers(buf : StringBuf, stats : ResultStats)
@@ -200,19 +195,19 @@ class HtmlReport implements IReport {
 			switch(assertation) {
 				case Success(pos):
 				case Failure(msg, pos):
-					messages.push("<strong>line " + pos.lineNumber + "</strong>: <em>" + msg + "</em>");
+					messages.push("<strong>line " + pos.lineNumber + "</strong>: <em>" + StringTools.htmlEscape(msg) + "</em>");
 				case Error(e, s):
-					messages.push("<strong>error</strong>: <em>" + Std.string(e) + "</em>\n" + formatStack(s));
+					messages.push("<strong>error</strong>: <em>" + StringTools.htmlEscape(Std.string(e)) + "</em>\n" + formatStack(s));
 				case SetupError(e, s):
-					messages.push("<strong>setup error</strong>: " + Std.string(e) + "\n" + formatStack(s));
+					messages.push("<strong>setup error</strong>: " + StringTools.htmlEscape(Std.string(e)) + "\n" + formatStack(s));
 				case TeardownError(e, s):
-					messages.push("<strong>tear-down error</strong>: " + Std.string(e) + "\n" + formatStack(s));
+					messages.push("<strong>tear-down error</strong>: " + StringTools.htmlEscape(Std.string(e)) + "\n" + formatStack(s));
 				case TimeoutError(missedAsyncs, s):
 					messages.push("<strong>missed async call(s)</strong>: " + missedAsyncs);
 				case AsyncError(e, s):
-					messages.push("<strong>async error</strong>: " + Std.string(e) + "\n" + formatStack(s));
+					messages.push("<strong>async error</strong>: " + StringTools.htmlEscape(Std.string(e)) + "\n" + formatStack(s));
 				case Warning(msg):
-					messages.push( msg);
+					messages.push(StringTools.htmlEscape(msg));
 			}
 		}
 		if (messages.length > 0)
@@ -239,50 +234,60 @@ class HtmlReport implements IReport {
 		buf.add('</li>\n');
 	}
 	
-	function addPackage(buf : StringBuf, result : PackageResult, isOk : Bool)
+	function addPackages(buf : StringBuf, result : PackageResult, isOk : Bool)
 	{
 		if (this.skipResult(result.stats, isOk)) return;
-		buf.add('<ul>\n');
+		buf.add('<ul id="utest-results-packages">\n');
 		for (name in result.packageNames(false))
 		{
-			var pack = result.getPackage(name);
-			if (this.skipResult(pack.stats, isOk)) continue;
-			if (name == '' && pack.classNames().length == 0) continue;
-			buf.add('<li>');
-			buf.add('<h2>' + name + '</h2>');
-			blockNumbers(buf, pack.stats);
-			buf.add('<ul>\n');
-			for (cname in pack.classNames())
-				addClass(buf, pack.getClass(cname), cname, isOk);
-			buf.add('</ul>\n');
-			// classes
-			// sub packages
-			buf.add('</li>\n');
+			addPackage(buf, result.getPackage(name), name, isOk);
 		}
 		buf.add('</ul>\n');
 	}
 	
-	function complete(result : PackageResult) {
-		if (!this.hasOutput(result.stats))
-		{
-			outputhandler("");
-			restoreTrace();
-			return;
-		}
-		var buf = new StringBuf();
-		addTitle(buf, result.stats);
-		addTrace(buf);
-		addPackage(buf, result, result.stats.isOk);
-		if(returnFullPage )
-			outputhandler(wrapHtml(buf.toString()));
-		else
-			outputhandler(buf.toString());
-		restoreTrace();
+	function addPackage(buf : StringBuf, result : PackageResult, name : String, isOk : Bool)
+	{
+		if (this.skipResult(result.stats, isOk)) return;
+		if (name == '' && result.classNames().length == 0) return;
+		buf.add('<li>');
+		buf.add('<h2>' + name + '</h2>');
+		blockNumbers(buf, result.stats);
+		buf.add('<ul>\n');
+		for (cname in result.classNames())
+			addClass(buf, result.getClass(cname), cname, isOk);
+		buf.add('</ul>\n');
+		buf.add('</li>\n');
 	}
 	
-	function addTrace(buf : StringBuf)
+	public function getHeader() : String
 	{
-		if (_traces == null || _traces.length == 0) return;
+		var buf = new StringBuf();
+		if (!this.hasHeader(result.stats))
+			return "";
+
+		var end = haxe.Timer.stamp();
+		var time = Std.int((end-startTime)*1000)/1000;
+		var msg = 'TEST OK';
+		if (result.stats.hasErrors)
+			msg = 'TEST ERRORS';
+		else if (result.stats.hasFailures)
+			msg = 'TEST FAILED';
+		else if (result.stats.hasWarnings)
+			msg = 'WARNING REPORTED';
+			
+		buf.add('<h1 class="' + cls(result.stats) + 'bg header">' + msg + "</h1>\n");
+		buf.add('<div class="headerinfo">');
+		
+		resultNumbers(buf, result.stats);
+		buf.add(' performed on <strong>' + platform + '</strong>, executed in <strong> ' + time + ' sec. </strong></div >\n ');
+		return buf.toString();
+	}
+	
+	public function getTrace() : String
+	{
+		var buf = new StringBuf();
+		if (_traces == null || _traces.length == 0)
+			return "";
 		buf.add('<div class="trace"><h2>traces</h2><ol>');
 		for (t in _traces)
 		{
@@ -304,6 +309,40 @@ class HtmlReport implements IReport {
 			buf.add('</span><div class="clr"></div></div></li>');
 		}
 		buf.add('</ol></div>');
+		return buf.toString();
+	}
+	
+	public function getResults() : String
+	{
+		var buf = new StringBuf();
+		addPackages(buf, result, result.stats.isOk);
+		return buf.toString();
+	}
+	
+	public function getAll() : String
+	{
+		if (!this.hasOutput(result.stats))
+			return "";
+		else
+			return getHeader() + getTrace() + getResults();
+	}
+	
+	public function getHtml(?title : String) : String
+	{
+		if(null == title)
+			title = "utest: " + platform;
+		var s = getAll();
+		if ('' == s)
+			return '';
+		else
+			return wrapHtml(title, s);
+	}
+	
+	var result : PackageResult;
+	function complete(result : PackageResult) {
+		this.result = result;
+		handler(this);
+		restoreTrace();
 	}
 	
 	function formatTime(t : Float)
@@ -311,10 +350,9 @@ class HtmlReport implements IReport {
 		return Math.round(t * 1000) + " ms";
 	}
 	
-	function wrapHtml(s : String)
+	function cssStyle()
 	{
-		return '<head>\n<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />\n<title>utest</title><style type="text/css">
-body, dd, dt {
+		return 'body, dd, dt {
 	font-family: Verdana, Arial, Sans-serif;
 	font-size: 12px;
 }
@@ -393,7 +431,6 @@ h2.classname {
 	font-size: 11px;
 	font - color: 0xCCCCCC;
 	margin: 0 2px 5px 2px;
-/*	border-top: 1px solid #f0f0f0; */
 	border-left: 1px solid #f0f0f0;
 	border-right: 1px solid #CCCCCC;
 	border-bottom: 1px solid #CCCCCC;
@@ -520,11 +557,13 @@ div.trace h2 {
 	padding: 2px 4px;
 	border: 0;
 	border-bottom: 1px dashed #ffff33;
-}
-
-</style>
-<script type="text/javascript">
-function utestTooltip(ref, text) {
+}';
+	}
+	
+	function jsScript()
+	{
+		return
+'function utestTooltip(ref, text) {
 	var el = document.getElementById("utesttip");
 	if(!el) {
 		var el = document.createElement("div")
@@ -533,10 +572,8 @@ function utestTooltip(ref, text) {
 		document.body.appendChild(el)
 	}
 	var p = utestFindPos(ref);
-//	alert(p);
 	el.style.left = p[0];
 	el.style.top = p[1];
-	
 	el.innerHTML =  text;
 }
 
@@ -554,10 +591,137 @@ function utestRemoveTooltip() {
 	var el = document.getElementById("utesttip")
 	if(el)
 		document.body.removeChild(el)
+}';
+	}
+	
+	function wrapHtml(title : String, s : String)
+	{
+		return
+			'<head>\n<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />\n<title>' + title + '</title>
+			<style type="text/css">' + cssStyle() + '</style>
+			<script type="text/javascript">\n' + jsScript() + '\n</script>\n</head>
+			<body>\n'+ s + '\n</body>\n</html>';
+	}
+	
+	function _handler(report : HtmlReport)
+	{
+#if (php || neko || cpp)
+		Lib.print(report.getHtml());
+#elseif js
+		var head = Lib.document.getElementsByTagName("head")[0];
+		// add script
+		var script = Lib.document.createElement('script');
+		untyped script.type = 'text/javascript';
+		script.innerHTML = report.jsScript();
+		head.appendChild(script);
+
+		var isDef = function(v) : Bool
+		{
+			return untyped __js__("typeof v != 'undefined'");
+		}
+		
+		// add style
+		var style = Lib.document.createElement('style');
+		untyped style.type = 'text/css';
+		untyped
+		if (isDef(style.cssText))
+		{
+			style.cssText = report.cssStyle();
+		} else if (isDef(style.innerText)) {
+			style.innerText = report.cssStyle();
+		} else {
+			style.innerHTML = report.cssStyle();
+		}
+		head.appendChild(style);
+		
+		// add content
+		var el = Lib.document.getElementById("utest-results");
+		if (null == el)
+		{
+			el = Lib.document.createElement("div");
+			el.id = "utest-results";
+			Lib.document.body.appendChild(el);
+		}
+		el.innerHTML = report.getAll();
+#elseif flash
+		var quote = function(s : String) {
+			s = StringTools.replace(s, '\r', '');
+			s = StringTools.replace(s, '\n', '\\n');
+			s = StringTools.replace(s, '"', '\\"');
+			return '"' + s + '"';
+		};
+		
+		var fHeader = "function() {
+var head = document.getElementsByTagName('head')[0];
+// add script
+var script = document.createElement('script');
+script.type = 'text/javascript';
+script.innerHTML = " + quote(report.jsScript()) + ";
+head.appendChild(script);
+// add style
+var isDef = function(v) { return typeof v != 'undefined'; };
+var style = document.createElement('style');
+style.type = 'text/css';
+var styleContent = " + quote(report.cssStyle()) + ";
+if (isDef(style.cssText))
+{
+	style.cssText = styleContent;
+} else if (isDef(style.innerText)) {
+	style.innerText = styleContent;
+} else {
+	style.innerHTML = styleContent;
 }
-</script>
-</head>\n<body>\n'
-			+ s +
-			'\n</body>\n</html>';
+head.appendChild(style);
+if(typeof utest == 'undefined')
+	utest = { };
+utest.append_result = function(s) {
+	var el = document.getElementById('utest-results');
+	if (null == el) {
+		el = document.createElement('div');
+		el.id = 'utest-results';
+		document.body.appendChild(el);
+	}
+	el.innerHTML += s;
+};
+utest.append_package = function(s) {
+	var el = document.getElementById('utest-results-packages');
+	el.innerHTML += s;
+};
+}";
+		var fResult = "function() { utest.append_result(" + quote(report.getAll().substr(0, 7000)) + "); }";
+
+		var ef = function(s : String) { flash.external.ExternalInterface.call('(' + s + ')()'); };
+//		var ef = function(s : String) { flash.external.ExternalInterface.call('(alert(' + s + '))()'); };
+		var er = function(s : String) { ef("function() { utest.append_result(" + quote(s) + "); }"); };
+		var ep = function(s : String) { ef("function() { utest.append_package(" + quote(s) + "); }"); };
+		
+		var me = this;
+		haxe.Timer.delay(function() {
+			ef(fHeader);
+			er(report.getHeader());
+			er(report.getTrace());
+			if (me.skipResult(me.result.stats, me.result.stats.isOk)) return;
+			er('<ul id="utest-results-packages"></ul>');
+			
+			for (name in me.result.packageNames(false))
+			{
+				var buf = new StringBuf();
+				me.addPackage(buf, me.result.getPackage(name), name, me.result.stats.isOk);
+				ep(buf.toString());
+			}
+//			er(report.getResults());
+			
+//			buf.add('<ul id="utest-results-packages"></ul>');
+			
+/*			public function getResults() : String {
+				var buf = new StringBuf();
+				addPackage(buf, result, result.stats.isOk);
+				return buf.toString();
+			}*/
+		} , 100);
+//		haxe.Timer.delay(function() { flash.external.ExternalInterface.call('(' + fResult + ')()'); } , 105);
+#else
+		throw "no default handler for this platform";
+#end
 	}
 }

@@ -19,12 +19,14 @@ import cpp.Lib;
 /**
 * @todo add documentation
 */
-class PrintReport extends StringReport {
+class PrintReport extends PlainTextReport {
+	var useTrace : Bool;
 #if (php || neko || cpp)
 	public function new(runner : Runner, ?useTrace : Bool) {
 		if(null == useTrace)
 			useTrace = false;
-		super(runner, useTrace ? _trace : _print);
+			this.useTrace = useTrace;
+			super(runner, _handler);
 #if php
 		if (php.Lib.isCli()) {
 #elseif neko
@@ -39,13 +41,27 @@ class PrintReport extends StringReport {
 			indent  = "&nbsp;&nbsp;";
 		}
 	}
+	
+	function _handler(report : PlainTextReport)
+	{
+		if (useTrace)
+			_trace(report.getResults());
+		else
+			_print(report.getResults());
+	}
 #else
 	public function new(runner : Runner) {
-		super(runner, _trace);
+		super(runner, _handler);
 		newline = "\n";
 		indent  = "  ";
 	}
+	
+	function _handler(report : PlainTextReport)
+	{
+		_trace(report.getResults());
+	}
 #end
+
 	function _trace(s : String) {
 		s = StringTools.replace(s, '  ', indent);
 		s = StringTools.replace(s, '\n', newline);

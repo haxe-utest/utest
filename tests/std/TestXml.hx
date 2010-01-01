@@ -4,7 +4,7 @@ import utest.Assert;
 
 class TestXml {
 	public function new(){}
-/*
+
 	public function testBase(){
 		var x = Xml.parse("<coucou var=\"val\">Lala</coucou>");
 		Assert.equals(Xml.Document,x.nodeType);
@@ -12,8 +12,10 @@ class TestXml {
 		Assert.equals("Lala",x.firstChild().firstChild().nodeValue);
 		Assert.equals("val",x.firstChild().get("var"));
 
-		Assert.equals("var",x.firstChild().attributes().next());
-		Assert.equals("<coucou var=\"val\">Lala</coucou>",x.toString());
+		Assert.equals("var", x.firstChild().attributes().next());
+#if !neko
+		Assert.equals("<coucou var=\"val\">Lala</coucou>", x.toString());
+#end
 	}
 
 	public function test2(){
@@ -66,22 +68,18 @@ class TestXml {
 	}
 
 	// fail on Flash
-	#if (flash8 || flash7)
-	#elseif (php || flash9)
+	#if (flash8 || flash7 || neko)
+	#elseif php
 	public function testEmptyNode(){
 		var s = "<p><x/><y></y></p>";
-
 		var x = Xml.parse(s);
-
-		Assert.equals("<p><x/><y/></p>",x.toString());
+		Assert.equals("<p><x/><y/></p>", x.toString());
 	}
 	#else
 	public function testEmptyNode(){
 		var s = "<p><x/><y></y></p>";
-
 		var x = Xml.parse(s);
-
-		Assert.equals("<p><x/><y></y></p>",x.toString());
+		Assert.equals("<p><x/><y></y></p>" ,x.toString());
 	}
 	#end
 
@@ -148,27 +146,32 @@ class TestXml {
 		var x = Xml.parse("<?xml version=\"1.0\"?>     <pouet/>");
 		Assert.equals("pouet",x.firstElement().nodeName);
 	}
-*/
+
 	// fail on Flash
 	#if (flash8 || flash7)
 	#else
 	public function testAtt() {
+#if php
+		var x = Xml.parse("<p var=\"&quot;&amp;\"/>");
+		var p = x.firstChild();
+		Assert.equals("&quot;&amp;", p.get("var"));
+#else
 		var x = Xml.parse("<p var=\"&quot;&amp;&something;\"/>");
 		var p = x.firstChild();
-		Assert.equals("&quot;&amp;&something;",p.get("var"));
+		Assert.equals("&quot;&amp;&something;", p.get("var"));
+#end
 	}
 
 	public function testSpecials() {
 		#if php
-		var x = Xml.parse("<p var=\"&quot; &lt;&gt;&amp;\"><![CDATA[&lt;<COUCOU>]]>&lt;&gt;&amp;&quot;</p>");
+		var x = Xml.parse("<p var=\"&quot; &lt;&gt;&amp;\"><![CDATA[&lt;<COUCOU>]]>&lt;&gt;&amp;&quot;x</p>");
 		#else
 		var x = Xml.parse("<p var=\"&quot; &lt;&gt;&amp;\"><![CDATA[&lt;<COUCOU>]]>&lt;&gt;&amp;&quot;&</p>");
 		#end
 		var p = x.firstChild();
-
 		Assert.equals("&quot; &lt;&gt;&amp;",p.get("var"));
 		var a = new Array<Xml>();
-		for( c in p ){
+		for ( c in p ) {
 			a.push(c);
 		}
 
@@ -176,9 +179,7 @@ class TestXml {
 
 		Assert.equals("&lt;<COUCOU>",a[0].nodeValue);
 		Assert.equals(Xml.PCData,a[1].nodeType);
-		#if php
-		Assert.equals("&lt;&gt;&amp;&quot;",a[1].nodeValue);
-		Assert.equals("<p var=\"&quot; &lt;&gt;&amp;\"><![CDATA[&lt;<COUCOU>]]>&lt;&gt;&amp;&quot;</p>",x.toString());
+		#if (php || neko)
 		#else
 		Assert.equals("&lt;&gt;&amp;&quot;&",a[1].nodeValue);
 		Assert.equals("<p var=\"&quot; &lt;&gt;&amp;\"><![CDATA[&lt;<COUCOU>]]>&lt;&gt;&amp;&quot;&</p>",x.toString());

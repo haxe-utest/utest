@@ -4,7 +4,7 @@ import utest.ui.common.HeaderDisplayMode;
 
 class ReportTools
 {
-	public static function hasHeader(report : IReport, stats : ResultStats)
+	public static function hasHeader(report : IReport<Dynamic>, stats : ResultStats)
 	{
 		switch(report.displayHeader)
 		{
@@ -25,7 +25,7 @@ class ReportTools
 		};
 	}
 	
-	public static function skipResult(report : IReport, stats : ResultStats, isOk)
+	public static function skipResult(report : IReport<Dynamic>, stats : ResultStats, isOk)
 	{
 		if (!stats.isOk) return false;
 		return switch(report.displaySuccessResults)
@@ -36,7 +36,7 @@ class ReportTools
 		};
 	}
 	
-	public static function hasOutput(report : IReport, stats : ResultStats)
+	public static function hasOutput(report : IReport<Dynamic>, stats : ResultStats)
 	{
 		if (!stats.isOk) return true;
 		return hasHeader(report, stats);

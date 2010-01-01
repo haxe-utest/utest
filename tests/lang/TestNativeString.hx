@@ -121,7 +121,7 @@ class TestNativeString {
 				Assert.fail();
 		}
 	}
-
+#if php // this should proabably unified in php and fail as in other platoforms
 	public function testReflectField() {
 		var s = "haXe";
 		Assert.equals(4, Reflect.field(s, 'length'));
@@ -141,48 +141,18 @@ class TestNativeString {
 		for(field in fields)
 			Assert.isTrue(Lambda.has(expected, field));
 	}
-
-	public function testReflectIsFunction1() {
-		var s = '.';
-		Assert.isTrue(Reflect.isFunction(s.substr));
-	}
-
-	public function testReflectIsFunction2() {
-		var s = '.';
-		var f = Reflect.field(s, 'toUpperCase');
-		Assert.isTrue(Reflect.isFunction(f));
-	}
-
+	
 	public function testReflectCompareMethods() {
 		var s = '.';
 		Assert.equals(s.substr, s.substr);
 	}
-
-	public function testReflectIsObject() {
-		var s = 'haXe';
-		var d : Dynamic = 'Neko';
-		Assert.isTrue(Reflect.isObject(s));
-		Assert.isTrue(Reflect.isObject(d));
-	}
-
-	public function testReflectCopy() {
-		var s1 = 'haXe';
-		var s2 = Reflect.copy(s1);
-		Assert.equals(s1, s2);
-	}
-
-	public function testCreateInstance() {
-		var s = Type.createInstance(String, ['']);
-		// TODO, check other platforms on this
-		Assert.equals('', s);
-	}
-
+	
 	public function testCreateEmptyInstance() {
 		var s = Type.createEmptyInstance(String);
 		// TODO, check other platforms on this
 		Assert.equals('', s);
 	}
-
+	
 	public function testTypeGetInstanceFields() {
 		var fields = Type.getInstanceFields(String);
 		var expected = ["substr", "charAt", "charCodeAt", "indexOf", "lastIndexOf", "split", "toLowerCase", "toUpperCase", "toString", "length"];
@@ -197,6 +167,37 @@ class TestNativeString {
 		Assert.isTrue(fields.length > 0);
 		for(field in fields)
 			Assert.isTrue(Lambda.has(expected, field));
+	}
+	
+	public function testReflectCopy() {
+		var s1 = 'haXe';
+		var s2 = Reflect.copy(s1);
+		Assert.equals(s1, s2);
+	}
+#end
+	
+	public function testReflectIsFunction1() {
+		var s = '.';
+		Assert.isTrue(Reflect.isFunction(s.substr));
+	}
+
+	public function testReflectIsFunction2() {
+		var s = '.';
+		var f = Reflect.field(s, 'toUpperCase');
+		Assert.isTrue(Reflect.isFunction(f));
+	}
+
+	public function testReflectIsObject() {
+		var s = 'haXe';
+		var d : Dynamic = 'Neko';
+		Assert.isTrue(Reflect.isObject(s));
+		Assert.isTrue(Reflect.isObject(d));
+	}
+
+	public function testCreateInstance() {
+		var s = Type.createInstance(String, ['']);
+		// TODO, check other platforms on this
+		Assert.equals('', s);
 	}
 }
 

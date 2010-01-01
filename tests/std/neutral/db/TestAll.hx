@@ -1,9 +1,5 @@
-﻿/**
- * ...
- * @author Franco Ponticelli
- */
+﻿package std.neutral.db;
 
-package native;
 import utest.Runner;
 import utest.ui.Report;
 
@@ -11,9 +7,8 @@ class TestAll
 {
 	public static function addTests(runner : Runner)
 	{
-#if php
-		native.php.TestAll.addTests(runner);
-#end
+		TestAllMysql.addTests(runner);
+		TestAllSqlite.addTests(runner);
 	}
 	
 	public static function main()

@@ -7,7 +7,7 @@ class TestAll
 	{
 		cross.TestAll.addTests(runner);
 		lang.TestAll.addTests(runner);
-		native.TestAll.addTests(runner);
+		platform.TestAll.addTests(runner);
 		std.TestAll.addTests(runner);
 	}
 	

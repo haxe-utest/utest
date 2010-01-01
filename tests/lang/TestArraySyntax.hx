@@ -87,7 +87,11 @@ class TestArraySyntax {
 		a = [];
 		getArray()[2] = 1;
 		Assert.equals(3, a.length);
+#if flash9
+		Assert.equals(0, a[0]);
+#else
 		Assert.isNull(a[0]);
+#end
 		Assert.equals(1, a[2]);
 	}
 
@@ -100,15 +104,15 @@ class TestArraySyntax {
 	}
 
 	public function testIncrement() {
-		var a = [1,2];
-
-		Assert.equals(2, a[0]+=1);
+		var a = [1, 2];
 		var x = 0;
+#if !neko
+		Assert.equals(2, a[0]+=1);
 		Assert.equals(3, a[x+=1]+=1);
-
-		a = [1,2];
-		Assert.equals(1, a[0]++);
+#end
+		a = [1, 2];
 		x = 0;
+		Assert.equals(1, a[0]++);
 		Assert.equals(2, a[x++]++);
 	}
 
@@ -210,10 +214,18 @@ class TestArraySyntax {
 	public function testAccessOutOfRange() {
 		var a = [];
 		var x = a[0];
+#if flash9
+		Assert.equals(0, x);
+#else
 		Assert.isNull(x);
+#end
 		x = 2;
 		var y = a[1];
+#if flash9
+		Assert.equals(0, y);
+#else
 		Assert.isNull(y);
+#end
 		Assert.equals(2, x);
 	}
 

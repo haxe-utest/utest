@@ -31,7 +31,6 @@ class TestHandler<T> {
 			try {
 				executeMethod(fixture.method);
 			} catch (e : Dynamic) {
-				
 				results.add(Error(e, exceptionStack()));
 			}
 		} catch(e : Dynamic) {

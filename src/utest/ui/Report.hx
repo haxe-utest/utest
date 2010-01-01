@@ -6,21 +6,31 @@ import utest.ui.text.HtmlReport;
 import utest.ui.text.PrintReport;
 import utest.ui.common.HeaderDisplayMode;
 
+#if php
+import php.Web;
+#elseif neko
+import neko.Web;
+#elseif cpp
+import cpp.Web;
+#end
+
 class Report
 {
-	public static function create(runner : Runner, ?displaySuccessResults : SuccessResultsDisplayMode, ?headerDisplayMode : HeaderDisplayMode) : IReport
+	public static function create(runner : Runner, ?displaySuccessResults : SuccessResultsDisplayMode, ?headerDisplayMode : HeaderDisplayMode) : IReport<Dynamic>
 	{
-		var report : IReport;
-#if php
-		if (php.Lib.isCli())
+		var report : IReport<Dynamic>;
+#if (php || neko || cpp)
+		if (!Web.isModNeko)
 			report = new PrintReport(runner);
 		else
-			report = new HtmlReport(runner, php.Lib.print, true, true);
-#elseif neko
-		if (!neko.Web.isModNeko)
-			report = new PrintReport(runner);
+			report = new HtmlReport(runner, true);
+#elseif js
+		report = new HtmlReport(runner, true);
+#elseif flash
+		if(flash.external.ExternalInterface.available)
+			report = new HtmlReport(runner, true);
 		else
-			report = new HtmlReport(runner, neko.Lib.print, true, true);
+			report = new PrintReport(runner);
 #else
 		report = new PrintReport(runner);
 #end
