@@ -140,9 +140,18 @@ class Assert {
 	* unless you know what you are doing.
 	* @todo test the approximation argument
 	*/
-	public static function floatEquals(expected : Float, value : Float, approx = 1e-5, ?msg : String , ?pos : PosInfos) {
-		if(msg == null) msg = "expected " + expected + " but was " + value;
-		isTrue(Math.abs(value-expected) < approx, msg, pos);
+	public static function floatEquals(expected : Float, value : Float, ?approx : Float, ?msg : String , ?pos : PosInfos) : Void {
+		if (msg == null) msg = "expected " + expected + " but was " + value;
+		if (Math.isNaN(expected))
+			if (Math.isNaN(value))
+				return isTrue(true, msg, pos);
+			else
+				return isTrue(false, msg, pos);
+		else if (Math.isNaN(value))
+			return isTrue(false, msg, pos);
+		if (null == approx)
+			approx = 1e-5;
+		return isTrue(Math.abs(value-expected) < approx, msg, pos);
 	}
 
 	static function getTypeName(v : Dynamic) {
