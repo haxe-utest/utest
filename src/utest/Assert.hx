@@ -162,10 +162,10 @@ class Assert {
 	}
 
 	static function getTypeName(v : Dynamic) {
-		if(v == null) return null;
-		if(Std.is(v, Bool)) return "Bool";
-		if(Std.is(v, Int)) return "Int";
-		if(Std.is(v, Float)) return "Float";
+		if (v == null) return null;
+		if (Std.is(v, Bool)) return "Bool";
+		if (Std.is(v, Int)) return "Int";
+		if (Std.is(v, Float)) return "Float";
 		if (Std.is(v, String)) return "String";
 			
 		var s = null;
