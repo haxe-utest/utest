@@ -198,14 +198,14 @@ class Assert {
 		var isanonym = texpected == '{}';
 
 		if(texpected != tvalue) {
-			status.error = "expected type " + texpected + " but it is " + tvalue + (status.path == '' ? '' : ' at ' + status.path);
+			status.error = "expected type " + texpected + " but it is " + tvalue + (status.path == '' ? '' : ' for field ' + status.path);
 			return false;
 		}
 
 		// null
 		if(expected == null) {
 			if(value != null) {
-				status.error = "expected null but it is " + q(value) + (status.path == '' ? '' : ' at '+status.path);
+				status.error = "expected null but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
 				return false;
 			}
 			return true;
@@ -214,7 +214,7 @@ class Assert {
 		// bool, int, float, string
 		if(Std.is(expected, Bool) || Std.is(expected, Int) || Std.is(expected, Float) || Std.is(expected, String)) {
 			if(expected != value) {
-				status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' at '+status.path);
+				status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
 				return false;
 			}
 			return true;
@@ -223,7 +223,7 @@ class Assert {
 		// date
 		if(Std.is(expected, Date)) {
 			if(expected.getTime() != value.getTime()) {
-				status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' at '+status.path);
+				status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
 				return false;
 			}
 			return true;
@@ -233,7 +233,7 @@ class Assert {
 		if(Type.getEnum(expected) != null) {
 			if(status.recursive || status.path == '') {
 				if(Type.enumIndex(expected) != Type.enumIndex(value)) {
-					status.error = 'expected ' + q(Type.enumConstructor(expected)) + ' but is ' + q(Type.enumConstructor(value)) + (status.path == '' ? '' : ' at '+status.path);
+					status.error = 'expected ' + q(Type.enumConstructor(expected)) + ' but is ' + q(Type.enumConstructor(value)) + (status.path == '' ? '' : ' for field '+status.path);
 					return false;
 				}
 				var eparams = Type.enumParameters(expected);
@@ -242,7 +242,7 @@ class Assert {
 				for(i in 0...eparams.length) {
 					status.path = path == '' ? 'enum['+i+']' : path + '['+i+']';
 					if (!sameAs(eparams[i], vparams[i], status)) {
-						status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' at '+status.path);
+						status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
 						return false;
 					}
 				}
@@ -254,7 +254,7 @@ class Assert {
 		if(Std.is(expected, Array)) {
 			if(status.recursive || status.path == '') {
 				if(expected.length != value.length) {
-					status.error = "expected "+expected.length+" elements but they were "+value.length + (status.path == '' ? '' : ' at '+status.path);
+					status.error = "expected "+expected.length+" elements but they were "+value.length + (status.path == '' ? '' : ' for field '+status.path);
 					return false;
 				}
 				var path = status.path;
@@ -262,7 +262,7 @@ class Assert {
 					status.path = path == '' ? 'array['+i+']' : path + '['+i+']';
 					if (!sameAs(expected[i], value[i], status))
 					{
-						status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' at '+status.path);
+						status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
 						return false;
 					}
 				}
@@ -279,7 +279,7 @@ class Assert {
 				for (i in 0...ebytes.length)
 					if (ebytes.get(i) != vbytes.get(i))
 					{
-						status.error = "expected byte " + ebytes.get(i) + " but wss " + ebytes.get(i) + (status.path == '' ? '' : ' at '+status.path);
+						status.error = "expected byte " + ebytes.get(i) + " but wss " + ebytes.get(i) + (status.path == '' ? '' : ' for field '+status.path);
 						return false;
 					}
 			}
@@ -292,7 +292,7 @@ class Assert {
 				var keys  = Lambda.array({ iterator : function() return expected.keys() });
 				var vkeys = Lambda.array({ iterator : function() return value.keys() });
 				if(keys.length != vkeys.length) {
-					status.error = "expected "+keys.length+" keys but they were "+vkeys.length + (status.path == '' ? '' : ' at '+status.path);
+					status.error = "expected "+keys.length+" keys but they were "+vkeys.length + (status.path == '' ? '' : ' for field '+status.path);
 					return false;
 				}
 				var path = status.path;
@@ -300,7 +300,7 @@ class Assert {
 					status.path = path == '' ? 'hash['+key+']' : path + '['+key+']';
 					if (!sameAs(expected.get(key), value.get(key), status))
 					{
-						status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' at '+status.path);
+						status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
 						return false;
 					}
 				}
@@ -311,14 +311,14 @@ class Assert {
 		// iterator
 		if(isIterator(expected, isanonym)) {
 			if(isanonym && !(isIterator(value, true))) {
-				status.error = "expected Iterable but it is not " + (status.path == '' ? '' : ' at '+status.path);
+				status.error = "expected Iterable but it is not " + (status.path == '' ? '' : ' for field '+status.path);
 				return false;
 			}
 			if(status.recursive || status.path == '') {
 				var evalues = Lambda.array({ iterator : function() return expected });
 				var vvalues = Lambda.array({ iterator : function() return value });
 				if(evalues.length != vvalues.length) {
-					status.error = "expected "+evalues.length+" values in Iterator but they were "+vvalues.length + (status.path == '' ? '' : ' at '+status.path);
+					status.error = "expected "+evalues.length+" values in Iterator but they were "+vvalues.length + (status.path == '' ? '' : ' for field '+status.path);
 					return false;
 				}
 				var path = status.path;
@@ -326,7 +326,7 @@ class Assert {
 					status.path = path == '' ? 'iterator['+i+']' : path + '['+i+']';
 					if (!sameAs(evalues[i], vvalues[i], status))
 					{
-						status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' at '+status.path);
+						status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
 						return false;
 					}
 				}
@@ -337,14 +337,14 @@ class Assert {
 		// iterable
 		if(isIterable(expected, isanonym)) {
 			if(isanonym && !(isIterable(value, true))) {
-				status.error = "expected Iterator but it is not " + (status.path == '' ? '' : ' at '+status.path);
+				status.error = "expected Iterator but it is not " + (status.path == '' ? '' : ' for field '+status.path);
 				return false;
 			}
 			if(status.recursive || status.path == '') {
 				var evalues = Lambda.array(expected);
 				var vvalues = Lambda.array(value);
 				if(evalues.length != vvalues.length) {
-					status.error = "expected "+evalues.length+" values in Iterable but they were "+vvalues.length + (status.path == '' ? '' : ' at '+status.path);
+					status.error = "expected "+evalues.length+" values in Iterable but they were "+vvalues.length + (status.path == '' ? '' : ' for field '+status.path);
 					return false;
 				}
 				var path = status.path;
