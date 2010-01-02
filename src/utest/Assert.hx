@@ -28,8 +28,10 @@ class Assert {
 	* @param pos: Code position where the Assert call has been executed. Don't fill it
 	* unless you know what you are doing.
 	*/
-	public static function isTrue(cond : Bool, msg = "expected true", ?pos : PosInfos) {
-		if(results == null) throw "Assert.results is not currently bound to any assert context";
+	public static function isTrue(cond : Bool, ?msg : String, ?pos : PosInfos) {
+		if (results == null) throw "Assert.results is not currently bound to any assert context";
+		if (null == msg)
+			msg = "expected true";
 		if(cond)
 			results.add(Success(pos));
 		else
@@ -42,7 +44,9 @@ class Assert {
 	* @param pos: Code position where the Assert call has been executed. Don't fill it
 	* unless you know what you are doing.
 	*/
-	public static function isFalse(value : Bool, msg = "expected false", ?pos : PosInfos) {
+	public static function isFalse(value : Bool, ?msg : String, ?pos : PosInfos) {
+		if (null == msg)
+			msg = "expected false";
 		isTrue(value == false, msg, pos);
 	}
 	/**
@@ -53,7 +57,8 @@ class Assert {
 	* unless you know what you are doing.
 	*/
 	public static function isNull(value : Dynamic, ?msg : String, ?pos : PosInfos) {
-		if(msg == null) msg = "expected null but was " + q(value);
+		if (msg == null)
+			msg = "expected null but was " + q(value);
 		isTrue(value == null, msg, pos);
 	}
 	/**
@@ -63,7 +68,9 @@ class Assert {
 	* @param pos: Code position where the Assert call has been executed. Don't fill it
 	* unless you know what you are doing.
 	*/
-	public static function notNull(value : Dynamic, msg = "expected not null", ?pos : PosInfos) {
+	public static function notNull(value : Dynamic, ?msg : String, ?pos : PosInfos) {
+		if (null == msg)
+			msg = "expected false";
 		isTrue(value != null, msg, pos);
 	}
 	/**
