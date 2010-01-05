@@ -608,29 +608,39 @@ function utestRemoveTooltip() {
 #if (php || neko || cpp)
 		Lib.print(report.getHtml());
 #elseif js
-		var head = Lib.document.getElementsByTagName("head")[0];
-		// add script
-		var script = Lib.document.createElement('script');
-		untyped script.type = 'text/javascript';
-		script.innerHTML = report.jsScript();
-		head.appendChild(script);
-
 		var isDef = function(v) : Bool
 		{
 			return untyped __js__("typeof v != 'undefined'");
 		}
 		
+		var head = Lib.document.getElementsByTagName("head")[0];
+		// add script
+		var script = Lib.document.createElement('script');
+		untyped script.type = 'text/javascript';
+		var sjs = report.jsScript();
+		untyped if (isDef(script.text))
+		{
+			script.text = sjs;
+		} else {
+			script.innerHTML = sjs;
+		}
+		head.appendChild(script);
+		
 		// add style
 		var style = Lib.document.createElement('style');
 		untyped style.type = 'text/css';
+		
+		var scss = report.cssStyle();
 		untyped
-		if (isDef(style.cssText))
+		if (isDef(style.styleSheet))
 		{
-			style.cssText = report.cssStyle();
+			style.styleSheet.cssText = scss;
+		} else if (isDef(style.cssText)) {
+			style.cssText = scss;
 		} else if (isDef(style.innerText)) {
-			style.innerText = report.cssStyle();
+			style.innerText = scss;
 		} else {
-			style.innerHTML = report.cssStyle();
+			style.innerHTML = scss;
 		}
 		head.appendChild(style);
 		

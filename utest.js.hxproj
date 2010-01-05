@@ -4,7 +4,7 @@
   <output>
     <movie disabled="False" />
     <movie input="" />
-    <movie path="bin/test.js" />
+    <movie path="bin\test.js" />
     <movie fps="0" />
     <movie width="0" />
     <movie height="0" />
@@ -44,7 +44,7 @@
   <!-- Other project options -->
   <options>
     <option showHiddenPaths="False" />
-    <option testMovie="Custom" />
-    <option testMovieCommand="http://localhost/index.php" />
+    <option testMovie="OpenDocument" />
+    <option testMovieCommand="bin/index.js.html" />
   </options>
 </project>

@@ -20,6 +20,7 @@ class TestAll
 		runner.addCase(new lang.TestClassInheritance());
 		runner.addCase(new lang.TestCodeBlocks());
 		runner.addCase(new lang.TestCompareTest());
+		runner.addCase(new lang.TestDefaultArguments());
 		runner.addCase(new lang.TestDynamicClass());
 		runner.addCase(new lang.TestDynamicFunction());
 		runner.addCase(new lang.TestEnumAccess());
@@ -29,6 +30,7 @@ class TestAll
 		runner.addCase(new lang.TestExtensions());
 		runner.addCase(new lang.TestForAccess());
 		runner.addCase(new lang.TestIfAccess());
+		runner.addCase(new lang.TestInline());
 		runner.addCase(new lang.TestInterfaceAccess());
 		runner.addCase(new lang.TestIntIteratorAccess());
 		runner.addCase(new lang.TestNativeArray());

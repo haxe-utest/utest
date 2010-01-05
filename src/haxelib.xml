@@ -3,5 +3,5 @@
 	<tag v="cross"/>
 	<tag v="unittesting" />
     <description>Unit Testing System for haXe</description>
-    <version name="0.1.2">improved methods in utest.Assert</version>
+    <version name="0.2.1">Fix for IE</version>
 </project>
