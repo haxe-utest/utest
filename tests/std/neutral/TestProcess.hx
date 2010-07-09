@@ -5,8 +5,10 @@ import haxe.io.Error;
 
 #if php
 import php.io.Process;
-#else
+#elseif neko
 import neko.io.Process;
+#elseif cpp
+import cpp.io.Process;
 #end
 
 class TestProcess {

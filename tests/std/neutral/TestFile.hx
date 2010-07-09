@@ -7,11 +7,15 @@ import php.FileSystem;
 import php.io.File;
 import php.Sys;
 import php.Web;
-#else
+#elseif neko
 import neko.FileSystem;
 import neko.io.File;
 import neko.Sys;
 import neko.Web;
+#elseif cpp
+import cpp.FileSystem;
+import cpp.io.File;
+import cpp.Sys;
 #end
 
 class TestFile {
@@ -24,8 +28,10 @@ class TestFile {
 	static function base()
 	{
 		var dir = Sys.getCwd();
+#if (php || neko)
 		if ("/" == dir || "\\" == dir)
 			dir = Web.getCwd();
+#end
 		var last = dir.substr( -1);
 		if ("/" == last || "\\" == last)
 			dir = dir.substr(0, -1);

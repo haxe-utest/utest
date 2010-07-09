@@ -6,6 +6,8 @@ import utest.Assert;
 import neko.net.Host;
 #elseif php
 import php.net.Host;
+#elseif cpp
+import cpp.net.Host;
 #end
 
 class TestHost {

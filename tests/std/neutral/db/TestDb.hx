@@ -4,7 +4,7 @@ import utest.Assert;
 
 #if php
 import php.db.Connection;
-#else
+#elseif neko
 import neko.db.Connection;
 #end
 

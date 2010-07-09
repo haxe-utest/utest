@@ -77,10 +77,12 @@ class TestReflect {
 		Assert.isTrue( c != null );
 		Assert.equals( c, TestReflectClass );
 		Assert.equals( __unprotect__("std.TestReflectClass"), Type.getClassName(c) );
-#if !php
+#if !(php || cpp)
 		Assert.isTrue( untyped c.prototype != null );
 #end
+#if !cpp
 		untyped Assert.isTrue( c.staticFunction != null );
+#end
 		Assert.isTrue( Reflect.hasField( c, __unprotect__("staticVar") ) );
 	}
 

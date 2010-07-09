@@ -10,8 +10,6 @@ import utest.ui.common.HeaderDisplayMode;
 import php.Web;
 #elseif neko
 import neko.Web;
-#elseif cpp
-import cpp.Web;
 #end
 
 class Report
@@ -19,7 +17,7 @@ class Report
 	public static function create(runner : Runner, ?displaySuccessResults : SuccessResultsDisplayMode, ?headerDisplayMode : HeaderDisplayMode) : IReport<Dynamic>
 	{
 		var report : IReport<Dynamic>;
-#if (php || neko || cpp)
+#if (php || neko)
 		if (!Web.isModNeko)
 			report = new PrintReport(runner);
 		else

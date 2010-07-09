@@ -37,7 +37,7 @@ class TestDynamicFunction {
 		Assert.equals("b", o.b());
 	}
 
-#if !flash9
+#if !(flash9 || cpp)
 	public function testFastListReference() {
 		var f = function() Assert.isTrue(true);
 		var list = new haxe.FastList();

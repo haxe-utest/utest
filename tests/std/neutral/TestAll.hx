@@ -12,7 +12,9 @@ class TestAll
 		runner.addCase(new std.neutral.TestHost());
 		runner.addCase(new std.neutral.TestProcess());
 		runner.addCase(new std.neutral.TestSocket());
+#if (php || neko)
 		std.neutral.db.TestAll.addTests(runner);
+#end
 	}
 	
 	public static function main()

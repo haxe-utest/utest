@@ -162,22 +162,18 @@ class Assert {
 	}
 
 	static function getTypeName(v : Dynamic) {
-		if (v == null) return null;
-		if (Std.is(v, Bool)) return "Bool";
-		if (Std.is(v, Int)) return "Int";
-		if (Std.is(v, Float)) return "Float";
-		if (Std.is(v, String)) return "String";
-			
-		var s = null;
-		try s = Type.getClassName(Type.getClass(v)) catch (e:Dynamic) { }
-		if (s != null) return s;
-		if (Reflect.isObject(v)) return "{}";
-		
-		try s = Type.getEnumName(Type.getEnum(v)) catch (e:Dynamic){}
-		if (s != null) return s;
-		
-		try s = Std.string(Type.typeof(v)) catch (e:Dynamic) { }
-		return s;
+		switch(Type.typeof(v))
+		{
+			case TNull    : return null;
+			case TInt     : return "Int";
+			case TFloat   : return "Float";
+			case TBool    : return "Bool";
+			case TFunction: return "function";
+			case TClass(c): return Type.getClassName(c);
+			case TEnum(e) : return Type.getEnumName(e);
+			case TObject  : return "Object";
+			case TUnknown : return "Unknown";
+		}
 	}
 
 	static function isIterable(v : Dynamic, isAnonym : Bool) {
@@ -195,198 +191,263 @@ class Assert {
 	static function sameAs(expected : Dynamic, value : Dynamic, status : LikeStatus) {
 		var texpected = getTypeName(expected);
 		var tvalue = getTypeName(value);
-		var isanonym = texpected == '{}';
+		var isanonym = texpected == 'Object';
 
 		if(texpected != tvalue) {
 			status.error = "expected type " + texpected + " but it is " + tvalue + (status.path == '' ? '' : ' for field ' + status.path);
 			return false;
 		}
-
-		// null
-		if(expected == null) {
-			if(value != null) {
-				status.error = "expected null but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
-				return false;
-			}
-			return true;
-		}
-
-		// bool, int, float, string
-		if(Std.is(expected, Bool) || Std.is(expected, Int) || Std.is(expected, Float) || Std.is(expected, String)) {
-			if(expected != value) {
-				status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
-				return false;
-			}
-			return true;
-		}
-
-		// date
-		if(Std.is(expected, Date)) {
-			if(expected.getTime() != value.getTime()) {
-				status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
-				return false;
-			}
-			return true;
-		}
-
-		// enums
-		if(Type.getEnum(expected) != null) {
-			if(status.recursive || status.path == '') {
-				if(Type.enumIndex(expected) != Type.enumIndex(value)) {
-					status.error = 'expected ' + q(Type.enumConstructor(expected)) + ' but is ' + q(Type.enumConstructor(value)) + (status.path == '' ? '' : ' for field '+status.path);
+		switch(Type.typeof(expected))
+		{
+			case TNull, TInt, TFloat, TBool:
+				if(expected != value) {
+					status.error = "expected " + expected + " but it is " + value + (status.path == '' ? '' : ' for field '+status.path);
 					return false;
 				}
-				var eparams = Type.enumParameters(expected);
-				var vparams = Type.enumParameters(value);
-				var path = status.path;
-				for(i in 0...eparams.length) {
-					status.path = path == '' ? 'enum['+i+']' : path + '['+i+']';
-					if (!sameAs(eparams[i], vparams[i], status)) {
+				return true;
+			case TFunction:
+				if (!Reflect.compareMethods(expected, value))
+				{
+					status.error = "expected same function reference" + (status.path == '' ? '' : ' for field '+status.path);
+					return false;
+				}
+				return true;
+			case TClass(c):
+				var cexpected = Type.getClassName(c);
+				var cvalue = Type.getClassName(Type.getClass(value));
+				if (cexpected != cvalue)
+				{
+					status.error = "expected instance of " + cexpected + " but it is " + cvalue + (status.path == '' ? '' : ' for field '+status.path);
+					return false;
+				}
+				
+				// arrays
+				if(Std.is(expected, Array)) {
+					if(status.recursive || status.path == '') {
+						if(expected.length != value.length) {
+							status.error = "expected "+expected.length+" elements but they were "+value.length + (status.path == '' ? '' : ' for field '+status.path);
+							return false;
+						}
+						var path = status.path;
+						for(i in 0...expected.length) {
+							status.path = path == '' ? 'array['+i+']' : path + '['+i+']';
+							if (!sameAs(expected[i], value[i], status))
+							{
+								status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
+								return false;
+							}
+						}
+					}
+					return true;
+				}
+
+				// date
+				if(Std.is(expected, Date)) {
+					if(expected.getTime() != value.getTime()) {
 						status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
 						return false;
 					}
+					return true;
 				}
-			}
-			return true;
-		}
+				
+				// bytes
+				if(Std.is(expected, Bytes)) {
+					if(status.recursive || status.path == '') {
+						var ebytes : Bytes = expected;
+						var vbytes : Bytes = value;
+						if (ebytes.length != vbytes.length) return false;
+						for (i in 0...ebytes.length)
+							if (ebytes.get(i) != vbytes.get(i))
+							{
+								status.error = "expected byte " + ebytes.get(i) + " but wss " + ebytes.get(i) + (status.path == '' ? '' : ' for field '+status.path);
+								return false;
+							}
+					}
+					return true;
+				}
 
-		// arrays
-		if(Std.is(expected, Array)) {
-			if(status.recursive || status.path == '') {
-				if(expected.length != value.length) {
-					status.error = "expected "+expected.length+" elements but they were "+value.length + (status.path == '' ? '' : ' for field '+status.path);
+				// hash, inthash
+				if(Std.is(expected, Hash) || Std.is(expected, IntHash)) {
+					if(status.recursive || status.path == '') {
+						var keys  = Lambda.array({ iterator : function() return expected.keys() });
+						var vkeys = Lambda.array({ iterator : function() return value.keys() });
+						if(keys.length != vkeys.length) {
+							status.error = "expected "+keys.length+" keys but they were "+vkeys.length + (status.path == '' ? '' : ' for field '+status.path);
+							return false;
+						}
+						var path = status.path;
+						for(key in keys) {
+							status.path = path == '' ? 'hash['+key+']' : path + '['+key+']';
+							if (!sameAs(expected.get(key), value.get(key), status))
+							{
+								status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
+								return false;
+							}
+						}
+					}
+					return true;
+				}
+				
+				// iterator
+				if(isIterator(expected, false)) {
+					if(status.recursive || status.path == '') {
+						var evalues = Lambda.array({ iterator : function() return expected });
+						var vvalues = Lambda.array({ iterator : function() return value });
+						if(evalues.length != vvalues.length) {
+							status.error = "expected "+evalues.length+" values in Iterator but they were "+vvalues.length + (status.path == '' ? '' : ' for field '+status.path);
+							return false;
+						}
+						var path = status.path;
+						for(i in 0...evalues.length) {
+							status.path = path == '' ? 'iterator['+i+']' : path + '['+i+']';
+							if (!sameAs(evalues[i], vvalues[i], status))
+							{
+								status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
+								return false;
+							}
+						}
+					}
+					return true;
+				}
+
+				// iterable
+				if(isIterable(expected, false)) {
+					if(status.recursive || status.path == '') {
+						var evalues = Lambda.array(expected);
+						var vvalues = Lambda.array(value);
+						if(evalues.length != vvalues.length) {
+							status.error = "expected "+evalues.length+" values in Iterable but they were "+vvalues.length + (status.path == '' ? '' : ' for field '+status.path);
+							return false;
+						}
+						var path = status.path;
+						for(i in 0...evalues.length) {
+							status.path = path == '' ? 'iterable['+i+']' : path + '['+i+']';
+							if(!sameAs(evalues[i], vvalues[i], status))
+								return false;
+						}
+					}
+					return true;
+				}
+				
+				if(status.recursive || status.path == '') {
+					var fields = Type.getInstanceFields(Type.getClass(expected));
+					var path = status.path;
+					for(field in fields) {
+						status.path = path == '' ? field : path+'.'+field;
+						var e = Reflect.field(expected, field);
+						if(Reflect.isFunction(e)) continue;
+						var v = Reflect.field(value, field);
+						if(!sameAs(e, v, status))
+							return false;
+					}
+				}
+				
+				return true;
+			case TEnum(e) :
+				var eexpected = Type.getEnumName(e);
+				var evalue = Type.getEnumName(Type.getEnum(value));
+				if (eexpected != evalue)
+				{
+					status.error = "expected enumeration of " + eexpected + " but it is " + evalue + (status.path == '' ? '' : ' for field '+status.path);
 					return false;
 				}
-				var path = status.path;
-				for(i in 0...expected.length) {
-					status.path = path == '' ? 'array['+i+']' : path + '['+i+']';
-					if (!sameAs(expected[i], value[i], status))
-					{
-						status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
+				
+				if(status.recursive || status.path == '') {
+					if(Type.enumIndex(expected) != Type.enumIndex(value)) {
+						status.error = 'expected ' + q(Type.enumConstructor(expected)) + ' but is ' + q(Type.enumConstructor(value)) + (status.path == '' ? '' : ' for field '+status.path);
 						return false;
 					}
-				}
-			}
-			return true;
-		}
-		
-		// bytes
-		if(Std.is(expected, Bytes)) {
-			if(status.recursive || status.path == '') {
-				var ebytes : Bytes = expected;
-				var vbytes : Bytes = value;
-				if (ebytes.length != vbytes.length) return false;
-				for (i in 0...ebytes.length)
-					if (ebytes.get(i) != vbytes.get(i))
-					{
-						status.error = "expected byte " + ebytes.get(i) + " but wss " + ebytes.get(i) + (status.path == '' ? '' : ' for field '+status.path);
-						return false;
-					}
-			}
-			return true;
-		}
-
-		// hash, inthash
-		if(Std.is(expected, Hash) || Std.is(expected, IntHash)) {
-			if(status.recursive || status.path == '') {
-				var keys  = Lambda.array({ iterator : function() return expected.keys() });
-				var vkeys = Lambda.array({ iterator : function() return value.keys() });
-				if(keys.length != vkeys.length) {
-					status.error = "expected "+keys.length+" keys but they were "+vkeys.length + (status.path == '' ? '' : ' for field '+status.path);
-					return false;
-				}
-				var path = status.path;
-				for(key in keys) {
-					status.path = path == '' ? 'hash['+key+']' : path + '['+key+']';
-					if (!sameAs(expected.get(key), value.get(key), status))
-					{
-						status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
-						return false;
+					var eparams = Type.enumParameters(expected);
+					var vparams = Type.enumParameters(value);
+					var path = status.path;
+					for(i in 0...eparams.length) {
+						status.path = path == '' ? 'enum['+i+']' : path + '['+i+']';
+						if (!sameAs(eparams[i], vparams[i], status)) {
+							status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
+							return false;
+						}
 					}
 				}
-			}
-			return true;
-		}
-
-		// iterator
-		if(isIterator(expected, isanonym)) {
-			if(isanonym && !(isIterator(value, true))) {
-				status.error = "expected Iterable but it is not " + (status.path == '' ? '' : ' for field '+status.path);
-				return false;
-			}
-			if(status.recursive || status.path == '') {
-				var evalues = Lambda.array({ iterator : function() return expected });
-				var vvalues = Lambda.array({ iterator : function() return value });
-				if(evalues.length != vvalues.length) {
-					status.error = "expected "+evalues.length+" values in Iterator but they were "+vvalues.length + (status.path == '' ? '' : ' for field '+status.path);
-					return false;
-				}
-				var path = status.path;
-				for(i in 0...evalues.length) {
-					status.path = path == '' ? 'iterator['+i+']' : path + '['+i+']';
-					if (!sameAs(evalues[i], vvalues[i], status))
-					{
-						status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
-						return false;
+				return true;
+			case TObject  :
+				if(status.recursive || status.path == '') {
+					var fields = Reflect.fields(expected);
+					var path = status.path;
+					for(field in fields) {
+						status.path = path == '' ? field : path+'.'+field;
+						if(!Reflect.hasField(value, field)) {
+							status.error = "expected field " + status.path + " does not exist in " + value;
+							return false;
+						}
+						var e = Reflect.field(expected, field);
+						if(Reflect.isFunction(e)) continue;
+						var v = Reflect.field(value, field);
+						if(!sameAs(e, v, status))
+							return false;
 					}
 				}
-			}
-			return true;
-		}
-
-		// iterable
-		if(isIterable(expected, isanonym)) {
-			if(isanonym && !(isIterable(value, true))) {
-				status.error = "expected Iterator but it is not " + (status.path == '' ? '' : ' for field '+status.path);
-				return false;
-			}
-			if(status.recursive || status.path == '') {
-				var evalues = Lambda.array(expected);
-				var vvalues = Lambda.array(value);
-				if(evalues.length != vvalues.length) {
-					status.error = "expected "+evalues.length+" values in Iterable but they were "+vvalues.length + (status.path == '' ? '' : ' for field '+status.path);
-					return false;
-				}
-				var path = status.path;
-				for(i in 0...evalues.length) {
-					status.path = path == '' ? 'iterable['+i+']' : path + '['+i+']';
-					if(!sameAs(evalues[i], vvalues[i], status))
-						return false;
-				}
-			}
-			return true;
-		}
-
-		// objects
-		if(Reflect.isObject(expected)) {
-			if(status.recursive || status.path == '') {
-				var fields = texpected == "{}" ? Reflect.fields(expected) : Type.getInstanceFields(Type.getClass(expected));
-				var path = status.path;
-				for(field in fields) {
-					status.path = path == '' ? field : path+'.'+field;
-					if(texpected == "{}" && !Reflect.hasField(value, field)) {
-						status.error = "expected field " + status.path + " does not exist in " + value;
+				
+				// iterator
+				if(isIterator(expected, true)) {
+					if(!(isIterator(value, true))) {
+						status.error = "expected Iterable but it is not " + (status.path == '' ? '' : ' for field '+status.path);
 						return false;
 					}
-					var e = Reflect.field(expected, field);
-					if(Reflect.isFunction(e)) continue;
-					var v = Reflect.field(value, field);
-					if(!sameAs(e, v, status))
-						return false;
+					if(status.recursive || status.path == '') {
+						var evalues = Lambda.array({ iterator : function() return expected });
+						var vvalues = Lambda.array({ iterator : function() return value });
+						if(evalues.length != vvalues.length) {
+							status.error = "expected "+evalues.length+" values in Iterator but they were "+vvalues.length + (status.path == '' ? '' : ' for field '+status.path);
+							return false;
+						}
+						var path = status.path;
+						for(i in 0...evalues.length) {
+							status.path = path == '' ? 'iterator['+i+']' : path + '['+i+']';
+							if (!sameAs(evalues[i], vvalues[i], status))
+							{
+								status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
+								return false;
+							}
+						}
+					}
+					return true;
 				}
-			}
-			return true;
-		}
 
+				// iterable
+				if(isIterable(expected, true)) {
+					if(!(isIterable(value, true))) {
+						status.error = "expected Iterator but it is not " + (status.path == '' ? '' : ' for field '+status.path);
+						return false;
+					}
+					if(status.recursive || status.path == '') {
+						var evalues = Lambda.array(expected);
+						var vvalues = Lambda.array(value);
+						if(evalues.length != vvalues.length) {
+							status.error = "expected "+evalues.length+" values in Iterable but they were "+vvalues.length + (status.path == '' ? '' : ' for field '+status.path);
+							return false;
+						}
+						var path = status.path;
+						for(i in 0...evalues.length) {
+							status.path = path == '' ? 'iterable['+i+']' : path + '['+i+']';
+							if(!sameAs(evalues[i], vvalues[i], status))
+								return false;
+						}
+					}
+					return true;
+				}
+				return true;
+			case TUnknown :
+				return throw "Unable to compare  two unknown types";
+		}
 		return throw "Unable to compare values: " + q(expected) + " and " + q(value);
 	}
 	
 	static function q(v : Dynamic)
 	{
-		if (Std.is(v, String))
-			return '"' + StringTools.replace(v, '"', '\\"') + '"';
-		else if (v == null)
+		if (null == v)
 			return "null";
+		else if (Std.is(v, String))
+			return '"' + StringTools.replace(v, '"', '\\"') + '"';
 		else
 			return "" + v;
 	}

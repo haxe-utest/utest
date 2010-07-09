@@ -23,8 +23,9 @@ class TestAll
 		runner.addCase(new lang.TestDefaultArguments());
 		runner.addCase(new lang.TestDynamicClass());
 		runner.addCase(new lang.TestDynamicFunction());
+#if !cpp
 		runner.addCase(new lang.TestEnumAccess());
-
+#end
 		runner.addCase(new lang.TestEnumSyntax());
 		runner.addCase(new lang.TestEqualityOperators());
 		runner.addCase(new lang.TestExtensions());
@@ -36,7 +37,9 @@ class TestAll
 		runner.addCase(new lang.TestNativeArray());
 		runner.addCase(new lang.TestNativeString());
 		runner.addCase(new lang.TestPrivateClassAccess());
+#if !cpp
 		runner.addCase(new lang.TestPropertyAccess());
+#end
 		runner.addCase(new lang.TestSwitchCaseAccess());
 		runner.addCase(new lang.TestToString());
 		runner.addCase(new lang.TestTryCatch());

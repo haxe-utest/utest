@@ -8,6 +8,9 @@ import neko.net.Socket;
 #elseif php
 import php.net.Host;
 import php.net.Socket;
+#elseif cpp
+import cpp.net.Host;
+import cpp.net.Socket;
 #end
 
 

@@ -21,7 +21,7 @@ import cpp.Lib;
 */
 class PrintReport extends PlainTextReport {
 	var useTrace : Bool;
-#if (php || neko || cpp)
+#if (php || neko)
 	public function new(runner : Runner, ?useTrace : Bool) {
 		if(null == useTrace)
 			useTrace = false;
@@ -31,8 +31,6 @@ class PrintReport extends PlainTextReport {
 		if (php.Lib.isCli()) {
 #elseif neko
 		if (!neko.Web.isModNeko) {
-#elseif cpp
-		if (!cpp.Web.isModNeko) {
 #end
 			newline = "\n";
 			indent  = "  ";
