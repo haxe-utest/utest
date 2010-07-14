@@ -582,10 +582,13 @@ class Assert {
 				if (msg == null)
 				{
 					msg = "expected '" + s + "' after ";
-					var cut = value.substr(Std.int(Math.max(0, value.length - 20)));
 					if (p > 0)
-						msg += " '" + (cut.length != value.length ? '...' : '') + cut + "'" ;
-					else
+					{
+						var cut = value.substr(0, p);
+						if (cut.length > 30)
+							cut = '...' + cut.substr( -27);
+						msg += " '" + cut + "'" ;
+					} else
 						msg += " begin";
 				}
 				fail(msg, pos);
