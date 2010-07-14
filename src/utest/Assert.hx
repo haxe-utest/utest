@@ -570,14 +570,14 @@ class Assert {
 	public static function stringSequence(sequence : Array<String>, value : String, ?msg : String , ?pos : PosInfos) {
 		if (null == value)
 		{
-			fail(msg == null ? "null argument value" : msg);
+			fail(msg == null ? "null argument value" : msg, pos);
 			return;
 		}
 		var p = 0;
 		for (s in sequence)
 		{
-			var pos = value.indexOf(s, p);
-			if (pos < 0)
+			var p2 = value.indexOf(s, p);
+			if (p2 < 0)
 			{
 				if (msg == null)
 				{
@@ -588,10 +588,10 @@ class Assert {
 					else
 						msg += " begin";
 				}
-				fail(msg);
+				fail(msg, pos);
 				return;
 			}
-			p = pos + s.length;
+			p = p2 + s.length;
 		}
 		isTrue(true, msg, pos);
 	}
