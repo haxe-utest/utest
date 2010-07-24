@@ -12,7 +12,8 @@ class TestAll
 		std.neko.TestAll.addTests(runner);
 #end
 #if (neko || php || cpp)
-		std.neutral.TestAll.addTests(runner);
+// these tests requires to have mysql properly configured and take a long time to execute
+//		std.neutral.TestAll.addTests(runner);
 #end
 		runner.addCase(new std.TestArray());
 		runner.addCase(new std.TestDate());

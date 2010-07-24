@@ -2,6 +2,8 @@ package std.neutral;
 
 import utest.Assert;
 
+import haxe.io.Eof;
+
 #if php
 import php.FileSystem;
 import php.io.File;
@@ -55,6 +57,25 @@ class TestFile {
 		Assert.equals('neko', input.readLine());
 		Assert.equals('php', input.readAll().toString());
 		input.close();
+	}
+	
+	public function testReadLine()
+	{
+		var out = File.write(testfile(), true);
+		var buf = "";
+		for (i in 0...3)
+		{
+			buf += i;
+			out.writeString(buf + "\n");
+		}
+		out.close();
+		var input = File.read(testfile(), false);
+		Assert.equals("0", input.readLine());
+		Assert.equals("01", input.readLine());
+		Assert.equals("012", input.readLine());
+		Assert.raises(function() {
+			input.readLine();
+		}, Eof);
 	}
 
 	public function testBin() {

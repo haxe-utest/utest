@@ -5,6 +5,7 @@ class TestAll
 {
 	public static function addTests(runner : Runner)
 	{
+		issue.TestAll.addTests(runner);
 		cross.TestAll.addTests(runner);
 		lang.TestAll.addTests(runner);
 		platform.TestAll.addTests(runner);

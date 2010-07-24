@@ -197,15 +197,15 @@ class HtmlReport implements IReport < HtmlReport > {
 				case Failure(msg, pos):
 					messages.push("<strong>line " + pos.lineNumber + "</strong>: <em>" + StringTools.htmlEscape(msg) + "</em>");
 				case Error(e, s):
-					messages.push("<strong>error</strong>: <em>" + StringTools.htmlEscape(Std.string(e)) + "</em>\n" + formatStack(s));
+					messages.push("<strong>error</strong>: <em>" + getErrorDescription(e) + "</em>\n<br/><strong>stack</strong>:" + getErrorStack(s, e));
 				case SetupError(e, s):
-					messages.push("<strong>setup error</strong>: " + StringTools.htmlEscape(Std.string(e)) + "\n" + formatStack(s));
+					messages.push("<strong>setup error</strong>: " + getErrorDescription(e) + "\n<br/><strong>stack</strong>:" + getErrorStack(s, e));
 				case TeardownError(e, s):
-					messages.push("<strong>tear-down error</strong>: " + StringTools.htmlEscape(Std.string(e)) + "\n" + formatStack(s));
+					messages.push("<strong>tear-down error</strong>: " + getErrorDescription(e) + "\n<br/><strong>stack</strong>:" + getErrorStack(s, e));
 				case TimeoutError(missedAsyncs, s):
 					messages.push("<strong>missed async call(s)</strong>: " + missedAsyncs);
 				case AsyncError(e, s):
-					messages.push("<strong>async error</strong>: " + StringTools.htmlEscape(Std.string(e)) + "\n" + formatStack(s));
+					messages.push("<strong>async error</strong>: " + getErrorDescription(e) + "\n<br/><strong>stack</strong>:" + getErrorStack(s, e));
 				case Warning(msg):
 					messages.push(StringTools.htmlEscape(msg));
 			}
@@ -218,6 +218,47 @@ class HtmlReport implements IReport < HtmlReport > {
 		}
 		buf.add('</div>\n');
 		buf.add('</div></li>\n');
+	}
+	
+	function getErrorDescription(e : Dynamic)
+	{
+#if flash
+		if (Std.is(e, flash.Error))
+		{
+			var err = cast(e, flash.Error);
+			return err.name + ": " + err.message;
+		} else {
+			return Std.string(e);
+		}
+#else
+		return Std.string(e);
+#end
+	}
+	
+	function getErrorStack(s : Array<StackItem>, e : Dynamic)
+	{
+#if flash
+		if (Std.is(e, flash.Error))
+		{
+			var stack = cast(e, flash.Error).getStackTrace();
+			if (null != stack)
+			{
+				var parts = stack.split("\n");
+				// cleanup utest calls
+				var result = [];
+				for (p in parts)
+					if (p.indexOf("at utest::") < 0)
+						result.push(p);
+				// pops the last 2 calls
+				result.pop();
+				result.pop();
+				return result.join("<br/>");
+			}
+		}
+		return formatStack(s);
+#else
+		return formatStack(s);
+#end
 	}
 	
 	function addClass(buf : StringBuf, result : ClassResult, name : String, isOk : Bool)
