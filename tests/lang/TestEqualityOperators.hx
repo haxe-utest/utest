@@ -135,10 +135,10 @@ class TestEqualityOperators {
 	}
 
 	public function testStringNullityDynamic1() {
-	var n : Dynamic = null;
-	var i = "a";
-	Assert.isTrue (i !=  n);
-	Assert.isFalse(i ==  n);
+		var n : Dynamic = null;
+		var i = "a";
+		Assert.isTrue (i !=  n);
+		Assert.isFalse(i ==  n);
 	}
 
 	public function testStringNullityDynamic2() {

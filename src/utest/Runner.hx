@@ -87,7 +87,23 @@ class Runner {
 			return false;
 		}
 	}
+#if (php || neko)
+	public function run() {
+		onStart.dispatch(this);
+		for (i in 0...fixtures.length)
+		{
+			var h = runFixture(fixtures[i]);
+			onProgress.dispatch({ result : TestResult.ofHandler(h), done : i+1, totals : length });
+		}
+		onComplete.dispatch(this);
+	}
 
+	function runFixture(fixture : TestFixture<Dynamic>) {
+		var handler = new TestHandler(fixture);
+		handler.execute();
+		return handler;
+	}
+#else
 	var pos : Int;
 	public function run() {
 		pos = 0;
@@ -112,4 +128,5 @@ class Runner {
 		onProgress.dispatch({ result : TestResult.ofHandler(h), done : pos, totals : length });
 		runNext();
 	}
+#end
 }

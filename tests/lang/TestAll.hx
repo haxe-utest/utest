@@ -17,6 +17,7 @@ class TestAll
 		runner.addCase(new lang.TestCallback());
 		runner.addCase(new lang.TestCasts());
 		runner.addCase(new lang.TestClassDefAccess());
+		
 		runner.addCase(new lang.TestClassInheritance());
 		runner.addCase(new lang.TestCodeBlocks());
 		runner.addCase(new lang.TestCompareTest());
@@ -27,9 +28,12 @@ class TestAll
 		runner.addCase(new lang.TestEnumAccess());
 #end
 		runner.addCase(new lang.TestEnumSyntax());
+
 		runner.addCase(new lang.TestEqualityOperators());
 		runner.addCase(new lang.TestExtensions());
+		
 		runner.addCase(new lang.TestForAccess());
+		
 		runner.addCase(new lang.TestIfAccess());
 		runner.addCase(new lang.TestInline());
 		runner.addCase(new lang.TestInterfaceAccess());
@@ -47,6 +51,7 @@ class TestAll
 		runner.addCase(new lang.TestUnusualConstructs());
 		runner.addCase(new lang.TestWhileAccess());
 
+		runner.addCase(new lang.TestMeta());
 #if php
 		runner.addCase(new lang.TestPhpDollarEscape());
 		runner.addCase(new lang.TestPhpReservedWords());
