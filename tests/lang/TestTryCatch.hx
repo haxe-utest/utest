@@ -136,4 +136,24 @@ class TestTryCatch {
 		}
 		return null;
 	}
+
+	// this test is expected to fail when targeting PHP
+	function testNestedTryCatch(){
+		try{
+			try{
+				throw "an exception";
+			}catch(e1:Dynamic){
+				try{
+					throw "dummy";
+				}catch(e2:Dynamic){
+				// due to the PHP implementation the native Exception $»e (e1) is overriden by $»e (e2)
+				// so the assertion below is expected to fail when targeting PHP
+				}
+				php.Lib.rethrow(e1);
+			}
+		}catch(e:Dynamic){
+			Assert.equals("an exception", e);
+		}
+
+        }
 }
