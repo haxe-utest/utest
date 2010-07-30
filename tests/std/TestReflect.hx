@@ -4,6 +4,31 @@ import utest.Assert;
 
 import Type;
 
+
+class ObjectWithGetterSetter {
+
+  public var getter_setter_called:Bool;
+  
+  public function new() {
+    getter_setter_called = false;
+  }
+
+  private var _value: String;
+  public var value(getValue, setValue) : String;
+  private function getValue(): String
+  {
+    getter_setter_called = true;
+    return _value;
+  }
+  public function setValue(value : String): String
+  {
+    getter_setter_called = true;
+    if (_value == value) return _value;
+    return _value = value;
+  }
+  
+}
+
 class TestReflect {
 	public function new(){}
 
@@ -20,6 +45,13 @@ class TestReflect {
 		var o : Dynamic = {};
 		Reflect.setField(o, getA() + "b", "c");
 		Assert.equals("c", o.ab);
+
+                var c = new ObjectWithGetterSetter();
+                Reflect.setField(c, "value", "v");
+                Assert.equals(Reflect.field(c,"value"), "v");
+                // setting / getting values must not call getter / setter methods
+                // SPOD implementations depend on this (?)
+                Assert.equals(false, c.getter_setter_called);
 	}
 
 	public function testNullFields(){
