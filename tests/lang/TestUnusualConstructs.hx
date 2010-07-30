@@ -96,6 +96,17 @@ class TestUnusualConstructs {
 	private function f(suf : String) {
 		return "test" + suf;
 	}
+
+        public function testThisCase(){
+
+		var reqAsString = function(req:String){
+			return Lambda.map(req.split("\n"),function (line){ return "\""+line;} ).join("\n");
+		}
+
+		Assert.equals(reqAsString("A\nB"),"\"A\n\"B");
+
+        }
+
 }
 
 class TestAndUse {
