@@ -138,22 +138,32 @@ class TestTryCatch {
 	}
 
 	// this test is expected to fail when targeting PHP
-	function testNestedTryCatch(){
+	function testNestedTryCatch() {
+		var ex1 = new Ex("an exception");
 		try{
-			try{
-				throw "an exception";
+			try {
+				throw ex1;
 			}catch(e1:Dynamic){
 				try{
-					throw "dummy";
+					throw new Ex("dummy");
 				}catch(e2:Dynamic){
 				// due to the PHP implementation the native Exception $»e (e1) is overriden by $»e (e2)
 				// so the assertion below is expected to fail when targeting PHP
 				}
 				php.Lib.rethrow(e1);
 			}
-		}catch(e:Dynamic){
-			Assert.equals("an exception", e);
+		}catch(e:Ex){
+			Assert.equals("an exception", e.msg);
+			Assert.equals(ex1, e);
 		}
+    }
+}
 
-        }
+private class Ex
+{
+	public var msg(default, null) : String;
+	public function new(msg : String)
+	{
+		this.msg = msg;
+	}
 }
