@@ -26,4 +26,14 @@ class TestResult {
 		r.assertations  = handler.results;
 		return r;
 	}
+
+        public function allOk():Bool{
+		for (l in assertations){
+			switch (l){
+				case Success(pos): break;
+				default: return false;
+			}
+		}
+                return true;
+        }
 }

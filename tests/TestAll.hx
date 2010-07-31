@@ -1,6 +1,7 @@
 ﻿import utest.Runner;
 import utest.ui.Report;
 import utest.Assert;
+import utest.TestResult;
 
 
 // test that PHP doesn't emit warnings
@@ -42,6 +43,13 @@ class TestAll
 		
 		Report.create(runner);
 
+		// get test result to determine exit status
+		var r:TestResult = null;
+                runner.onProgress.add(function(o){ if (o.done == o.totals) r = o.result;});
+
 		runner.run();
+
+		php.Sys.exit(r.allOk() ? 0 : 1);
+
 	}
 }
