@@ -23,6 +23,7 @@ class TestAll
 		runner.addCase(new TestIssue156());
 		runner.addCase(new TestIssue159());
 		runner.addCase(new TestIssue160());
+		runner.addCase(new TestIssue163());
 		runner.addCase(new TestIssueML20100609());
 	}
 	

@@ -54,7 +54,7 @@ class TestIssue159
 		}
 		Assert.equals(7, s);
 	}
-
+	
 #if hscript
 	public function testHScript()
 	{
