@@ -136,7 +136,7 @@ class TestTryCatch {
 		}
 		return null;
 	}
-
+#if php
 	// this test is expected to fail when targeting PHP
 	function testNestedTryCatch() {
 		var ex1 = new Ex("an exception");
@@ -157,6 +157,7 @@ class TestTryCatch {
 			Assert.equals(ex1, e);
 		}
     }
+#end
 }
 
 private class Ex

@@ -14,7 +14,7 @@ class TestIssue156
 	{
 		x = 7;
 	}
-	
+#if !js
 	public function testFieldOnString()
 	{
 		var s = "haXehaXe";
@@ -46,7 +46,8 @@ class TestIssue156
 		var f = Reflect.field(s, 'toString');
 		Assert.equals("haXehaXe", f());
 	}
-	
+#end
+
 	public function inlineFunction()
 	{
 		var f = function() return 1;

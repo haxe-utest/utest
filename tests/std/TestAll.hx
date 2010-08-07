@@ -20,6 +20,7 @@ class TestAll
 		runner.addCase(new std.TestEReg());
 		runner.addCase(new std.TestHash());
 		runner.addCase(new std.TestIntHash());
+		runner.addCase(new std.TestLambda());
 		runner.addCase(new std.TestList());
 		runner.addCase(new std.TestReflect());
 		runner.addCase(new std.TestStd());

@@ -11,7 +11,7 @@ class TestIssueML20100609
 {
 
 	public function new();
-	
+#if php
 	public function testIssue()
 	{
 		Assert.isTrue(rootFolder.length > 0);
@@ -30,4 +30,5 @@ class TestIssueML20100609
     static function setRootFolder (folder:String):String {
         return rootFolder = folder;
     }
+#end
 }

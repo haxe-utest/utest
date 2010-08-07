@@ -19,12 +19,12 @@ class TestAll
 	
 // test that PHP doesn't emit warnings
 // this also catches some parse errors
-	public function testFinal(){
 #if php
+	public function testFinal(){
 		var s:String = untyped __call__("ob_get_clean");
 		Assert.equals("",s);
-#end
 	}
+#end
 	
 	public static function main()
 	{
@@ -42,9 +42,9 @@ class TestAll
                 runner.onProgress.add(function(o){ if (o.done == o.totals) r = o.result;});
 
 		runner.run();
-
+#if php
 		php.Sys.exit(r.allOk() ? 0 : 1);
-
+#end
 	}
 	
 	public function new();
