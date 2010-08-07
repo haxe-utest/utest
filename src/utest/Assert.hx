@@ -437,7 +437,7 @@ class Assert {
 				}
 				return true;
 			case TUnknown :
-				return throw "Unable to compare  two unknown types";
+				return throw "Unable to compare two unknown types";
 		}
 		return throw "Unable to compare values: " + q(expected) + " and " + q(value);
 	}

@@ -5,8 +5,18 @@ import utest.Runner;
 import platform.php.utils.ExternClass;
 
 class TestMiscPhp {
+	public static function platform_php_TestMiscPhp()
+	{
+		return "test";
+	}
+	
 	public function new();
 
+	public function testConflictingFieldName()
+	{
+		Assert.equals("test", platform_php_TestMiscPhp());
+	}
+	
 	public function testRethrow() {
 		try {
 			throw 666;

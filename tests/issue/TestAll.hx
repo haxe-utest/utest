@@ -25,6 +25,7 @@ class TestAll
 		runner.addCase(new TestIssue160());
 		runner.addCase(new TestIssue163());
 		runner.addCase(new TestIssueML20100609());
+		runner.addCase(new TestIssueML20100806());
 	}
 	
 	public static function main()

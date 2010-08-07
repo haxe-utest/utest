@@ -94,6 +94,16 @@ class TestStringTools {
 	public function testLpad2(){
 		Assert.equals("hehe",StringTools.lpad("hehe","abc",3));
 	}
+	
+	public function testHex()
+	{
+		Assert.equals("96B43F", StringTools.hex(9876543));
+	}
+	
+	public function testHex2()
+	{
+		Assert.equals("0004D2", StringTools.hex(1234, 6));
+	}
 /*
 	public function testBaseEncode1(){
 		Assert.equals("706F7565743D3F",StringTools.baseEncode("pouet=?","0123456789ABCDEF"));
