@@ -223,9 +223,9 @@ class HtmlReport implements IReport < HtmlReport > {
 	function getErrorDescription(e : Dynamic)
 	{
 #if flash
-		if (Std.is(e, flash.Error))
+		if (Std.is(e, flash.errors.Error))
 		{
-			var err = cast(e, flash.Error);
+			var err = cast(e, flash.errors.Error);
 			return err.name + ": " + err.message;
 		} else {
 			return Std.string(e);
@@ -238,9 +238,9 @@ class HtmlReport implements IReport < HtmlReport > {
 	function getErrorStack(s : Array<StackItem>, e : Dynamic)
 	{
 #if flash
-		if (Std.is(e, flash.Error))
+		if (Std.is(e, flash.errors.Error))
 		{
-			var stack = cast(e, flash.Error).getStackTrace();
+			var stack = cast(e, flash.errors.Error).getStackTrace();
 			if (null != stack)
 			{
 				var parts = stack.split("\n");

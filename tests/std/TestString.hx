@@ -11,6 +11,10 @@ class TestString {
 		Assert.equals("","".substr(-1,5));
 	}
 
+	public function testCharAt() {
+		Assert.equals("", "".charAt(0));
+	}
+	
 	public function testSub2(){
 		Assert.equals("9","0123456789".substr(-1,1));
 	}
