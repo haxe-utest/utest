@@ -117,4 +117,18 @@ class TestMiscPhp {
 		c = a - b;
 		Assert.equals(-3, c);
 	}
+	
+	public function testStdString()
+	{
+		Assert.equals("true", Std.string(true));
+		Assert.equals("false", Std.string(false));
+		Assert.equals("null", Std.string(null));
+		Assert.equals("None", Std.string(None));
+		Assert.equals('Some("v")', Std.string(Some("v")));
+	}
+}
+
+private enum Opt {
+	None;
+	Some(s : String);
 }

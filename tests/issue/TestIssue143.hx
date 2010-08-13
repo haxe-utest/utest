@@ -21,7 +21,7 @@ class TestIssue143
 		};
 		h.onError = function(e)
 		{
-			Assert.fail();
+			Assert.fail(e);
 		};
         h.request(false);
 	}

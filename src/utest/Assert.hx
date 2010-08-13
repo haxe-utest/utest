@@ -449,7 +449,7 @@ class Assert {
 		else if (Std.is(v, String))
 			return '"' + StringTools.replace(v, '"', '\\"') + '"';
 		else
-			return "" + v;
+			return Std.string(v);
 	}
 
 	/**
