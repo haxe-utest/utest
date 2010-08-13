@@ -444,9 +444,7 @@ class Assert {
 	
 	static function q(v : Dynamic)
 	{
-		if (null == v)
-			return "null";
-		else if (Std.is(v, String))
+		if (Std.is(v, String))
 			return '"' + StringTools.replace(v, '"', '\\"') + '"';
 		else
 			return Std.string(v);
