@@ -24,6 +24,11 @@ class TestAll
 		runner.addCase(new TestIssue159());
 		runner.addCase(new TestIssue160());
 		runner.addCase(new TestIssue163());
+//		runner.addCase(new TestIssue186());
+//		runner.addCase(new TestIssue190());
+//		runner.addCase(new TestIssue191());
+//		runner.addCase(new TestIssue193());
+		runner.addCase(new TestIssue194());
 		runner.addCase(new TestIssueML20100609());
 		runner.addCase(new TestIssueML20100806());
 	}

@@ -48,4 +48,13 @@ class TestAll
 	}
 	
 	public function new();
+	
+	public static function x()
+	{
+		var a = new A();
+		var b : B = cast(a, B);
+	}
 }
+
+class A { public function new() {} }
+class B { public function new() {} }
