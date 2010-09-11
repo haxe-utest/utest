@@ -148,7 +148,7 @@ class Assert {
 	* @todo test the approximation argument
 	*/
 	public static function floatEquals(expected : Float, value : Float, ?approx : Float, ?msg : String , ?pos : PosInfos) : Void {
-		if (msg == null) msg = "expected " + expected + " but was " + value;
+		if (msg == null) msg = "expected " + q(expected) + " but was " + q(value);
 		if (Math.isNaN(expected))
 			if (Math.isNaN(value))
 				return isTrue(true, msg, pos);
@@ -164,7 +164,7 @@ class Assert {
 	static function getTypeName(v : Dynamic) {
 		switch(Type.typeof(v))
 		{
-			case TNull    : return null;
+			case TNull    : return "[null]";
 			case TInt     : return "Int";
 			case TFloat   : return "Float";
 			case TBool    : return "Bool";
@@ -201,7 +201,7 @@ class Assert {
 		{
 			case TNull, TInt, TFloat, TBool:
 				if(expected != value) {
-					status.error = "expected " + expected + " but it is " + value + (status.path == '' ? '' : ' for field '+status.path);
+					status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
 					return false;
 				}
 				return true;
@@ -217,7 +217,7 @@ class Assert {
 				var cvalue = Type.getClassName(Type.getClass(value));
 				if (cexpected != cvalue)
 				{
-					status.error = "expected instance of " + cexpected + " but it is " + cvalue + (status.path == '' ? '' : ' for field '+status.path);
+					status.error = "expected instance of " + q(cexpected) + " but it is " + q(cvalue) + (status.path == '' ? '' : ' for field '+status.path);
 					return false;
 				}
 				
@@ -348,7 +348,7 @@ class Assert {
 				var evalue = Type.getEnumName(Type.getEnum(value));
 				if (eexpected != evalue)
 				{
-					status.error = "expected enumeration of " + eexpected + " but it is " + evalue + (status.path == '' ? '' : ' for field '+status.path);
+					status.error = "expected enumeration of " + q(eexpected) + " but it is " + q(evalue) + (status.path == '' ? '' : ' for field '+status.path);
 					return false;
 				}
 				
@@ -370,20 +370,29 @@ class Assert {
 				}
 				return true;
 			case TObject  :
+				// anonymous object
 				if(status.recursive || status.path == '') {
+					var tfields = Reflect.fields(value);
 					var fields = Reflect.fields(expected);
 					var path = status.path;
-					for(field in fields) {
+					for(field in fields) { 
+						tfields.remove(field);
 						status.path = path == '' ? field : path+'.'+field;
 						if(!Reflect.hasField(value, field)) {
-							status.error = "expected field " + status.path + " does not exist in " + value;
+							status.error = "expected field " + status.path + " does not exist in " + q(value);
 							return false;
 						}
 						var e = Reflect.field(expected, field);
-						if(Reflect.isFunction(e)) continue;
+						if(Reflect.isFunction(e)) 
+							continue;
 						var v = Reflect.field(value, field);
 						if(!sameAs(e, v, status))
 							return false;
+					}
+					if(tfields.length > 0)
+					{
+						status.error = "the tested object has extra field(s) (" + tfields.join(", ") + ") not included in the expected ones";
+						return false;
 					}
 				}
 				
@@ -484,23 +493,30 @@ class Assert {
 	* </pre>
 	* @param method: A method that generates the exception.
 	* @param type: The type of the expected error. Defaults to Dynamic (catch all).
-	* @param msg: An optional error message. If not passed a default one will be used
+	* @param msgNotThrown: An optional error message used when the function fails to raise the expected
+	*  		 exception. If not passed a default one will be used
+	* @param msgWrongType: An optional error message used when the function raises the exception but it is 
+	*  		 of a different type than the one expected. If not passed a default one will be used
 	* @param pos: Code position where the Assert call has been executed. Don't fill it
 	* unless you know what you are doing.
 	* @todo test the optional type parameter
 	*/
-	public static function raises(method:Void -> Void, ?type:Class<Dynamic>, ?msg : String , ?pos : PosInfos) {
+	public static function raises(method:Void -> Void, ?type:Class<Dynamic>, ?msgNotThrown : String , ?msgWrongType : String, ?pos : PosInfos) {
 		if(type == null)
 			type = String;
 		try {
 			method();
 			var name = Type.getClassName(type);
 			if (name == null) name = ""+type;
-			fail("exception of type " + name + " not raised", pos);
+			if (null == msgNotThrown)
+				msgNotThrown = "exception of type " + name + " not raised";
+			fail(msgNotThrown, pos);
 		} catch (ex : Dynamic) {
 			var name = Type.getClassName(type);
 			if (name == null) name = ""+type;
-			isTrue(Std.is(ex, type), "expected throw of type " + name + " but was "  + ex, pos);
+			if (null == msgWrongType)
+				msgWrongType = "expected throw of type " + name + " but was "  + ex;
+			isTrue(Std.is(ex, type), msgWrongType, pos);
 		}
 	}
 	/**
@@ -530,7 +546,7 @@ class Assert {
 		if(Lambda.has(values, match)) {
 			isTrue(true, msg, pos);
 		} else {
-			fail(msg == null ? "values " + values + " do not contain "+match: msg, pos);
+			fail(msg == null ? "values " + q(values) + " do not contain "+match: msg, pos);
 		}
 	}
 	
@@ -546,7 +562,7 @@ class Assert {
 		if(!Lambda.has(values, match)) {
 			isTrue(true, msg, pos);
 		} else {
-			fail(msg == null ? "values " + values + " do contain "+match: msg, pos);
+			fail(msg == null ? "values " + q(values) + " do contain "+match: msg, pos);
 		}
 	}
 	
