@@ -3,5 +3,5 @@
 	<tag v="cross"/>
 	<tag v="unittesting" />
     <description>Unit Testing System for haXe</description>
-    <version name="0.2.3">Fix in error report of Assert.stringSequence</version>
+    <version name="0.2.3">minor fixes</version>
 </project>
