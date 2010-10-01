@@ -1,18 +1,12 @@
 package utest.ui.macro;
 
 import haxe.macro.Context;
-import haxe.PosInfos;
 import neko.Lib;
-import utest.ui.common.IReport;
-import utest.ui.common.HeaderDisplayMode;
+import haxe.Stack;
 
 import utest.Runner;
 import utest.TestResult;
-import utest.ui.common.ResultAggregator;
-import utest.ui.common.PackageResult;
-import haxe.Stack;
 
-using utest.ui.common.ReportTools;
 using StringTools;
 
 /**
@@ -56,8 +50,9 @@ class MacroReport
 		return r.join("\n");
 	}
 
-	// { setup => null, assertations => {Failure(expected 1 but was 3,{ className => UtestClass, fileName => src/UtestClass.hx, methodName => testHello, lineNumber => 20 })}, 
-	// pack => , cls => UtestClass, teardown => null, method => testHello }
+	/**
+	 * @todo When macro warnings work, use Context.warning() on Warning assertation.
+	 */
 	function testDone(test : { result : TestResult, done : Int, totals : Int } )
 	{
 		for (assertation in test.result.assertations)
