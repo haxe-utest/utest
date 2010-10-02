@@ -65,7 +65,7 @@ class MacroRunner
 	//@:macro public static function debugExpr(n : Expr)
 	//{
 	//	trace(n);
-	//	return void;
+	//	return { expr: EConst(CType("Void")), pos: Context.currentPos() };
 	//}
 	
 	static function addClass(runner : Runner, testClass : Class<Dynamic>)
