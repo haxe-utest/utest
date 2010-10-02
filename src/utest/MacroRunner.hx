@@ -2,42 +2,62 @@ package utest;
 
 import haxe.macro.Expr;
 import haxe.macro.Context;
+import haxe.rtti.Meta;
+import haxe.unit.TestRunner;
+import neko.io.File;
+
+import haxe.macro.Expr;
+import haxe.macro.Context;
+import neko.Lib;
 
 import utest.ui.macro.MacroReport;
 import utest.Runner;
 
 class MacroRunner
 {
-	@:macro public static function run(n : Expr)
+	#if macro
+	/**
+	 * Run the unit tests from a macro, displaying errors and a summary in the macro Context.
+	 * @param	testClass Class where the tests are located.
+	 */
+	public static function run(testClass : Dynamic)
 	{
-		try
-		{
-			var runner = new Runner();
-			
-			switch(n.expr)
-			{
-				case EConst(c):
-					switch(c)
-					{
-						case CType(s):
-							var testClass = Type.createInstance(Type.resolveClass(s), []);
-							addClass(runner, testClass);
-						
-						default:
-							Context.error("Argument must be a class type.", Context.currentPos());
-					}
-				
-				default:
-					Context.error("Argument must be a class type.", Context.currentPos());
-			}
+		var runner = new Runner();		
+		addClass(runner, testClass);
+	
+		new MacroReport(runner);
+		runner.run();
 		
-			new MacroReport(runner);
-			runner.run();
-		}
-		catch (e : Dynamic)
+		return { expr: EConst(CType("Void")), pos: Context.currentPos() };
+	}	
+	#end
+	
+	/**
+	 * Displays stub code for using MacroRunner.
+	 * @param n: String of test class to use, "package.ClassName" for example.
+	 * @todo Parse real package/class references instead of just a string.
+	 */
+	@:macro public static function generateMainCode(n : Expr)
+	{
+		var className = "YOURTESTCLASS";
+		
+		switch(n.expr)
 		{
-			trace(e);
+			case EConst(c):
+				switch(c)
+				{
+					case CString(s):
+						className = s;
+						
+					default:
+				}
+				
+			default:
 		}
+		
+		trace("MacroRunner.run() can only be executed from a macro context.\nUse this code as a template in the main class:\n\n" +
+		"class Main\n{\n\tstatic function main()\n\t{\n\t\tMain.runTests();\n\t}\n\n" +
+		"\t@:macro static function runTests()\n\t{\n\t\treturn MacroRunner.run(new " + className + "());\n\t}\n}\n");
 		
 		return { expr: EConst(CType("Void")), pos: Context.currentPos() };
 	}
@@ -45,7 +65,7 @@ class MacroRunner
 	//@:macro public static function debugExpr(n : Expr)
 	//{
 	//	trace(n);
-	//	return { expr: EConst(CType("Void")), pos: Context.currentPos() };
+	//	return void;
 	//}
 	
 	static function addClass(runner : Runner, testClass : Class<Dynamic>)
