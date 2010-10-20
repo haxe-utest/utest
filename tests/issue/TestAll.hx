@@ -24,6 +24,7 @@ class TestAll
 		runner.addCase(new TestIssue159());
 		runner.addCase(new TestIssue160());
 		runner.addCase(new TestIssue163());
+// commented tests do not compile or produce code that cannot be executed
 //		runner.addCase(new TestIssue186());
 //		runner.addCase(new TestIssue190());
 //		runner.addCase(new TestIssue191());
