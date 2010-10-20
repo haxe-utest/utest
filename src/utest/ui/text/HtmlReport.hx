@@ -222,7 +222,7 @@ class HtmlReport implements IReport < HtmlReport > {
 	
 	function getErrorDescription(e : Dynamic)
 	{
-#if flash
+#if flash9
 		if (Std.is(e, flash.errors.Error))
 		{
 			var err = cast(e, flash.errors.Error);
@@ -237,7 +237,7 @@ class HtmlReport implements IReport < HtmlReport > {
 	
 	function getErrorStack(s : Array<StackItem>, e : Dynamic)
 	{
-#if flash
+#if flash9
 		if (Std.is(e, flash.errors.Error))
 		{
 			var stack = cast(e, flash.errors.Error).getStackTrace();
