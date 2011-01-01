@@ -15,7 +15,6 @@
   <classpaths>
     <class path="src" />
     <class path="tests" />
-    <class path="..\..\haxe\std" />
   </classpaths>
   <!-- Build options -->
   <build>
@@ -27,7 +26,7 @@
   </build>
   <!-- haxelib libraries -->
   <haxelib>
-    <library name="hscript" />
+    <!-- example: <library name="..." /> -->
   </haxelib>
   <!-- Class files to compile (other referenced classes will automatically be included) -->
   <compileTargets>

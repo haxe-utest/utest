@@ -24,18 +24,19 @@ class TestAll
 		runner.addCase(new TestIssue159());
 		runner.addCase(new TestIssue160());
 		runner.addCase(new TestIssue163());
-// commented tests do not compile or produce code that cannot be executed
-//		runner.addCase(new TestIssue186());
-//		runner.addCase(new TestIssue190());
-//		runner.addCase(new TestIssue191());
-//		runner.addCase(new TestIssue193());
+		runner.addCase(new TestIssue186());
+		runner.addCase(new TestIssue190());
+		runner.addCase(new TestIssue191());
+		runner.addCase(new TestIssue193());
 		runner.addCase(new TestIssue194());
-		runner.addCase(new TestIssue208());
 		runner.addCase(new TestIssue219());
 		runner.addCase(new TestIssue223());
 		runner.addCase(new TestIssue226());
+		runner.addCase(new TestIssue229());
+		runner.addCase(new TestIssue268());
+		runner.addCase(new TestIssue286());
 		
-//		runner.addCase(new TestIssueMy001());
+		runner.addCase(new TestIssueMy001());
 		runner.addCase(new TestIssueML20100609());
 		runner.addCase(new TestIssueML20100806());
 	}

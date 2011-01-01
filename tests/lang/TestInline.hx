@@ -9,7 +9,6 @@ import utest.Assert;
 
 class TestInline
 {
-
 	public function new();
 
 	static inline function foo(x) return x + 5
