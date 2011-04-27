@@ -235,7 +235,7 @@ class TestAssert {
 		restore();
 		expect(2, 2);
 	}
-
+	
 	public function testSameEnums() {
 		bypass();
 

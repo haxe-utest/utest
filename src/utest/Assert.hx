@@ -149,18 +149,20 @@ class Assert {
 	*/
 	public static function floatEquals(expected : Float, value : Float, ?approx : Float, ?msg : String , ?pos : PosInfos) : Void {
 		if (msg == null) msg = "expected " + q(expected) + " but was " + q(value);
+		return isTrue(_floatEquals(expected, value, approx), msg, pos);
+	}
+	
+	static function _floatEquals(expected : Float, value : Float, ?approx : Float)
+	{
 		if (Math.isNaN(expected))
-			if (Math.isNaN(value))
-				return isTrue(true, msg, pos);
-			else
-				return isTrue(false, msg, pos);
+			return Math.isNaN(value);
 		else if (Math.isNaN(value))
-			return isTrue(false, msg, pos);
+			return false;
 		else if (!Math.isFinite(expected) && !Math.isFinite(value))
-			return isTrue((expected > 0) == (value > 0), msg, pos);
+			return (expected > 0) == (value > 0);
 		if (null == approx)
 			approx = 1e-5;
-		return isTrue(Math.abs(value-expected) < approx, msg, pos);
+		return Math.abs(value-expected) < approx;
 	}
 
 	static function getTypeName(v : Dynamic) {
@@ -201,7 +203,9 @@ class Assert {
 		}
 		switch(Type.typeof(expected))
 		{
-			case TNull, TInt, TFloat, TBool:
+			case TFloat:
+				return _floatEquals(expected, value);
+			case TNull, TInt, TBool:
 				if(expected != value) {
 					status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
 					return false;
