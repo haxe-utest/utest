@@ -22,6 +22,8 @@ class TestAll
 		runner.addCase(new std.TestIntHash());
 		runner.addCase(new std.TestLambda());
 		runner.addCase(new std.TestList());
+		runner.addCase(new std.TestLocals());
+		runner.addCase(new std.TestOps());
 		runner.addCase(new std.TestReflect());
 		runner.addCase(new std.TestStd());
 		runner.addCase(new std.TestString());

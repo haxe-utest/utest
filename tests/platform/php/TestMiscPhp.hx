@@ -126,6 +126,14 @@ class TestMiscPhp {
 		Assert.equals("None", Std.string(None));
 		Assert.equals('Some("v")', Std.string(Some("v")));
 	}
+	
+	public function test0s()
+	{
+		var s = "a" + String.fromCharCode(0) + "b";
+		Assert.notEquals("ab", s);
+		Assert.equals("a" + String.fromCharCode(0) + "b", s);
+		Assert.equals(3, s.length);
+	}
 }
 
 private enum Opt {

@@ -156,6 +156,8 @@ class Assert {
 				return isTrue(false, msg, pos);
 		else if (Math.isNaN(value))
 			return isTrue(false, msg, pos);
+		else if (!Math.isFinite(expected) && !Math.isFinite(value))
+			return isTrue((expected > 0) == (value > 0), msg, pos);
 		if (null == approx)
 			approx = 1e-5;
 		return isTrue(Math.abs(value-expected) < approx, msg, pos);
@@ -218,6 +220,13 @@ class Assert {
 				if (cexpected != cvalue)
 				{
 					status.error = "expected instance of " + q(cexpected) + " but it is " + q(cvalue) + (status.path == '' ? '' : ' for field '+status.path);
+					return false;
+				}
+				
+				// string
+				if (Std.is(expected, String) && expected != value)
+				{
+					status.error = "expected '" + expected + "' but it is '" + value + "'";
 					return false;
 				}
 				
@@ -329,6 +338,7 @@ class Assert {
 					return true;
 				}
 				
+				// custom class
 				if(status.recursive || status.path == '') {
 					var fields = Type.getInstanceFields(Type.getClass(expected));
 					var path = status.path;
@@ -351,19 +361,22 @@ class Assert {
 					status.error = "expected enumeration of " + q(eexpected) + " but it is " + q(evalue) + (status.path == '' ? '' : ' for field '+status.path);
 					return false;
 				}
-				
-				if(status.recursive || status.path == '') {
-					if(Type.enumIndex(expected) != Type.enumIndex(value)) {
+				if (status.recursive || status.path == '')
+				{
+					if (Type.enumIndex(expected) != Type.enumIndex(value))
+					{
 						status.error = 'expected ' + q(Type.enumConstructor(expected)) + ' but is ' + q(Type.enumConstructor(value)) + (status.path == '' ? '' : ' for field '+status.path);
 						return false;
 					}
 					var eparams = Type.enumParameters(expected);
 					var vparams = Type.enumParameters(value);
 					var path = status.path;
-					for(i in 0...eparams.length) {
-						status.path = path == '' ? 'enum['+i+']' : path + '['+i+']';
-						if (!sameAs(eparams[i], vparams[i], status)) {
-							status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
+					for (i in 0...eparams.length)
+					{
+						status.path = path == '' ? 'enum[' + i + ']' : path + '[' + i + ']';
+						if (!sameAs(eparams[i], vparams[i], status))
+						{
+							status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field ' + status.path);
 							return false;
 						}
 					}
@@ -375,7 +388,7 @@ class Assert {
 					var tfields = Reflect.fields(value);
 					var fields = Reflect.fields(expected);
 					var path = status.path;
-					for(field in fields) { 
+					for(field in fields) {
 						tfields.remove(field);
 						status.path = path == '' ? field : path+'.'+field;
 						if(!Reflect.hasField(value, field)) {
@@ -383,7 +396,7 @@ class Assert {
 							return false;
 						}
 						var e = Reflect.field(expected, field);
-						if(Reflect.isFunction(e)) 
+						if(Reflect.isFunction(e))
 							continue;
 						var v = Reflect.field(value, field);
 						if(!sameAs(e, v, status))
@@ -495,7 +508,7 @@ class Assert {
 	* @param type: The type of the expected error. Defaults to Dynamic (catch all).
 	* @param msgNotThrown: An optional error message used when the function fails to raise the expected
 	*  		 exception. If not passed a default one will be used
-	* @param msgWrongType: An optional error message used when the function raises the exception but it is 
+	* @param msgWrongType: An optional error message used when the function raises the exception but it is
 	*  		 of a different type than the one expected. If not passed a default one will be used
 	* @param pos: Code position where the Assert call has been executed. Don't fill it
 	* unless you know what you are doing.

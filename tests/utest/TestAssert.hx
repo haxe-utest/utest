@@ -3,17 +3,9 @@ package utest;
 import utest.Assert;
 import utest.Assertation;
 import utest.Runner;
-import utest.ui.text.TraceReport;
 
 class TestAssert {
 	public function new();
-
-	public static function main() {
-		var runner = new Runner();
-		runner.addCase(new TestAssert());
-		var report = new TraceReport(runner);
-		runner.run();
-	}
 	
 	var resultsbypass : List<Assertation>;
 	var results : List<Assertation>;
@@ -256,7 +248,7 @@ class TestAssert {
 		Assert.same(Rec(Rec(Some("a"))), Rec(None), true);
 // TODO: something goes wrong here with flash6, haXe/Flash6 bug?
 #if !flash6
-		Assert.same(Rec(Rec(Some("a"))), Rec(None), false);
+		Assert.same(Rec(Rec(Some("a"))), Rec(Rec(None)), false);
 #end
 
 		restore();
@@ -284,10 +276,10 @@ class TestAssert {
 
 	public function testFloatEquals() {
 		bypass();
-		var values    : Array<Float> = [1, 0.1, 0.000000000000000000000000000011, 0.11];
-		var expecteds : Array<Float> = [1, 0.1, 0.000000000000000000000000000012, 0.12];
+		var values    : Array<Float> = [1, 0.1, 0.000000000000000000000000000011, Math.NaN, Math.NEGATIVE_INFINITY, Math.POSITIVE_INFINITY, Math.PI, 0.11];
+		var expecteds : Array<Float> = [1, 0.1, 0.000000000000000000000000000012, Math.NaN, Math.NEGATIVE_INFINITY, Math.POSITIVE_INFINITY, Math.PI, 0.12];
 		var i = 0;
-		var expectedsuccess = 3;
+		var expectedsuccess = 7;
 		for(expected in expecteds)
 			for(value in values) {
 				i++;

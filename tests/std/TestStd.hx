@@ -38,7 +38,7 @@ class TestStd {
 		Assert.equals( 65 , Std.parseInt("65") );
 		Assert.equals( 65 , Std.parseInt("65.3") );
 		Assert.equals( 100, Std.parseInt("100x123") );
-		Assert.equals( null, Std.parseInt("x") );
+		Assert.equals( 0, Std.parseInt("x") );
 		Assert.equals( 65.0 , Std.parseFloat("65") );
 		Assert.equals( 65.3 , Std.parseFloat("65.3") );
 		#if !neko

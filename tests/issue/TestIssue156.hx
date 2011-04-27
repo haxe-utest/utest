@@ -14,11 +14,11 @@ class TestIssue156
 	{
 		x = 7;
 	}
-#if !js
+#if php
 	public function testFieldOnString()
 	{
 		var s = "haXehaXe";
-		var t = s.charAt(5);
+
 		var f = Reflect.field(s, 'charAt');
 		Assert.equals("X", f(2));
 		
@@ -60,19 +60,7 @@ class TestIssue156
 		f3();
 		Assert.equals(1, z);
 	}
-#if !flash
-	public function nestedBlocks()
-	{
-		var a = 1;
-		var b = {
-			var b = 2;
-			var c = {
-				var c = 3;
-			}
-		}
-		Assert.equals(1, a);
-	}
-#end
+
 	public function testIssue1() {
 		var a = true;
 		var s = switch (a) {

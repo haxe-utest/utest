@@ -13,7 +13,9 @@ class TestAll
 		platform.TestAll.addTests(runner);
 		std.TestAll.addTests(runner);
 
-
+		runner.addCase(new utest.TestAssert());
+		runner.addCase(new utest.TestDispatcher());
+		
 		runner.addCase(new TestAll());
 	}
 	
@@ -39,8 +41,7 @@ class TestAll
 
 		// get test result to determine exit status
 		var r:TestResult = null;
-                runner.onProgress.add(function(o){ if (o.done == o.totals) r = o.result;});
-
+		runner.onProgress.add(function(o){ if (o.done == o.totals) r = o.result;});
 		runner.run();
 #if php
 		php.Sys.exit(r.allOk() ? 0 : 1);
@@ -48,13 +49,4 @@ class TestAll
 	}
 	
 	public function new();
-	
-	public static function x()
-	{
-		var a = new A();
-		var b : B = cast(a, B);
-	}
 }
-
-class A { public function new() {} }
-class B { public function new() {} }

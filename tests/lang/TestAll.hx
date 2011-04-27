@@ -40,6 +40,7 @@ class TestAll
 		runner.addCase(new lang.TestIntIteratorAccess());
 		runner.addCase(new lang.TestNativeArray());
 		runner.addCase(new lang.TestNativeString());
+		runner.addCase(new lang.TestOps());
 		runner.addCase(new lang.TestPrivateClassAccess());
 #if !cpp
 		runner.addCase(new lang.TestPropertyAccess());

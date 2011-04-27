@@ -46,7 +46,7 @@ class TestMeta
 		Assert.equals( "new", fields(m._) );
 
 		var m = haxe.rtti.Meta.getStatics(E);
-		Assert.isNull( m );
+		Assert.same( {}, m );
 
 		var m = haxe.rtti.Meta.getStatics(TestMeta);
 		Assert.equals( "foo", fields(m) );
