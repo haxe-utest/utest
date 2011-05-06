@@ -153,6 +153,8 @@ class HtmlReport implements IReport < HtmlReport > {
 	{
 		var parts = [];
 		var nl = addNL ? '\n' : '';
+		var last = null;
+		var count = 1;
 		for (part in Stack.toString(stack).split('\n'))
 		{
 			if (StringTools.trim(part) == '')
@@ -163,7 +165,13 @@ class HtmlReport implements IReport < HtmlReport > {
 			if ( -1 < part.indexOf('Called from a C function'))
 				continue;
 #end
-			parts.push(part);
+			if (part == last)
+			{
+				parts[parts.length - 1] = part + " (#" + (++count) + ")";
+			} else {
+				count = 1;
+				parts.push(last = part);
+			}
 		}
 		
 		var s = '<ul><li>' + parts.join('</li>'+nl+'<li>') + '</li></ul>'+nl;
@@ -613,8 +621,8 @@ div.trace h2 {
 		document.body.appendChild(el)
 	}
 	var p = utestFindPos(ref);
-	el.style.left = p[0];
-	el.style.top = p[1];
+	el.style.left = (4 + p[0]) + "px";
+	el.style.top = (p[1] - 1) + "px";
 	el.innerHTML =  text;
 }
 

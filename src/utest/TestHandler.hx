@@ -109,6 +109,8 @@ class TestHandler<T> {
 	* @return	returns a function closure that must be executed asynchrnously
 	*/
 	public function addAsync(f : Void->Void, timeout = 250) {
+		if (null == f)
+			f = function() { }
 		asyncStack.add(f);
 		var handler = this;
 		setTimeout(timeout);

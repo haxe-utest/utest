@@ -59,7 +59,7 @@ class TestTryCatch {
 	public function testCatchWithOtherVarName() {
 		try {
 			throw "test";
-			Assert.isTrue(false);
+			Assert.fail("should never get at this point");
 		} catch(myexception : String) {
 			Assert.equals("test", myexception);
 		}

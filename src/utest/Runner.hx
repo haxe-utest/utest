@@ -8,6 +8,7 @@ import utest.Dispatcher;
 * Note that Runner does not provide any visual output. To visualize the test results use one of
 * the classes in the utest.ui package.
 * @todo complete documentation
+* @todo AVOID CHAINING METHODS (long chains do not work properly on IE)
 */
 class Runner {
 	var fixtures(default, null) : Array<TestFixture<Dynamic>>;

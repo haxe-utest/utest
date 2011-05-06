@@ -660,7 +660,7 @@ class Assert {
 	* @param f: A function that contains other Assert tests
 	* @param timeout: Optional timeout value in milliseconds.
 	*/
-	public static dynamic function createAsync(f : Void->Void, ?timeout : Int) {
+	public static dynamic function createAsync(f : Void -> Void, ?timeout : Int) {
 		return function(){};
 	}
 	/**
@@ -671,7 +671,7 @@ class Assert {
 	* @param f: A function that contains other Assert tests
 	* @param timeout: Optional timeout value in milliseconds.
 	*/
-	public static dynamic function createEvent<EventArg>(f : EventArg->Void, ?timeout : Int) {
+	public static dynamic function createEvent<EventArg>(f : EventArg -> Void, ?timeout : Int) {
 		return function(e){};
 	}
 	

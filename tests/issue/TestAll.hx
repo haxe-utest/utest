@@ -31,7 +31,9 @@ class TestAll
 		runner.addCase(new TestIssue194());
 		runner.addCase(new TestIssue219());
 		runner.addCase(new TestIssue223());
+#if (php || neko)
 		runner.addCase(new TestIssue226());
+#end
 		runner.addCase(new TestIssue229());
 		runner.addCase(new TestIssue268());
 		runner.addCase(new TestIssue286());

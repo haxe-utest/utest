@@ -15,7 +15,6 @@
   <classpaths>
     <class path="src" />
     <class path="tests" />
-    <class path="..\..\haxe\std" />
   </classpaths>
   <!-- Build options -->
   <build>
