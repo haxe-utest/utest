@@ -57,9 +57,10 @@ utest.ui.Report
 -js _
 -cp src
 -xml doc/doc.js.xml
---no-output
+# --no-output
 utest.Assert
 utest.Runner
 utest.ui.Report
 # haxedoc.xml
--cmd copy doc/doc.js.xml src/haxedoc.xml
+-cmd del _
+-cmd copy doc\doc.js.xml src\haxedoc.xml
