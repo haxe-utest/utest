@@ -63,4 +63,4 @@ utest.Runner
 utest.ui.Report
 # haxedoc.xml
 -cmd del _
--cmd copy doc\doc.js.xml src\haxedoc.xml
+-cmd copy doc\doc.js.xml haxedoc.xml
