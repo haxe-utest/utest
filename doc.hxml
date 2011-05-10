@@ -3,27 +3,28 @@
 -cp src
 -xml doc/doc.neko.xml
 --no-output
-utest.Assert
-utest.Runner
-utest.ui.Report
+--macro include('utest', true, null, ['src'])
 --next
 # PHP
 -php _
 -cp src
 -xml doc/doc.php.xml
 --no-output
-utest.Assert
-utest.Runner
-utest.ui.Report
+--macro include('utest', true, null, ['src'])
+--next
+# CPP
+-cpp _
+-cp src
+-xml doc/doc.cpp.xml
+--no-output
+--macro include('utest', true, null, ['src'])
 --next
 # F9
 -swf9 _
 -cp src
 -xml doc/doc.f9.xml
 --no-output
-utest.Assert
-utest.Runner
-utest.ui.Report
+--macro include('utest', true, null, ['src'])
 --next
 # Other Flash
 -swf _
@@ -31,36 +32,29 @@ utest.ui.Report
 -swf-version 8
 -xml doc/doc.f8.xml
 --no-output
-utest.Assert
-utest.Runner
-utest.ui.Report
+--macro include('utest', true, null, ['src'])
 --next
 -swf _
 -swf-version 7
 -cp src
 -xml doc/doc.f7.xml
 --no-output
-utest.Assert
-utest.Runner
-utest.ui.Report
+--macro include('utest', true, null, ['src'])
 --next
 -swf _
 -swf-version 6
 -cp src
 -xml doc/doc.f6.xml
 --no-output
-utest.Assert
-utest.Runner
-utest.ui.Report
+--macro include('utest', true, null, ['src'])
 --next
 # JS
 -js _
 -cp src
 -xml doc/doc.js.xml
 # --no-output
-utest.Assert
-utest.Runner
-utest.ui.Report
+--macro include('utest', true, null, ['src'])
 # haxedoc.xml
 -cmd del _
 -cmd copy doc\doc.js.xml haxedoc.xml
+-cmd PAUSE

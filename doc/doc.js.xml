@@ -350,6 +350,16 @@
 * @todo add documentation
 </haxe_doc>
 	</class>
+	<class path="haxe.unit.TestResult" params="" file="C:\Projects\haxe/std/haxe/unit/TestResult.hx">
+		<m_tests><c path="List"><c path="haxe.unit.TestStatus"/></c></m_tests>
+		<success public="1" set="null"><e path="Bool"/></success>
+		<add public="1" set="method" line="37"><f a="t">
+	<c path="haxe.unit.TestStatus"/>
+	<e path="Void"/>
+</f></add>
+		<toString public="1" set="method" line="43"><f a=""><c path="String"/></f></toString>
+		<new public="1" set="method" line="32"><f a=""><e path="Void"/></f></new>
+	</class>
 	<class path="Reflect" params="" file="C:\Projects\haxe/std/js/_std/Reflect.hx">
 		<hasField public="1" set="method" line="28" static="1">
 			<f a="o:field">
@@ -900,24 +910,36 @@
 	<e path="utest.ui.common.HeaderDisplayMode"/>
 	<c path="utest.ui.common.IReport"><d/></c>
 </f></create></class>
-	<class path="utest.ui.text.PrintReport" params="" file="src/utest/ui/text/PrintReport.hx">
-		<extends path="utest.ui.text.PlainTextReport"/>
-		<useTrace><e path="Bool"/></useTrace>
-		<_handler set="method" line="57"><f a="report">
-	<c path="utest.ui.text.PlainTextReport"/>
+	<class path="haxe.Public" params="" file="C:\Projects\haxe/std/haxe/Public.hx" interface="1"><haxe_doc>
+	When implementing this interface, all default fields access for the class and
+	subclasses becomes [public] instead of [private].
+</haxe_doc></class>
+	<class path="haxe.unit.TestCase" params="" file="C:\Projects\haxe/std/haxe/unit/TestCase.hx">
+		<implements path="haxe.Public"/>
+		<currentTest public="1"><c path="haxe.unit.TestStatus"/></currentTest>
+		<setup public="1" set="method" line="34"><f a=""><e path="Void"/></f></setup>
+		<tearDown public="1" set="method" line="37"><f a=""><e path="Void"/></f></tearDown>
+		<print public="1" set="method" line="40"><f a="v">
+	<d/>
 	<e path="Void"/>
-</f></_handler>
-		<_trace set="method" line="63"><f a="s">
-	<c path="String"/>
+</f></print>
+		<assertTrue public="1" set="method" line="44"><f a="b:?c">
+	<e path="Bool"/>
+	<t path="haxe.PosInfos"/>
 	<e path="Void"/>
-</f></_trace>
-		<new public="1" set="method" line="51"><f a="runner">
-	<c path="utest.Runner"/>
+</f></assertTrue>
+		<assertFalse public="1" set="method" line="54"><f a="b:?c">
+	<e path="Bool"/>
+	<t path="haxe.PosInfos"/>
 	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
-</haxe_doc>
+</f></assertFalse>
+		<assertEquals public="1" params="T" set="method" line="64"><f a="expected:actual:?c">
+	<c path="assertEquals.T"/>
+	<c path="assertEquals.T"/>
+	<t path="haxe.PosInfos"/>
+	<e path="Void"/>
+</f></assertEquals>
+		<new public="1" set="method" line="31"><f a=""><e path="Void"/></f></new>
 	</class>
 	<class path="utest.ui.text.HtmlReport" params="" file="src/utest/ui/text/HtmlReport.hx">
 		<implements path="utest.ui.common.IReport"><c path="utest.ui.text.HtmlReport"/></implements>
@@ -1048,6 +1070,25 @@
 		<e path="Void"/>
 	</f>
 	<e path="Bool"/>
+	<e path="Void"/>
+</f></new>
+		<haxe_doc>
+* @todo add documentation
+</haxe_doc>
+	</class>
+	<class path="utest.ui.text.PrintReport" params="" file="src/utest/ui/text/PrintReport.hx">
+		<extends path="utest.ui.text.PlainTextReport"/>
+		<useTrace><e path="Bool"/></useTrace>
+		<_handler set="method" line="57"><f a="report">
+	<c path="utest.ui.text.PlainTextReport"/>
+	<e path="Void"/>
+</f></_handler>
+		<_trace set="method" line="63"><f a="s">
+	<c path="String"/>
+	<e path="Void"/>
+</f></_trace>
+		<new public="1" set="method" line="51"><f a="runner">
+	<c path="utest.Runner"/>
 	<e path="Void"/>
 </f></new>
 		<haxe_doc>
@@ -2362,6 +2403,29 @@
 	element doesn't imply to copy the whole array content everytime.
 </haxe_doc>
 	</class>
+	<class path="haxe.unit.TestRunner" params="" file="C:\Projects\haxe/std/haxe/unit/TestRunner.hx">
+		<print public="1" set="dynamic" line="38" static="1"><f a="v">
+	<d/>
+	<e path="Void"/>
+</f></print>
+		<customTrace set="method" line="79" static="1"><f a="v:?p">
+	<unknown/>
+	<t path="haxe.PosInfos"/>
+	<e path="Void"/>
+</f></customTrace>
+		<result><c path="haxe.unit.TestResult"/></result>
+		<cases><c path="List"><c path="haxe.unit.TestCase"/></c></cases>
+		<add public="1" set="method" line="88"><f a="c">
+	<c path="haxe.unit.TestCase"/>
+	<e path="Void"/>
+</f></add>
+		<run public="1" set="method" line="92"><f a=""><e path="Bool"/></f></run>
+		<runCase set="method" line="101"><f a="t">
+	<c path="haxe.unit.TestCase"/>
+	<e path="Void"/>
+</f></runCase>
+		<new public="1" set="method" line="83"><f a=""><e path="Void"/></f></new>
+	</class>
 	<enum path="ValueType" params="" file="C:\Projects\haxe/std/js/_std/Type.hx" module="Type">
 		<TUnknown/>
 		<TObject/>
@@ -2703,6 +2767,38 @@
 		<haxe_doc>
 	Hashtable over a set of elements, using [Int] as keys.
 	On Flash and Javascript, the underlying structure is an Object.
+</haxe_doc>
+	</class>
+	<class path="haxe.rtti.Meta" params="" file="C:\Projects\haxe/std/haxe/rtti/Meta.hx">
+		<getType public="1" set="method" line="35" static="1">
+			<f a="t">
+				<d/>
+				<d><c path="Array"><d/></c></d>
+			</f>
+			<haxe_doc>
+		Returns the metadata that were declared for the given type (class or enum)
+	</haxe_doc>
+		</getType>
+		<getStatics public="1" set="method" line="43" static="1">
+			<f a="t">
+				<d/>
+				<d><d><c path="Array"><d/></c></d></d>
+			</f>
+			<haxe_doc>
+		Returns the metadata that were declared for the given class fields or enum constructors
+	</haxe_doc>
+		</getStatics>
+		<getFields public="1" set="method" line="51" static="1">
+			<f a="t">
+				<d/>
+				<d><d><c path="Array"><d/></c></d></d>
+			</f>
+			<haxe_doc>
+		Returns the metadata that were declared for the given class static fields
+	</haxe_doc>
+		</getFields>
+		<haxe_doc>
+	An api to access classes and enums metadata at runtime.
 </haxe_doc>
 	</class>
 	<enum path="utest.Assertation" params="" file="src/utest/Assertation.hx">
@@ -3055,6 +3151,16 @@
 </haxe_doc>
 	</class>
 	<typedef path="haxe.io.BytesData" params="" file="C:\Projects\haxe/std/haxe/io/BytesData.hx"><c path="Array"><c path="Int"/></c></typedef>
+	<class path="haxe.unit.TestStatus" params="" file="C:\Projects\haxe/std/haxe/unit/TestStatus.hx">
+		<done public="1"><e path="Bool"/></done>
+		<success public="1"><e path="Bool"/></success>
+		<error public="1"><c path="String"/></error>
+		<method public="1"><c path="String"/></method>
+		<classname public="1"><c path="String"/></classname>
+		<posInfos public="1"><t path="haxe.PosInfos"/></posInfos>
+		<backtrace public="1"><c path="String"/></backtrace>
+		<new public="1" set="method" line="39"><f a=""><e path="Void"/></f></new>
+	</class>
 	<class path="js.HtmlCollection" params="T" file="C:\Projects\haxe/std/js/Dom.hx" module="js.Dom" extern="1">
 		<length public="1" set="null"><c path="Int"/></length>
 		<haxe_dynamic><c path="js.HtmlCollection.T"/></haxe_dynamic>
@@ -6575,6 +6681,11 @@
 	<e path="Void"/>
 </f></alert>
 </a></typedef>
+	<class path="utest.MacroRunner" params="" file="src/utest/MacroRunner.hx"><addClass set="method" line="71" static="1"><f a="runner:testClass">
+	<c path="utest.Runner"/>
+	<c path="Class"><d/></c>
+	<e path="Void"/>
+</f></addClass></class>
 	<class path="utest.TestFixture" params="T" file="src/utest/TestFixture.hx">
 		<target public="1" set="null"><c path="utest.TestFixture.T"/></target>
 		<method public="1" set="null"><c path="String"/></method>

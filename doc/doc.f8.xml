@@ -1,8 +1,4 @@
 <haxe>
-	<class path="Enum" params="T" file="C:\Projects\haxe/std/Enum.hx" extern="1"><haxe_doc>
-	An abstract type that represents an Enum.
-	See [Type] for the haXe Reflection API.
-</haxe_doc></class>
 	<class path="flash.display.BitmapData" params="" file="C:\Projects\haxe/std/flash/display/BitmapData.hx" extern="1">
 		<loadBitmap public="1" set="method" static="1"><f a="id">
 	<c path="String"/>
@@ -184,325 +180,16 @@
 	<e path="Void"/>
 </f></new>
 	</class>
-	<class path="utest.ui.common.PackageResult" params="" file="src/utest/ui/common/PackageResult.hx">
-		<packageName public="1" set="null"><c path="String"/></packageName>
-		<classes><c path="Hash"><c path="utest.ui.common.ClassResult"/></c></classes>
-		<packages><c path="Hash"><c path="utest.ui.common.PackageResult"/></c></packages>
-		<stats public="1" set="null"><c path="utest.ui.common.ResultStats"/></stats>
-		<addResult public="1" set="method" line="24"><f a="result:flattenPackage">
-	<c path="utest.TestResult"/>
-	<e path="Bool"/>
+	<class path="utest.ui.common.IReport" params="T" file="src/utest/ui/common/IReport.hx" interface="1">
+		<displaySuccessResults public="1"><e path="utest.ui.common.SuccessResultsDisplayMode"/></displaySuccessResults>
+		<displayHeader public="1"><e path="utest.ui.common.HeaderDisplayMode"/></displayHeader>
+		<setHandler public="1" set="method"><f a="handler">
+	<f a="">
+		<c path="utest.ui.common.IReport.T"/>
+		<e path="Void"/>
+	</f>
 	<e path="Void"/>
-</f></addResult>
-		<addClass public="1" set="method" line="31"><f a="result">
-	<c path="utest.ui.common.ClassResult"/>
-	<e path="Void"/>
-</f></addClass>
-		<addPackage public="1" set="method" line="36"><f a="result">
-	<c path="utest.ui.common.PackageResult"/>
-	<e path="Void"/>
-</f></addPackage>
-		<existsPackage public="1" set="method" line="41"><f a="name">
-	<c path="String"/>
-	<e path="Bool"/>
-</f></existsPackage>
-		<existsClass public="1" set="method" line="45"><f a="name">
-	<c path="String"/>
-	<e path="Bool"/>
-</f></existsClass>
-		<getPackage public="1" set="method" line="49"><f a="name">
-	<c path="String"/>
-	<c path="utest.ui.common.PackageResult"/>
-</f></getPackage>
-		<getClass public="1" set="method" line="54"><f a="name">
-	<c path="String"/>
-	<t path="Null"><c path="utest.ui.common.ClassResult"/></t>
-</f></getClass>
-		<classNames public="1" set="method" line="58"><f a="?errorsHavePriority">
-	<e path="Bool"/>
-	<c path="Array"><c path="String"/></c>
-</f></classNames>
-		<packageNames public="1" set="method" line="91"><f a="?errorsHavePriority">
-	<e path="Bool"/>
-	<c path="Array"><c path="String"/></c>
-</f></packageNames>
-		<createFixture set="method" line="125"><f a="method:assertations">
-	<c path="String"/>
-	<t path="Iterable"><e path="utest.Assertation"/></t>
-	<c path="utest.ui.common.FixtureResult"/>
-</f></createFixture>
-		<getOrCreateClass set="method" line="132"><f a="pack:cls:setup:teardown">
-	<c path="utest.ui.common.PackageResult"/>
-	<c path="String"/>
-	<c path="String"/>
-	<c path="String"/>
-	<t path="Null"><c path="utest.ui.common.ClassResult"/></t>
-</f></getOrCreateClass>
-		<getOrCreatePackage set="method" line="139"><f a="pack:flat:ref">
-	<c path="String"/>
-	<e path="Bool"/>
-	<c path="utest.ui.common.PackageResult"/>
-	<c path="utest.ui.common.PackageResult"/>
-</f></getOrCreatePackage>
-		<new public="1" set="method" line="17"><f a="packageName">
-	<c path="String"/>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
-* @todo add tests for this class
-</haxe_doc>
-	</class>
-	<enum path="haxe.StackItem" params="" file="C:\Projects\haxe/std/haxe/Stack.hx" module="haxe.Stack">
-		<Module a="m"><c path="String"/></Module>
-		<Method a="classname:method">
-			<c path="String"/>
-			<c path="String"/>
-		</Method>
-		<Lambda a="v"><c path="Int"/></Lambda>
-		<FilePos a="s:file:line">
-			<t path="Null"><e path="haxe.StackItem"/></t>
-			<c path="String"/>
-			<c path="Int"/>
-		</FilePos>
-		<CFunction/>
-		<haxe_doc>
-	Elements return by [Stack] methods.
-</haxe_doc>
-	</enum>
-	<class path="haxe.Stack" params="" file="C:\Projects\haxe/std/haxe/Stack.hx">
-		<callStack public="1" set="method" line="46" static="1">
-			<f a=""><c path="Array"><e path="haxe.StackItem"/></c></f>
-			<haxe_doc>
-		Return the call stack elements.
-	</haxe_doc>
-		</callStack>
-		<exceptionStack public="1" set="method" line="69" static="1">
-			<f a=""><c path="Array"><e path="haxe.StackItem"/></c></f>
-			<haxe_doc>
-		Return the exception stack : this is the stack elements between
-		the place the last exception was thrown and the place it was
-		catched.
-	</haxe_doc>
-		</exceptionStack>
-		<toString public="1" set="method" line="100" static="1">
-			<f a="stack">
-				<c path="Array"><e path="haxe.StackItem"/></c>
-				<c path="String"/>
-			</f>
-			<haxe_doc>
-		Returns a representation of the stack as a printable string.
-	</haxe_doc>
-		</toString>
-		<itemToString set="method" line="109" static="1"><f a="b:s">
-	<c path="StringBuf"/>
-	<e path="haxe.StackItem"/>
-	<e path="Void"/>
-</f></itemToString>
-		<makeStack set="method" line="135" static="1"><f a="s">
-	<c path="String"/>
-	<c path="Array"><e path="haxe.StackItem"/></c>
-</f></makeStack>
-		<haxe_doc>
-	Get informations about the call stack.
-</haxe_doc>
-	</class>
-	<class path="flash.Boot" params="" file="C:\Projects\haxe/std/flash/Boot.hx">
-		<def_color line="29" static="1"><c path="Int"/></def_color>
-		<exception line="30" static="1"><unknown/></exception>
-		<__string_rec set="method" line="32" static="1"><f a="o:s">
-	<d/>
-	<c path="String"/>
-	<c path="String"/>
-</f></__string_rec>
-		<__closure set="method" line="97" static="1"><f a="f:o">
-	<c path="Int"/>
-	<c path="Array"><unknown/></c>
-	<f a=""><unknown/></f>
-</f></__closure>
-		<__instanceof set="method" line="126" static="1"><f a="o:cl">
-	<d/>
-	<e path="Bool"/>
-	<e path="Bool"/>
-</f></__instanceof>
-		<getTrace set="method" line="158" static="1"><f a=""><c path="flash.TextField"/></f></getTrace>
-		<__set_trace_color set="method" line="177" static="1"><f a="rgb">
-	<c path="Int"/>
-	<e path="Void"/>
-</f></__set_trace_color>
-		<__trace set="method" line="182" static="1"><f a="v:inf">
-	<c path="String"/>
-	<t path="haxe.PosInfos"/>
-	<e path="Void"/>
-</f></__trace>
-		<__exc set="method" line="197" static="1"><f a="v">
-	<unknown/>
-	<e path="Void"/>
-</f></__exc>
-		<__clear_trace set="method" line="212" static="1"><f a=""><e path="Void"/></f></__clear_trace>
-		<__init set="method" line="220" static="1"><f a="current">
-	<d/>
-	<e path="Void"/>
-</f></__init>
-	</class>
-	<class path="StringTools" params="" file="C:\Projects\haxe/std/StringTools.hx">
-		<urlEncode public="1" set="method" line="38" static="1">
-			<f a="s">
-				<c path="String"/>
-				<c path="String"/>
-			</f>
-			<haxe_doc>
-		Encode an URL by using the standard format.
-	</haxe_doc>
-		</urlEncode>
-		<urlDecode public="1" set="method" line="59" static="1">
-			<f a="s">
-				<c path="String"/>
-				<c path="String"/>
-			</f>
-			<haxe_doc>
-		Decode an URL using the standard format.
-	</haxe_doc>
-		</urlDecode>
-		<htmlEscape public="1" set="method" line="80" static="1">
-			<f a="s">
-				<c path="String"/>
-				<c path="String"/>
-			</f>
-			<haxe_doc>
-		Escape HTML special characters of the string.
-	</haxe_doc>
-		</htmlEscape>
-		<htmlUnescape public="1" set="method" line="87" static="1">
-			<f a="s">
-				<c path="String"/>
-				<c path="String"/>
-			</f>
-			<haxe_doc>
-		Unescape HTML special characters of the string.
-	</haxe_doc>
-		</htmlUnescape>
-		<startsWith public="1" set="method" line="98" static="1">
-			<f a="s:start">
-				<c path="String"/>
-				<c path="String"/>
-				<e path="Bool"/>
-			</f>
-			<haxe_doc>
-		Tells if the string [s] starts with the string [start].
-	</haxe_doc>
-		</startsWith>
-		<endsWith public="1" set="method" line="105" static="1">
-			<f a="s:end">
-				<c path="String"/>
-				<c path="String"/>
-				<e path="Bool"/>
-			</f>
-			<haxe_doc>
-		Tells if the string [s] ends with the string [end].
-	</haxe_doc>
-		</endsWith>
-		<isSpace public="1" set="method" line="114" static="1">
-			<f a="s:pos">
-				<c path="String"/>
-				<c path="Int"/>
-				<e path="Bool"/>
-			</f>
-			<haxe_doc>
-		Tells if the character in the string [s] at position [pos] is a space.
-	</haxe_doc>
-		</isSpace>
-		<ltrim public="1" set="method" line="122" static="1">
-			<f a="s">
-				<c path="String"/>
-				<c path="String"/>
-			</f>
-			<haxe_doc>
-		Removes spaces at the left of the String [s].
-	</haxe_doc>
-		</ltrim>
-		<rtrim public="1" set="method" line="141" static="1">
-			<f a="s">
-				<c path="String"/>
-				<c path="String"/>
-			</f>
-			<haxe_doc>
-		Removes spaces at the right of the String [s].
-	</haxe_doc>
-		</rtrim>
-		<trim public="1" set="method" line="161" static="1">
-			<f a="s">
-				<c path="String"/>
-				<c path="String"/>
-			</f>
-			<haxe_doc>
-		Removes spaces at the beginning and the end of the String [s].
-	</haxe_doc>
-		</trim>
-		<rpad public="1" set="method" line="172" static="1">
-			<f a="s:c:l">
-				<c path="String"/>
-				<c path="String"/>
-				<c path="Int"/>
-				<c path="String"/>
-			</f>
-			<haxe_doc>
-		Pad the string [s] by appending [c] at its right until it reach [l] characters.
-	</haxe_doc>
-		</rpad>
-		<lpad public="1" set="method" line="194" static="1">
-			<f a="s:c:l">
-				<c path="String"/>
-				<c path="String"/>
-				<c path="Int"/>
-				<c path="String"/>
-			</f>
-			<haxe_doc>
-		Pad the string [s] by appending [c] at its left until it reach [l] characters.
-	</haxe_doc>
-		</lpad>
-		<replace public="1" set="method" line="219" static="1">
-			<f a="s:sub:by">
-				<c path="String"/>
-				<c path="String"/>
-				<c path="String"/>
-				<c path="String"/>
-			</f>
-			<haxe_doc>
-		Replace all occurences of the string [sub] in the string [s] by the string [by].
-	</haxe_doc>
-		</replace>
-		<hex public="1" set="method" line="230" static="1">
-			<f a="n:?digits">
-				<c path="Int"/>
-				<c path="Int"/>
-				<c path="String"/>
-			</f>
-			<haxe_doc>
-		Encode a number into a hexadecimal representation, with an optional number of zeros for left padding.
-	</haxe_doc>
-		</hex>
-		<fastCodeAt public="1" get="inline" set="null" line="253" static="1">
-			<f a="s:index">
-				<c path="String"/>
-				<c path="Int"/>
-				<c path="Int"/>
-			</f>
-			<haxe_doc>
-		Provides a fast native string charCodeAt access. Since the EOF value might vary depending on the platforms, always test with StringTools.isEOF.
-		Only guaranteed to work if index in [0,s.length] range. Might not work with strings containing \0 char.
-	</haxe_doc>
-		</fastCodeAt>
-		<isEOF public="1" get="inline" set="null" line="270" static="1"><f a="c">
-	<c path="Int"/>
-	<e path="Bool"/>
-</f></isEOF>
-		<haxe_doc>
-	The StringTools class contains some extra functionalities for [String]
-	manipulation. It's stored in a different class in order to prevent
-	the standard [String] of being bloated and thus increasing the size of
-	each application using it.
-</haxe_doc>
+</f></setHandler>
 	</class>
 	<class path="flash.TextField" params="" file="C:\Projects\haxe/std/flash/TextField.hx" extern="1">
 		<getFontList public="1" set="method" static="1"><f a=""><c path="Array"><d/></c></f></getFontList>
@@ -617,337 +304,616 @@
 	<e path="Void"/>
 </f></onSetFocus>
 	</class>
-	<class path="flash._MovieClip.MCBounds" params="" file="C:\Projects\haxe/std/flash/MovieClip.hx" private="1" module="flash.MovieClip" extern="1">
-		<xMin public="1"><c path="Float"/></xMin>
-		<xMax public="1"><c path="Float"/></xMax>
-		<yMin public="1"><c path="Float"/></yMin>
-		<yMax public="1"><c path="Float"/></yMax>
-	</class>
-	<class path="flash.MovieClip" params="" file="C:\Projects\haxe/std/flash/MovieClip.hx" extern="1">
-		<useHandCursor public="1"><e path="Bool"/></useHandCursor>
-		<enabled public="1"><e path="Bool"/></enabled>
-		<focusEnabled public="1"><e path="Bool"/></focusEnabled>
-		<tabChildren public="1"><e path="Bool"/></tabChildren>
-		<tabEnabled public="1"><e path="Bool"/></tabEnabled>
-		<tabIndex public="1"><c path="Int"/></tabIndex>
-		<hitArea public="1"><c path="flash.MovieClip"/></hitArea>
-		<trackAsMenu public="1"><e path="Bool"/></trackAsMenu>
-		<_x public="1"><c path="Float"/></_x>
-		<_y public="1"><c path="Float"/></_y>
-		<_xmouse public="1"><c path="Float"/></_xmouse>
-		<_ymouse public="1"><c path="Float"/></_ymouse>
-		<_xscale public="1"><c path="Float"/></_xscale>
-		<_yscale public="1"><c path="Float"/></_yscale>
-		<_width public="1"><c path="Float"/></_width>
-		<_height public="1"><c path="Float"/></_height>
-		<_alpha public="1"><c path="Float"/></_alpha>
-		<_lockroot public="1"><e path="Bool"/></_lockroot>
-		<_visible public="1"><e path="Bool"/></_visible>
-		<_target public="1"><c path="String"/></_target>
-		<_rotation public="1"><c path="Float"/></_rotation>
-		<_name public="1"><c path="String"/></_name>
-		<_droptarget public="1" set="null"><c path="String"/></_droptarget>
-		<_currentframe public="1" set="null"><c path="Int"/></_currentframe>
-		<_totalframes public="1" set="null"><c path="Int"/></_totalframes>
-		<_framesloaded public="1" set="null"><c path="Int"/></_framesloaded>
-		<_quality public="1"><c path="String"/></_quality>
-		<_focusrect public="1"><e path="Bool"/></_focusrect>
-		<_soundbuftime public="1"><c path="Float"/></_soundbuftime>
-		<_url public="1"><c path="String"/></_url>
-		<_parent public="1"><c path="flash.MovieClip"/></_parent>
-		<getURL public="1" set="method"><f a="url:?window:?method">
+	<class path="flash.Lib" params="" file="C:\Projects\haxe/std/flash/Lib.hx">
+		<_global public="1" static="1"><d/></_global>
+		<_root public="1" static="1"><c path="flash.MovieClip"/></_root>
+		<current public="1" static="1"><c path="flash.MovieClip"/></current>
+		<onerror static="1"><f a=":">
 	<c path="String"/>
+	<c path="Array"><c path="String"/></c>
+	<e path="Void"/>
+</f></onerror>
+		<trace public="1" set="method" line="34" static="1"><f a="str">
+	<c path="String"/>
+	<e path="Void"/>
+</f></trace>
+		<eval public="1" set="method" line="38" static="1"><f a="str">
+	<c path="String"/>
+	<d/>
+</f></eval>
+		<getURL public="1" set="method" line="42" static="1"><f a="url:?target">
 	<c path="String"/>
 	<c path="String"/>
 	<e path="Void"/>
 </f></getURL>
-		<unloadMovie public="1" set="method"><f a=""><e path="Void"/></f></unloadMovie>
-		<loadVariables public="1" set="method"><f a="url:?method">
+		<fscommand public="1" set="method" line="46" static="1"><f a="cmd:?param">
 	<c path="String"/>
-	<c path="String"/>
-	<e path="Void"/>
-</f></loadVariables>
-		<loadMovie public="1" set="method"><f a="url:?method">
-	<c path="String"/>
-	<c path="String"/>
-	<e path="Void"/>
-</f></loadMovie>
-		<attachMovie public="1" set="method"><f a="id:name:depth:?initObject">
-	<c path="String"/>
-	<c path="String"/>
-	<c path="Int"/>
-	<d/>
-	<c path="flash.MovieClip"/>
-</f></attachMovie>
-		<swapDepths public="1" set="method"><f a="mc">
 	<d/>
 	<e path="Void"/>
-</f></swapDepths>
-		<localToGlobal public="1" set="method"><f a="pt">
-	<a>
-		<y><c path="Float"/></y>
-		<x><c path="Float"/></x>
-	</a>
+</f></fscommand>
+		<print public="1" set="method" line="50" static="1"><f a="cmd:?kind">
+	<c path="String"/>
+	<c path="String"/>
 	<e path="Void"/>
-</f></localToGlobal>
-		<globalToLocal public="1" set="method"><f a="pt">
-	<a>
-		<y><c path="Float"/></y>
-		<x><c path="Float"/></x>
-	</a>
+</f></print>
+		<getTimer public="1" get="inline" set="null" line="55" static="1"><f a=""><c path="Int"/></f></getTimer>
+		<getVersion public="1" set="method" line="59" static="1"><f a=""><c path="String"/></f></getVersion>
+		<registerClass public="1" set="method" line="63" static="1"><f a="name:cl">
+	<c path="String"/>
+	<a/>
 	<e path="Void"/>
-</f></globalToLocal>
-		<hitTest public="1" set="method"><f a="x_or_mc:?y:?shape">
+</f></registerClass>
+		<keys public="1" set="method" line="67" static="1"><f a="v">
 	<d/>
-	<c path="Float"/>
-	<e path="Bool"/>
-	<e path="Bool"/>
-</f></hitTest>
-		<getBounds public="1" set="method"><f a="bounds">
-	<c path="flash.MovieClip"/>
-	<c path="flash._MovieClip.MCBounds"/>
-</f></getBounds>
-		<getBytesLoaded public="1" set="method"><f a=""><c path="Int"/></f></getBytesLoaded>
-		<getBytesTotal public="1" set="method"><f a=""><c path="Int"/></f></getBytesTotal>
-		<attachAudio public="1" set="method"><f a="id">
-	<d/>
+	<c path="Array"><c path="String"/></c>
+</f></keys>
+		<setErrorHandler public="1" set="method" line="71" static="1"><f a="f">
+	<f a=":">
+		<c path="String"/>
+		<c path="Array"><c path="String"/></c>
+		<e path="Void"/>
+	</f>
 	<e path="Void"/>
-</f></attachAudio>
-		<attachVideo public="1" set="method"><f a="id">
-	<d/>
-	<e path="Void"/>
-</f></attachVideo>
-		<getDepth public="1" set="method"><f a=""><c path="Int"/></f></getDepth>
-		<setMask public="1" set="method"><f a="mc">
-	<c path="flash.MovieClip"/>
-	<e path="Void"/>
-</f></setMask>
-		<play public="1" set="method"><f a=""><e path="Void"/></f></play>
-		<stop public="1" set="method"><f a=""><e path="Void"/></f></stop>
-		<nextFrame public="1" set="method"><f a=""><e path="Void"/></f></nextFrame>
-		<prevFrame public="1" set="method"><f a=""><e path="Void"/></f></prevFrame>
-		<gotoAndPlay public="1" set="method"><f a="frame">
-	<d/>
-	<e path="Void"/>
-</f></gotoAndPlay>
-		<gotoAndStop public="1" set="method"><f a="frame">
-	<d/>
-	<e path="Void"/>
-</f></gotoAndStop>
-		<duplicateMovieClip public="1" set="method"><f a="name:depth:?initObject">
-	<c path="String"/>
-	<c path="Int"/>
-	<d/>
-	<c path="flash.MovieClip"/>
-</f></duplicateMovieClip>
-		<removeMovieClip public="1" set="method"><f a=""><e path="Void"/></f></removeMovieClip>
-		<startDrag public="1" set="method"><f a="lockCenter:?left:?top:?right:?bottom">
-	<e path="Bool"/>
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="Float"/>
-	<e path="Void"/>
-</f></startDrag>
-		<stopDrag public="1" set="method"><f a=""><e path="Void"/></f></stopDrag>
-		<createEmptyMovieClip public="1" set="method"><f a="name:depth">
-	<c path="String"/>
-	<c path="Int"/>
-	<c path="flash.MovieClip"/>
-</f></createEmptyMovieClip>
-		<beginFill public="1" set="method"><f a="rgb:?alpha">
-	<c path="Int"/>
-	<c path="Float"/>
-	<e path="Void"/>
-</f></beginFill>
-		<getInstanceAtDepth public="1" set="method"><f a="depth">
-	<c path="Int"/>
-	<c path="flash.MovieClip"/>
-</f></getInstanceAtDepth>
-		<getNextHighestDepth public="1" set="method"><f a=""><c path="Int"/></f></getNextHighestDepth>
-		<beginGradientFill public="1" set="method"><f a="fillType:colors:alphas:ratios:matrix:?spreadMethod:?interpolationMethod:?focalPointRatio">
-	<c path="String"/>
-	<c path="Array"><c path="Int"/></c>
-	<c path="Array"><d/></c>
-	<c path="Array"><d/></c>
-	<d/>
-	<c path="String"/>
-	<c path="String"/>
-	<c path="Float"/>
-	<e path="Void"/>
-</f></beginGradientFill>
-		<moveTo public="1" set="method"><f a="x:y">
-	<c path="Float"/>
-	<c path="Float"/>
-	<e path="Void"/>
-</f></moveTo>
-		<lineTo public="1" set="method"><f a="x:y">
-	<c path="Float"/>
-	<c path="Float"/>
-	<e path="Void"/>
-</f></lineTo>
-		<curveTo public="1" set="method"><f a="controlX:controlY:anchorX:anchorY">
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="Float"/>
-	<e path="Void"/>
-</f></curveTo>
-		<lineStyle public="1" set="method"><f a="?thickness:?rgb:?alpha:?pixelHinting:?noScale:?capsStyle:?jointStyle:?miterLimit">
-	<c path="Float"/>
-	<c path="Int"/>
-	<c path="Float"/>
-	<e path="Bool"/>
-	<c path="String"/>
-	<c path="String"/>
-	<c path="String"/>
-	<c path="Float"/>
-	<e path="Void"/>
-</f></lineStyle>
-		<endFill public="1" set="method"><f a=""><e path="Void"/></f></endFill>
-		<clear public="1" set="method"><f a=""><e path="Void"/></f></clear>
-		<createTextField public="1" set="method"><f a="instanceName:depth:x:y:width:height">
-	<c path="String"/>
-	<c path="Int"/>
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="flash.TextField"/>
-</f></createTextField>
-		<getTextSnapshot public="1" set="method"><f a=""><c path="flash.TextSnapshot"/></f></getTextSnapshot>
-		<getSWFVersion public="1" set="method"><f a=""><c path="Int"/></f></getSWFVersion>
-		<onData public="1" set="dynamic"><f a=""><e path="Void"/></f></onData>
-		<onDragOut public="1" set="dynamic"><f a=""><e path="Void"/></f></onDragOut>
-		<onDragOver public="1" set="dynamic"><f a=""><e path="Void"/></f></onDragOver>
-		<onEnterFrame public="1" set="dynamic"><f a=""><e path="Void"/></f></onEnterFrame>
-		<onKeyDown public="1" set="dynamic"><f a=""><e path="Void"/></f></onKeyDown>
-		<onKeyUp public="1" set="dynamic"><f a=""><e path="Void"/></f></onKeyUp>
-		<onKillFocus public="1" set="dynamic"><f a="newFocus">
-	<d/>
-	<e path="Void"/>
-</f></onKillFocus>
-		<onLoad public="1" set="dynamic"><f a=""><e path="Void"/></f></onLoad>
-		<onMouseDown public="1" set="dynamic"><f a=""><e path="Void"/></f></onMouseDown>
-		<onMouseMove public="1" set="dynamic"><f a=""><e path="Void"/></f></onMouseMove>
-		<onMouseUp public="1" set="dynamic"><f a=""><e path="Void"/></f></onMouseUp>
-		<onPress public="1" set="dynamic"><f a=""><e path="Void"/></f></onPress>
-		<onRelease public="1" set="dynamic"><f a=""><e path="Void"/></f></onRelease>
-		<onReleaseOutside public="1" set="dynamic"><f a=""><e path="Void"/></f></onReleaseOutside>
-		<onRollOut public="1" set="dynamic"><f a=""><e path="Void"/></f></onRollOut>
-		<onRollOver public="1" set="dynamic"><f a=""><e path="Void"/></f></onRollOver>
-		<onSetFocus public="1" set="dynamic"><f a="oldFocus">
-	<d/>
-	<e path="Void"/>
-</f></onSetFocus>
-		<onUnload public="1" set="dynamic"><f a=""><e path="Void"/></f></onUnload>
-		<filters public="1"><c path="Array"><d/></c></filters>
-		<blendMode public="1"><d/></blendMode>
-		<cacheAsBitmap public="1"><e path="Bool"/></cacheAsBitmap>
-		<opaqueBackground public="1"><c path="Int"/></opaqueBackground>
-		<scrollRect public="1"><d/></scrollRect>
-		<transform public="1"><c path="flash.geom.Transform"/></transform>
-		<scale9Grid public="1"><c path="flash.geom.Rectangle"><c path="Float"/></c></scale9Grid>
-		<getRect public="1" set="method"><f a="bounds">
-	<c path="flash.MovieClip"/>
-	<c path="flash._MovieClip.MCBounds"/>
-</f></getRect>
-		<attachBitmap public="1" set="method"><f a="bmp:depth:?pixelSnapping:?smoothing">
-	<c path="flash.display.BitmapData"/>
-	<c path="Int"/>
-	<c path="String"/>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></attachBitmap>
-		<beginBitmapFill public="1" set="method"><f a="bmp:?matrix:?repeat:?smoothing">
-	<c path="flash.display.BitmapData"/>
-	<c path="flash.geom.Matrix"/>
-	<e path="Bool"/>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></beginBitmapFill>
-		<lineGradientStyle public="1" set="method"><f a="fillType:colors:alphas:ratios:matrix:?spreadMethod:?interpolationMethod:?focalPointRatio">
-	<c path="String"/>
-	<c path="Array"><c path="Int"/></c>
-	<c path="Array"><d/></c>
-	<c path="Array"><d/></c>
-	<d/>
-	<c path="String"/>
-	<c path="String"/>
-	<c path="Float"/>
-	<e path="Void"/>
-</f></lineGradientStyle>
-		<forceSmoothing public="1">
-			<e path="Bool"/>
-			<haxe_doc> FP9 only </haxe_doc>
-		</forceSmoothing>
-		<haxe_dynamic><d/></haxe_dynamic>
+</f></setErrorHandler>
 	</class>
-	<class path="utest.ui.common.IReport" params="T" file="src/utest/ui/common/IReport.hx" interface="1">
-		<displaySuccessResults public="1"><e path="utest.ui.common.SuccessResultsDisplayMode"/></displaySuccessResults>
-		<displayHeader public="1"><e path="utest.ui.common.HeaderDisplayMode"/></displayHeader>
-		<setHandler public="1" set="method"><f a="handler">
-	<f a="">
-		<c path="utest.ui.common.IReport.T"/>
-		<e path="Void"/>
-	</f>
-	<e path="Void"/>
-</f></setHandler>
-	</class>
-	<class path="utest.ui.text.PlainTextReport" params="" file="src/utest/ui/text/PlainTextReport.hx">
-		<implements path="utest.ui.common.IReport"><c path="utest.ui.text.PlainTextReport"/></implements>
-		<displaySuccessResults public="1"><e path="utest.ui.common.SuccessResultsDisplayMode"/></displaySuccessResults>
-		<displayHeader public="1"><e path="utest.ui.common.HeaderDisplayMode"/></displayHeader>
-		<handler public="1"><f a="">
-	<c path="utest.ui.text.PlainTextReport"/>
-	<e path="Void"/>
-</f></handler>
-		<aggregator><c path="utest.ui.common.ResultAggregator"/></aggregator>
-		<newline><c path="String"/></newline>
-		<indent><c path="String"/></indent>
-		<setHandler public="1" set="method" line="35"><f a="handler">
-	<f a="">
-		<c path="utest.ui.text.PlainTextReport"/>
-		<e path="Void"/>
-	</f>
-	<e path="Void"/>
-</f></setHandler>
-		<startTime><c path="Float"/></startTime>
-		<start set="method" line="41"><f a="e">
-	<c path="utest.Runner"/>
-	<e path="Void"/>
-</f></start>
-		<indents set="method" line="45"><f a="c">
+	<class path="String" params="" file="C:\Projects\haxe/std/String.hx" extern="1">
+		<fromCharCode public="1" set="method" static="1"><f a="code">
 	<c path="Int"/>
 	<c path="String"/>
-</f></indents>
-		<dumpStack set="method" line="52"><f a="stack">
-	<c path="Array"><e path="haxe.StackItem"/></c>
+</f></fromCharCode>
+		<length public="1" set="null">
+			<c path="Int"/>
+			<haxe_doc>
+		The number of characters in the String.
+	</haxe_doc>
+		</length>
+		<toUpperCase public="1" set="method">
+			<f a=""><c path="String"/></f>
+			<haxe_doc>
+		Returns an String where all characters have been uppercased.
+	</haxe_doc>
+		</toUpperCase>
+		<toLowerCase public="1" set="method">
+			<f a=""><c path="String"/></f>
+			<haxe_doc>
+		Returns an String where all characters have been lowercased.
+	</haxe_doc>
+		</toLowerCase>
+		<charAt public="1" set="method">
+			<f a="index">
+				<c path="Int"/>
+				<c path="String"/>
+			</f>
+			<haxe_doc>
+		Returns the character at the given position.
+		Returns the empty String if outside of String bounds.
+	</haxe_doc>
+		</charAt>
+		<charCodeAt public="1" set="method">
+			<f a="index">
+				<c path="Int"/>
+				<t path="Null"><c path="Int"/></t>
+			</f>
+			<haxe_doc>
+		Returns the character code at the given position.
+		Returns [null] if outside of String bounds.
+	</haxe_doc>
+		</charCodeAt>
+		<indexOf public="1" set="method">
+			<f a="str:?startIndex">
+				<c path="String"/>
+				<c path="Int"/>
+				<c path="Int"/>
+			</f>
+			<haxe_doc>
+		Returns the index of first occurence of [value]
+		Returns [1-1] if [value] is not found.
+		The optional [startIndex] parameter allows you to specify at which character to start searching.
+		The position returned is still relative to the beginning of the string.
+	</haxe_doc>
+		</indexOf>
+		<lastIndexOf public="1" set="method">
+			<f a="str:?startIndex">
+				<c path="String"/>
+				<c path="Int"/>
+				<c path="Int"/>
+			</f>
+			<haxe_doc>
+		Similar to [indexOf] but returns the latest index.
+	</haxe_doc>
+		</lastIndexOf>
+		<split public="1" set="method">
+			<f a="delimiter">
+				<c path="String"/>
+				<c path="Array"><c path="String"/></c>
+			</f>
+			<haxe_doc>
+		Split the string using the specified delimiter.
+	</haxe_doc>
+		</split>
+		<substr public="1" set="method">
+			<f a="pos:?len">
+				<c path="Int"/>
+				<c path="Int"/>
+				<c path="String"/>
+			</f>
+			<haxe_doc>
+		Returns a part of the String, taking [len] characters starting from [pos].
+		If [len] is not specified, it takes all the remaining characters.
+	</haxe_doc>
+		</substr>
+		<toString public="1" set="method">
+			<f a=""><c path="String"/></f>
+			<haxe_doc>
+		Returns the String itself.
+	</haxe_doc>
+		</toString>
+		<new public="1" set="method">
+			<f a="string">
+				<c path="String"/>
+				<e path="Void"/>
+			</f>
+			<haxe_doc>
+		Creates a copy from a given String.
+	</haxe_doc>
+		</new>
+		<haxe_doc>
+	The basic String class.
+</haxe_doc>
+	</class>
+	<class path="flash.Stage" params="" file="C:\Projects\haxe/std/flash/Stage.hx" extern="1">
+		<width public="1" static="1"><c path="Float"/></width>
+		<height public="1" static="1"><c path="Float"/></height>
+		<scaleMode public="1" static="1"><c path="String"/></scaleMode>
+		<align public="1" static="1"><c path="String"/></align>
+		<showMenu public="1" static="1"><e path="Bool"/></showMenu>
+		<addListener public="1" set="method" static="1"><f a="listener">
+	<d/>
+	<e path="Void"/>
+</f></addListener>
+		<removeListener public="1" set="method" static="1"><f a="listener">
+	<d/>
+	<e path="Void"/>
+</f></removeListener>
+		<displayState public="1" static="1">
+			<c path="String"/>
+			<haxe_doc>
+		Set to "fullScreen" in order to set Flash to fullscreen
+		(can only be done in Mouse/Keyboard event listener).
+		Don't forget allowfullscreen="true" in your SWF parameters.
+	</haxe_doc>
+		</displayState>
+		<fullScreenSourceRect public="1" static="1"><c path="flash.geom.Rectangle"><c path="Int"/></c></fullScreenSourceRect>
+		<onFullScreen public="1" set="dynamic" static="1"><f a="full">
+	<e path="Bool"/>
+	<e path="Void"/>
+</f></onFullScreen>
+	</class>
+	<class path="List" params="T" file="C:\Projects\haxe/std/List.hx">
+		<h><c path="Array"><d/></c></h>
+		<q><c path="Array"><d/></c></q>
+		<length public="1" set="null">
+			<c path="Int"/>
+			<haxe_doc>
+		The number of elements in this list.
+	</haxe_doc>
+		</length>
+		<add public="1" set="method" line="51">
+			<f a="item">
+				<c path="List.T"/>
+				<e path="Void"/>
+			</f>
+			<haxe_doc>
+		Add an element at the end of the list.
+	</haxe_doc>
+		</add>
+		<push public="1" set="method" line="64">
+			<f a="item">
+				<c path="List.T"/>
+				<e path="Void"/>
+			</f>
+			<haxe_doc>
+		Push an element at the beginning of the list.
+	</haxe_doc>
+		</push>
+		<first public="1" set="method" line="80">
+			<f a=""><c path="List.T"/></f>
+			<haxe_doc>
+		Returns the first element of the list, or null
+		if the list is empty.
+	</haxe_doc>
+		</first>
+		<last public="1" set="method" line="88">
+			<f a=""><c path="List.T"/></f>
+			<haxe_doc>
+		Returns the last element of the list, or null
+		if the list is empty.
+	</haxe_doc>
+		</last>
+		<pop public="1" set="method" line="98">
+			<f a=""><c path="List.T"/></f>
+			<haxe_doc>
+		Removes the first element of the list and
+		returns it or simply returns null if the
+		list is empty.
+	</haxe_doc>
+		</pop>
+		<isEmpty public="1" set="method" line="112">
+			<f a=""><e path="Bool"/></f>
+			<haxe_doc>
+		Tells if a list is empty.
+	</haxe_doc>
+		</isEmpty>
+		<clear public="1" set="method" line="119">
+			<f a=""><e path="Void"/></f>
+			<haxe_doc>
+		Makes the list empty.
+	</haxe_doc>
+		</clear>
+		<remove public="1" set="method" line="129">
+			<f a="v">
+				<c path="List.T"/>
+				<e path="Bool"/>
+			</f>
+			<haxe_doc>
+		Remove the first element that is [== v] from the list.
+		Returns [true] if an element was removed, [false] otherwise.
+	</haxe_doc>
+		</remove>
+		<iterator public="1" set="method" line="152">
+			<f a=""><t path="Iterator"><c path="List.T"/></t></f>
+			<haxe_doc>
+		Returns an iterator on the elements of the list.
+	</haxe_doc>
+		</iterator>
+		<toString public="1" set="method" line="173">
+			<f a=""><c path="String"/></f>
+			<haxe_doc>
+		Returns a displayable representation of the String.
+	</haxe_doc>
+		</toString>
+		<join public="1" set="method" line="193">
+			<f a="sep">
+				<c path="String"/>
+				<c path="String"/>
+			</f>
+			<haxe_doc>
+		Join the element of the list by using the separator [sep].
+	</haxe_doc>
+		</join>
+		<filter public="1" set="method" line="212">
+			<f a="f">
+				<f a="">
+					<c path="List.T"/>
+					<e path="Bool"/>
+				</f>
+				<c path="List"><c path="List.T"/></c>
+			</f>
+			<haxe_doc>
+		Returns a list filtered with [f]. The returned list
+		will contain all elements [x] for which [f(x) = true].
+	</haxe_doc>
+		</filter>
+		<map public="1" params="X" set="method" line="228">
+			<f a="f">
+				<f a="">
+					<c path="List.T"/>
+					<c path="map.X"/>
+				</f>
+				<c path="List"><c path="map.X"/></c>
+			</f>
+			<haxe_doc>
+		Returns a new list where all elements have been converted
+		by the function [f].
+	</haxe_doc>
+		</map>
+		<new public="1" set="method" line="44">
+			<f a=""><e path="Void"/></f>
+			<haxe_doc>
+		Creates a new empty list.
+	</haxe_doc>
+		</new>
+		<haxe_doc>
+	A linked-list of elements. The list is composed of two-elements arrays
+	that are chained together. It's optimized so that adding or removing an
+	element doesn't imply to copy the whole array content everytime.
+</haxe_doc>
+	</class>
+	<enum path="Void" params="" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes"><haxe_doc>
+	The standard Void type. Only [null] values can be of the type [Void].
+</haxe_doc></enum>
+	<class path="Float" params="" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes" extern="1"><haxe_doc>
+	The standard Float type, this is a double-precision IEEE 64bit float.
+</haxe_doc></class>
+	<class path="Int" params="" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes" extern="1">
+		<extends path="Float"/>
+		<haxe_doc>
+	The standard Int type. Its precision depends on the platform.
+</haxe_doc>
+	</class>
+	<typedef path="Null" params="T" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes">
+		<c path="Null.T"/>
+		<haxe_doc>
+	[Null] can be useful in two cases. In order to document some methods
+	that accepts or can return a [null] value, or for the Flash9 compiler and AS3
+	generator to distinguish between base values that can be null and others that
+	can't.
+</haxe_doc>
+	</typedef>
+	<enum path="Bool" params="" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes">
+		<true/>
+		<false/>
+		<haxe_doc>
+	The standard Boolean type is represented as an enum with two choices.
+</haxe_doc>
+	</enum>
+	<class path="Dynamic" params="T" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes" extern="1"><haxe_doc>
+	Dynamic is an internal compiler type which has special behavior.
+	See the haXe language reference for more informations.
+</haxe_doc></class>
+	<typedef path="Iterator" params="T" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes">
+		<a>
+			<next set="method"><f a=""><c path="Iterator.T"/></f></next>
+			<hasNext set="method"><f a=""><e path="Bool"/></f></hasNext>
+		</a>
+		<haxe_doc>
+	An Iterator is a structure that permits to list a given container
+	values. It can be used by your own data structures. See the haXe
+	documentation for more informations.
+</haxe_doc>
+	</typedef>
+	<typedef path="Iterable" params="T" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes">
+		<a><iterator set="method"><f a=""><t path="Iterator"><c path="Iterable.T"/></t></f></iterator></a>
+		<haxe_doc>
+	An Iterable is a data structure which has an iterator() method.
+	See [Lambda] for generic functions on iterable structures.
+</haxe_doc>
+	</typedef>
+	<class path="ArrayAccess" params="T" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes" extern="1" interface="1"><haxe_doc>
+	ArrayAccess is used to indicate a class that can be accessed using brackets.
+	The type parameter represent the type of the elements stored.
+</haxe_doc></class>
+	<class path="utest.Runner" params="" file="src/utest/Runner.hx">
+		<fixtures set="null"><c path="Array"><c path="utest.TestFixture"><d/></c></c></fixtures>
+		<onProgress public="1" set="null">
+			<c path="utest.Dispatcher"><a>
+	<totals><c path="Int"/></totals>
+	<result><c path="utest.TestResult"/></result>
+	<done><c path="Int"/></done>
+</a></c>
+			<haxe_doc>
+	* Event object that monitors the progress of the runner.
+	</haxe_doc>
+		</onProgress>
+		<onStart public="1" set="null">
+			<c path="utest.Dispatcher"><c path="utest.Runner"/></c>
+			<haxe_doc>
+	* Event object that monitors when the runner starts.
+	</haxe_doc>
+		</onStart>
+		<onComplete public="1" set="null">
+			<c path="utest.Dispatcher"><c path="utest.Runner"/></c>
+			<haxe_doc>
+	* Event object that monitors when the runner ends. This event takes into account async calls
+	* performed during the tests.
+	</haxe_doc>
+		</onComplete>
+		<length public="1" set="null">
+			<c path="Int"/>
+			<haxe_doc>
+	* The number of fixtures registered.
+	</haxe_doc>
+		</length>
+		<addCase public="1" set="method" line="53">
+			<f a="test:?setup:?teardown:?prefix:?pattern">
+				<d/>
+				<c path="String"/>
+				<c path="String"/>
+				<c path="String"/>
+				<c path="EReg"/>
+				<e path="Void"/>
+			</f>
+			<haxe_doc>
+	* Adds a new test case.
+	* @param	test: must be a not null object
+	* @param	setup: string name of the setup function (defaults to "setup")
+	* @param	teardown: string name of the teardown function (defaults to "teardown")
+	* @param	prefix: prefix for methods that are tests (defaults to "test")
+	* @param	pattern: a regular expression that discriminates the names of test
+	* 			functions; when set,  the prefix parameter is meaningless
+	</haxe_doc>
+		</addCase>
+		<addFixture public="1" set="method" line="75"><f a="fixture">
+	<c path="utest.TestFixture"><d/></c>
+	<e path="Void"/>
+</f></addFixture>
+		<getFixture public="1" set="method" line="80"><f a="index">
+	<c path="Int"/>
+	<c path="utest.TestFixture"><d/></c>
+</f></getFixture>
+		<isMethod set="method" line="84"><f a="test:name">
+	<d/>
 	<c path="String"/>
-</f></dumpStack>
-		<addHeader set="method" line="67"><f a="buf:result">
-	<c path="StringBuf"/>
-	<c path="utest.ui.common.PackageResult"/>
+	<e path="Bool"/>
+</f></isMethod>
+		<pos><c path="Int"/></pos>
+		<run public="1" set="method" line="109"><f a=""><e path="Void"/></f></run>
+		<runNext set="method" line="115"><f a=""><e path="Void"/></f></runNext>
+		<runFixture set="method" line="122"><f a="fixture">
+	<c path="utest.TestFixture"><d/></c>
 	<e path="Void"/>
-</f></addHeader>
-		<result><c path="utest.ui.common.PackageResult"/></result>
-		<getResults public="1" set="method" line="93"><f a=""><c path="String"/></f></getResults>
-		<complete set="method" line="154"><f a="result">
-	<c path="utest.ui.common.PackageResult"/>
+</f></runFixture>
+		<testComplete set="method" line="128"><f a="h">
+	<c path="utest.TestHandler"><d/></c>
 	<e path="Void"/>
-</f></complete>
-		<new public="1" set="method" line="25"><f a="runner:?outputHandler">
-	<c path="utest.Runner"/>
-	<f a="">
-		<c path="utest.ui.text.PlainTextReport"/>
-		<e path="Void"/>
-	</f>
+</f></testComplete>
+		<new public="1" set="method" line="36">
+			<f a=""><e path="Void"/></f>
+			<haxe_doc>
+	* Instantiates a Runner onject.
+	</haxe_doc>
+		</new>
+		<haxe_doc>
+* The Runner class performs a set of tests. The tests can be added using addCase or addFixtures.
+* Once all the tests are register they are axecuted on the run() call.
+* Note that Runner does not provide any visual output. To visualize the test results use one of
+* the classes in the utest.ui package.
+* @todo complete documentation
+* @todo AVOID CHAINING METHODS (long chains do not work properly on IE)
+</haxe_doc>
+	</class>
+	<class path="haxe.unit.TestStatus" params="" file="C:\Projects\haxe/std/haxe/unit/TestStatus.hx">
+		<done public="1"><e path="Bool"/></done>
+		<success public="1"><e path="Bool"/></success>
+		<error public="1"><c path="String"/></error>
+		<method public="1"><c path="String"/></method>
+		<classname public="1"><c path="String"/></classname>
+		<posInfos public="1"><t path="haxe.PosInfos"/></posInfos>
+		<backtrace public="1"><c path="String"/></backtrace>
+		<new public="1" set="method" line="39"><f a=""><e path="Void"/></f></new>
+	</class>
+	<class path="haxe.unit.TestRunner" params="" file="C:\Projects\haxe/std/haxe/unit/TestRunner.hx">
+		<tf line="35" static="1"><c path="flash.TextField"/></tf>
+		<print public="1" set="dynamic" line="38" static="1"><f a="v">
+	<d/>
+	<e path="Void"/>
+</f></print>
+		<customTrace set="method" line="79" static="1"><f a="v:?p">
+	<unknown/>
+	<t path="haxe.PosInfos"/>
+	<e path="Void"/>
+</f></customTrace>
+		<result><c path="haxe.unit.TestResult"/></result>
+		<cases><c path="List"><c path="haxe.unit.TestCase"/></c></cases>
+		<add public="1" set="method" line="88"><f a="c">
+	<c path="haxe.unit.TestCase"/>
+	<e path="Void"/>
+</f></add>
+		<run public="1" set="method" line="92"><f a=""><e path="Bool"/></f></run>
+		<runCase set="method" line="101"><f a="t">
+	<c path="haxe.unit.TestCase"/>
+	<e path="Void"/>
+</f></runCase>
+		<new public="1" set="method" line="83"><f a=""><e path="Void"/></f></new>
+	</class>
+	<enum path="utest.Assertation" params="" file="src/utest/Assertation.hx">
+		<Warning a="msg">
+			<c path="String"/>
+			<haxe_doc>
+	* A warning state. This can be declared explicitely by an Assert call
+	* or can denote a test method that contains no assertions at all.
+	* @param msg: The reason behind the warning
+	</haxe_doc>
+		</Warning>
+		<TimeoutError a="missedAsyncs:stack">
+			<c path="Int"/>
+			<c path="Array"><e path="haxe.StackItem"/></c>
+			<haxe_doc>
+	* The asynchronous phase of a test has gone into timeout.
+	* @param missedAsyncs: The number of asynchronous calls that was expected
+	* to be performed before the timeout.
+	</haxe_doc>
+		</TimeoutError>
+		<TeardownError a="e:stack">
+			<d/>
+			<c path="Array"><e path="haxe.StackItem"/></c>
+			<haxe_doc>
+	* An error has occurred during the Teardown phase of the test.
+	* @param e: The captured error/exception
+	</haxe_doc>
+		</TeardownError>
+		<Success a="pos">
+			<t path="haxe.PosInfos"/>
+			<haxe_doc>
+	* Assertion is succesful
+	* @param pos: Code position where the Assert call has been executed
+	</haxe_doc>
+		</Success>
+		<SetupError a="e:stack">
+			<d/>
+			<c path="Array"><e path="haxe.StackItem"/></c>
+			<haxe_doc>
+	* An error has occurred during the Setup phase of the test. It prevents
+	* the test to be run.
+	* @param e: The captured error/exception
+	</haxe_doc>
+		</SetupError>
+		<Failure a="msg:pos">
+			<c path="String"/>
+			<t path="haxe.PosInfos"/>
+			<haxe_doc>
+	* Assertion is a falure. This does not denote an error in the assertion
+	* code but that the testing condition has failed for some reason.
+	* Ei.: Assert.isTrue(1 == 0);
+	* @param msg: An error message containing the reasons for the failure.
+	* @param pos: Code position where the Assert call has been executed
+	</haxe_doc>
+		</Failure>
+		<Error a="e:stack">
+			<d/>
+			<c path="Array"><e path="haxe.StackItem"/></c>
+			<haxe_doc>
+	* An error has occurred during the execution of the test that prevents
+	* futher assertion to be tested.
+	* @param e: The captured error/exception
+	</haxe_doc>
+		</Error>
+		<AsyncError a="e:stack">
+			<d/>
+			<c path="Array"><e path="haxe.StackItem"/></c>
+			<haxe_doc>
+	* An error has occurred during an asynchronous test.
+	* @param e: The captured error/exception
+	</haxe_doc>
+		</AsyncError>
+		<haxe_doc>
+* Enumerates the states available as a result of
+* invoking one of the static methods of @see {@link utest.Assert}.
+</haxe_doc>
+	</enum>
+	<class path="utest.TestResult" params="" file="src/utest/TestResult.hx">
+		<ofHandler public="1" set="method" line="18" static="1"><f a="handler">
+	<c path="utest.TestHandler"><d/></c>
+	<c path="utest.TestResult"/>
+</f></ofHandler>
+		<pack public="1"><c path="String"/></pack>
+		<cls public="1"><c path="String"/></cls>
+		<method public="1"><c path="String"/></method>
+		<setup public="1"><c path="String"/></setup>
+		<teardown public="1"><c path="String"/></teardown>
+		<assertations public="1"><c path="List"><e path="utest.Assertation"/></c></assertations>
+		<allOk public="1" set="method" line="30"><f a=""><e path="Bool"/></f></allOk>
+		<new public="1" set="method" line="16"><f a=""><e path="Void"/></f></new>
+		<haxe_doc>
+* @todo add documentation
+</haxe_doc>
+	</class>
+	<class path="utest.ui.common.FixtureResult" params="" file="src/utest/ui/common/FixtureResult.hx">
+		<methodName public="1" set="null"><c path="String"/></methodName>
+		<hasTestError public="1" set="null"><e path="Bool"/></hasTestError>
+		<hasSetupError public="1" set="null"><e path="Bool"/></hasSetupError>
+		<hasTeardownError public="1" set="null"><e path="Bool"/></hasTeardownError>
+		<hasTimeoutError public="1" set="null"><e path="Bool"/></hasTimeoutError>
+		<hasAsyncError public="1" set="null"><e path="Bool"/></hasAsyncError>
+		<stats public="1" set="null"><c path="utest.ui.common.ResultStats"/></stats>
+		<list set="null"><c path="List"><e path="utest.Assertation"/></c></list>
+		<iterator public="1" set="method" line="31"><f a=""><t path="Iterator"><e path="utest.Assertation"/></t></f></iterator>
+		<add public="1" set="method" line="35"><f a="assertation">
+	<e path="utest.Assertation"/>
+	<e path="Void"/>
+</f></add>
+		<new public="1" set="method" line="19"><f a="methodName">
+	<c path="String"/>
 	<e path="Void"/>
 </f></new>
 		<haxe_doc>
 * @todo add documentation
 </haxe_doc>
 	</class>
+	<class path="Class" params="T" file="C:\Projects\haxe/std/Class.hx" extern="1"><haxe_doc>
+	An abstract type that represents a Class.
+	See [Type] for the haXe Reflection API.
+</haxe_doc></class>
 	<class path="Reflect" params="" file="C:\Projects\haxe/std/flash/_std/Reflect.hx">
 		<hasField public="1" get="inline" set="null" line="28" static="1">
 			<f a="o:field">
@@ -1076,51 +1042,154 @@
 	abstract interface in an untyped manner. Use with care.
 </haxe_doc>
 	</class>
-	<class path="haxe.Log" params="" file="C:\Projects\haxe/std/haxe/Log.hx">
-		<trace public="1" set="dynamic" line="29" static="1"><f a="v:?infos">
-	<d/>
-	<t path="haxe.PosInfos"/>
+	<class path="flash.geom.ColorTransform" params="" file="C:\Projects\haxe/std/flash/geom/ColorTransform.hx" extern="1">
+		<rgb public="1"><c path="Float"/></rgb>
+		<blueOffset public="1"><c path="Float"/></blueOffset>
+		<greenOffset public="1"><c path="Float"/></greenOffset>
+		<redOffset public="1"><c path="Float"/></redOffset>
+		<alphaOffset public="1"><c path="Float"/></alphaOffset>
+		<blueMultiplier public="1"><c path="Float"/></blueMultiplier>
+		<greenMultiplier public="1"><c path="Float"/></greenMultiplier>
+		<redMultiplier public="1"><c path="Float"/></redMultiplier>
+		<alphaMultiplier public="1"><c path="Float"/></alphaMultiplier>
+		<toString public="1" set="method"><f a=""><c path="String"/></f></toString>
+		<concat public="1" set="method"><f a="c">
+	<c path="flash.geom.ColorTransform"/>
 	<e path="Void"/>
-</f></trace>
-		<clear public="1" set="dynamic" line="43" static="1"><f a=""><e path="Void"/></f></clear>
-		<setColor public="1" set="dynamic" line="52" static="1"><f a="rgb">
+</f></concat>
+		<new public="1" set="method"><f a="?rm:?gm:?bm:?am:?ro:?go:?bo:?ao">
+	<c path="Float"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<e path="Void"/>
+</f></new>
+	</class>
+	<class path="flash.geom.Rectangle" params="T" file="C:\Projects\haxe/std/flash/geom/Rectangle.hx" extern="1">
+		<left public="1"><c path="flash.geom.Rectangle.T"/></left>
+		<top public="1"><c path="flash.geom.Rectangle.T"/></top>
+		<right public="1"><c path="flash.geom.Rectangle.T"/></right>
+		<bottom public="1"><c path="flash.geom.Rectangle.T"/></bottom>
+		<x public="1"><c path="flash.geom.Rectangle.T"/></x>
+		<y public="1"><c path="flash.geom.Rectangle.T"/></y>
+		<width public="1"><c path="flash.geom.Rectangle.T"/></width>
+		<height public="1"><c path="flash.geom.Rectangle.T"/></height>
+		<size public="1"><c path="flash.geom.Point"><c path="flash.geom.Rectangle.T"/></c></size>
+		<bottomRight public="1"><c path="flash.geom.Point"><c path="flash.geom.Rectangle.T"/></c></bottomRight>
+		<topLeft public="1"><c path="flash.geom.Point"><c path="flash.geom.Rectangle.T"/></c></topLeft>
+		<equals public="1" set="method"><f a="r">
+	<c path="flash.geom.Rectangle"><c path="flash.geom.Rectangle.T"/></c>
+	<e path="Bool"/>
+</f></equals>
+		<union public="1" set="method"><f a="r">
+	<c path="flash.geom.Rectangle"><c path="flash.geom.Rectangle.T"/></c>
+	<c path="flash.geom.Rectangle"><c path="flash.geom.Rectangle.T"/></c>
+</f></union>
+		<intersects public="1" set="method"><f a="r">
+	<c path="flash.geom.Rectangle"><c path="flash.geom.Rectangle.T"/></c>
+	<e path="Bool"/>
+</f></intersects>
+		<intersection public="1" set="method"><f a="r">
+	<c path="flash.geom.Rectangle"><c path="flash.geom.Rectangle.T"/></c>
+	<c path="flash.geom.Rectangle"><c path="flash.geom.Rectangle.T"/></c>
+</f></intersection>
+		<containsRectangle public="1" set="method"><f a="r">
+	<c path="flash.geom.Rectangle"><c path="flash.geom.Rectangle.T"/></c>
+	<e path="Bool"/>
+</f></containsRectangle>
+		<containsPoint public="1" set="method"><f a="p">
+	<c path="flash.geom.Point"><c path="flash.geom.Rectangle.T"/></c>
+	<e path="Bool"/>
+</f></containsPoint>
+		<contains public="1" set="method"><f a="x:y">
+	<c path="Float"/>
+	<c path="Float"/>
+	<e path="Bool"/>
+</f></contains>
+		<offsetPoint public="1" set="method"><f a="p">
+	<c path="flash.geom.Point"><c path="flash.geom.Rectangle.T"/></c>
+	<e path="Void"/>
+</f></offsetPoint>
+		<offset public="1" set="method"><f a="x:y">
+	<c path="flash.geom.Rectangle.T"/>
+	<c path="flash.geom.Rectangle.T"/>
+	<e path="Void"/>
+</f></offset>
+		<inflatePoint public="1" set="method"><f a="p">
+	<c path="flash.geom.Point"><c path="flash.geom.Rectangle.T"/></c>
+	<e path="Void"/>
+</f></inflatePoint>
+		<inflate public="1" set="method"><f a="x:y">
+	<c path="flash.geom.Rectangle.T"/>
+	<c path="flash.geom.Rectangle.T"/>
+	<e path="Void"/>
+</f></inflate>
+		<isEmpty public="1" set="method"><f a=""><e path="Bool"/></f></isEmpty>
+		<setEmpty public="1" set="method"><f a=""><e path="Void"/></f></setEmpty>
+		<clone public="1" set="method"><f a=""><c path="flash.geom.Rectangle"><c path="flash.geom.Rectangle.T"/></c></f></clone>
+		<toString public="1" set="method"><f a=""><c path="String"/></f></toString>
+		<new public="1" set="method"><f a="x:y:w:h">
+	<c path="flash.geom.Rectangle.T"/>
+	<c path="flash.geom.Rectangle.T"/>
+	<c path="flash.geom.Rectangle.T"/>
+	<c path="flash.geom.Rectangle.T"/>
+	<e path="Void"/>
+</f></new>
+	</class>
+	<class path="utest.ui.common.ResultStats" params="" file="src/utest/ui/common/ResultStats.hx">
+		<assertations public="1" set="null"><c path="Int"/></assertations>
+		<successes public="1" set="null"><c path="Int"/></successes>
+		<failures public="1" set="null"><c path="Int"/></failures>
+		<errors public="1" set="null"><c path="Int"/></errors>
+		<warnings public="1" set="null"><c path="Int"/></warnings>
+		<onAddSuccesses public="1" set="null"><c path="utest.Dispatcher"><c path="Int"/></c></onAddSuccesses>
+		<onAddFailures public="1" set="null"><c path="utest.Dispatcher"><c path="Int"/></c></onAddFailures>
+		<onAddErrors public="1" set="null"><c path="utest.Dispatcher"><c path="Int"/></c></onAddErrors>
+		<onAddWarnings public="1" set="null"><c path="utest.Dispatcher"><c path="Int"/></c></onAddWarnings>
+		<isOk public="1" set="null"><e path="Bool"/></isOk>
+		<hasFailures public="1" set="null"><e path="Bool"/></hasFailures>
+		<hasErrors public="1" set="null"><e path="Bool"/></hasErrors>
+		<hasWarnings public="1" set="null"><e path="Bool"/></hasWarnings>
+		<addSuccesses public="1" set="method" line="42"><f a="v">
 	<c path="Int"/>
 	<e path="Void"/>
-</f></setColor>
-	</class>
-	<class path="flash.text.StyleSheet" params="" file="C:\Projects\haxe/std/flash/text/StyleSheet.hx" extern="1">
-		<getStyle public="1" set="method"><f a="name">
-	<c path="String"/>
-	<d/>
-</f></getStyle>
-		<setStyle public="1" set="method"><f a="name:style">
-	<c path="String"/>
-	<d/>
+</f></addSuccesses>
+		<addFailures public="1" set="method" line="49"><f a="v">
+	<c path="Int"/>
 	<e path="Void"/>
-</f></setStyle>
-		<clear public="1" set="method"><f a=""><e path="Void"/></f></clear>
-		<getStyleNames public="1" set="method"><f a=""><c path="Array"><d/></c></f></getStyleNames>
-		<transform public="1" set="method"><f a="style">
-	<d/>
-	<c path="flash.TextFormat"/>
-</f></transform>
-		<parseCSS public="1" set="method"><f a="cssText">
-	<c path="String"/>
-	<e path="Bool"/>
-</f></parseCSS>
-		<parse public="1" set="method"><f a="cssText">
-	<c path="String"/>
-	<e path="Bool"/>
-</f></parse>
-		<load public="1" set="method"><f a="url">
-	<c path="String"/>
-	<e path="Bool"/>
-</f></load>
-		<onLoad public="1" set="dynamic"><f a="success">
-	<e path="Bool"/>
+</f></addFailures>
+		<addErrors public="1" set="method" line="58"><f a="v">
+	<c path="Int"/>
 	<e path="Void"/>
-</f></onLoad>
-		<new public="1" set="method"><f a=""><e path="Void"/></f></new>
+</f></addErrors>
+		<addWarnings public="1" set="method" line="67"><f a="v">
+	<c path="Int"/>
+	<e path="Void"/>
+</f></addWarnings>
+		<sum public="1" set="method" line="76"><f a="other">
+	<c path="utest.ui.common.ResultStats"/>
+	<e path="Void"/>
+</f></sum>
+		<subtract public="1" set="method" line="83"><f a="other">
+	<c path="utest.ui.common.ResultStats"/>
+	<e path="Void"/>
+</f></subtract>
+		<wire public="1" set="method" line="90"><f a="dependant">
+	<c path="utest.ui.common.ResultStats"/>
+	<e path="Void"/>
+</f></wire>
+		<unwire public="1" set="method" line="98"><f a="dependant">
+	<c path="utest.ui.common.ResultStats"/>
+	<e path="Void"/>
+</f></unwire>
+		<new public="1" set="method" line="24"><f a=""><e path="Void"/></f></new>
+		<haxe_doc>
+* @todo add documentation
+</haxe_doc>
 	</class>
 	<class path="utest.Assert" params="" file="src/utest/Assert.hx">
 		<results public="1" static="1">
@@ -1530,575 +1599,59 @@
 	<path><c path="String"/></path>
 	<error><c path="String"/></error>
 </a></typedef>
-	<class path="utest.ui.Report" params="" file="src/utest/ui/Report.hx"><create public="1" set="method" line="17" static="1"><f a="runner:?displaySuccessResults:?headerDisplayMode">
-	<c path="utest.Runner"/>
-	<e path="utest.ui.common.SuccessResultsDisplayMode"/>
-	<e path="utest.ui.common.HeaderDisplayMode"/>
-	<c path="utest.ui.common.IReport"><d/></c>
-</f></create></class>
-	<class path="utest.ui.text.PrintReport" params="" file="src/utest/ui/text/PrintReport.hx">
-		<extends path="utest.ui.text.PlainTextReport"/>
-		<useTrace><e path="Bool"/></useTrace>
-		<_handler set="method" line="57"><f a="report">
-	<c path="utest.ui.text.PlainTextReport"/>
-	<e path="Void"/>
-</f></_handler>
-		<_trace set="method" line="63"><f a="s">
-	<c path="String"/>
-	<e path="Void"/>
-</f></_trace>
-		<new public="1" set="method" line="51"><f a="runner">
-	<c path="utest.Runner"/>
-	<e path="Void"/>
-</f></new>
+	<enum path="haxe.StackItem" params="" file="C:\Projects\haxe/std/haxe/Stack.hx" module="haxe.Stack">
+		<Module a="m"><c path="String"/></Module>
+		<Method a="classname:method">
+			<c path="String"/>
+			<c path="String"/>
+		</Method>
+		<Lambda a="v"><c path="Int"/></Lambda>
+		<FilePos a="s:file:line">
+			<t path="Null"><e path="haxe.StackItem"/></t>
+			<c path="String"/>
+			<c path="Int"/>
+		</FilePos>
+		<CFunction/>
 		<haxe_doc>
-* @todo add documentation
+	Elements return by [Stack] methods.
 </haxe_doc>
-	</class>
-	<class path="utest.ui.text.HtmlReport" params="" file="src/utest/ui/text/HtmlReport.hx">
-		<implements path="utest.ui.common.IReport"><c path="utest.ui.text.HtmlReport"/></implements>
-		<platform line="33" static="1"><c path="String"/></platform>
-		<traceRedirected public="1" set="null"><e path="Bool"/></traceRedirected>
-		<displaySuccessResults public="1"><e path="utest.ui.common.SuccessResultsDisplayMode"/></displaySuccessResults>
-		<displayHeader public="1"><e path="utest.ui.common.HeaderDisplayMode"/></displayHeader>
-		<handler public="1"><f a="">
-	<c path="utest.ui.text.HtmlReport"/>
-	<e path="Void"/>
-</f></handler>
-		<aggregator><c path="utest.ui.common.ResultAggregator"/></aggregator>
-		<oldTrace><d/></oldTrace>
-		<_traces><c path="Array"><a>
-	<time><c path="Float"/></time>
-	<stack><c path="Array"><e path="haxe.StackItem"/></c></stack>
-	<msg><c path="String"/></msg>
-	<infos><t path="haxe.PosInfos"/></infos>
-	<delta><c path="Float"/></delta>
-</a></c></_traces>
-		<setHandler public="1" set="method" line="58"><f a="handler">
-	<f a="">
-		<c path="utest.ui.text.HtmlReport"/>
-		<e path="Void"/>
-	</f>
-	<e path="Void"/>
-</f></setHandler>
-		<redirectTrace public="1" set="method" line="63"><f a=""><e path="Void"/></f></redirectTrace>
-		<restoreTrace public="1" set="method" line="72"><f a=""><e path="Void"/></f></restoreTrace>
-		<_traceTime><t path="Null"><c path="Float"/></t></_traceTime>
-		<_trace set="method" line="80"><f a="v:?infos">
-	<d/>
-	<t path="haxe.PosInfos"/>
-	<e path="Void"/>
-</f></_trace>
-		<startTime><c path="Float"/></startTime>
-		<start set="method" line="95"><f a="e">
-	<c path="utest.Runner"/>
-	<e path="Void"/>
-</f></start>
-		<cls set="method" line="99"><f a="stats">
-	<c path="utest.ui.common.ResultStats"/>
-	<c path="String"/>
-</f></cls>
-		<resultNumbers set="method" line="111"><f a="buf:stats">
-	<c path="StringBuf"/>
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Void"/>
-</f></resultNumbers>
-		<blockNumbers set="method" line="145"><f a="buf:stats">
-	<c path="StringBuf"/>
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Void"/>
-</f></blockNumbers>
-		<formatStack set="method" line="152"><f a="stack:?addNL">
-	<c path="Array"><e path="haxe.StackItem"/></c>
-	<e path="Bool"/>
-	<c path="String"/>
-</f></formatStack>
-		<addFixture set="method" line="182"><f a="buf:result:name:isOk">
-	<c path="StringBuf"/>
-	<c path="utest.ui.common.FixtureResult"/>
-	<c path="String"/>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></addFixture>
-		<getErrorDescription set="method" line="231"><f a="e">
-	<d/>
-	<c path="String"/>
-</f></getErrorDescription>
-		<getErrorStack set="method" line="246"><f a="s:e">
-	<c path="Array"><e path="haxe.StackItem"/></c>
-	<d/>
-	<c path="String"/>
-</f></getErrorStack>
-		<addClass set="method" line="272"><f a="buf:result:name:isOk">
-	<c path="StringBuf"/>
-	<c path="utest.ui.common.ClassResult"/>
-	<c path="String"/>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></addClass>
-		<addPackages set="method" line="286"><f a="buf:result:isOk">
-	<c path="StringBuf"/>
-	<c path="utest.ui.common.PackageResult"/>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></addPackages>
-		<addPackage set="method" line="297"><f a="buf:result:name:isOk">
-	<c path="StringBuf"/>
-	<c path="utest.ui.common.PackageResult"/>
-	<c path="String"/>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></addPackage>
-		<getHeader public="1" set="method" line="311"><f a=""><c path="String"/></f></getHeader>
-		<getTrace public="1" set="method" line="335"><f a=""><c path="String"/></f></getTrace>
-		<getResults public="1" set="method" line="364"><f a=""><c path="String"/></f></getResults>
-		<getAll public="1" set="method" line="371"><f a=""><c path="String"/></f></getAll>
-		<getHtml public="1" set="method" line="379"><f a="?title">
-	<c path="String"/>
-	<c path="String"/>
-</f></getHtml>
-		<result><c path="utest.ui.common.PackageResult"/></result>
-		<complete set="method" line="391"><f a="result">
-	<c path="utest.ui.common.PackageResult"/>
-	<e path="Void"/>
-</f></complete>
-		<formatTime set="method" line="397"><f a="t">
-	<c path="Float"/>
-	<c path="String"/>
-</f></formatTime>
-		<cssStyle set="method" line="402"><f a=""><c path="String"/></f></cssStyle>
-		<jsScript set="method" line="612"><f a=""><c path="String"/></f></jsScript>
-		<wrapHtml set="method" line="646"><f a="title:s">
-	<c path="String"/>
-	<c path="String"/>
-	<c path="String"/>
-</f></wrapHtml>
-		<_handler set="method" line="655"><f a="report">
-	<c path="utest.ui.text.HtmlReport"/>
-	<e path="Void"/>
-</f></_handler>
-		<new public="1" set="method" line="44"><f a="runner:?outputHandler:?traceRedirected">
-	<c path="utest.Runner"/>
-	<f a="">
-		<c path="utest.ui.text.HtmlReport"/>
-		<e path="Void"/>
-	</f>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
-</haxe_doc>
-	</class>
-	<class path="StringBuf" params="" file="C:\Projects\haxe/std/StringBuf.hx">
-		<add public="1" get="inline" set="null" line="46">
-			<f a="?x">
-				<d/>
-				<e path="Void"/>
-			</f>
+	</enum>
+	<class path="haxe.Stack" params="" file="C:\Projects\haxe/std/haxe/Stack.hx">
+		<callStack public="1" set="method" line="46" static="1">
+			<f a=""><c path="Array"><e path="haxe.StackItem"/></c></f>
 			<haxe_doc>
-		Adds the representation of any value to the string buffer.
+		Return the call stack elements.
 	</haxe_doc>
-		</add>
-		<addSub public="1" get="inline" set="null" line="57">
-			<f a="s:pos:?len">
+		</callStack>
+		<exceptionStack public="1" set="method" line="69" static="1">
+			<f a=""><c path="Array"><e path="haxe.StackItem"/></c></f>
+			<haxe_doc>
+		Return the exception stack : this is the stack elements between
+		the place the last exception was thrown and the place it was
+		catched.
+	</haxe_doc>
+		</exceptionStack>
+		<toString public="1" set="method" line="100" static="1">
+			<f a="stack">
+				<c path="Array"><e path="haxe.StackItem"/></c>
 				<c path="String"/>
-				<c path="Int"/>
-				<c path="Int"/>
-				<e path="Void"/>
 			</f>
 			<haxe_doc>
-		Adds a part of a string to the string buffer.
-	</haxe_doc>
-		</addSub>
-		<addChar public="1" get="inline" set="null" line="73">
-			<f a="c">
-				<c path="Int"/>
-				<e path="Void"/>
-			</f>
-			<haxe_doc>
-		Adds a character to the string buffer.
-	</haxe_doc>
-		</addChar>
-		<toString public="1" get="inline" set="null" line="87">
-			<f a=""><c path="String"/></f>
-			<haxe_doc>
-		Returns the content of the string buffer.
-		The buffer is not emptied by this operation.
+		Returns a representation of the stack as a printable string.
 	</haxe_doc>
 		</toString>
-		<b><c path="String"/></b>
-		<new public="1" set="method" line="35">
-			<f a=""><e path="Void"/></f>
-			<haxe_doc>
-		Creates a new string buffer.
-	</haxe_doc>
-		</new>
+		<itemToString set="method" line="109" static="1"><f a="b:s">
+	<c path="StringBuf"/>
+	<e path="haxe.StackItem"/>
+	<e path="Void"/>
+</f></itemToString>
+		<makeStack set="method" line="135" static="1"><f a="s">
+	<c path="String"/>
+	<c path="Array"><e path="haxe.StackItem"/></c>
+</f></makeStack>
 		<haxe_doc>
-	A String buffer is an efficient way to build a big string by
-	appending small elements together.
+	Get informations about the call stack.
 </haxe_doc>
-	</class>
-	<class path="flash.geom.Rectangle" params="T" file="C:\Projects\haxe/std/flash/geom/Rectangle.hx" extern="1">
-		<left public="1"><c path="flash.geom.Rectangle.T"/></left>
-		<top public="1"><c path="flash.geom.Rectangle.T"/></top>
-		<right public="1"><c path="flash.geom.Rectangle.T"/></right>
-		<bottom public="1"><c path="flash.geom.Rectangle.T"/></bottom>
-		<x public="1"><c path="flash.geom.Rectangle.T"/></x>
-		<y public="1"><c path="flash.geom.Rectangle.T"/></y>
-		<width public="1"><c path="flash.geom.Rectangle.T"/></width>
-		<height public="1"><c path="flash.geom.Rectangle.T"/></height>
-		<size public="1"><c path="flash.geom.Point"><c path="flash.geom.Rectangle.T"/></c></size>
-		<bottomRight public="1"><c path="flash.geom.Point"><c path="flash.geom.Rectangle.T"/></c></bottomRight>
-		<topLeft public="1"><c path="flash.geom.Point"><c path="flash.geom.Rectangle.T"/></c></topLeft>
-		<equals public="1" set="method"><f a="r">
-	<c path="flash.geom.Rectangle"><c path="flash.geom.Rectangle.T"/></c>
-	<e path="Bool"/>
-</f></equals>
-		<union public="1" set="method"><f a="r">
-	<c path="flash.geom.Rectangle"><c path="flash.geom.Rectangle.T"/></c>
-	<c path="flash.geom.Rectangle"><c path="flash.geom.Rectangle.T"/></c>
-</f></union>
-		<intersects public="1" set="method"><f a="r">
-	<c path="flash.geom.Rectangle"><c path="flash.geom.Rectangle.T"/></c>
-	<e path="Bool"/>
-</f></intersects>
-		<intersection public="1" set="method"><f a="r">
-	<c path="flash.geom.Rectangle"><c path="flash.geom.Rectangle.T"/></c>
-	<c path="flash.geom.Rectangle"><c path="flash.geom.Rectangle.T"/></c>
-</f></intersection>
-		<containsRectangle public="1" set="method"><f a="r">
-	<c path="flash.geom.Rectangle"><c path="flash.geom.Rectangle.T"/></c>
-	<e path="Bool"/>
-</f></containsRectangle>
-		<containsPoint public="1" set="method"><f a="p">
-	<c path="flash.geom.Point"><c path="flash.geom.Rectangle.T"/></c>
-	<e path="Bool"/>
-</f></containsPoint>
-		<contains public="1" set="method"><f a="x:y">
-	<c path="Float"/>
-	<c path="Float"/>
-	<e path="Bool"/>
-</f></contains>
-		<offsetPoint public="1" set="method"><f a="p">
-	<c path="flash.geom.Point"><c path="flash.geom.Rectangle.T"/></c>
-	<e path="Void"/>
-</f></offsetPoint>
-		<offset public="1" set="method"><f a="x:y">
-	<c path="flash.geom.Rectangle.T"/>
-	<c path="flash.geom.Rectangle.T"/>
-	<e path="Void"/>
-</f></offset>
-		<inflatePoint public="1" set="method"><f a="p">
-	<c path="flash.geom.Point"><c path="flash.geom.Rectangle.T"/></c>
-	<e path="Void"/>
-</f></inflatePoint>
-		<inflate public="1" set="method"><f a="x:y">
-	<c path="flash.geom.Rectangle.T"/>
-	<c path="flash.geom.Rectangle.T"/>
-	<e path="Void"/>
-</f></inflate>
-		<isEmpty public="1" set="method"><f a=""><e path="Bool"/></f></isEmpty>
-		<setEmpty public="1" set="method"><f a=""><e path="Void"/></f></setEmpty>
-		<clone public="1" set="method"><f a=""><c path="flash.geom.Rectangle"><c path="flash.geom.Rectangle.T"/></c></f></clone>
-		<toString public="1" set="method"><f a=""><c path="String"/></f></toString>
-		<new public="1" set="method"><f a="x:y:w:h">
-	<c path="flash.geom.Rectangle.T"/>
-	<c path="flash.geom.Rectangle.T"/>
-	<c path="flash.geom.Rectangle.T"/>
-	<c path="flash.geom.Rectangle.T"/>
-	<e path="Void"/>
-</f></new>
-	</class>
-	<enum path="utest.ui.common.HeaderDisplayMode" params="" file="src/utest/ui/common/HeaderDisplayMode.hx">
-		<ShowHeaderWithResults/>
-		<NeverShowHeader/>
-		<AlwaysShowHeader/>
-	</enum>
-	<enum path="utest.ui.common.SuccessResultsDisplayMode" params="" file="src/utest/ui/common/HeaderDisplayMode.hx" module="utest.ui.common.HeaderDisplayMode">
-		<ShowSuccessResultsWithNoErrors/>
-		<NeverShowSuccessResults/>
-		<AlwaysShowSuccessResults/>
-	</enum>
-	<class path="utest.TestResult" params="" file="src/utest/TestResult.hx">
-		<ofHandler public="1" set="method" line="18" static="1"><f a="handler">
-	<c path="utest.TestHandler"><d/></c>
-	<c path="utest.TestResult"/>
-</f></ofHandler>
-		<pack public="1"><c path="String"/></pack>
-		<cls public="1"><c path="String"/></cls>
-		<method public="1"><c path="String"/></method>
-		<setup public="1"><c path="String"/></setup>
-		<teardown public="1"><c path="String"/></teardown>
-		<assertations public="1"><c path="List"><e path="utest.Assertation"/></c></assertations>
-		<allOk public="1" set="method" line="30"><f a=""><e path="Bool"/></f></allOk>
-		<new public="1" set="method" line="16"><f a=""><e path="Void"/></f></new>
-		<haxe_doc>
-* @todo add documentation
-</haxe_doc>
-	</class>
-	<class path="utest.ui.common.ResultStats" params="" file="src/utest/ui/common/ResultStats.hx">
-		<assertations public="1" set="null"><c path="Int"/></assertations>
-		<successes public="1" set="null"><c path="Int"/></successes>
-		<failures public="1" set="null"><c path="Int"/></failures>
-		<errors public="1" set="null"><c path="Int"/></errors>
-		<warnings public="1" set="null"><c path="Int"/></warnings>
-		<onAddSuccesses public="1" set="null"><c path="utest.Dispatcher"><c path="Int"/></c></onAddSuccesses>
-		<onAddFailures public="1" set="null"><c path="utest.Dispatcher"><c path="Int"/></c></onAddFailures>
-		<onAddErrors public="1" set="null"><c path="utest.Dispatcher"><c path="Int"/></c></onAddErrors>
-		<onAddWarnings public="1" set="null"><c path="utest.Dispatcher"><c path="Int"/></c></onAddWarnings>
-		<isOk public="1" set="null"><e path="Bool"/></isOk>
-		<hasFailures public="1" set="null"><e path="Bool"/></hasFailures>
-		<hasErrors public="1" set="null"><e path="Bool"/></hasErrors>
-		<hasWarnings public="1" set="null"><e path="Bool"/></hasWarnings>
-		<addSuccesses public="1" set="method" line="42"><f a="v">
-	<c path="Int"/>
-	<e path="Void"/>
-</f></addSuccesses>
-		<addFailures public="1" set="method" line="49"><f a="v">
-	<c path="Int"/>
-	<e path="Void"/>
-</f></addFailures>
-		<addErrors public="1" set="method" line="58"><f a="v">
-	<c path="Int"/>
-	<e path="Void"/>
-</f></addErrors>
-		<addWarnings public="1" set="method" line="67"><f a="v">
-	<c path="Int"/>
-	<e path="Void"/>
-</f></addWarnings>
-		<sum public="1" set="method" line="76"><f a="other">
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Void"/>
-</f></sum>
-		<subtract public="1" set="method" line="83"><f a="other">
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Void"/>
-</f></subtract>
-		<wire public="1" set="method" line="90"><f a="dependant">
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Void"/>
-</f></wire>
-		<unwire public="1" set="method" line="98"><f a="dependant">
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Void"/>
-</f></unwire>
-		<new public="1" set="method" line="24"><f a=""><e path="Void"/></f></new>
-		<haxe_doc>
-* @todo add documentation
-</haxe_doc>
-	</class>
-	<class path="utest.ui.common.ResultAggregator" params="" file="src/utest/ui/common/ResultAggregator.hx">
-		<runner><c path="utest.Runner"/></runner>
-		<flattenPackage><e path="Bool"/></flattenPackage>
-		<root public="1" set="null"><c path="utest.ui.common.PackageResult"/></root>
-		<onStart public="1" set="null"><c path="utest.Notifier"/></onStart>
-		<onComplete public="1" set="null"><c path="utest.Dispatcher"><c path="utest.ui.common.PackageResult"/></c></onComplete>
-		<onProgress public="1" set="null"><c path="utest.Dispatcher"><a>
-	<totals><c path="Int"/></totals>
-	<done><c path="Int"/></done>
-</a></c></onProgress>
-		<start set="method" line="33"><f a="runner">
-	<c path="utest.Runner"/>
-	<e path="Void"/>
-</f></start>
-		<getOrCreatePackage set="method" line="38"><f a="pack:flat:?ref">
-	<c path="String"/>
-	<e path="Bool"/>
-	<c path="utest.ui.common.PackageResult"/>
-	<c path="utest.ui.common.PackageResult"/>
-</f></getOrCreatePackage>
-		<getOrCreateClass set="method" line="56"><f a="pack:cls:setup:teardown">
-	<c path="utest.ui.common.PackageResult"/>
-	<c path="String"/>
-	<c path="String"/>
-	<c path="String"/>
-	<t path="Null"><c path="utest.ui.common.ClassResult"/></t>
-</f></getOrCreateClass>
-		<createFixture set="method" line="63"><f a="result">
-	<c path="utest.TestResult"/>
-	<c path="utest.ui.common.FixtureResult"/>
-</f></createFixture>
-		<progress set="method" line="70"><f a="e">
-	<a>
-		<totals><c path="Int"/></totals>
-		<result set="null"><c path="utest.TestResult"/></result>
-		<done><c path="Int"/></done>
-	</a>
-	<e path="Void"/>
-</f></progress>
-		<complete set="method" line="75"><f a="runner">
-	<c path="utest.Runner"/>
-	<e path="Void"/>
-</f></complete>
-		<new public="1" set="method" line="20"><f a="runner:?flattenPackage">
-	<c path="utest.Runner"/>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
-* @todo add tests for this class
-</haxe_doc>
-	</class>
-	<class path="Date" params="" file="C:\Projects\haxe/std/Date.hx" extern="1">
-		<now public="1" set="method" static="1">
-			<f a=""><c path="Date"/></f>
-			<haxe_doc>
-		Returns a Date representing the current local time.
-	</haxe_doc>
-		</now>
-		<fromTime public="1" set="method" static="1">
-			<f a="t">
-				<c path="Float"/>
-				<c path="Date"/>
-			</f>
-			<haxe_doc>
-		Returns a Date from a timestamp [t] which is the number of
-		milliseconds elapsed since 1st January 1970.
-	</haxe_doc>
-		</fromTime>
-		<fromString public="1" set="method" static="1">
-			<f a="s">
-				<c path="String"/>
-				<c path="Date"/>
-			</f>
-			<haxe_doc>
-		Returns a Date from a formated string of one of the following formats :
-		[YYYY-MM-DD hh:mm:ss] or [YYYY-MM-DD] or [hh:mm:ss]. The first two formats
-		are expressed in local time, the third in UTC Epoch.
-	</haxe_doc>
-		</fromString>
-		<getTime public="1" set="method">
-			<f a=""><c path="Float"/></f>
-			<haxe_doc>
-		Returns the timestamp of the date. It's the number of milliseconds
-		elapsed since 1st January 1970. It might only have a per-second precision
-		depending on the platforms.
-	</haxe_doc>
-		</getTime>
-		<getHours public="1" set="method">
-			<f a=""><c path="Int"/></f>
-			<haxe_doc>
-		Returns the hours value of the date (0-23 range).
-	</haxe_doc>
-		</getHours>
-		<getMinutes public="1" set="method">
-			<f a=""><c path="Int"/></f>
-			<haxe_doc>
-		Returns the minutes value of the date (0-59 range).
-	</haxe_doc>
-		</getMinutes>
-		<getSeconds public="1" set="method">
-			<f a=""><c path="Int"/></f>
-			<haxe_doc>
-		Returns the seconds of the date (0-59 range).
-	</haxe_doc>
-		</getSeconds>
-		<getFullYear public="1" set="method">
-			<f a=""><c path="Int"/></f>
-			<haxe_doc>
-		Returns the full year of the date.
-	</haxe_doc>
-		</getFullYear>
-		<getMonth public="1" set="method">
-			<f a=""><c path="Int"/></f>
-			<haxe_doc>
-		Returns the month of the date (0-11 range).
-	</haxe_doc>
-		</getMonth>
-		<getDate public="1" set="method">
-			<f a=""><c path="Int"/></f>
-			<haxe_doc>
-		Returns the day of the date (1-31 range).
-	</haxe_doc>
-		</getDate>
-		<getDay public="1" set="method">
-			<f a=""><c path="Int"/></f>
-			<haxe_doc>
-		Returns the week day of the date (0-6 range).
-	</haxe_doc>
-		</getDay>
-		<toString public="1" set="method">
-			<f a=""><c path="String"/></f>
-			<haxe_doc>
-		Returns a string representation for the Date, by using the
-		standard format [YYYY-MM-DD HH:MM:SS]. See [DateTools.format] for
-		other formating rules.
-	</haxe_doc>
-		</toString>
-		<new public="1" set="method">
-			<f a="year:month:day:hour:min:sec">
-				<c path="Int"/>
-				<c path="Int"/>
-				<c path="Int"/>
-				<c path="Int"/>
-				<c path="Int"/>
-				<c path="Int"/>
-				<e path="Void"/>
-			</f>
-			<haxe_doc>
-		Creates a new date object.
-	</haxe_doc>
-		</new>
-		<haxe_doc>
-	The Date class is used for date manipulation. There is some extra functions
-	available in the [DateTools] class.
-</haxe_doc>
-	</class>
-	<class path="haxe.io.Bytes" params="" file="C:\Projects\haxe/std/haxe/io/Bytes.hx">
-		<alloc public="1" set="method" line="225" static="1"><f a="length">
-	<c path="Int"/>
-	<c path="haxe.io.Bytes"/>
-</f></alloc>
-		<ofString public="1" set="method" line="253" static="1"><f a="s">
-	<c path="String"/>
-	<c path="haxe.io.Bytes"/>
-</f></ofString>
-		<ofData public="1" set="method" line="292" static="1"><f a="b">
-	<t path="haxe.io.BytesData"/>
-	<c path="haxe.io.Bytes"/>
-</f></ofData>
-		<length public="1" set="null"><c path="Int"/></length>
-		<b><t path="haxe.io.BytesData"/></b>
-		<get public="1" get="inline" set="null" line="37"><f a="pos">
-	<c path="Int"/>
-	<c path="Int"/>
-</f></get>
-		<set public="1" get="inline" set="null" line="51"><f a="pos:v">
-	<c path="Int"/>
-	<c path="Int"/>
-	<e path="Void"/>
-</f></set>
-		<blit public="1" set="method" line="65"><f a="pos:src:srcpos:len">
-	<c path="Int"/>
-	<c path="haxe.io.Bytes"/>
-	<c path="Int"/>
-	<c path="Int"/>
-	<e path="Void"/>
-</f></blit>
-		<sub public="1" set="method" line="93"><f a="pos:len">
-	<c path="Int"/>
-	<c path="Int"/>
-	<c path="haxe.io.Bytes"/>
-</f></sub>
-		<compare public="1" set="method" line="112"><f a="other">
-	<c path="haxe.io.Bytes"/>
-	<c path="Int"/>
-</f></compare>
-		<readString public="1" set="method" line="148"><f a="pos:len">
-	<c path="Int"/>
-	<c path="Int"/>
-	<c path="String"/>
-</f></readString>
-		<toString public="1" set="method" line="192"><f a=""><c path="String"/></f></toString>
-		<toHex public="1" set="method" line="207"><f a=""><c path="String"/></f></toHex>
-		<getData public="1" get="inline" set="null" line="221"><f a=""><t path="haxe.io.BytesData"/></f></getData>
-		<new set="method" line="32"><f a="length:b">
-	<c path="Int"/>
-	<t path="haxe.io.BytesData"/>
-	<e path="Void"/>
-</f></new>
 	</class>
 	<class path="IntIter" params="" file="C:\Projects\haxe/std/IntIter.hx">
 		<min><c path="Int"/></min>
@@ -2128,726 +1681,6 @@
 		</new>
 		<haxe_doc>
 	Integer iterator. Used for interval implementation.
-</haxe_doc>
-	</class>
-	<class path="utest.Runner" params="" file="src/utest/Runner.hx">
-		<fixtures set="null"><c path="Array"><c path="utest.TestFixture"><d/></c></c></fixtures>
-		<onProgress public="1" set="null">
-			<c path="utest.Dispatcher"><a>
-	<totals><c path="Int"/></totals>
-	<result><c path="utest.TestResult"/></result>
-	<done><c path="Int"/></done>
-</a></c>
-			<haxe_doc>
-	* Event object that monitors the progress of the runner.
-	</haxe_doc>
-		</onProgress>
-		<onStart public="1" set="null">
-			<c path="utest.Dispatcher"><c path="utest.Runner"/></c>
-			<haxe_doc>
-	* Event object that monitors when the runner starts.
-	</haxe_doc>
-		</onStart>
-		<onComplete public="1" set="null">
-			<c path="utest.Dispatcher"><c path="utest.Runner"/></c>
-			<haxe_doc>
-	* Event object that monitors when the runner ends. This event takes into account async calls
-	* performed during the tests.
-	</haxe_doc>
-		</onComplete>
-		<length public="1" set="null">
-			<c path="Int"/>
-			<haxe_doc>
-	* The number of fixtures registered.
-	</haxe_doc>
-		</length>
-		<addCase public="1" set="method" line="53">
-			<f a="test:?setup:?teardown:?prefix:?pattern">
-				<d/>
-				<c path="String"/>
-				<c path="String"/>
-				<c path="String"/>
-				<c path="EReg"/>
-				<e path="Void"/>
-			</f>
-			<haxe_doc>
-	* Adds a new test case.
-	* @param	test: must be a not null object
-	* @param	setup: string name of the setup function (defaults to "setup")
-	* @param	teardown: string name of the teardown function (defaults to "teardown")
-	* @param	prefix: prefix for methods that are tests (defaults to "test")
-	* @param	pattern: a regular expression that discriminates the names of test
-	* 			functions; when set,  the prefix parameter is meaningless
-	</haxe_doc>
-		</addCase>
-		<addFixture public="1" set="method" line="75"><f a="fixture">
-	<c path="utest.TestFixture"><d/></c>
-	<e path="Void"/>
-</f></addFixture>
-		<getFixture public="1" set="method" line="80"><f a="index">
-	<c path="Int"/>
-	<c path="utest.TestFixture"><d/></c>
-</f></getFixture>
-		<isMethod set="method" line="84"><f a="test:name">
-	<d/>
-	<c path="String"/>
-	<e path="Bool"/>
-</f></isMethod>
-		<pos><c path="Int"/></pos>
-		<run public="1" set="method" line="109"><f a=""><e path="Void"/></f></run>
-		<runNext set="method" line="115"><f a=""><e path="Void"/></f></runNext>
-		<runFixture set="method" line="122"><f a="fixture">
-	<c path="utest.TestFixture"><d/></c>
-	<e path="Void"/>
-</f></runFixture>
-		<testComplete set="method" line="128"><f a="h">
-	<c path="utest.TestHandler"><d/></c>
-	<e path="Void"/>
-</f></testComplete>
-		<new public="1" set="method" line="36">
-			<f a=""><e path="Void"/></f>
-			<haxe_doc>
-	* Instantiates a Runner onject.
-	</haxe_doc>
-		</new>
-		<haxe_doc>
-* The Runner class performs a set of tests. The tests can be added using addCase or addFixtures.
-* Once all the tests are register they are axecuted on the run() call.
-* Note that Runner does not provide any visual output. To visualize the test results use one of
-* the classes in the utest.ui package.
-* @todo complete documentation
-* @todo AVOID CHAINING METHODS (long chains do not work properly on IE)
-</haxe_doc>
-	</class>
-	<class path="haxe.Timer" params="" file="C:\Projects\haxe/std/haxe/Timer.hx">
-		<delay public="1" set="method" line="76" static="1"><f a="f:time_ms">
-	<f a=""><e path="Void"/></f>
-	<c path="Int"/>
-	<c path="haxe.Timer"/>
-</f></delay>
-		<measure public="1" params="T" set="method" line="87" static="1"><f a="f:?pos">
-	<f a=""><c path="measure.T"/></f>
-	<t path="haxe.PosInfos"/>
-	<c path="measure.T"/>
-</f></measure>
-		<stamp public="1" set="method" line="97" static="1">
-			<f a=""><c path="Float"/></f>
-			<haxe_doc>
-		Returns a timestamp, in seconds
-	</haxe_doc>
-		</stamp>
-		<id><t path="Null"><c path="Int"/></t></id>
-		<stop public="1" set="method" line="52"><f a=""><e path="Void"/></f></stop>
-		<run public="1" set="dynamic" line="73"><f a=""><e path="Void"/></f></run>
-		<new public="1" set="method" line="38"><f a="time_ms">
-	<c path="Int"/>
-	<e path="Void"/>
-</f></new>
-	</class>
-	<enum path="haxe.io.Error" params="" file="C:\Projects\haxe/std/haxe/io/Error.hx">
-		<Overflow><haxe_doc> An integer value is outside its allowed range </haxe_doc></Overflow>
-		<OutsideBounds><haxe_doc> An operation on Bytes is outside of its valid range </haxe_doc></OutsideBounds>
-		<Custom a="e">
-			<d/>
-			<haxe_doc> Other errors </haxe_doc>
-		</Custom>
-		<Blocked><haxe_doc> The IO is set into nonblocking mode and some data cannot be read or written </haxe_doc></Blocked>
-		<haxe_doc>
-	The possible IO errors that can occur
-</haxe_doc>
-	</enum>
-	<class path="flash.TextFormat" params="" file="C:\Projects\haxe/std/flash/TextFormat.hx" extern="1">
-		<font public="1"><c path="String"/></font>
-		<size public="1"><c path="Float"/></size>
-		<color public="1"><c path="Int"/></color>
-		<url public="1"><c path="String"/></url>
-		<target public="1"><c path="String"/></target>
-		<bold public="1"><e path="Bool"/></bold>
-		<italic public="1"><e path="Bool"/></italic>
-		<underline public="1"><e path="Bool"/></underline>
-		<align public="1"><c path="String"/></align>
-		<leftMargin public="1"><c path="Float"/></leftMargin>
-		<rightMargin public="1"><c path="Float"/></rightMargin>
-		<indent public="1"><c path="Float"/></indent>
-		<leading public="1"><c path="Float"/></leading>
-		<blockIndent public="1"><c path="Float"/></blockIndent>
-		<tabStops public="1"><c path="Array"><c path="Int"/></c></tabStops>
-		<bullet public="1"><e path="Bool"/></bullet>
-		<getTextExtent public="1" set="method"><f a="text:?width">
-	<c path="String"/>
-	<c path="Float"/>
-	<d/>
-</f></getTextExtent>
-		<kerning public="1"><e path="Bool"/></kerning>
-		<letterSpacing public="1"><c path="Float"/></letterSpacing>
-		<display public="1"><c path="String"/></display>
-		<new public="1" set="method"><f a="?font:?size:?textColor:?bold:?italic:?underline:?url:?window:?align:?leftMargin:?rightMargin:?indent:?leading">
-	<c path="String"/>
-	<c path="Float"/>
-	<c path="Int"/>
-	<e path="Bool"/>
-	<e path="Bool"/>
-	<e path="Bool"/>
-	<c path="String"/>
-	<c path="String"/>
-	<c path="String"/>
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="Float"/>
-	<e path="Void"/>
-</f></new>
-	</class>
-	<class path="Array" params="T" file="C:\Projects\haxe/std/Array.hx" extern="1">
-		<length public="1" set="null">
-			<c path="Int"/>
-			<haxe_doc>
-		The length of the Array
-	</haxe_doc>
-		</length>
-		<concat public="1" set="method">
-			<f a="a">
-				<c path="Array"><c path="Array.T"/></c>
-				<c path="Array"><c path="Array.T"/></c>
-			</f>
-			<haxe_doc>
-		Returns a new Array by appending [a] to [this].
-	</haxe_doc>
-		</concat>
-		<join public="1" set="method">
-			<f a="sep">
-				<c path="String"/>
-				<c path="String"/>
-			</f>
-			<haxe_doc>
-		Returns a representation of an array with [sep] for separating each element.
-	</haxe_doc>
-		</join>
-		<pop public="1" set="method">
-			<f a=""><t path="Null"><c path="Array.T"/></t></f>
-			<haxe_doc>
-		Removes the last element of the array and returns it.
-	</haxe_doc>
-		</pop>
-		<push public="1" set="method">
-			<f a="x">
-				<c path="Array.T"/>
-				<c path="Int"/>
-			</f>
-			<haxe_doc>
-		Adds the element [x] at the end of the array.
-	</haxe_doc>
-		</push>
-		<reverse public="1" set="method">
-			<f a=""><e path="Void"/></f>
-			<haxe_doc>
-		Reverse the order of elements of the Array.
-	</haxe_doc>
-		</reverse>
-		<shift public="1" set="method">
-			<f a=""><t path="Null"><c path="Array.T"/></t></f>
-			<haxe_doc>
-		Removes the first element and returns it.
-	</haxe_doc>
-		</shift>
-		<slice public="1" set="method">
-			<f a="pos:?end">
-				<c path="Int"/>
-				<c path="Int"/>
-				<c path="Array"><c path="Array.T"/></c>
-			</f>
-			<haxe_doc>
-		Copies the range of the array starting at [pos] up to,
-		but not including, [end]. Both [pos] and [end] can be
-		negative to count from the end: -1 is the last item in
-		the array.
-	</haxe_doc>
-		</slice>
-		<sort public="1" set="method">
-			<f a="f">
-				<f a=":">
-					<c path="Array.T"/>
-					<c path="Array.T"/>
-					<c path="Int"/>
-				</f>
-				<e path="Void"/>
-			</f>
-			<haxe_doc><![CDATA[
-		Sort the Array according to the comparison function [f].
-		[f(x,y)] should return [0] if [x == y], [>0] if [x > y]
-		and [<0] if [x < y].
-	]]></haxe_doc>
-		</sort>
-		<splice public="1" set="method">
-			<f a="pos:len">
-				<c path="Int"/>
-				<c path="Int"/>
-				<c path="Array"><c path="Array.T"/></c>
-			</f>
-			<haxe_doc>
-		Removes [len] elements starting from [pos] an returns them.
-	</haxe_doc>
-		</splice>
-		<toString public="1" set="method">
-			<f a=""><c path="String"/></f>
-			<haxe_doc>
-		Returns a displayable representation of the Array content.
-	</haxe_doc>
-		</toString>
-		<unshift public="1" set="method">
-			<f a="x">
-				<c path="Array.T"/>
-				<e path="Void"/>
-			</f>
-			<haxe_doc>
-		Adds the element [x] at the start of the array.
-	</haxe_doc>
-		</unshift>
-		<insert public="1" set="method">
-			<f a="pos:x">
-				<c path="Int"/>
-				<c path="Array.T"/>
-				<e path="Void"/>
-			</f>
-			<haxe_doc>
-		Inserts the element [x] at the position [pos].
-		All elements after [pos] are moved one index ahead.
-	</haxe_doc>
-		</insert>
-		<remove public="1" set="method">
-			<f a="x">
-				<c path="Array.T"/>
-				<e path="Bool"/>
-			</f>
-			<haxe_doc>
-		Removes the first occurence of [x].
-		Returns false if [x] was not present.
-		Elements are compared by using standard equality.
-	</haxe_doc>
-		</remove>
-		<copy public="1" set="method">
-			<f a=""><c path="Array"><c path="Array.T"/></c></f>
-			<haxe_doc>
-		Returns a copy of the Array. The values are not
-		copied, only the Array structure.
-	</haxe_doc>
-		</copy>
-		<iterator public="1" set="method">
-			<f a=""><t path="Iterator"><t path="Null"><c path="Array.T"/></t></t></f>
-			<haxe_doc>
-		Returns an iterator of the Array values.
-	</haxe_doc>
-		</iterator>
-		<new public="1" set="method">
-			<f a=""><e path="Void"/></f>
-			<haxe_doc>
-		Creates a new Array.
-	</haxe_doc>
-		</new>
-		<haxe_doc>
-	An Array is a storage for values. You can access it using indexes or
-	with its API. On the server side, it's often better to use a [List] which
-	is less memory and CPU consuming, unless you really need indexed access.
-</haxe_doc>
-	</class>
-	<class path="String" params="" file="C:\Projects\haxe/std/String.hx" extern="1">
-		<fromCharCode public="1" set="method" static="1"><f a="code">
-	<c path="Int"/>
-	<c path="String"/>
-</f></fromCharCode>
-		<length public="1" set="null">
-			<c path="Int"/>
-			<haxe_doc>
-		The number of characters in the String.
-	</haxe_doc>
-		</length>
-		<toUpperCase public="1" set="method">
-			<f a=""><c path="String"/></f>
-			<haxe_doc>
-		Returns an String where all characters have been uppercased.
-	</haxe_doc>
-		</toUpperCase>
-		<toLowerCase public="1" set="method">
-			<f a=""><c path="String"/></f>
-			<haxe_doc>
-		Returns an String where all characters have been lowercased.
-	</haxe_doc>
-		</toLowerCase>
-		<charAt public="1" set="method">
-			<f a="index">
-				<c path="Int"/>
-				<c path="String"/>
-			</f>
-			<haxe_doc>
-		Returns the character at the given position.
-		Returns the empty String if outside of String bounds.
-	</haxe_doc>
-		</charAt>
-		<charCodeAt public="1" set="method">
-			<f a="index">
-				<c path="Int"/>
-				<t path="Null"><c path="Int"/></t>
-			</f>
-			<haxe_doc>
-		Returns the character code at the given position.
-		Returns [null] if outside of String bounds.
-	</haxe_doc>
-		</charCodeAt>
-		<indexOf public="1" set="method">
-			<f a="str:?startIndex">
-				<c path="String"/>
-				<c path="Int"/>
-				<c path="Int"/>
-			</f>
-			<haxe_doc>
-		Returns the index of first occurence of [value]
-		Returns [1-1] if [value] is not found.
-		The optional [startIndex] parameter allows you to specify at which character to start searching.
-		The position returned is still relative to the beginning of the string.
-	</haxe_doc>
-		</indexOf>
-		<lastIndexOf public="1" set="method">
-			<f a="str:?startIndex">
-				<c path="String"/>
-				<c path="Int"/>
-				<c path="Int"/>
-			</f>
-			<haxe_doc>
-		Similar to [indexOf] but returns the latest index.
-	</haxe_doc>
-		</lastIndexOf>
-		<split public="1" set="method">
-			<f a="delimiter">
-				<c path="String"/>
-				<c path="Array"><c path="String"/></c>
-			</f>
-			<haxe_doc>
-		Split the string using the specified delimiter.
-	</haxe_doc>
-		</split>
-		<substr public="1" set="method">
-			<f a="pos:?len">
-				<c path="Int"/>
-				<c path="Int"/>
-				<c path="String"/>
-			</f>
-			<haxe_doc>
-		Returns a part of the String, taking [len] characters starting from [pos].
-		If [len] is not specified, it takes all the remaining characters.
-	</haxe_doc>
-		</substr>
-		<toString public="1" set="method">
-			<f a=""><c path="String"/></f>
-			<haxe_doc>
-		Returns the String itself.
-	</haxe_doc>
-		</toString>
-		<new public="1" set="method">
-			<f a="string">
-				<c path="String"/>
-				<e path="Void"/>
-			</f>
-			<haxe_doc>
-		Creates a copy from a given String.
-	</haxe_doc>
-		</new>
-		<haxe_doc>
-	The basic String class.
-</haxe_doc>
-	</class>
-	<class path="Std" params="" file="C:\Projects\haxe/std/flash/_std/Std.hx">
-		<is public="1" set="method" line="28" static="1">
-			<f a="v:t">
-				<d/>
-				<d/>
-				<e path="Bool"/>
-			</f>
-			<haxe_doc>
-		Tells if a value v is of the type t.
-	</haxe_doc>
-		</is>
-		<string public="1" set="method" line="32" static="1">
-			<f a="s">
-				<d/>
-				<c path="String"/>
-			</f>
-			<haxe_doc>
-		Convert any value to a String
-	</haxe_doc>
-		</string>
-		<int public="1" set="method" line="36" static="1">
-			<f a="x">
-				<c path="Float"/>
-				<c path="Int"/>
-			</f>
-			<haxe_doc>
-		Convert a Float to an Int, rounded down.
-	</haxe_doc>
-		</int>
-		<parseInt public="1" set="method" line="41" static="1">
-			<f a="x">
-				<c path="String"/>
-				<t path="Null"><c path="Int"/></t>
-			</f>
-			<haxe_doc>
-		Convert a String to an Int, parsing different possible representations. Returns [null] if could not be parsed.
-	</haxe_doc>
-		</parseInt>
-		<parseFloat public="1" set="method" line="52" static="1">
-			<f a="x">
-				<c path="String"/>
-				<c path="Float"/>
-			</f>
-			<haxe_doc>
-		Convert a String to a Float, parsing different possible reprensations.
-	</haxe_doc>
-		</parseFloat>
-		<random public="1" set="method" line="56" static="1">
-			<f a="x">
-				<c path="Int"/>
-				<c path="Int"/>
-			</f>
-			<haxe_doc>
-		Return a random integer between 0 included and x excluded.
-	</haxe_doc>
-		</random>
-		<haxe_doc>
-	The Std class provides standard methods for manipulating basic types.
-</haxe_doc>
-	</class>
-	<enum path="Void" params="" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes"><haxe_doc>
-	The standard Void type. Only [null] values can be of the type [Void].
-</haxe_doc></enum>
-	<class path="Float" params="" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes" extern="1"><haxe_doc>
-	The standard Float type, this is a double-precision IEEE 64bit float.
-</haxe_doc></class>
-	<class path="Int" params="" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes" extern="1">
-		<extends path="Float"/>
-		<haxe_doc>
-	The standard Int type. Its precision depends on the platform.
-</haxe_doc>
-	</class>
-	<typedef path="Null" params="T" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes">
-		<c path="Null.T"/>
-		<haxe_doc>
-	[Null] can be useful in two cases. In order to document some methods
-	that accepts or can return a [null] value, or for the Flash9 compiler and AS3
-	generator to distinguish between base values that can be null and others that
-	can't.
-</haxe_doc>
-	</typedef>
-	<enum path="Bool" params="" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes">
-		<true/>
-		<false/>
-		<haxe_doc>
-	The standard Boolean type is represented as an enum with two choices.
-</haxe_doc>
-	</enum>
-	<class path="Dynamic" params="T" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes" extern="1"><haxe_doc>
-	Dynamic is an internal compiler type which has special behavior.
-	See the haXe language reference for more informations.
-</haxe_doc></class>
-	<typedef path="Iterator" params="T" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes">
-		<a>
-			<next set="method"><f a=""><c path="Iterator.T"/></f></next>
-			<hasNext set="method"><f a=""><e path="Bool"/></f></hasNext>
-		</a>
-		<haxe_doc>
-	An Iterator is a structure that permits to list a given container
-	values. It can be used by your own data structures. See the haXe
-	documentation for more informations.
-</haxe_doc>
-	</typedef>
-	<typedef path="Iterable" params="T" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes">
-		<a><iterator set="method"><f a=""><t path="Iterator"><c path="Iterable.T"/></t></f></iterator></a>
-		<haxe_doc>
-	An Iterable is a data structure which has an iterator() method.
-	See [Lambda] for generic functions on iterable structures.
-</haxe_doc>
-	</typedef>
-	<class path="ArrayAccess" params="T" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes" extern="1" interface="1"><haxe_doc>
-	ArrayAccess is used to indicate a class that can be accessed using brackets.
-	The type parameter represent the type of the elements stored.
-</haxe_doc></class>
-	<class path="Lambda" params="" file="C:\Projects\haxe/std/Lambda.hx">
-		<array public="1" params="A" set="method" line="35" static="1">
-			<f a="it">
-				<t path="Iterable"><c path="array.A"/></t>
-				<c path="Array"><c path="array.A"/></c>
-			</f>
-			<haxe_doc>
-		Creates an [Array] from an [Iterable]
-	</haxe_doc>
-		</array>
-		<list public="1" params="A" set="method" line="45" static="1">
-			<f a="it">
-				<t path="Iterable"><c path="list.A"/></t>
-				<c path="List"><c path="list.A"/></c>
-			</f>
-			<haxe_doc>
-		Creates a [List] from an [Iterable]
-	</haxe_doc>
-		</list>
-		<map public="1" params="A:B" set="method" line="56" static="1">
-			<f a="it:f">
-				<t path="Iterable"><c path="map.A"/></t>
-				<f a="">
-					<c path="map.A"/>
-					<c path="map.B"/>
-				</f>
-				<c path="List"><c path="map.B"/></c>
-			</f>
-			<haxe_doc>
-		Creates a new [Iterable] by appling the function 'f' to all
-		elements of the iterator 'it'.
-	</haxe_doc>
-		</map>
-		<mapi public="1" params="A:B" set="method" line="66" static="1">
-			<f a="it:f">
-				<t path="Iterable"><c path="mapi.A"/></t>
-				<f a=":">
-					<c path="Int"/>
-					<c path="mapi.A"/>
-					<c path="mapi.B"/>
-				</f>
-				<c path="List"><c path="mapi.B"/></c>
-			</f>
-			<haxe_doc>
-		Similar to [map], but also pass an index for each item iterated.
-	</haxe_doc>
-		</mapi>
-		<has public="1" params="A" set="method" line="81" static="1">
-			<f a="it:elt:?cmp">
-				<t path="Iterable"><c path="has.A"/></t>
-				<c path="has.A"/>
-				<f a=":">
-					<c path="has.A"/>
-					<c path="has.A"/>
-					<e path="Bool"/>
-				</f>
-				<e path="Bool"/>
-			</f>
-			<haxe_doc>
-		Tells if the element is part of an iterable. The comparison
-		is made using the [==] operator. Optionally you can pass as
-		a third parameter a function that performs the comparison.
-		That function must take as arguments the two items to
-		compare and returns a boolean value.
-	</haxe_doc>
-		</has>
-		<exists public="1" params="A" set="method" line="97" static="1">
-			<f a="it:f">
-				<t path="Iterable"><c path="exists.A"/></t>
-				<f a="">
-					<c path="exists.A"/>
-					<e path="Bool"/>
-				</f>
-				<e path="Bool"/>
-			</f>
-			<haxe_doc>
-		Tells if at least one element of the iterable is found by using the specific function.
-	</haxe_doc>
-		</exists>
-		<foreach public="1" params="A" set="method" line="107" static="1">
-			<f a="it:f">
-				<t path="Iterable"><c path="foreach.A"/></t>
-				<f a="">
-					<c path="foreach.A"/>
-					<e path="Bool"/>
-				</f>
-				<e path="Bool"/>
-			</f>
-			<haxe_doc>
-		Tells if all elements of the iterable have the specified property defined by [f].
-	</haxe_doc>
-		</foreach>
-		<iter public="1" params="A" set="method" line="117" static="1">
-			<f a="it:f">
-				<t path="Iterable"><c path="iter.A"/></t>
-				<f a="">
-					<c path="iter.A"/>
-					<e path="Void"/>
-				</f>
-				<e path="Void"/>
-			</f>
-			<haxe_doc>
-		Call the function 'f' on all elements of the [Iterable] 'it'.
-	</haxe_doc>
-		</iter>
-		<filter public="1" params="A" set="method" line="125" static="1">
-			<f a="it:f">
-				<t path="Iterable"><c path="filter.A"/></t>
-				<f a="">
-					<c path="filter.A"/>
-					<e path="Bool"/>
-				</f>
-				<c path="List"><c path="filter.A"/></c>
-			</f>
-			<haxe_doc>
-		Return the list of elements matching the function 'f'
-	</haxe_doc>
-		</filter>
-		<fold public="1" params="A:B" set="method" line="136" static="1">
-			<f a="it:f:first">
-				<t path="Iterable"><c path="fold.A"/></t>
-				<f a=":">
-					<c path="fold.A"/>
-					<c path="fold.B"/>
-					<c path="fold.B"/>
-				</f>
-				<c path="fold.B"/>
-				<c path="fold.B"/>
-			</f>
-			<haxe_doc>
-		Functional 'fold' using an [Iterable]
-	</haxe_doc>
-		</fold>
-		<count public="1" params="A" set="method" line="145" static="1">
-			<f a="it:?pred">
-				<t path="Iterable"><c path="count.A"/></t>
-				<f a="">
-					<c path="count.A"/>
-					<e path="Bool"/>
-				</f>
-				<c path="Int"/>
-			</f>
-			<haxe_doc>
-		Count the number of elements in an [Iterable] having [pred] returning true.
-	</haxe_doc>
-		</count>
-		<empty public="1" set="method" line="160" static="1">
-			<f a="it">
-				<t path="Iterable"><d/></t>
-				<e path="Bool"/>
-			</f>
-			<haxe_doc>
-		Tells if an iterable does not contain any element.
-	</haxe_doc>
-		</empty>
-		<indexOf public="1" params="T" set="method" line="168" static="1">
-			<f a="it:v">
-				<t path="Iterable"><c path="indexOf.T"/></t>
-				<c path="indexOf.T"/>
-				<c path="Int"/>
-			</f>
-			<haxe_doc>
-		Returns the index of the item in the given Iterable, depending on the order of the Iterator.
-		Returns -1 if the item was not found.
-	</haxe_doc>
-		</indexOf>
-		<concat public="1" params="T" set="method" line="181" static="1">
-			<f a="a:b">
-				<t path="Iterable"><c path="concat.T"/></t>
-				<t path="Iterable"><c path="concat.T"/></t>
-				<c path="List"><c path="concat.T"/></c>
-			</f>
-			<haxe_doc>
-		Returns a list containing all items of 'a' followed by all items of 'b'
-	</haxe_doc>
-		</concat>
-		<haxe_doc>
-	The [Lambda] class is a collection of functional methods in order to
-	use functional-style programming with haXe.
 </haxe_doc>
 	</class>
 	<class path="Math" params="" file="C:\Projects\haxe/std/Math.hx" extern="1">
@@ -2939,239 +1772,6 @@
 		<haxe_doc>
 	This class defines mathematical functions and constants.
 </haxe_doc>
-	</class>
-	<class path="flash.Stage" params="" file="C:\Projects\haxe/std/flash/Stage.hx" extern="1">
-		<width public="1" static="1"><c path="Float"/></width>
-		<height public="1" static="1"><c path="Float"/></height>
-		<scaleMode public="1" static="1"><c path="String"/></scaleMode>
-		<align public="1" static="1"><c path="String"/></align>
-		<showMenu public="1" static="1"><e path="Bool"/></showMenu>
-		<addListener public="1" set="method" static="1"><f a="listener">
-	<d/>
-	<e path="Void"/>
-</f></addListener>
-		<removeListener public="1" set="method" static="1"><f a="listener">
-	<d/>
-	<e path="Void"/>
-</f></removeListener>
-		<displayState public="1" static="1">
-			<c path="String"/>
-			<haxe_doc>
-		Set to "fullScreen" in order to set Flash to fullscreen
-		(can only be done in Mouse/Keyboard event listener).
-		Don't forget allowfullscreen="true" in your SWF parameters.
-	</haxe_doc>
-		</displayState>
-		<fullScreenSourceRect public="1" static="1"><c path="flash.geom.Rectangle"><c path="Int"/></c></fullScreenSourceRect>
-		<onFullScreen public="1" set="dynamic" static="1"><f a="full">
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></onFullScreen>
-	</class>
-	<class path="utest.ui.common.ClassResult" params="" file="src/utest/ui/common/ClassResult.hx">
-		<fixtures><c path="Hash"><c path="utest.ui.common.FixtureResult"/></c></fixtures>
-		<className public="1" set="null"><c path="String"/></className>
-		<setupName public="1" set="null"><c path="String"/></setupName>
-		<teardownName public="1" set="null"><c path="String"/></teardownName>
-		<hasSetup public="1" set="null"><e path="Bool"/></hasSetup>
-		<hasTeardown public="1" set="null"><e path="Bool"/></hasTeardown>
-		<methods public="1" set="null"><c path="Int"/></methods>
-		<stats public="1" set="null"><c path="utest.ui.common.ResultStats"/></stats>
-		<add public="1" set="method" line="31"><f a="result">
-	<c path="utest.ui.common.FixtureResult"/>
-	<e path="Void"/>
-</f></add>
-		<get public="1" set="method" line="40"><f a="method">
-	<c path="String"/>
-	<t path="Null"><c path="utest.ui.common.FixtureResult"/></t>
-</f></get>
-		<exists public="1" set="method" line="44"><f a="method">
-	<c path="String"/>
-	<e path="Bool"/>
-</f></exists>
-		<methodNames public="1" set="method" line="48"><f a="?errorsHavePriority">
-	<e path="Bool"/>
-	<c path="Array"><c path="String"/></c>
-</f></methodNames>
-		<new public="1" set="method" line="19"><f a="className:setupName:teardownName">
-	<c path="String"/>
-	<c path="String"/>
-	<c path="String"/>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
-</haxe_doc>
-	</class>
-	<class path="List" params="T" file="C:\Projects\haxe/std/List.hx">
-		<h><c path="Array"><d/></c></h>
-		<q><c path="Array"><d/></c></q>
-		<length public="1" set="null">
-			<c path="Int"/>
-			<haxe_doc>
-		The number of elements in this list.
-	</haxe_doc>
-		</length>
-		<add public="1" set="method" line="51">
-			<f a="item">
-				<c path="List.T"/>
-				<e path="Void"/>
-			</f>
-			<haxe_doc>
-		Add an element at the end of the list.
-	</haxe_doc>
-		</add>
-		<push public="1" set="method" line="64">
-			<f a="item">
-				<c path="List.T"/>
-				<e path="Void"/>
-			</f>
-			<haxe_doc>
-		Push an element at the beginning of the list.
-	</haxe_doc>
-		</push>
-		<first public="1" set="method" line="80">
-			<f a=""><c path="List.T"/></f>
-			<haxe_doc>
-		Returns the first element of the list, or null
-		if the list is empty.
-	</haxe_doc>
-		</first>
-		<last public="1" set="method" line="88">
-			<f a=""><c path="List.T"/></f>
-			<haxe_doc>
-		Returns the last element of the list, or null
-		if the list is empty.
-	</haxe_doc>
-		</last>
-		<pop public="1" set="method" line="98">
-			<f a=""><c path="List.T"/></f>
-			<haxe_doc>
-		Removes the first element of the list and
-		returns it or simply returns null if the
-		list is empty.
-	</haxe_doc>
-		</pop>
-		<isEmpty public="1" set="method" line="112">
-			<f a=""><e path="Bool"/></f>
-			<haxe_doc>
-		Tells if a list is empty.
-	</haxe_doc>
-		</isEmpty>
-		<clear public="1" set="method" line="119">
-			<f a=""><e path="Void"/></f>
-			<haxe_doc>
-		Makes the list empty.
-	</haxe_doc>
-		</clear>
-		<remove public="1" set="method" line="129">
-			<f a="v">
-				<c path="List.T"/>
-				<e path="Bool"/>
-			</f>
-			<haxe_doc>
-		Remove the first element that is [== v] from the list.
-		Returns [true] if an element was removed, [false] otherwise.
-	</haxe_doc>
-		</remove>
-		<iterator public="1" set="method" line="152">
-			<f a=""><t path="Iterator"><c path="List.T"/></t></f>
-			<haxe_doc>
-		Returns an iterator on the elements of the list.
-	</haxe_doc>
-		</iterator>
-		<toString public="1" set="method" line="173">
-			<f a=""><c path="String"/></f>
-			<haxe_doc>
-		Returns a displayable representation of the String.
-	</haxe_doc>
-		</toString>
-		<join public="1" set="method" line="193">
-			<f a="sep">
-				<c path="String"/>
-				<c path="String"/>
-			</f>
-			<haxe_doc>
-		Join the element of the list by using the separator [sep].
-	</haxe_doc>
-		</join>
-		<filter public="1" set="method" line="212">
-			<f a="f">
-				<f a="">
-					<c path="List.T"/>
-					<e path="Bool"/>
-				</f>
-				<c path="List"><c path="List.T"/></c>
-			</f>
-			<haxe_doc>
-		Returns a list filtered with [f]. The returned list
-		will contain all elements [x] for which [f(x) = true].
-	</haxe_doc>
-		</filter>
-		<map public="1" params="X" set="method" line="228">
-			<f a="f">
-				<f a="">
-					<c path="List.T"/>
-					<c path="map.X"/>
-				</f>
-				<c path="List"><c path="map.X"/></c>
-			</f>
-			<haxe_doc>
-		Returns a new list where all elements have been converted
-		by the function [f].
-	</haxe_doc>
-		</map>
-		<new public="1" set="method" line="44">
-			<f a=""><e path="Void"/></f>
-			<haxe_doc>
-		Creates a new empty list.
-	</haxe_doc>
-		</new>
-		<haxe_doc>
-	A linked-list of elements. The list is composed of two-elements arrays
-	that are chained together. It's optimized so that adding or removing an
-	element doesn't imply to copy the whole array content everytime.
-</haxe_doc>
-	</class>
-	<class path="flash.TextSnapshot" params="" file="C:\Projects\haxe/std/flash/TextSnapshot.hx" extern="1">
-		<findText public="1" set="method"><f a="startIndex:textToFind:caseSensitive">
-	<c path="Int"/>
-	<c path="String"/>
-	<e path="Bool"/>
-	<c path="Float"/>
-</f></findText>
-		<getCount public="1" set="method"><f a=""><c path="Int"/></f></getCount>
-		<getSelected public="1" set="method"><f a="start:?end">
-	<c path="Int"/>
-	<c path="Int"/>
-	<e path="Bool"/>
-</f></getSelected>
-		<getSelectedText public="1" set="method"><f a="?includeLineEndings">
-	<e path="Bool"/>
-	<c path="String"/>
-</f></getSelectedText>
-		<getText public="1" set="method"><f a="start:end:?includeLineEndings">
-	<c path="Int"/>
-	<c path="Int"/>
-	<e path="Bool"/>
-	<c path="String"/>
-</f></getText>
-		<hitTestTextNearPos public="1" set="method"><f a="x:y:?closeDist">
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="Float"/>
-</f></hitTestTextNearPos>
-		<setSelectColor public="1" set="method"><f a="color">
-	<c path="Int"/>
-	<e path="Void"/>
-</f></setSelectColor>
-		<setSelected public="1" set="method"><f a="start:end:select">
-	<c path="Int"/>
-	<c path="Int"/>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></setSelected>
 	</class>
 	<enum path="ValueType" params="" file="C:\Projects\haxe/std/flash/_std/Type.hx" module="Type">
 		<TUnknown/>
@@ -3370,57 +1970,30 @@
 	Classes and Enums at runtime.
 </haxe_doc>
 	</class>
-	<class path="flash.Lib" params="" file="C:\Projects\haxe/std/flash/Lib.hx">
-		<_global public="1" static="1"><d/></_global>
-		<_root public="1" static="1"><c path="flash.MovieClip"/></_root>
-		<current public="1" static="1"><c path="flash.MovieClip"/></current>
-		<onerror static="1"><f a=":">
-	<c path="String"/>
-	<c path="Array"><c path="String"/></c>
+	<class path="haxe.Timer" params="" file="C:\Projects\haxe/std/haxe/Timer.hx">
+		<delay public="1" set="method" line="76" static="1"><f a="f:time_ms">
+	<f a=""><e path="Void"/></f>
+	<c path="Int"/>
+	<c path="haxe.Timer"/>
+</f></delay>
+		<measure public="1" params="T" set="method" line="87" static="1"><f a="f:?pos">
+	<f a=""><c path="measure.T"/></f>
+	<t path="haxe.PosInfos"/>
+	<c path="measure.T"/>
+</f></measure>
+		<stamp public="1" set="method" line="97" static="1">
+			<f a=""><c path="Float"/></f>
+			<haxe_doc>
+		Returns a timestamp, in seconds
+	</haxe_doc>
+		</stamp>
+		<id><t path="Null"><c path="Int"/></t></id>
+		<stop public="1" set="method" line="52"><f a=""><e path="Void"/></f></stop>
+		<run public="1" set="dynamic" line="73"><f a=""><e path="Void"/></f></run>
+		<new public="1" set="method" line="38"><f a="time_ms">
+	<c path="Int"/>
 	<e path="Void"/>
-</f></onerror>
-		<trace public="1" set="method" line="34" static="1"><f a="str">
-	<c path="String"/>
-	<e path="Void"/>
-</f></trace>
-		<eval public="1" set="method" line="38" static="1"><f a="str">
-	<c path="String"/>
-	<d/>
-</f></eval>
-		<getURL public="1" set="method" line="42" static="1"><f a="url:?target">
-	<c path="String"/>
-	<c path="String"/>
-	<e path="Void"/>
-</f></getURL>
-		<fscommand public="1" set="method" line="46" static="1"><f a="cmd:?param">
-	<c path="String"/>
-	<d/>
-	<e path="Void"/>
-</f></fscommand>
-		<print public="1" set="method" line="50" static="1"><f a="cmd:?kind">
-	<c path="String"/>
-	<c path="String"/>
-	<e path="Void"/>
-</f></print>
-		<getTimer public="1" get="inline" set="null" line="55" static="1"><f a=""><c path="Int"/></f></getTimer>
-		<getVersion public="1" set="method" line="59" static="1"><f a=""><c path="String"/></f></getVersion>
-		<registerClass public="1" set="method" line="63" static="1"><f a="name:cl">
-	<c path="String"/>
-	<a/>
-	<e path="Void"/>
-</f></registerClass>
-		<keys public="1" set="method" line="67" static="1"><f a="v">
-	<d/>
-	<c path="Array"><c path="String"/></c>
-</f></keys>
-		<setErrorHandler public="1" set="method" line="71" static="1"><f a="f">
-	<f a=":">
-		<c path="String"/>
-		<c path="Array"><c path="String"/></c>
-		<e path="Void"/>
-	</f>
-	<e path="Void"/>
-</f></setErrorHandler>
+</f></new>
 	</class>
 	<class path="IntHash" params="T" file="C:\Projects\haxe/std/flash/_std/IntHash.hx">
 		<h><d/></h>
@@ -3488,86 +2061,827 @@
 	On Flash and Javascript, the underlying structure is an Object.
 </haxe_doc>
 	</class>
-	<class path="Class" params="T" file="C:\Projects\haxe/std/Class.hx" extern="1"><haxe_doc>
-	An abstract type that represents a Class.
+	<class path="utest.ui.common.ResultAggregator" params="" file="src/utest/ui/common/ResultAggregator.hx">
+		<runner><c path="utest.Runner"/></runner>
+		<flattenPackage><e path="Bool"/></flattenPackage>
+		<root public="1" set="null"><c path="utest.ui.common.PackageResult"/></root>
+		<onStart public="1" set="null"><c path="utest.Notifier"/></onStart>
+		<onComplete public="1" set="null"><c path="utest.Dispatcher"><c path="utest.ui.common.PackageResult"/></c></onComplete>
+		<onProgress public="1" set="null"><c path="utest.Dispatcher"><a>
+	<totals><c path="Int"/></totals>
+	<done><c path="Int"/></done>
+</a></c></onProgress>
+		<start set="method" line="33"><f a="runner">
+	<c path="utest.Runner"/>
+	<e path="Void"/>
+</f></start>
+		<getOrCreatePackage set="method" line="38"><f a="pack:flat:?ref">
+	<c path="String"/>
+	<e path="Bool"/>
+	<c path="utest.ui.common.PackageResult"/>
+	<c path="utest.ui.common.PackageResult"/>
+</f></getOrCreatePackage>
+		<getOrCreateClass set="method" line="56"><f a="pack:cls:setup:teardown">
+	<c path="utest.ui.common.PackageResult"/>
+	<c path="String"/>
+	<c path="String"/>
+	<c path="String"/>
+	<t path="Null"><c path="utest.ui.common.ClassResult"/></t>
+</f></getOrCreateClass>
+		<createFixture set="method" line="63"><f a="result">
+	<c path="utest.TestResult"/>
+	<c path="utest.ui.common.FixtureResult"/>
+</f></createFixture>
+		<progress set="method" line="70"><f a="e">
+	<a>
+		<totals><c path="Int"/></totals>
+		<result set="null"><c path="utest.TestResult"/></result>
+		<done><c path="Int"/></done>
+	</a>
+	<e path="Void"/>
+</f></progress>
+		<complete set="method" line="75"><f a="runner">
+	<c path="utest.Runner"/>
+	<e path="Void"/>
+</f></complete>
+		<new public="1" set="method" line="20"><f a="runner:?flattenPackage">
+	<c path="utest.Runner"/>
+	<e path="Bool"/>
+	<e path="Void"/>
+</f></new>
+		<haxe_doc>
+* @todo add documentation
+* @todo add tests for this class
+</haxe_doc>
+	</class>
+	<class path="utest.ui.text.HtmlReport" params="" file="src/utest/ui/text/HtmlReport.hx">
+		<implements path="utest.ui.common.IReport"><c path="utest.ui.text.HtmlReport"/></implements>
+		<platform line="33" static="1"><c path="String"/></platform>
+		<traceRedirected public="1" set="null"><e path="Bool"/></traceRedirected>
+		<displaySuccessResults public="1"><e path="utest.ui.common.SuccessResultsDisplayMode"/></displaySuccessResults>
+		<displayHeader public="1"><e path="utest.ui.common.HeaderDisplayMode"/></displayHeader>
+		<handler public="1"><f a="">
+	<c path="utest.ui.text.HtmlReport"/>
+	<e path="Void"/>
+</f></handler>
+		<aggregator><c path="utest.ui.common.ResultAggregator"/></aggregator>
+		<oldTrace><d/></oldTrace>
+		<_traces><c path="Array"><a>
+	<time><c path="Float"/></time>
+	<stack><c path="Array"><e path="haxe.StackItem"/></c></stack>
+	<msg><c path="String"/></msg>
+	<infos><t path="haxe.PosInfos"/></infos>
+	<delta><c path="Float"/></delta>
+</a></c></_traces>
+		<setHandler public="1" set="method" line="58"><f a="handler">
+	<f a="">
+		<c path="utest.ui.text.HtmlReport"/>
+		<e path="Void"/>
+	</f>
+	<e path="Void"/>
+</f></setHandler>
+		<redirectTrace public="1" set="method" line="63"><f a=""><e path="Void"/></f></redirectTrace>
+		<restoreTrace public="1" set="method" line="72"><f a=""><e path="Void"/></f></restoreTrace>
+		<_traceTime><t path="Null"><c path="Float"/></t></_traceTime>
+		<_trace set="method" line="80"><f a="v:?infos">
+	<d/>
+	<t path="haxe.PosInfos"/>
+	<e path="Void"/>
+</f></_trace>
+		<startTime><c path="Float"/></startTime>
+		<start set="method" line="95"><f a="e">
+	<c path="utest.Runner"/>
+	<e path="Void"/>
+</f></start>
+		<cls set="method" line="99"><f a="stats">
+	<c path="utest.ui.common.ResultStats"/>
+	<c path="String"/>
+</f></cls>
+		<resultNumbers set="method" line="111"><f a="buf:stats">
+	<c path="StringBuf"/>
+	<c path="utest.ui.common.ResultStats"/>
+	<e path="Void"/>
+</f></resultNumbers>
+		<blockNumbers set="method" line="145"><f a="buf:stats">
+	<c path="StringBuf"/>
+	<c path="utest.ui.common.ResultStats"/>
+	<e path="Void"/>
+</f></blockNumbers>
+		<formatStack set="method" line="152"><f a="stack:?addNL">
+	<c path="Array"><e path="haxe.StackItem"/></c>
+	<e path="Bool"/>
+	<c path="String"/>
+</f></formatStack>
+		<addFixture set="method" line="182"><f a="buf:result:name:isOk">
+	<c path="StringBuf"/>
+	<c path="utest.ui.common.FixtureResult"/>
+	<c path="String"/>
+	<e path="Bool"/>
+	<e path="Void"/>
+</f></addFixture>
+		<getErrorDescription set="method" line="231"><f a="e">
+	<d/>
+	<c path="String"/>
+</f></getErrorDescription>
+		<getErrorStack set="method" line="246"><f a="s:e">
+	<c path="Array"><e path="haxe.StackItem"/></c>
+	<d/>
+	<c path="String"/>
+</f></getErrorStack>
+		<addClass set="method" line="272"><f a="buf:result:name:isOk">
+	<c path="StringBuf"/>
+	<c path="utest.ui.common.ClassResult"/>
+	<c path="String"/>
+	<e path="Bool"/>
+	<e path="Void"/>
+</f></addClass>
+		<addPackages set="method" line="286"><f a="buf:result:isOk">
+	<c path="StringBuf"/>
+	<c path="utest.ui.common.PackageResult"/>
+	<e path="Bool"/>
+	<e path="Void"/>
+</f></addPackages>
+		<addPackage set="method" line="297"><f a="buf:result:name:isOk">
+	<c path="StringBuf"/>
+	<c path="utest.ui.common.PackageResult"/>
+	<c path="String"/>
+	<e path="Bool"/>
+	<e path="Void"/>
+</f></addPackage>
+		<getHeader public="1" set="method" line="311"><f a=""><c path="String"/></f></getHeader>
+		<getTrace public="1" set="method" line="335"><f a=""><c path="String"/></f></getTrace>
+		<getResults public="1" set="method" line="364"><f a=""><c path="String"/></f></getResults>
+		<getAll public="1" set="method" line="371"><f a=""><c path="String"/></f></getAll>
+		<getHtml public="1" set="method" line="379"><f a="?title">
+	<c path="String"/>
+	<c path="String"/>
+</f></getHtml>
+		<result><c path="utest.ui.common.PackageResult"/></result>
+		<complete set="method" line="391"><f a="result">
+	<c path="utest.ui.common.PackageResult"/>
+	<e path="Void"/>
+</f></complete>
+		<formatTime set="method" line="397"><f a="t">
+	<c path="Float"/>
+	<c path="String"/>
+</f></formatTime>
+		<cssStyle set="method" line="402"><f a=""><c path="String"/></f></cssStyle>
+		<jsScript set="method" line="612"><f a=""><c path="String"/></f></jsScript>
+		<wrapHtml set="method" line="646"><f a="title:s">
+	<c path="String"/>
+	<c path="String"/>
+	<c path="String"/>
+</f></wrapHtml>
+		<_handler set="method" line="655"><f a="report">
+	<c path="utest.ui.text.HtmlReport"/>
+	<e path="Void"/>
+</f></_handler>
+		<new public="1" set="method" line="44"><f a="runner:?outputHandler:?traceRedirected">
+	<c path="utest.Runner"/>
+	<f a="">
+		<c path="utest.ui.text.HtmlReport"/>
+		<e path="Void"/>
+	</f>
+	<e path="Bool"/>
+	<e path="Void"/>
+</f></new>
+		<haxe_doc>
+* @todo add documentation
+</haxe_doc>
+	</class>
+	<class path="utest.ui.common.PackageResult" params="" file="src/utest/ui/common/PackageResult.hx">
+		<packageName public="1" set="null"><c path="String"/></packageName>
+		<classes><c path="Hash"><c path="utest.ui.common.ClassResult"/></c></classes>
+		<packages><c path="Hash"><c path="utest.ui.common.PackageResult"/></c></packages>
+		<stats public="1" set="null"><c path="utest.ui.common.ResultStats"/></stats>
+		<addResult public="1" set="method" line="24"><f a="result:flattenPackage">
+	<c path="utest.TestResult"/>
+	<e path="Bool"/>
+	<e path="Void"/>
+</f></addResult>
+		<addClass public="1" set="method" line="31"><f a="result">
+	<c path="utest.ui.common.ClassResult"/>
+	<e path="Void"/>
+</f></addClass>
+		<addPackage public="1" set="method" line="36"><f a="result">
+	<c path="utest.ui.common.PackageResult"/>
+	<e path="Void"/>
+</f></addPackage>
+		<existsPackage public="1" set="method" line="41"><f a="name">
+	<c path="String"/>
+	<e path="Bool"/>
+</f></existsPackage>
+		<existsClass public="1" set="method" line="45"><f a="name">
+	<c path="String"/>
+	<e path="Bool"/>
+</f></existsClass>
+		<getPackage public="1" set="method" line="49"><f a="name">
+	<c path="String"/>
+	<c path="utest.ui.common.PackageResult"/>
+</f></getPackage>
+		<getClass public="1" set="method" line="54"><f a="name">
+	<c path="String"/>
+	<t path="Null"><c path="utest.ui.common.ClassResult"/></t>
+</f></getClass>
+		<classNames public="1" set="method" line="58"><f a="?errorsHavePriority">
+	<e path="Bool"/>
+	<c path="Array"><c path="String"/></c>
+</f></classNames>
+		<packageNames public="1" set="method" line="91"><f a="?errorsHavePriority">
+	<e path="Bool"/>
+	<c path="Array"><c path="String"/></c>
+</f></packageNames>
+		<createFixture set="method" line="125"><f a="method:assertations">
+	<c path="String"/>
+	<t path="Iterable"><e path="utest.Assertation"/></t>
+	<c path="utest.ui.common.FixtureResult"/>
+</f></createFixture>
+		<getOrCreateClass set="method" line="132"><f a="pack:cls:setup:teardown">
+	<c path="utest.ui.common.PackageResult"/>
+	<c path="String"/>
+	<c path="String"/>
+	<c path="String"/>
+	<t path="Null"><c path="utest.ui.common.ClassResult"/></t>
+</f></getOrCreateClass>
+		<getOrCreatePackage set="method" line="139"><f a="pack:flat:ref">
+	<c path="String"/>
+	<e path="Bool"/>
+	<c path="utest.ui.common.PackageResult"/>
+	<c path="utest.ui.common.PackageResult"/>
+</f></getOrCreatePackage>
+		<new public="1" set="method" line="17"><f a="packageName">
+	<c path="String"/>
+	<e path="Void"/>
+</f></new>
+		<haxe_doc>
+* @todo add documentation
+* @todo add tests for this class
+</haxe_doc>
+	</class>
+	<class path="utest.TestHandler" params="T" file="src/utest/TestHandler.hx">
+		<POLLING_TIME get="inline" set="null" line="9" static="1"><c path="Int"/></POLLING_TIME>
+		<exceptionStack set="method" line="42" static="1"><f a="?pops">
+	<c path="Int"/>
+	<c path="Array"><e path="haxe.StackItem"/></c>
+</f></exceptionStack>
+		<results public="1" set="null"><c path="List"><e path="utest.Assertation"/></c></results>
+		<fixture public="1" set="null"><c path="utest.TestFixture"><c path="utest.TestHandler.T"/></c></fixture>
+		<asyncStack><c path="List"><d/></c></asyncStack>
+		<onTested public="1" set="null"><c path="utest.Dispatcher"><c path="utest.TestHandler"><c path="utest.TestHandler.T"/></c></c></onTested>
+		<onTimeout public="1" set="null"><c path="utest.Dispatcher"><c path="utest.TestHandler"><c path="utest.TestHandler.T"/></c></c></onTimeout>
+		<onComplete public="1" set="null"><c path="utest.Dispatcher"><c path="utest.TestHandler"><c path="utest.TestHandler.T"/></c></c></onComplete>
+		<execute public="1" set="method" line="28"><f a=""><e path="Void"/></f></execute>
+		<checkTested set="method" line="52"><f a=""><e path="Void"/></f></checkTested>
+		<expireson public="1" set="null"><t path="Null"><c path="Float"/></t></expireson>
+		<setTimeout public="1" set="method" line="70"><f a="timeout">
+	<c path="Int"/>
+	<e path="Void"/>
+</f></setTimeout>
+		<bindHandler set="method" line="75"><f a=""><e path="Void"/></f></bindHandler>
+		<unbindHandler set="method" line="81"><f a=""><e path="Void"/></f></unbindHandler>
+		<addAsync public="1" set="method" line="111">
+			<f a="f:?timeout">
+				<f a=""><e path="Void"/></f>
+				<c path="Int"/>
+				<f a=""><e path="Void"/></f>
+			</f>
+			<haxe_doc><![CDATA[
+	* Adds a function that is called asynchronously.
+	*
+	* Example:
+	* <pre>
+	* var fixture = new TestFixture(new TestClass(), "test");
+	* var handler = new TestHandler(fixture);
+	* var flag = false;
+	* var async = handler.addAsync(function() {
+	*   flag = true;
+	* }, 50);
+	* handler.onTimeout.add(function(h) {
+	*   trace("TIMEOUT");
+	* });
+	* handler.onTested.add(function(h) {
+	*   trace(flag ? "OK" : "FAILED");
+	* });
+	* haxe.Timer.delay(function() async(), 10);
+	* handler.execute();
+	* </pre>
+	* @param	f, the function that is called asynchrnously
+	* @param	timeout, the maximum time to wait for f() (default is 250)
+	* @return	returns a function closure that must be executed asynchrnously
+	]]></haxe_doc>
+		</addAsync>
+		<addEvent public="1" params="EventArg" set="method" line="131"><f a="f:?timeout">
+	<f a="">
+		<c path="addEvent.EventArg"/>
+		<e path="Void"/>
+	</f>
+	<c path="Int"/>
+	<f a="e">
+		<c path="addEvent.EventArg"/>
+		<e path="Void"/>
+	</f>
+</f></addEvent>
+		<executeMethod set="method" line="149"><f a="name">
+	<c path="String"/>
+	<e path="Void"/>
+</f></executeMethod>
+		<tested set="method" line="155"><f a=""><e path="Void"/></f></tested>
+		<timeout set="method" line="162"><f a=""><e path="Void"/></f></timeout>
+		<completed set="method" line="168"><f a=""><e path="Void"/></f></completed>
+		<new public="1" set="method" line="18"><f a="fixture">
+	<c path="utest.TestFixture"><c path="utest.TestHandler.T"/></c>
+	<e path="Void"/>
+</f></new>
+		<haxe_doc>
+* @todo add documentation
+</haxe_doc>
+	</class>
+	<class path="flash.TextSnapshot" params="" file="C:\Projects\haxe/std/flash/TextSnapshot.hx" extern="1">
+		<findText public="1" set="method"><f a="startIndex:textToFind:caseSensitive">
+	<c path="Int"/>
+	<c path="String"/>
+	<e path="Bool"/>
+	<c path="Float"/>
+</f></findText>
+		<getCount public="1" set="method"><f a=""><c path="Int"/></f></getCount>
+		<getSelected public="1" set="method"><f a="start:?end">
+	<c path="Int"/>
+	<c path="Int"/>
+	<e path="Bool"/>
+</f></getSelected>
+		<getSelectedText public="1" set="method"><f a="?includeLineEndings">
+	<e path="Bool"/>
+	<c path="String"/>
+</f></getSelectedText>
+		<getText public="1" set="method"><f a="start:end:?includeLineEndings">
+	<c path="Int"/>
+	<c path="Int"/>
+	<e path="Bool"/>
+	<c path="String"/>
+</f></getText>
+		<hitTestTextNearPos public="1" set="method"><f a="x:y:?closeDist">
+	<c path="Float"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<c path="Float"/>
+</f></hitTestTextNearPos>
+		<setSelectColor public="1" set="method"><f a="color">
+	<c path="Int"/>
+	<e path="Void"/>
+</f></setSelectColor>
+		<setSelected public="1" set="method"><f a="start:end:select">
+	<c path="Int"/>
+	<c path="Int"/>
+	<e path="Bool"/>
+	<e path="Void"/>
+</f></setSelected>
+	</class>
+	<class path="flash.external.ExternalInterface" params="" file="C:\Projects\haxe/std/flash/external/ExternalInterface.hx" extern="1">
+		<available public="1" static="1"><e path="Bool"/></available>
+		<marshallExceptions public="1" static="1"><e path="Bool"/></marshallExceptions>
+		<addCallback public="1" set="method" static="1"><f a="methodName:instance:method">
+	<c path="String"/>
+	<d/>
+	<d/>
+	<e path="Bool"/>
+</f></addCallback>
+		<call public="1" set="method" static="1"><f a="methodName:?p1:?p2:?p3:?p4:?p5:?p6:?p7:?p8:?p9">
+	<c path="String"/>
+	<d/>
+	<d/>
+	<d/>
+	<d/>
+	<d/>
+	<d/>
+	<d/>
+	<d/>
+	<d/>
+	<d/>
+</f></call>
+	</class>
+	<class path="StringBuf" params="" file="C:\Projects\haxe/std/StringBuf.hx">
+		<add public="1" get="inline" set="null" line="46">
+			<f a="?x">
+				<d/>
+				<e path="Void"/>
+			</f>
+			<haxe_doc>
+		Adds the representation of any value to the string buffer.
+	</haxe_doc>
+		</add>
+		<addSub public="1" get="inline" set="null" line="57">
+			<f a="s:pos:?len">
+				<c path="String"/>
+				<c path="Int"/>
+				<c path="Int"/>
+				<e path="Void"/>
+			</f>
+			<haxe_doc>
+		Adds a part of a string to the string buffer.
+	</haxe_doc>
+		</addSub>
+		<addChar public="1" get="inline" set="null" line="73">
+			<f a="c">
+				<c path="Int"/>
+				<e path="Void"/>
+			</f>
+			<haxe_doc>
+		Adds a character to the string buffer.
+	</haxe_doc>
+		</addChar>
+		<toString public="1" get="inline" set="null" line="87">
+			<f a=""><c path="String"/></f>
+			<haxe_doc>
+		Returns the content of the string buffer.
+		The buffer is not emptied by this operation.
+	</haxe_doc>
+		</toString>
+		<b><c path="String"/></b>
+		<new public="1" set="method" line="35">
+			<f a=""><e path="Void"/></f>
+			<haxe_doc>
+		Creates a new string buffer.
+	</haxe_doc>
+		</new>
+		<haxe_doc>
+	A String buffer is an efficient way to build a big string by
+	appending small elements together.
+</haxe_doc>
+	</class>
+	<typedef path="haxe.PosInfos" params="" file="C:\Projects\haxe/std/haxe/PosInfos.hx"><a>
+	<methodName><c path="String"/></methodName>
+	<lineNumber><c path="Int"/></lineNumber>
+	<fileName><c path="String"/></fileName>
+	<customParams><c path="Array"><d/></c></customParams>
+	<className><c path="String"/></className>
+</a></typedef>
+	<class path="Lambda" params="" file="C:\Projects\haxe/std/Lambda.hx">
+		<array public="1" params="A" set="method" line="35" static="1">
+			<f a="it">
+				<t path="Iterable"><c path="array.A"/></t>
+				<c path="Array"><c path="array.A"/></c>
+			</f>
+			<haxe_doc>
+		Creates an [Array] from an [Iterable]
+	</haxe_doc>
+		</array>
+		<list public="1" params="A" set="method" line="45" static="1">
+			<f a="it">
+				<t path="Iterable"><c path="list.A"/></t>
+				<c path="List"><c path="list.A"/></c>
+			</f>
+			<haxe_doc>
+		Creates a [List] from an [Iterable]
+	</haxe_doc>
+		</list>
+		<map public="1" params="A:B" set="method" line="56" static="1">
+			<f a="it:f">
+				<t path="Iterable"><c path="map.A"/></t>
+				<f a="">
+					<c path="map.A"/>
+					<c path="map.B"/>
+				</f>
+				<c path="List"><c path="map.B"/></c>
+			</f>
+			<haxe_doc>
+		Creates a new [Iterable] by appling the function 'f' to all
+		elements of the iterator 'it'.
+	</haxe_doc>
+		</map>
+		<mapi public="1" params="A:B" set="method" line="66" static="1">
+			<f a="it:f">
+				<t path="Iterable"><c path="mapi.A"/></t>
+				<f a=":">
+					<c path="Int"/>
+					<c path="mapi.A"/>
+					<c path="mapi.B"/>
+				</f>
+				<c path="List"><c path="mapi.B"/></c>
+			</f>
+			<haxe_doc>
+		Similar to [map], but also pass an index for each item iterated.
+	</haxe_doc>
+		</mapi>
+		<has public="1" params="A" set="method" line="81" static="1">
+			<f a="it:elt:?cmp">
+				<t path="Iterable"><c path="has.A"/></t>
+				<c path="has.A"/>
+				<f a=":">
+					<c path="has.A"/>
+					<c path="has.A"/>
+					<e path="Bool"/>
+				</f>
+				<e path="Bool"/>
+			</f>
+			<haxe_doc>
+		Tells if the element is part of an iterable. The comparison
+		is made using the [==] operator. Optionally you can pass as
+		a third parameter a function that performs the comparison.
+		That function must take as arguments the two items to
+		compare and returns a boolean value.
+	</haxe_doc>
+		</has>
+		<exists public="1" params="A" set="method" line="97" static="1">
+			<f a="it:f">
+				<t path="Iterable"><c path="exists.A"/></t>
+				<f a="">
+					<c path="exists.A"/>
+					<e path="Bool"/>
+				</f>
+				<e path="Bool"/>
+			</f>
+			<haxe_doc>
+		Tells if at least one element of the iterable is found by using the specific function.
+	</haxe_doc>
+		</exists>
+		<foreach public="1" params="A" set="method" line="107" static="1">
+			<f a="it:f">
+				<t path="Iterable"><c path="foreach.A"/></t>
+				<f a="">
+					<c path="foreach.A"/>
+					<e path="Bool"/>
+				</f>
+				<e path="Bool"/>
+			</f>
+			<haxe_doc>
+		Tells if all elements of the iterable have the specified property defined by [f].
+	</haxe_doc>
+		</foreach>
+		<iter public="1" params="A" set="method" line="117" static="1">
+			<f a="it:f">
+				<t path="Iterable"><c path="iter.A"/></t>
+				<f a="">
+					<c path="iter.A"/>
+					<e path="Void"/>
+				</f>
+				<e path="Void"/>
+			</f>
+			<haxe_doc>
+		Call the function 'f' on all elements of the [Iterable] 'it'.
+	</haxe_doc>
+		</iter>
+		<filter public="1" params="A" set="method" line="125" static="1">
+			<f a="it:f">
+				<t path="Iterable"><c path="filter.A"/></t>
+				<f a="">
+					<c path="filter.A"/>
+					<e path="Bool"/>
+				</f>
+				<c path="List"><c path="filter.A"/></c>
+			</f>
+			<haxe_doc>
+		Return the list of elements matching the function 'f'
+	</haxe_doc>
+		</filter>
+		<fold public="1" params="A:B" set="method" line="136" static="1">
+			<f a="it:f:first">
+				<t path="Iterable"><c path="fold.A"/></t>
+				<f a=":">
+					<c path="fold.A"/>
+					<c path="fold.B"/>
+					<c path="fold.B"/>
+				</f>
+				<c path="fold.B"/>
+				<c path="fold.B"/>
+			</f>
+			<haxe_doc>
+		Functional 'fold' using an [Iterable]
+	</haxe_doc>
+		</fold>
+		<count public="1" params="A" set="method" line="145" static="1">
+			<f a="it:?pred">
+				<t path="Iterable"><c path="count.A"/></t>
+				<f a="">
+					<c path="count.A"/>
+					<e path="Bool"/>
+				</f>
+				<c path="Int"/>
+			</f>
+			<haxe_doc>
+		Count the number of elements in an [Iterable] having [pred] returning true.
+	</haxe_doc>
+		</count>
+		<empty public="1" set="method" line="160" static="1">
+			<f a="it">
+				<t path="Iterable"><d/></t>
+				<e path="Bool"/>
+			</f>
+			<haxe_doc>
+		Tells if an iterable does not contain any element.
+	</haxe_doc>
+		</empty>
+		<indexOf public="1" params="T" set="method" line="168" static="1">
+			<f a="it:v">
+				<t path="Iterable"><c path="indexOf.T"/></t>
+				<c path="indexOf.T"/>
+				<c path="Int"/>
+			</f>
+			<haxe_doc>
+		Returns the index of the item in the given Iterable, depending on the order of the Iterator.
+		Returns -1 if the item was not found.
+	</haxe_doc>
+		</indexOf>
+		<concat public="1" params="T" set="method" line="181" static="1">
+			<f a="a:b">
+				<t path="Iterable"><c path="concat.T"/></t>
+				<t path="Iterable"><c path="concat.T"/></t>
+				<c path="List"><c path="concat.T"/></c>
+			</f>
+			<haxe_doc>
+		Returns a list containing all items of 'a' followed by all items of 'b'
+	</haxe_doc>
+		</concat>
+		<haxe_doc>
+	The [Lambda] class is a collection of functional methods in order to
+	use functional-style programming with haXe.
+</haxe_doc>
+	</class>
+	<class path="haxe.rtti.Meta" params="" file="C:\Projects\haxe/std/haxe/rtti/Meta.hx">
+		<getType public="1" set="method" line="35" static="1">
+			<f a="t">
+				<d/>
+				<d><c path="Array"><d/></c></d>
+			</f>
+			<haxe_doc>
+		Returns the metadata that were declared for the given type (class or enum)
+	</haxe_doc>
+		</getType>
+		<getStatics public="1" set="method" line="43" static="1">
+			<f a="t">
+				<d/>
+				<d><d><c path="Array"><d/></c></d></d>
+			</f>
+			<haxe_doc>
+		Returns the metadata that were declared for the given class fields or enum constructors
+	</haxe_doc>
+		</getStatics>
+		<getFields public="1" set="method" line="51" static="1">
+			<f a="t">
+				<d/>
+				<d><d><c path="Array"><d/></c></d></d>
+			</f>
+			<haxe_doc>
+		Returns the metadata that were declared for the given class static fields
+	</haxe_doc>
+		</getFields>
+		<haxe_doc>
+	An api to access classes and enums metadata at runtime.
+</haxe_doc>
+	</class>
+	<class path="flash.geom.Point" params="T" file="C:\Projects\haxe/std/flash/geom/Point.hx" extern="1">
+		<distance public="1" params="T" set="method" static="1"><f a="p1:p2">
+	<c path="flash.geom.Point"><c path="distance.T"/></c>
+	<c path="flash.geom.Point"><c path="distance.T"/></c>
+	<c path="distance.T"/>
+</f></distance>
+		<interpolate public="1" params="T" set="method" static="1"><f a="p1:p2:f">
+	<c path="flash.geom.Point"><c path="interpolate.T"/></c>
+	<c path="flash.geom.Point"><c path="interpolate.T"/></c>
+	<c path="interpolate.T"/>
+	<c path="flash.geom.Point"><c path="interpolate.T"/></c>
+</f></interpolate>
+		<polar public="1" params="T" set="method" static="1"><f a="dist:angle">
+	<c path="polar.T"/>
+	<c path="polar.T"/>
+	<c path="flash.geom.Point"><c path="polar.T"/></c>
+</f></polar>
+		<x public="1"><c path="flash.geom.Point.T"/></x>
+		<y public="1"><c path="flash.geom.Point.T"/></y>
+		<length public="1"><c path="Float"/></length>
+		<normalize public="1" set="method"><f a="length">
+	<c path="flash.geom.Point.T"/>
+	<e path="Void"/>
+</f></normalize>
+		<add public="1" set="method"><f a="p">
+	<c path="flash.geom.Point"><c path="flash.geom.Point.T"/></c>
+	<c path="flash.geom.Point"><c path="flash.geom.Point.T"/></c>
+</f></add>
+		<subtract public="1" set="method"><f a="p">
+	<c path="flash.geom.Point"><c path="flash.geom.Point.T"/></c>
+	<c path="flash.geom.Point"><c path="flash.geom.Point.T"/></c>
+</f></subtract>
+		<equals public="1" set="method"><f a="p">
+	<c path="flash.geom.Point"><c path="flash.geom.Point.T"/></c>
+	<e path="Bool"/>
+</f></equals>
+		<offset public="1" set="method"><f a="dx:dy">
+	<c path="flash.geom.Point.T"/>
+	<c path="flash.geom.Point.T"/>
+	<e path="Void"/>
+</f></offset>
+		<clone public="1" set="method"><f a=""><c path="flash.geom.Point"><c path="flash.geom.Point.T"/></c></f></clone>
+		<toString public="1" set="method"><f a=""><c path="String"/></f></toString>
+		<new public="1" set="method"><f a="x:y">
+	<c path="flash.geom.Point.T"/>
+	<c path="flash.geom.Point.T"/>
+	<e path="Void"/>
+</f></new>
+	</class>
+	<class path="flash.text.StyleSheet" params="" file="C:\Projects\haxe/std/flash/text/StyleSheet.hx" extern="1">
+		<getStyle public="1" set="method"><f a="name">
+	<c path="String"/>
+	<d/>
+</f></getStyle>
+		<setStyle public="1" set="method"><f a="name:style">
+	<c path="String"/>
+	<d/>
+	<e path="Void"/>
+</f></setStyle>
+		<clear public="1" set="method"><f a=""><e path="Void"/></f></clear>
+		<getStyleNames public="1" set="method"><f a=""><c path="Array"><d/></c></f></getStyleNames>
+		<transform public="1" set="method"><f a="style">
+	<d/>
+	<c path="flash.TextFormat"/>
+</f></transform>
+		<parseCSS public="1" set="method"><f a="cssText">
+	<c path="String"/>
+	<e path="Bool"/>
+</f></parseCSS>
+		<parse public="1" set="method"><f a="cssText">
+	<c path="String"/>
+	<e path="Bool"/>
+</f></parse>
+		<load public="1" set="method"><f a="url">
+	<c path="String"/>
+	<e path="Bool"/>
+</f></load>
+		<onLoad public="1" set="dynamic"><f a="success">
+	<e path="Bool"/>
+	<e path="Void"/>
+</f></onLoad>
+		<new public="1" set="method"><f a=""><e path="Void"/></f></new>
+	</class>
+	<class path="utest.ui.common.ClassResult" params="" file="src/utest/ui/common/ClassResult.hx">
+		<fixtures><c path="Hash"><c path="utest.ui.common.FixtureResult"/></c></fixtures>
+		<className public="1" set="null"><c path="String"/></className>
+		<setupName public="1" set="null"><c path="String"/></setupName>
+		<teardownName public="1" set="null"><c path="String"/></teardownName>
+		<hasSetup public="1" set="null"><e path="Bool"/></hasSetup>
+		<hasTeardown public="1" set="null"><e path="Bool"/></hasTeardown>
+		<methods public="1" set="null"><c path="Int"/></methods>
+		<stats public="1" set="null"><c path="utest.ui.common.ResultStats"/></stats>
+		<add public="1" set="method" line="31"><f a="result">
+	<c path="utest.ui.common.FixtureResult"/>
+	<e path="Void"/>
+</f></add>
+		<get public="1" set="method" line="40"><f a="method">
+	<c path="String"/>
+	<t path="Null"><c path="utest.ui.common.FixtureResult"/></t>
+</f></get>
+		<exists public="1" set="method" line="44"><f a="method">
+	<c path="String"/>
+	<e path="Bool"/>
+</f></exists>
+		<methodNames public="1" set="method" line="48"><f a="?errorsHavePriority">
+	<e path="Bool"/>
+	<c path="Array"><c path="String"/></c>
+</f></methodNames>
+		<new public="1" set="method" line="19"><f a="className:setupName:teardownName">
+	<c path="String"/>
+	<c path="String"/>
+	<c path="String"/>
+	<e path="Void"/>
+</f></new>
+		<haxe_doc>
+* @todo add documentation
+</haxe_doc>
+	</class>
+	<class path="Enum" params="T" file="C:\Projects\haxe/std/Enum.hx" extern="1"><haxe_doc>
+	An abstract type that represents an Enum.
 	See [Type] for the haXe Reflection API.
 </haxe_doc></class>
-	<class path="flash.filters.BitmapFilter" params="" file="C:\Projects\haxe/std/flash/filters/BitmapFilter.hx" extern="1"/>
-	<enum path="utest.Assertation" params="" file="src/utest/Assertation.hx">
-		<Warning a="msg">
-			<c path="String"/>
-			<haxe_doc>
-	* A warning state. This can be declared explicitely by an Assert call
-	* or can denote a test method that contains no assertions at all.
-	* @param msg: The reason behind the warning
-	</haxe_doc>
-		</Warning>
-		<TimeoutError a="missedAsyncs:stack">
-			<c path="Int"/>
-			<c path="Array"><e path="haxe.StackItem"/></c>
-			<haxe_doc>
-	* The asynchronous phase of a test has gone into timeout.
-	* @param missedAsyncs: The number of asynchronous calls that was expected
-	* to be performed before the timeout.
-	</haxe_doc>
-		</TimeoutError>
-		<TeardownError a="e:stack">
-			<d/>
-			<c path="Array"><e path="haxe.StackItem"/></c>
-			<haxe_doc>
-	* An error has occurred during the Teardown phase of the test.
-	* @param e: The captured error/exception
-	</haxe_doc>
-		</TeardownError>
-		<Success a="pos">
-			<t path="haxe.PosInfos"/>
-			<haxe_doc>
-	* Assertion is succesful
-	* @param pos: Code position where the Assert call has been executed
-	</haxe_doc>
-		</Success>
-		<SetupError a="e:stack">
-			<d/>
-			<c path="Array"><e path="haxe.StackItem"/></c>
-			<haxe_doc>
-	* An error has occurred during the Setup phase of the test. It prevents
-	* the test to be run.
-	* @param e: The captured error/exception
-	</haxe_doc>
-		</SetupError>
-		<Failure a="msg:pos">
-			<c path="String"/>
-			<t path="haxe.PosInfos"/>
-			<haxe_doc>
-	* Assertion is a falure. This does not denote an error in the assertion
-	* code but that the testing condition has failed for some reason.
-	* Ei.: Assert.isTrue(1 == 0);
-	* @param msg: An error message containing the reasons for the failure.
-	* @param pos: Code position where the Assert call has been executed
-	</haxe_doc>
-		</Failure>
-		<Error a="e:stack">
-			<d/>
-			<c path="Array"><e path="haxe.StackItem"/></c>
-			<haxe_doc>
-	* An error has occurred during the execution of the test that prevents
-	* futher assertion to be tested.
-	* @param e: The captured error/exception
-	</haxe_doc>
-		</Error>
-		<AsyncError a="e:stack">
-			<d/>
-			<c path="Array"><e path="haxe.StackItem"/></c>
-			<haxe_doc>
-	* An error has occurred during an asynchronous test.
-	* @param e: The captured error/exception
-	</haxe_doc>
-		</AsyncError>
-		<haxe_doc>
-* Enumerates the states available as a result of
-* invoking one of the static methods of @see {@link utest.Assert}.
-</haxe_doc>
+	<typedef path="haxe.io.BytesData" params="" file="C:\Projects\haxe/std/haxe/io/BytesData.hx"><c path="Array"><c path="Int"/></c></typedef>
+	<class path="haxe.Public" params="" file="C:\Projects\haxe/std/haxe/Public.hx" interface="1"><haxe_doc>
+	When implementing this interface, all default fields access for the class and
+	subclasses becomes [public] instead of [private].
+</haxe_doc></class>
+	<enum path="utest.ui.common.HeaderDisplayMode" params="" file="src/utest/ui/common/HeaderDisplayMode.hx">
+		<ShowHeaderWithResults/>
+		<NeverShowHeader/>
+		<AlwaysShowHeader/>
 	</enum>
+	<enum path="utest.ui.common.SuccessResultsDisplayMode" params="" file="src/utest/ui/common/HeaderDisplayMode.hx" module="utest.ui.common.HeaderDisplayMode">
+		<ShowSuccessResultsWithNoErrors/>
+		<NeverShowSuccessResults/>
+		<AlwaysShowSuccessResults/>
+	</enum>
+	<class path="utest.ui.Report" params="" file="src/utest/ui/Report.hx"><create public="1" set="method" line="17" static="1"><f a="runner:?displaySuccessResults:?headerDisplayMode">
+	<c path="utest.Runner"/>
+	<e path="utest.ui.common.SuccessResultsDisplayMode"/>
+	<e path="utest.ui.common.HeaderDisplayMode"/>
+	<c path="utest.ui.common.IReport"><d/></c>
+</f></create></class>
+	<class path="flash.geom.Transform" params="" file="C:\Projects\haxe/std/flash/geom/Transform.hx" extern="1">
+		<matrix public="1"><c path="flash.geom.Matrix"/></matrix>
+		<concatenatedMatrix public="1"><c path="flash.geom.Matrix"/></concatenatedMatrix>
+		<colorTransform public="1"><c path="flash.geom.ColorTransform"/></colorTransform>
+		<concatenatedColorTransform public="1"><c path="flash.geom.ColorTransform"/></concatenatedColorTransform>
+		<pixelBounds public="1"><c path="flash.geom.Rectangle"><c path="Float"/></c></pixelBounds>
+		<new public="1" set="method"><f a="mc">
+	<c path="flash.MovieClip"/>
+	<e path="Void"/>
+</f></new>
+	</class>
 	<class path="utest.ui.common.ReportTools" params="" file="src/utest/ui/common/ReportTools.hx">
 		<hasHeader public="1" set="method" line="7" static="1"><f a="report:stats">
 	<c path="utest.ui.common.IReport"><d/></c>
@@ -3585,6 +2899,680 @@
 	<c path="utest.ui.common.ResultStats"/>
 	<e path="Bool"/>
 </f></hasOutput>
+	</class>
+	<class path="flash._MovieClip.MCBounds" params="" file="C:\Projects\haxe/std/flash/MovieClip.hx" private="1" module="flash.MovieClip" extern="1">
+		<xMin public="1"><c path="Float"/></xMin>
+		<xMax public="1"><c path="Float"/></xMax>
+		<yMin public="1"><c path="Float"/></yMin>
+		<yMax public="1"><c path="Float"/></yMax>
+	</class>
+	<class path="flash.MovieClip" params="" file="C:\Projects\haxe/std/flash/MovieClip.hx" extern="1">
+		<useHandCursor public="1"><e path="Bool"/></useHandCursor>
+		<enabled public="1"><e path="Bool"/></enabled>
+		<focusEnabled public="1"><e path="Bool"/></focusEnabled>
+		<tabChildren public="1"><e path="Bool"/></tabChildren>
+		<tabEnabled public="1"><e path="Bool"/></tabEnabled>
+		<tabIndex public="1"><c path="Int"/></tabIndex>
+		<hitArea public="1"><c path="flash.MovieClip"/></hitArea>
+		<trackAsMenu public="1"><e path="Bool"/></trackAsMenu>
+		<_x public="1"><c path="Float"/></_x>
+		<_y public="1"><c path="Float"/></_y>
+		<_xmouse public="1"><c path="Float"/></_xmouse>
+		<_ymouse public="1"><c path="Float"/></_ymouse>
+		<_xscale public="1"><c path="Float"/></_xscale>
+		<_yscale public="1"><c path="Float"/></_yscale>
+		<_width public="1"><c path="Float"/></_width>
+		<_height public="1"><c path="Float"/></_height>
+		<_alpha public="1"><c path="Float"/></_alpha>
+		<_lockroot public="1"><e path="Bool"/></_lockroot>
+		<_visible public="1"><e path="Bool"/></_visible>
+		<_target public="1"><c path="String"/></_target>
+		<_rotation public="1"><c path="Float"/></_rotation>
+		<_name public="1"><c path="String"/></_name>
+		<_droptarget public="1" set="null"><c path="String"/></_droptarget>
+		<_currentframe public="1" set="null"><c path="Int"/></_currentframe>
+		<_totalframes public="1" set="null"><c path="Int"/></_totalframes>
+		<_framesloaded public="1" set="null"><c path="Int"/></_framesloaded>
+		<_quality public="1"><c path="String"/></_quality>
+		<_focusrect public="1"><e path="Bool"/></_focusrect>
+		<_soundbuftime public="1"><c path="Float"/></_soundbuftime>
+		<_url public="1"><c path="String"/></_url>
+		<_parent public="1"><c path="flash.MovieClip"/></_parent>
+		<getURL public="1" set="method"><f a="url:?window:?method">
+	<c path="String"/>
+	<c path="String"/>
+	<c path="String"/>
+	<e path="Void"/>
+</f></getURL>
+		<unloadMovie public="1" set="method"><f a=""><e path="Void"/></f></unloadMovie>
+		<loadVariables public="1" set="method"><f a="url:?method">
+	<c path="String"/>
+	<c path="String"/>
+	<e path="Void"/>
+</f></loadVariables>
+		<loadMovie public="1" set="method"><f a="url:?method">
+	<c path="String"/>
+	<c path="String"/>
+	<e path="Void"/>
+</f></loadMovie>
+		<attachMovie public="1" set="method"><f a="id:name:depth:?initObject">
+	<c path="String"/>
+	<c path="String"/>
+	<c path="Int"/>
+	<d/>
+	<c path="flash.MovieClip"/>
+</f></attachMovie>
+		<swapDepths public="1" set="method"><f a="mc">
+	<d/>
+	<e path="Void"/>
+</f></swapDepths>
+		<localToGlobal public="1" set="method"><f a="pt">
+	<a>
+		<y><c path="Float"/></y>
+		<x><c path="Float"/></x>
+	</a>
+	<e path="Void"/>
+</f></localToGlobal>
+		<globalToLocal public="1" set="method"><f a="pt">
+	<a>
+		<y><c path="Float"/></y>
+		<x><c path="Float"/></x>
+	</a>
+	<e path="Void"/>
+</f></globalToLocal>
+		<hitTest public="1" set="method"><f a="x_or_mc:?y:?shape">
+	<d/>
+	<c path="Float"/>
+	<e path="Bool"/>
+	<e path="Bool"/>
+</f></hitTest>
+		<getBounds public="1" set="method"><f a="bounds">
+	<c path="flash.MovieClip"/>
+	<c path="flash._MovieClip.MCBounds"/>
+</f></getBounds>
+		<getBytesLoaded public="1" set="method"><f a=""><c path="Int"/></f></getBytesLoaded>
+		<getBytesTotal public="1" set="method"><f a=""><c path="Int"/></f></getBytesTotal>
+		<attachAudio public="1" set="method"><f a="id">
+	<d/>
+	<e path="Void"/>
+</f></attachAudio>
+		<attachVideo public="1" set="method"><f a="id">
+	<d/>
+	<e path="Void"/>
+</f></attachVideo>
+		<getDepth public="1" set="method"><f a=""><c path="Int"/></f></getDepth>
+		<setMask public="1" set="method"><f a="mc">
+	<c path="flash.MovieClip"/>
+	<e path="Void"/>
+</f></setMask>
+		<play public="1" set="method"><f a=""><e path="Void"/></f></play>
+		<stop public="1" set="method"><f a=""><e path="Void"/></f></stop>
+		<nextFrame public="1" set="method"><f a=""><e path="Void"/></f></nextFrame>
+		<prevFrame public="1" set="method"><f a=""><e path="Void"/></f></prevFrame>
+		<gotoAndPlay public="1" set="method"><f a="frame">
+	<d/>
+	<e path="Void"/>
+</f></gotoAndPlay>
+		<gotoAndStop public="1" set="method"><f a="frame">
+	<d/>
+	<e path="Void"/>
+</f></gotoAndStop>
+		<duplicateMovieClip public="1" set="method"><f a="name:depth:?initObject">
+	<c path="String"/>
+	<c path="Int"/>
+	<d/>
+	<c path="flash.MovieClip"/>
+</f></duplicateMovieClip>
+		<removeMovieClip public="1" set="method"><f a=""><e path="Void"/></f></removeMovieClip>
+		<startDrag public="1" set="method"><f a="lockCenter:?left:?top:?right:?bottom">
+	<e path="Bool"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<e path="Void"/>
+</f></startDrag>
+		<stopDrag public="1" set="method"><f a=""><e path="Void"/></f></stopDrag>
+		<createEmptyMovieClip public="1" set="method"><f a="name:depth">
+	<c path="String"/>
+	<c path="Int"/>
+	<c path="flash.MovieClip"/>
+</f></createEmptyMovieClip>
+		<beginFill public="1" set="method"><f a="rgb:?alpha">
+	<c path="Int"/>
+	<c path="Float"/>
+	<e path="Void"/>
+</f></beginFill>
+		<getInstanceAtDepth public="1" set="method"><f a="depth">
+	<c path="Int"/>
+	<c path="flash.MovieClip"/>
+</f></getInstanceAtDepth>
+		<getNextHighestDepth public="1" set="method"><f a=""><c path="Int"/></f></getNextHighestDepth>
+		<beginGradientFill public="1" set="method"><f a="fillType:colors:alphas:ratios:matrix:?spreadMethod:?interpolationMethod:?focalPointRatio">
+	<c path="String"/>
+	<c path="Array"><c path="Int"/></c>
+	<c path="Array"><d/></c>
+	<c path="Array"><d/></c>
+	<d/>
+	<c path="String"/>
+	<c path="String"/>
+	<c path="Float"/>
+	<e path="Void"/>
+</f></beginGradientFill>
+		<moveTo public="1" set="method"><f a="x:y">
+	<c path="Float"/>
+	<c path="Float"/>
+	<e path="Void"/>
+</f></moveTo>
+		<lineTo public="1" set="method"><f a="x:y">
+	<c path="Float"/>
+	<c path="Float"/>
+	<e path="Void"/>
+</f></lineTo>
+		<curveTo public="1" set="method"><f a="controlX:controlY:anchorX:anchorY">
+	<c path="Float"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<e path="Void"/>
+</f></curveTo>
+		<lineStyle public="1" set="method"><f a="?thickness:?rgb:?alpha:?pixelHinting:?noScale:?capsStyle:?jointStyle:?miterLimit">
+	<c path="Float"/>
+	<c path="Int"/>
+	<c path="Float"/>
+	<e path="Bool"/>
+	<c path="String"/>
+	<c path="String"/>
+	<c path="String"/>
+	<c path="Float"/>
+	<e path="Void"/>
+</f></lineStyle>
+		<endFill public="1" set="method"><f a=""><e path="Void"/></f></endFill>
+		<clear public="1" set="method"><f a=""><e path="Void"/></f></clear>
+		<createTextField public="1" set="method"><f a="instanceName:depth:x:y:width:height">
+	<c path="String"/>
+	<c path="Int"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<c path="flash.TextField"/>
+</f></createTextField>
+		<getTextSnapshot public="1" set="method"><f a=""><c path="flash.TextSnapshot"/></f></getTextSnapshot>
+		<getSWFVersion public="1" set="method"><f a=""><c path="Int"/></f></getSWFVersion>
+		<onData public="1" set="dynamic"><f a=""><e path="Void"/></f></onData>
+		<onDragOut public="1" set="dynamic"><f a=""><e path="Void"/></f></onDragOut>
+		<onDragOver public="1" set="dynamic"><f a=""><e path="Void"/></f></onDragOver>
+		<onEnterFrame public="1" set="dynamic"><f a=""><e path="Void"/></f></onEnterFrame>
+		<onKeyDown public="1" set="dynamic"><f a=""><e path="Void"/></f></onKeyDown>
+		<onKeyUp public="1" set="dynamic"><f a=""><e path="Void"/></f></onKeyUp>
+		<onKillFocus public="1" set="dynamic"><f a="newFocus">
+	<d/>
+	<e path="Void"/>
+</f></onKillFocus>
+		<onLoad public="1" set="dynamic"><f a=""><e path="Void"/></f></onLoad>
+		<onMouseDown public="1" set="dynamic"><f a=""><e path="Void"/></f></onMouseDown>
+		<onMouseMove public="1" set="dynamic"><f a=""><e path="Void"/></f></onMouseMove>
+		<onMouseUp public="1" set="dynamic"><f a=""><e path="Void"/></f></onMouseUp>
+		<onPress public="1" set="dynamic"><f a=""><e path="Void"/></f></onPress>
+		<onRelease public="1" set="dynamic"><f a=""><e path="Void"/></f></onRelease>
+		<onReleaseOutside public="1" set="dynamic"><f a=""><e path="Void"/></f></onReleaseOutside>
+		<onRollOut public="1" set="dynamic"><f a=""><e path="Void"/></f></onRollOut>
+		<onRollOver public="1" set="dynamic"><f a=""><e path="Void"/></f></onRollOver>
+		<onSetFocus public="1" set="dynamic"><f a="oldFocus">
+	<d/>
+	<e path="Void"/>
+</f></onSetFocus>
+		<onUnload public="1" set="dynamic"><f a=""><e path="Void"/></f></onUnload>
+		<filters public="1"><c path="Array"><d/></c></filters>
+		<blendMode public="1"><d/></blendMode>
+		<cacheAsBitmap public="1"><e path="Bool"/></cacheAsBitmap>
+		<opaqueBackground public="1"><c path="Int"/></opaqueBackground>
+		<scrollRect public="1"><d/></scrollRect>
+		<transform public="1"><c path="flash.geom.Transform"/></transform>
+		<scale9Grid public="1"><c path="flash.geom.Rectangle"><c path="Float"/></c></scale9Grid>
+		<getRect public="1" set="method"><f a="bounds">
+	<c path="flash.MovieClip"/>
+	<c path="flash._MovieClip.MCBounds"/>
+</f></getRect>
+		<attachBitmap public="1" set="method"><f a="bmp:depth:?pixelSnapping:?smoothing">
+	<c path="flash.display.BitmapData"/>
+	<c path="Int"/>
+	<c path="String"/>
+	<e path="Bool"/>
+	<e path="Void"/>
+</f></attachBitmap>
+		<beginBitmapFill public="1" set="method"><f a="bmp:?matrix:?repeat:?smoothing">
+	<c path="flash.display.BitmapData"/>
+	<c path="flash.geom.Matrix"/>
+	<e path="Bool"/>
+	<e path="Bool"/>
+	<e path="Void"/>
+</f></beginBitmapFill>
+		<lineGradientStyle public="1" set="method"><f a="fillType:colors:alphas:ratios:matrix:?spreadMethod:?interpolationMethod:?focalPointRatio">
+	<c path="String"/>
+	<c path="Array"><c path="Int"/></c>
+	<c path="Array"><d/></c>
+	<c path="Array"><d/></c>
+	<d/>
+	<c path="String"/>
+	<c path="String"/>
+	<c path="Float"/>
+	<e path="Void"/>
+</f></lineGradientStyle>
+		<forceSmoothing public="1">
+			<e path="Bool"/>
+			<haxe_doc> FP9 only </haxe_doc>
+		</forceSmoothing>
+		<haxe_dynamic><d/></haxe_dynamic>
+	</class>
+	<class path="haxe.Log" params="" file="C:\Projects\haxe/std/haxe/Log.hx">
+		<trace public="1" set="dynamic" line="29" static="1"><f a="v:?infos">
+	<d/>
+	<t path="haxe.PosInfos"/>
+	<e path="Void"/>
+</f></trace>
+		<clear public="1" set="dynamic" line="43" static="1"><f a=""><e path="Void"/></f></clear>
+		<setColor public="1" set="dynamic" line="52" static="1"><f a="rgb">
+	<c path="Int"/>
+	<e path="Void"/>
+</f></setColor>
+	</class>
+	<class path="Hash" params="T" file="C:\Projects\haxe/std/flash/_std/Hash.hx">
+		<h><d/></h>
+		<set public="1" set="method" line="34">
+			<f a="key:value">
+				<c path="String"/>
+				<c path="Hash.T"/>
+				<e path="Void"/>
+			</f>
+			<haxe_doc>
+		Set a value for the given key.
+	</haxe_doc>
+		</set>
+		<get public="1" set="method" line="38">
+			<f a="key">
+				<c path="String"/>
+				<t path="Null"><c path="Hash.T"/></t>
+			</f>
+			<haxe_doc>
+		Get a value for the given key.
+	</haxe_doc>
+		</get>
+		<exists public="1" set="method" line="42">
+			<f a="key">
+				<c path="String"/>
+				<e path="Bool"/>
+			</f>
+			<haxe_doc>
+		Tells if a value exists for the given key.
+		In particular, it's useful to tells if a key has
+		a [null] value versus no value.
+	</haxe_doc>
+		</exists>
+		<remove public="1" set="method" line="46">
+			<f a="key">
+				<c path="String"/>
+				<e path="Bool"/>
+			</f>
+			<haxe_doc>
+		Removes a hashtable entry. Returns [true] if
+		there was such entry.
+	</haxe_doc>
+		</remove>
+		<keys public="1" set="method" line="53">
+			<f a=""><t path="Iterator"><c path="String"/></t></f>
+			<haxe_doc>
+		Returns an iterator of all keys in the hashtable.
+	</haxe_doc>
+		</keys>
+		<iterator public="1" set="method" line="57">
+			<f a=""><t path="Iterator"><c path="Hash.T"/></t></f>
+			<haxe_doc>
+		Returns an iterator of all values in the hashtable.
+	</haxe_doc>
+		</iterator>
+		<toString public="1" set="method" line="66">
+			<f a=""><c path="String"/></f>
+			<haxe_doc>
+		Returns an displayable representation of the hashtable content.
+	</haxe_doc>
+		</toString>
+		<new public="1" set="method" line="30"><f a=""><e path="Void"/></f></new>
+		<haxe_doc>
+	Hashtable over a set of elements, using [String] as keys.
+	Other kind of keys are not possible on all platforms since they
+	can't always be implemented efficiently.
+</haxe_doc>
+	</class>
+	<enum path="utest._Dispatcher.EventException" params="" file="src/utest/Dispatcher.hx" private="1" module="utest.Dispatcher"><StopPropagation/></enum>
+	<class path="utest.Dispatcher" params="T" file="src/utest/Dispatcher.hx">
+		<stop public="1" set="method" line="50" static="1"><f a=""><e path="Void"/></f></stop>
+		<handlers><c path="Array"><f a="">
+	<c path="utest.Dispatcher.T"/>
+	<e path="Void"/>
+</f></c></handlers>
+		<add public="1" set="method" line="18"><f a="h">
+	<f a="">
+		<c path="utest.Dispatcher.T"/>
+		<e path="Void"/>
+	</f>
+	<f a="">
+		<c path="utest.Dispatcher.T"/>
+		<e path="Void"/>
+	</f>
+</f></add>
+		<remove public="1" set="method" line="23"><f a="h">
+	<f a="">
+		<c path="utest.Dispatcher.T"/>
+		<e path="Void"/>
+	</f>
+	<f a="">
+		<c path="utest.Dispatcher.T"/>
+		<e path="Void"/>
+	</f>
+</f></remove>
+		<clear public="1" set="method" line="30"><f a=""><e path="Void"/></f></clear>
+		<dispatch public="1" set="method" line="34"><f a="e">
+	<c path="utest.Dispatcher.T"/>
+	<e path="Bool"/>
+</f></dispatch>
+		<has public="1" set="method" line="46"><f a=""><e path="Bool"/></f></has>
+		<new public="1" set="method" line="14"><f a=""><e path="Void"/></f></new>
+		<haxe_doc>
+* @todo add documentation
+</haxe_doc>
+	</class>
+	<class path="utest.Notifier" params="" file="src/utest/Dispatcher.hx" module="utest.Dispatcher">
+		<stop public="1" set="method" line="95" static="1"><f a=""><e path="Void"/></f></stop>
+		<handlers><c path="Array"><f a=""><e path="Void"/></f></c></handlers>
+		<add public="1" set="method" line="63"><f a="h">
+	<f a=""><e path="Void"/></f>
+	<f a=""><e path="Void"/></f>
+</f></add>
+		<remove public="1" set="method" line="68"><f a="h">
+	<f a=""><e path="Void"/></f>
+	<f a=""><e path="Void"/></f>
+</f></remove>
+		<clear public="1" set="method" line="75"><f a=""><e path="Void"/></f></clear>
+		<dispatch public="1" set="method" line="79"><f a=""><e path="Bool"/></f></dispatch>
+		<has public="1" set="method" line="91"><f a=""><e path="Bool"/></f></has>
+		<new public="1" set="method" line="59"><f a=""><e path="Void"/></f></new>
+	</class>
+	<class path="Array" params="T" file="C:\Projects\haxe/std/Array.hx" extern="1">
+		<length public="1" set="null">
+			<c path="Int"/>
+			<haxe_doc>
+		The length of the Array
+	</haxe_doc>
+		</length>
+		<concat public="1" set="method">
+			<f a="a">
+				<c path="Array"><c path="Array.T"/></c>
+				<c path="Array"><c path="Array.T"/></c>
+			</f>
+			<haxe_doc>
+		Returns a new Array by appending [a] to [this].
+	</haxe_doc>
+		</concat>
+		<join public="1" set="method">
+			<f a="sep">
+				<c path="String"/>
+				<c path="String"/>
+			</f>
+			<haxe_doc>
+		Returns a representation of an array with [sep] for separating each element.
+	</haxe_doc>
+		</join>
+		<pop public="1" set="method">
+			<f a=""><t path="Null"><c path="Array.T"/></t></f>
+			<haxe_doc>
+		Removes the last element of the array and returns it.
+	</haxe_doc>
+		</pop>
+		<push public="1" set="method">
+			<f a="x">
+				<c path="Array.T"/>
+				<c path="Int"/>
+			</f>
+			<haxe_doc>
+		Adds the element [x] at the end of the array.
+	</haxe_doc>
+		</push>
+		<reverse public="1" set="method">
+			<f a=""><e path="Void"/></f>
+			<haxe_doc>
+		Reverse the order of elements of the Array.
+	</haxe_doc>
+		</reverse>
+		<shift public="1" set="method">
+			<f a=""><t path="Null"><c path="Array.T"/></t></f>
+			<haxe_doc>
+		Removes the first element and returns it.
+	</haxe_doc>
+		</shift>
+		<slice public="1" set="method">
+			<f a="pos:?end">
+				<c path="Int"/>
+				<c path="Int"/>
+				<c path="Array"><c path="Array.T"/></c>
+			</f>
+			<haxe_doc>
+		Copies the range of the array starting at [pos] up to,
+		but not including, [end]. Both [pos] and [end] can be
+		negative to count from the end: -1 is the last item in
+		the array.
+	</haxe_doc>
+		</slice>
+		<sort public="1" set="method">
+			<f a="f">
+				<f a=":">
+					<c path="Array.T"/>
+					<c path="Array.T"/>
+					<c path="Int"/>
+				</f>
+				<e path="Void"/>
+			</f>
+			<haxe_doc><![CDATA[
+		Sort the Array according to the comparison function [f].
+		[f(x,y)] should return [0] if [x == y], [>0] if [x > y]
+		and [<0] if [x < y].
+	]]></haxe_doc>
+		</sort>
+		<splice public="1" set="method">
+			<f a="pos:len">
+				<c path="Int"/>
+				<c path="Int"/>
+				<c path="Array"><c path="Array.T"/></c>
+			</f>
+			<haxe_doc>
+		Removes [len] elements starting from [pos] an returns them.
+	</haxe_doc>
+		</splice>
+		<toString public="1" set="method">
+			<f a=""><c path="String"/></f>
+			<haxe_doc>
+		Returns a displayable representation of the Array content.
+	</haxe_doc>
+		</toString>
+		<unshift public="1" set="method">
+			<f a="x">
+				<c path="Array.T"/>
+				<e path="Void"/>
+			</f>
+			<haxe_doc>
+		Adds the element [x] at the start of the array.
+	</haxe_doc>
+		</unshift>
+		<insert public="1" set="method">
+			<f a="pos:x">
+				<c path="Int"/>
+				<c path="Array.T"/>
+				<e path="Void"/>
+			</f>
+			<haxe_doc>
+		Inserts the element [x] at the position [pos].
+		All elements after [pos] are moved one index ahead.
+	</haxe_doc>
+		</insert>
+		<remove public="1" set="method">
+			<f a="x">
+				<c path="Array.T"/>
+				<e path="Bool"/>
+			</f>
+			<haxe_doc>
+		Removes the first occurence of [x].
+		Returns false if [x] was not present.
+		Elements are compared by using standard equality.
+	</haxe_doc>
+		</remove>
+		<copy public="1" set="method">
+			<f a=""><c path="Array"><c path="Array.T"/></c></f>
+			<haxe_doc>
+		Returns a copy of the Array. The values are not
+		copied, only the Array structure.
+	</haxe_doc>
+		</copy>
+		<iterator public="1" set="method">
+			<f a=""><t path="Iterator"><t path="Null"><c path="Array.T"/></t></t></f>
+			<haxe_doc>
+		Returns an iterator of the Array values.
+	</haxe_doc>
+		</iterator>
+		<new public="1" set="method">
+			<f a=""><e path="Void"/></f>
+			<haxe_doc>
+		Creates a new Array.
+	</haxe_doc>
+		</new>
+		<haxe_doc>
+	An Array is a storage for values. You can access it using indexes or
+	with its API. On the server side, it's often better to use a [List] which
+	is less memory and CPU consuming, unless you really need indexed access.
+</haxe_doc>
+	</class>
+	<class path="Std" params="" file="C:\Projects\haxe/std/flash/_std/Std.hx">
+		<is public="1" set="method" line="28" static="1">
+			<f a="v:t">
+				<d/>
+				<d/>
+				<e path="Bool"/>
+			</f>
+			<haxe_doc>
+		Tells if a value v is of the type t.
+	</haxe_doc>
+		</is>
+		<string public="1" set="method" line="32" static="1">
+			<f a="s">
+				<d/>
+				<c path="String"/>
+			</f>
+			<haxe_doc>
+		Convert any value to a String
+	</haxe_doc>
+		</string>
+		<int public="1" set="method" line="36" static="1">
+			<f a="x">
+				<c path="Float"/>
+				<c path="Int"/>
+			</f>
+			<haxe_doc>
+		Convert a Float to an Int, rounded down.
+	</haxe_doc>
+		</int>
+		<parseInt public="1" set="method" line="41" static="1">
+			<f a="x">
+				<c path="String"/>
+				<t path="Null"><c path="Int"/></t>
+			</f>
+			<haxe_doc>
+		Convert a String to an Int, parsing different possible representations. Returns [null] if could not be parsed.
+	</haxe_doc>
+		</parseInt>
+		<parseFloat public="1" set="method" line="52" static="1">
+			<f a="x">
+				<c path="String"/>
+				<c path="Float"/>
+			</f>
+			<haxe_doc>
+		Convert a String to a Float, parsing different possible reprensations.
+	</haxe_doc>
+		</parseFloat>
+		<random public="1" set="method" line="56" static="1">
+			<f a="x">
+				<c path="Int"/>
+				<c path="Int"/>
+			</f>
+			<haxe_doc>
+		Return a random integer between 0 included and x excluded.
+	</haxe_doc>
+		</random>
+		<haxe_doc>
+	The Std class provides standard methods for manipulating basic types.
+</haxe_doc>
+	</class>
+	<class path="flash.geom.Matrix" params="" file="C:\Projects\haxe/std/flash/geom/Matrix.hx" extern="1">
+		<a public="1"><c path="Float"/></a>
+		<b public="1"><c path="Float"/></b>
+		<c public="1"><c path="Float"/></c>
+		<d public="1"><c path="Float"/></d>
+		<tx public="1"><c path="Float"/></tx>
+		<ty public="1"><c path="Float"/></ty>
+		<transformPoint public="1" set="method"><f a="p">
+	<c path="flash.geom.Point"><c path="Float"/></c>
+	<c path="flash.geom.Point"><c path="Float"/></c>
+</f></transformPoint>
+		<deltaTransformPoint public="1" set="method"><f a="p">
+	<c path="flash.geom.Point"><c path="Float"/></c>
+	<c path="flash.geom.Point"><c path="Float"/></c>
+</f></deltaTransformPoint>
+		<toString public="1" set="method"><f a=""><c path="String"/></f></toString>
+		<scale public="1" set="method"><f a="sx:sy">
+	<c path="Float"/>
+	<c path="Float"/>
+	<e path="Void"/>
+</f></scale>
+		<translate public="1" set="method"><f a="tx:ty">
+	<c path="Float"/>
+	<c path="Float"/>
+	<e path="Void"/>
+</f></translate>
+		<rotate public="1" set="method"><f a="r">
+	<c path="Float"/>
+	<e path="Void"/>
+</f></rotate>
+		<identity public="1" set="method"><f a=""><e path="Void"/></f></identity>
+		<invert public="1" set="method"><f a=""><e path="Void"/></f></invert>
+		<concat public="1" set="method"><f a="m">
+	<c path="flash.geom.Matrix"/>
+	<e path="Void"/>
+</f></concat>
+		<clone public="1" set="method"><f a=""><c path="flash.geom.Matrix"/></f></clone>
+		<createGradientBox public="1" set="method"><f a="width:height:?rot:?tx:?ty">
+	<c path="Float"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<e path="Void"/>
+</f></createGradientBox>
+		<createBox public="1" set="method"><f a="scalex:scaley:?rot:?tx:?ty">
+	<c path="Float"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<e path="Void"/>
+</f></createBox>
+		<new public="1" set="method"><f a="?a:?b:?c:?d:?tx:?ty">
+	<c path="Float"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<e path="Void"/>
+</f></new>
 	</class>
 	<class path="EReg" params="" file="C:\Projects\haxe/std/EReg.hx">
 		<match public="1" set="method" line="45">
@@ -3686,341 +3674,108 @@
 	how to use them.
 </haxe_doc>
 	</class>
-	<class path="utest.ui.common.FixtureResult" params="" file="src/utest/ui/common/FixtureResult.hx">
-		<methodName public="1" set="null"><c path="String"/></methodName>
-		<hasTestError public="1" set="null"><e path="Bool"/></hasTestError>
-		<hasSetupError public="1" set="null"><e path="Bool"/></hasSetupError>
-		<hasTeardownError public="1" set="null"><e path="Bool"/></hasTeardownError>
-		<hasTimeoutError public="1" set="null"><e path="Bool"/></hasTimeoutError>
-		<hasAsyncError public="1" set="null"><e path="Bool"/></hasAsyncError>
-		<stats public="1" set="null"><c path="utest.ui.common.ResultStats"/></stats>
-		<list set="null"><c path="List"><e path="utest.Assertation"/></c></list>
-		<iterator public="1" set="method" line="31"><f a=""><t path="Iterator"><e path="utest.Assertation"/></t></f></iterator>
-		<add public="1" set="method" line="35"><f a="assertation">
-	<e path="utest.Assertation"/>
-	<e path="Void"/>
-</f></add>
-		<new public="1" set="method" line="19"><f a="methodName">
+	<class path="flash.filters.BitmapFilter" params="" file="C:\Projects\haxe/std/flash/filters/BitmapFilter.hx" extern="1"/>
+	<class path="flash.TextFormat" params="" file="C:\Projects\haxe/std/flash/TextFormat.hx" extern="1">
+		<font public="1"><c path="String"/></font>
+		<size public="1"><c path="Float"/></size>
+		<color public="1"><c path="Int"/></color>
+		<url public="1"><c path="String"/></url>
+		<target public="1"><c path="String"/></target>
+		<bold public="1"><e path="Bool"/></bold>
+		<italic public="1"><e path="Bool"/></italic>
+		<underline public="1"><e path="Bool"/></underline>
+		<align public="1"><c path="String"/></align>
+		<leftMargin public="1"><c path="Float"/></leftMargin>
+		<rightMargin public="1"><c path="Float"/></rightMargin>
+		<indent public="1"><c path="Float"/></indent>
+		<leading public="1"><c path="Float"/></leading>
+		<blockIndent public="1"><c path="Float"/></blockIndent>
+		<tabStops public="1"><c path="Array"><c path="Int"/></c></tabStops>
+		<bullet public="1"><e path="Bool"/></bullet>
+		<getTextExtent public="1" set="method"><f a="text:?width">
 	<c path="String"/>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
-</haxe_doc>
-	</class>
-	<enum path="utest._Dispatcher.EventException" params="" file="src/utest/Dispatcher.hx" private="1" module="utest.Dispatcher"><StopPropagation/></enum>
-	<class path="utest.Dispatcher" params="T" file="src/utest/Dispatcher.hx">
-		<stop public="1" set="method" line="50" static="1"><f a=""><e path="Void"/></f></stop>
-		<handlers><c path="Array"><f a="">
-	<c path="utest.Dispatcher.T"/>
-	<e path="Void"/>
-</f></c></handlers>
-		<add public="1" set="method" line="18"><f a="h">
-	<f a="">
-		<c path="utest.Dispatcher.T"/>
-		<e path="Void"/>
-	</f>
-	<f a="">
-		<c path="utest.Dispatcher.T"/>
-		<e path="Void"/>
-	</f>
-</f></add>
-		<remove public="1" set="method" line="23"><f a="h">
-	<f a="">
-		<c path="utest.Dispatcher.T"/>
-		<e path="Void"/>
-	</f>
-	<f a="">
-		<c path="utest.Dispatcher.T"/>
-		<e path="Void"/>
-	</f>
-</f></remove>
-		<clear public="1" set="method" line="30"><f a=""><e path="Void"/></f></clear>
-		<dispatch public="1" set="method" line="34"><f a="e">
-	<c path="utest.Dispatcher.T"/>
-	<e path="Bool"/>
-</f></dispatch>
-		<has public="1" set="method" line="46"><f a=""><e path="Bool"/></f></has>
-		<new public="1" set="method" line="14"><f a=""><e path="Void"/></f></new>
-		<haxe_doc>
-* @todo add documentation
-</haxe_doc>
-	</class>
-	<class path="utest.Notifier" params="" file="src/utest/Dispatcher.hx" module="utest.Dispatcher">
-		<stop public="1" set="method" line="95" static="1"><f a=""><e path="Void"/></f></stop>
-		<handlers><c path="Array"><f a=""><e path="Void"/></f></c></handlers>
-		<add public="1" set="method" line="63"><f a="h">
-	<f a=""><e path="Void"/></f>
-	<f a=""><e path="Void"/></f>
-</f></add>
-		<remove public="1" set="method" line="68"><f a="h">
-	<f a=""><e path="Void"/></f>
-	<f a=""><e path="Void"/></f>
-</f></remove>
-		<clear public="1" set="method" line="75"><f a=""><e path="Void"/></f></clear>
-		<dispatch public="1" set="method" line="79"><f a=""><e path="Bool"/></f></dispatch>
-		<has public="1" set="method" line="91"><f a=""><e path="Bool"/></f></has>
-		<new public="1" set="method" line="59"><f a=""><e path="Void"/></f></new>
-	</class>
-	<class path="flash.geom.Matrix" params="" file="C:\Projects\haxe/std/flash/geom/Matrix.hx" extern="1">
-		<a public="1"><c path="Float"/></a>
-		<b public="1"><c path="Float"/></b>
-		<c public="1"><c path="Float"/></c>
-		<d public="1"><c path="Float"/></d>
-		<tx public="1"><c path="Float"/></tx>
-		<ty public="1"><c path="Float"/></ty>
-		<transformPoint public="1" set="method"><f a="p">
-	<c path="flash.geom.Point"><c path="Float"/></c>
-	<c path="flash.geom.Point"><c path="Float"/></c>
-</f></transformPoint>
-		<deltaTransformPoint public="1" set="method"><f a="p">
-	<c path="flash.geom.Point"><c path="Float"/></c>
-	<c path="flash.geom.Point"><c path="Float"/></c>
-</f></deltaTransformPoint>
-		<toString public="1" set="method"><f a=""><c path="String"/></f></toString>
-		<scale public="1" set="method"><f a="sx:sy">
 	<c path="Float"/>
+	<d/>
+</f></getTextExtent>
+		<kerning public="1"><e path="Bool"/></kerning>
+		<letterSpacing public="1"><c path="Float"/></letterSpacing>
+		<display public="1"><c path="String"/></display>
+		<new public="1" set="method"><f a="?font:?size:?textColor:?bold:?italic:?underline:?url:?window:?align:?leftMargin:?rightMargin:?indent:?leading">
+	<c path="String"/>
 	<c path="Float"/>
-	<e path="Void"/>
-</f></scale>
-		<translate public="1" set="method"><f a="tx:ty">
-	<c path="Float"/>
-	<c path="Float"/>
-	<e path="Void"/>
-</f></translate>
-		<rotate public="1" set="method"><f a="r">
-	<c path="Float"/>
-	<e path="Void"/>
-</f></rotate>
-		<identity public="1" set="method"><f a=""><e path="Void"/></f></identity>
-		<invert public="1" set="method"><f a=""><e path="Void"/></f></invert>
-		<concat public="1" set="method"><f a="m">
-	<c path="flash.geom.Matrix"/>
-	<e path="Void"/>
-</f></concat>
-		<clone public="1" set="method"><f a=""><c path="flash.geom.Matrix"/></f></clone>
-		<createGradientBox public="1" set="method"><f a="width:height:?rot:?tx:?ty">
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="Float"/>
-	<e path="Void"/>
-</f></createGradientBox>
-		<createBox public="1" set="method"><f a="scalex:scaley:?rot:?tx:?ty">
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="Float"/>
-	<e path="Void"/>
-</f></createBox>
-		<new public="1" set="method"><f a="?a:?b:?c:?d:?tx:?ty">
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="Float"/>
-	<e path="Void"/>
-</f></new>
-	</class>
-	<typedef path="haxe.PosInfos" params="" file="C:\Projects\haxe/std/haxe/PosInfos.hx"><a>
-	<methodName><c path="String"/></methodName>
-	<lineNumber><c path="Int"/></lineNumber>
-	<fileName><c path="String"/></fileName>
-	<customParams><c path="Array"><d/></c></customParams>
-	<className><c path="String"/></className>
-</a></typedef>
-	<class path="utest.TestHandler" params="T" file="src/utest/TestHandler.hx">
-		<POLLING_TIME get="inline" set="null" line="9" static="1"><c path="Int"/></POLLING_TIME>
-		<exceptionStack set="method" line="42" static="1"><f a="?pops">
 	<c path="Int"/>
+	<e path="Bool"/>
+	<e path="Bool"/>
+	<e path="Bool"/>
+	<c path="String"/>
+	<c path="String"/>
+	<c path="String"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<e path="Void"/>
+</f></new>
+	</class>
+	<class path="utest.ui.text.PlainTextReport" params="" file="src/utest/ui/text/PlainTextReport.hx">
+		<implements path="utest.ui.common.IReport"><c path="utest.ui.text.PlainTextReport"/></implements>
+		<displaySuccessResults public="1"><e path="utest.ui.common.SuccessResultsDisplayMode"/></displaySuccessResults>
+		<displayHeader public="1"><e path="utest.ui.common.HeaderDisplayMode"/></displayHeader>
+		<handler public="1"><f a="">
+	<c path="utest.ui.text.PlainTextReport"/>
+	<e path="Void"/>
+</f></handler>
+		<aggregator><c path="utest.ui.common.ResultAggregator"/></aggregator>
+		<newline><c path="String"/></newline>
+		<indent><c path="String"/></indent>
+		<setHandler public="1" set="method" line="35"><f a="handler">
+	<f a="">
+		<c path="utest.ui.text.PlainTextReport"/>
+		<e path="Void"/>
+	</f>
+	<e path="Void"/>
+</f></setHandler>
+		<startTime><c path="Float"/></startTime>
+		<start set="method" line="41"><f a="e">
+	<c path="utest.Runner"/>
+	<e path="Void"/>
+</f></start>
+		<indents set="method" line="45"><f a="c">
+	<c path="Int"/>
+	<c path="String"/>
+</f></indents>
+		<dumpStack set="method" line="52"><f a="stack">
 	<c path="Array"><e path="haxe.StackItem"/></c>
-</f></exceptionStack>
-		<results public="1" set="null"><c path="List"><e path="utest.Assertation"/></c></results>
-		<fixture public="1" set="null"><c path="utest.TestFixture"><c path="utest.TestHandler.T"/></c></fixture>
-		<asyncStack><c path="List"><d/></c></asyncStack>
-		<onTested public="1" set="null"><c path="utest.Dispatcher"><c path="utest.TestHandler"><c path="utest.TestHandler.T"/></c></c></onTested>
-		<onTimeout public="1" set="null"><c path="utest.Dispatcher"><c path="utest.TestHandler"><c path="utest.TestHandler.T"/></c></c></onTimeout>
-		<onComplete public="1" set="null"><c path="utest.Dispatcher"><c path="utest.TestHandler"><c path="utest.TestHandler.T"/></c></c></onComplete>
-		<execute public="1" set="method" line="28"><f a=""><e path="Void"/></f></execute>
-		<checkTested set="method" line="52"><f a=""><e path="Void"/></f></checkTested>
-		<expireson public="1" set="null"><t path="Null"><c path="Float"/></t></expireson>
-		<setTimeout public="1" set="method" line="70"><f a="timeout">
-	<c path="Int"/>
-	<e path="Void"/>
-</f></setTimeout>
-		<bindHandler set="method" line="75"><f a=""><e path="Void"/></f></bindHandler>
-		<unbindHandler set="method" line="81"><f a=""><e path="Void"/></f></unbindHandler>
-		<addAsync public="1" set="method" line="111">
-			<f a="f:?timeout">
-				<f a=""><e path="Void"/></f>
-				<c path="Int"/>
-				<f a=""><e path="Void"/></f>
-			</f>
-			<haxe_doc><![CDATA[
-	* Adds a function that is called asynchronously.
-	*
-	* Example:
-	* <pre>
-	* var fixture = new TestFixture(new TestClass(), "test");
-	* var handler = new TestHandler(fixture);
-	* var flag = false;
-	* var async = handler.addAsync(function() {
-	*   flag = true;
-	* }, 50);
-	* handler.onTimeout.add(function(h) {
-	*   trace("TIMEOUT");
-	* });
-	* handler.onTested.add(function(h) {
-	*   trace(flag ? "OK" : "FAILED");
-	* });
-	* haxe.Timer.delay(function() async(), 10);
-	* handler.execute();
-	* </pre>
-	* @param	f, the function that is called asynchrnously
-	* @param	timeout, the maximum time to wait for f() (default is 250)
-	* @return	returns a function closure that must be executed asynchrnously
-	]]></haxe_doc>
-		</addAsync>
-		<addEvent public="1" params="EventArg" set="method" line="131"><f a="f:?timeout">
-	<f a="">
-		<c path="addEvent.EventArg"/>
-		<e path="Void"/>
-	</f>
-	<c path="Int"/>
-	<f a="e">
-		<c path="addEvent.EventArg"/>
-		<e path="Void"/>
-	</f>
-</f></addEvent>
-		<executeMethod set="method" line="149"><f a="name">
 	<c path="String"/>
+</f></dumpStack>
+		<addHeader set="method" line="67"><f a="buf:result">
+	<c path="StringBuf"/>
+	<c path="utest.ui.common.PackageResult"/>
 	<e path="Void"/>
-</f></executeMethod>
-		<tested set="method" line="155"><f a=""><e path="Void"/></f></tested>
-		<timeout set="method" line="162"><f a=""><e path="Void"/></f></timeout>
-		<completed set="method" line="168"><f a=""><e path="Void"/></f></completed>
-		<new public="1" set="method" line="18"><f a="fixture">
-	<c path="utest.TestFixture"><c path="utest.TestHandler.T"/></c>
+</f></addHeader>
+		<result><c path="utest.ui.common.PackageResult"/></result>
+		<getResults public="1" set="method" line="93"><f a=""><c path="String"/></f></getResults>
+		<complete set="method" line="154"><f a="result">
+	<c path="utest.ui.common.PackageResult"/>
+	<e path="Void"/>
+</f></complete>
+		<new public="1" set="method" line="25"><f a="runner:?outputHandler">
+	<c path="utest.Runner"/>
+	<f a="">
+		<c path="utest.ui.text.PlainTextReport"/>
+		<e path="Void"/>
+	</f>
 	<e path="Void"/>
 </f></new>
 		<haxe_doc>
 * @todo add documentation
 </haxe_doc>
 	</class>
-	<typedef path="haxe.io.BytesData" params="" file="C:\Projects\haxe/std/haxe/io/BytesData.hx"><c path="Array"><c path="Int"/></c></typedef>
-	<class path="flash.geom.Point" params="T" file="C:\Projects\haxe/std/flash/geom/Point.hx" extern="1">
-		<distance public="1" params="T" set="method" static="1"><f a="p1:p2">
-	<c path="flash.geom.Point"><c path="distance.T"/></c>
-	<c path="flash.geom.Point"><c path="distance.T"/></c>
-	<c path="distance.T"/>
-</f></distance>
-		<interpolate public="1" params="T" set="method" static="1"><f a="p1:p2:f">
-	<c path="flash.geom.Point"><c path="interpolate.T"/></c>
-	<c path="flash.geom.Point"><c path="interpolate.T"/></c>
-	<c path="interpolate.T"/>
-	<c path="flash.geom.Point"><c path="interpolate.T"/></c>
-</f></interpolate>
-		<polar public="1" params="T" set="method" static="1"><f a="dist:angle">
-	<c path="polar.T"/>
-	<c path="polar.T"/>
-	<c path="flash.geom.Point"><c path="polar.T"/></c>
-</f></polar>
-		<x public="1"><c path="flash.geom.Point.T"/></x>
-		<y public="1"><c path="flash.geom.Point.T"/></y>
-		<length public="1"><c path="Float"/></length>
-		<normalize public="1" set="method"><f a="length">
-	<c path="flash.geom.Point.T"/>
+	<class path="utest.MacroRunner" params="" file="src/utest/MacroRunner.hx"><addClass set="method" line="71" static="1"><f a="runner:testClass">
+	<c path="utest.Runner"/>
+	<c path="Class"><d/></c>
 	<e path="Void"/>
-</f></normalize>
-		<add public="1" set="method"><f a="p">
-	<c path="flash.geom.Point"><c path="flash.geom.Point.T"/></c>
-	<c path="flash.geom.Point"><c path="flash.geom.Point.T"/></c>
-</f></add>
-		<subtract public="1" set="method"><f a="p">
-	<c path="flash.geom.Point"><c path="flash.geom.Point.T"/></c>
-	<c path="flash.geom.Point"><c path="flash.geom.Point.T"/></c>
-</f></subtract>
-		<equals public="1" set="method"><f a="p">
-	<c path="flash.geom.Point"><c path="flash.geom.Point.T"/></c>
-	<e path="Bool"/>
-</f></equals>
-		<offset public="1" set="method"><f a="dx:dy">
-	<c path="flash.geom.Point.T"/>
-	<c path="flash.geom.Point.T"/>
-	<e path="Void"/>
-</f></offset>
-		<clone public="1" set="method"><f a=""><c path="flash.geom.Point"><c path="flash.geom.Point.T"/></c></f></clone>
-		<toString public="1" set="method"><f a=""><c path="String"/></f></toString>
-		<new public="1" set="method"><f a="x:y">
-	<c path="flash.geom.Point.T"/>
-	<c path="flash.geom.Point.T"/>
-	<e path="Void"/>
-</f></new>
-	</class>
-	<class path="flash.geom.Transform" params="" file="C:\Projects\haxe/std/flash/geom/Transform.hx" extern="1">
-		<matrix public="1"><c path="flash.geom.Matrix"/></matrix>
-		<concatenatedMatrix public="1"><c path="flash.geom.Matrix"/></concatenatedMatrix>
-		<colorTransform public="1"><c path="flash.geom.ColorTransform"/></colorTransform>
-		<concatenatedColorTransform public="1"><c path="flash.geom.ColorTransform"/></concatenatedColorTransform>
-		<pixelBounds public="1"><c path="flash.geom.Rectangle"><c path="Float"/></c></pixelBounds>
-		<new public="1" set="method"><f a="mc">
-	<c path="flash.MovieClip"/>
-	<e path="Void"/>
-</f></new>
-	</class>
-	<class path="flash.geom.ColorTransform" params="" file="C:\Projects\haxe/std/flash/geom/ColorTransform.hx" extern="1">
-		<rgb public="1"><c path="Float"/></rgb>
-		<blueOffset public="1"><c path="Float"/></blueOffset>
-		<greenOffset public="1"><c path="Float"/></greenOffset>
-		<redOffset public="1"><c path="Float"/></redOffset>
-		<alphaOffset public="1"><c path="Float"/></alphaOffset>
-		<blueMultiplier public="1"><c path="Float"/></blueMultiplier>
-		<greenMultiplier public="1"><c path="Float"/></greenMultiplier>
-		<redMultiplier public="1"><c path="Float"/></redMultiplier>
-		<alphaMultiplier public="1"><c path="Float"/></alphaMultiplier>
-		<toString public="1" set="method"><f a=""><c path="String"/></f></toString>
-		<concat public="1" set="method"><f a="c">
-	<c path="flash.geom.ColorTransform"/>
-	<e path="Void"/>
-</f></concat>
-		<new public="1" set="method"><f a="?rm:?gm:?bm:?am:?ro:?go:?bo:?ao">
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="Float"/>
-	<e path="Void"/>
-</f></new>
-	</class>
-	<class path="flash.external.ExternalInterface" params="" file="C:\Projects\haxe/std/flash/external/ExternalInterface.hx" extern="1">
-		<available public="1" static="1"><e path="Bool"/></available>
-		<marshallExceptions public="1" static="1"><e path="Bool"/></marshallExceptions>
-		<addCallback public="1" set="method" static="1"><f a="methodName:instance:method">
-	<c path="String"/>
-	<d/>
-	<d/>
-	<e path="Bool"/>
-</f></addCallback>
-		<call public="1" set="method" static="1"><f a="methodName:?p1:?p2:?p3:?p4:?p5:?p6:?p7:?p8:?p9">
-	<c path="String"/>
-	<d/>
-	<d/>
-	<d/>
-	<d/>
-	<d/>
-	<d/>
-	<d/>
-	<d/>
-	<d/>
-	<d/>
-</f></call>
-	</class>
+</f></addClass></class>
 	<class path="utest.TestFixture" params="T" file="src/utest/TestFixture.hx">
 		<target public="1" set="null"><c path="utest.TestFixture.T"/></target>
 		<method public="1" set="null"><c path="String"/></method>
@@ -4042,71 +3797,428 @@
 * @todo add documentation
 </haxe_doc>
 	</class>
-	<class path="Hash" params="T" file="C:\Projects\haxe/std/flash/_std/Hash.hx">
-		<h><d/></h>
-		<set public="1" set="method" line="34">
-			<f a="key:value">
+	<class path="utest.ui.text.PrintReport" params="" file="src/utest/ui/text/PrintReport.hx">
+		<extends path="utest.ui.text.PlainTextReport"/>
+		<useTrace><e path="Bool"/></useTrace>
+		<_handler set="method" line="57"><f a="report">
+	<c path="utest.ui.text.PlainTextReport"/>
+	<e path="Void"/>
+</f></_handler>
+		<_trace set="method" line="63"><f a="s">
+	<c path="String"/>
+	<e path="Void"/>
+</f></_trace>
+		<new public="1" set="method" line="51"><f a="runner">
+	<c path="utest.Runner"/>
+	<e path="Void"/>
+</f></new>
+		<haxe_doc>
+* @todo add documentation
+</haxe_doc>
+	</class>
+	<enum path="haxe.io.Error" params="" file="C:\Projects\haxe/std/haxe/io/Error.hx">
+		<Overflow><haxe_doc> An integer value is outside its allowed range </haxe_doc></Overflow>
+		<OutsideBounds><haxe_doc> An operation on Bytes is outside of its valid range </haxe_doc></OutsideBounds>
+		<Custom a="e">
+			<d/>
+			<haxe_doc> Other errors </haxe_doc>
+		</Custom>
+		<Blocked><haxe_doc> The IO is set into nonblocking mode and some data cannot be read or written </haxe_doc></Blocked>
+		<haxe_doc>
+	The possible IO errors that can occur
+</haxe_doc>
+	</enum>
+	<class path="flash.Boot" params="" file="C:\Projects\haxe/std/flash/Boot.hx">
+		<def_color line="29" static="1"><c path="Int"/></def_color>
+		<exception line="30" static="1"><unknown/></exception>
+		<__string_rec set="method" line="32" static="1"><f a="o:s">
+	<d/>
+	<c path="String"/>
+	<c path="String"/>
+</f></__string_rec>
+		<__closure set="method" line="97" static="1"><f a="f:o">
+	<c path="Int"/>
+	<c path="Array"><unknown/></c>
+	<f a=""><unknown/></f>
+</f></__closure>
+		<__instanceof set="method" line="126" static="1"><f a="o:cl">
+	<d/>
+	<e path="Bool"/>
+	<e path="Bool"/>
+</f></__instanceof>
+		<getTrace set="method" line="158" static="1"><f a=""><c path="flash.TextField"/></f></getTrace>
+		<__set_trace_color set="method" line="177" static="1"><f a="rgb">
+	<c path="Int"/>
+	<e path="Void"/>
+</f></__set_trace_color>
+		<__trace set="method" line="182" static="1"><f a="v:inf">
+	<c path="String"/>
+	<t path="haxe.PosInfos"/>
+	<e path="Void"/>
+</f></__trace>
+		<__exc set="method" line="197" static="1"><f a="v">
+	<unknown/>
+	<e path="Void"/>
+</f></__exc>
+		<__clear_trace set="method" line="212" static="1"><f a=""><e path="Void"/></f></__clear_trace>
+		<__init set="method" line="220" static="1"><f a="current">
+	<d/>
+	<e path="Void"/>
+</f></__init>
+	</class>
+	<class path="haxe.io.Bytes" params="" file="C:\Projects\haxe/std/haxe/io/Bytes.hx">
+		<alloc public="1" set="method" line="225" static="1"><f a="length">
+	<c path="Int"/>
+	<c path="haxe.io.Bytes"/>
+</f></alloc>
+		<ofString public="1" set="method" line="253" static="1"><f a="s">
+	<c path="String"/>
+	<c path="haxe.io.Bytes"/>
+</f></ofString>
+		<ofData public="1" set="method" line="292" static="1"><f a="b">
+	<t path="haxe.io.BytesData"/>
+	<c path="haxe.io.Bytes"/>
+</f></ofData>
+		<length public="1" set="null"><c path="Int"/></length>
+		<b><t path="haxe.io.BytesData"/></b>
+		<get public="1" get="inline" set="null" line="37"><f a="pos">
+	<c path="Int"/>
+	<c path="Int"/>
+</f></get>
+		<set public="1" get="inline" set="null" line="51"><f a="pos:v">
+	<c path="Int"/>
+	<c path="Int"/>
+	<e path="Void"/>
+</f></set>
+		<blit public="1" set="method" line="65"><f a="pos:src:srcpos:len">
+	<c path="Int"/>
+	<c path="haxe.io.Bytes"/>
+	<c path="Int"/>
+	<c path="Int"/>
+	<e path="Void"/>
+</f></blit>
+		<sub public="1" set="method" line="93"><f a="pos:len">
+	<c path="Int"/>
+	<c path="Int"/>
+	<c path="haxe.io.Bytes"/>
+</f></sub>
+		<compare public="1" set="method" line="112"><f a="other">
+	<c path="haxe.io.Bytes"/>
+	<c path="Int"/>
+</f></compare>
+		<readString public="1" set="method" line="148"><f a="pos:len">
+	<c path="Int"/>
+	<c path="Int"/>
+	<c path="String"/>
+</f></readString>
+		<toString public="1" set="method" line="192"><f a=""><c path="String"/></f></toString>
+		<toHex public="1" set="method" line="207"><f a=""><c path="String"/></f></toHex>
+		<getData public="1" get="inline" set="null" line="221"><f a=""><t path="haxe.io.BytesData"/></f></getData>
+		<new set="method" line="32"><f a="length:b">
+	<c path="Int"/>
+	<t path="haxe.io.BytesData"/>
+	<e path="Void"/>
+</f></new>
+	</class>
+	<class path="haxe.unit.TestResult" params="" file="C:\Projects\haxe/std/haxe/unit/TestResult.hx">
+		<m_tests><c path="List"><c path="haxe.unit.TestStatus"/></c></m_tests>
+		<success public="1" set="null"><e path="Bool"/></success>
+		<add public="1" set="method" line="37"><f a="t">
+	<c path="haxe.unit.TestStatus"/>
+	<e path="Void"/>
+</f></add>
+		<toString public="1" set="method" line="43"><f a=""><c path="String"/></f></toString>
+		<new public="1" set="method" line="32"><f a=""><e path="Void"/></f></new>
+	</class>
+	<class path="haxe.unit.TestCase" params="" file="C:\Projects\haxe/std/haxe/unit/TestCase.hx">
+		<implements path="haxe.Public"/>
+		<currentTest public="1"><c path="haxe.unit.TestStatus"/></currentTest>
+		<setup public="1" set="method" line="34"><f a=""><e path="Void"/></f></setup>
+		<tearDown public="1" set="method" line="37"><f a=""><e path="Void"/></f></tearDown>
+		<print public="1" set="method" line="40"><f a="v">
+	<d/>
+	<e path="Void"/>
+</f></print>
+		<assertTrue public="1" set="method" line="44"><f a="b:?c">
+	<e path="Bool"/>
+	<t path="haxe.PosInfos"/>
+	<e path="Void"/>
+</f></assertTrue>
+		<assertFalse public="1" set="method" line="54"><f a="b:?c">
+	<e path="Bool"/>
+	<t path="haxe.PosInfos"/>
+	<e path="Void"/>
+</f></assertFalse>
+		<assertEquals public="1" params="T" set="method" line="64"><f a="expected:actual:?c">
+	<c path="assertEquals.T"/>
+	<c path="assertEquals.T"/>
+	<t path="haxe.PosInfos"/>
+	<e path="Void"/>
+</f></assertEquals>
+		<new public="1" set="method" line="31"><f a=""><e path="Void"/></f></new>
+	</class>
+	<class path="Date" params="" file="C:\Projects\haxe/std/Date.hx" extern="1">
+		<now public="1" set="method" static="1">
+			<f a=""><c path="Date"/></f>
+			<haxe_doc>
+		Returns a Date representing the current local time.
+	</haxe_doc>
+		</now>
+		<fromTime public="1" set="method" static="1">
+			<f a="t">
+				<c path="Float"/>
+				<c path="Date"/>
+			</f>
+			<haxe_doc>
+		Returns a Date from a timestamp [t] which is the number of
+		milliseconds elapsed since 1st January 1970.
+	</haxe_doc>
+		</fromTime>
+		<fromString public="1" set="method" static="1">
+			<f a="s">
 				<c path="String"/>
-				<c path="Hash.T"/>
+				<c path="Date"/>
+			</f>
+			<haxe_doc>
+		Returns a Date from a formated string of one of the following formats :
+		[YYYY-MM-DD hh:mm:ss] or [YYYY-MM-DD] or [hh:mm:ss]. The first two formats
+		are expressed in local time, the third in UTC Epoch.
+	</haxe_doc>
+		</fromString>
+		<getTime public="1" set="method">
+			<f a=""><c path="Float"/></f>
+			<haxe_doc>
+		Returns the timestamp of the date. It's the number of milliseconds
+		elapsed since 1st January 1970. It might only have a per-second precision
+		depending on the platforms.
+	</haxe_doc>
+		</getTime>
+		<getHours public="1" set="method">
+			<f a=""><c path="Int"/></f>
+			<haxe_doc>
+		Returns the hours value of the date (0-23 range).
+	</haxe_doc>
+		</getHours>
+		<getMinutes public="1" set="method">
+			<f a=""><c path="Int"/></f>
+			<haxe_doc>
+		Returns the minutes value of the date (0-59 range).
+	</haxe_doc>
+		</getMinutes>
+		<getSeconds public="1" set="method">
+			<f a=""><c path="Int"/></f>
+			<haxe_doc>
+		Returns the seconds of the date (0-59 range).
+	</haxe_doc>
+		</getSeconds>
+		<getFullYear public="1" set="method">
+			<f a=""><c path="Int"/></f>
+			<haxe_doc>
+		Returns the full year of the date.
+	</haxe_doc>
+		</getFullYear>
+		<getMonth public="1" set="method">
+			<f a=""><c path="Int"/></f>
+			<haxe_doc>
+		Returns the month of the date (0-11 range).
+	</haxe_doc>
+		</getMonth>
+		<getDate public="1" set="method">
+			<f a=""><c path="Int"/></f>
+			<haxe_doc>
+		Returns the day of the date (1-31 range).
+	</haxe_doc>
+		</getDate>
+		<getDay public="1" set="method">
+			<f a=""><c path="Int"/></f>
+			<haxe_doc>
+		Returns the week day of the date (0-6 range).
+	</haxe_doc>
+		</getDay>
+		<toString public="1" set="method">
+			<f a=""><c path="String"/></f>
+			<haxe_doc>
+		Returns a string representation for the Date, by using the
+		standard format [YYYY-MM-DD HH:MM:SS]. See [DateTools.format] for
+		other formating rules.
+	</haxe_doc>
+		</toString>
+		<new public="1" set="method">
+			<f a="year:month:day:hour:min:sec">
+				<c path="Int"/>
+				<c path="Int"/>
+				<c path="Int"/>
+				<c path="Int"/>
+				<c path="Int"/>
+				<c path="Int"/>
 				<e path="Void"/>
 			</f>
 			<haxe_doc>
-		Set a value for the given key.
+		Creates a new date object.
 	</haxe_doc>
-		</set>
-		<get public="1" set="method" line="38">
-			<f a="key">
-				<c path="String"/>
-				<t path="Null"><c path="Hash.T"/></t>
-			</f>
-			<haxe_doc>
-		Get a value for the given key.
-	</haxe_doc>
-		</get>
-		<exists public="1" set="method" line="42">
-			<f a="key">
-				<c path="String"/>
-				<e path="Bool"/>
-			</f>
-			<haxe_doc>
-		Tells if a value exists for the given key.
-		In particular, it's useful to tells if a key has
-		a [null] value versus no value.
-	</haxe_doc>
-		</exists>
-		<remove public="1" set="method" line="46">
-			<f a="key">
-				<c path="String"/>
-				<e path="Bool"/>
-			</f>
-			<haxe_doc>
-		Removes a hashtable entry. Returns [true] if
-		there was such entry.
-	</haxe_doc>
-		</remove>
-		<keys public="1" set="method" line="53">
-			<f a=""><t path="Iterator"><c path="String"/></t></f>
-			<haxe_doc>
-		Returns an iterator of all keys in the hashtable.
-	</haxe_doc>
-		</keys>
-		<iterator public="1" set="method" line="57">
-			<f a=""><t path="Iterator"><c path="Hash.T"/></t></f>
-			<haxe_doc>
-		Returns an iterator of all values in the hashtable.
-	</haxe_doc>
-		</iterator>
-		<toString public="1" set="method" line="66">
-			<f a=""><c path="String"/></f>
-			<haxe_doc>
-		Returns an displayable representation of the hashtable content.
-	</haxe_doc>
-		</toString>
-		<new public="1" set="method" line="30"><f a=""><e path="Void"/></f></new>
+		</new>
 		<haxe_doc>
-	Hashtable over a set of elements, using [String] as keys.
-	Other kind of keys are not possible on all platforms since they
-	can't always be implemented efficiently.
+	The Date class is used for date manipulation. There is some extra functions
+	available in the [DateTools] class.
+</haxe_doc>
+	</class>
+	<class path="StringTools" params="" file="C:\Projects\haxe/std/StringTools.hx">
+		<urlEncode public="1" set="method" line="38" static="1">
+			<f a="s">
+				<c path="String"/>
+				<c path="String"/>
+			</f>
+			<haxe_doc>
+		Encode an URL by using the standard format.
+	</haxe_doc>
+		</urlEncode>
+		<urlDecode public="1" set="method" line="59" static="1">
+			<f a="s">
+				<c path="String"/>
+				<c path="String"/>
+			</f>
+			<haxe_doc>
+		Decode an URL using the standard format.
+	</haxe_doc>
+		</urlDecode>
+		<htmlEscape public="1" set="method" line="80" static="1">
+			<f a="s">
+				<c path="String"/>
+				<c path="String"/>
+			</f>
+			<haxe_doc>
+		Escape HTML special characters of the string.
+	</haxe_doc>
+		</htmlEscape>
+		<htmlUnescape public="1" set="method" line="87" static="1">
+			<f a="s">
+				<c path="String"/>
+				<c path="String"/>
+			</f>
+			<haxe_doc>
+		Unescape HTML special characters of the string.
+	</haxe_doc>
+		</htmlUnescape>
+		<startsWith public="1" set="method" line="98" static="1">
+			<f a="s:start">
+				<c path="String"/>
+				<c path="String"/>
+				<e path="Bool"/>
+			</f>
+			<haxe_doc>
+		Tells if the string [s] starts with the string [start].
+	</haxe_doc>
+		</startsWith>
+		<endsWith public="1" set="method" line="105" static="1">
+			<f a="s:end">
+				<c path="String"/>
+				<c path="String"/>
+				<e path="Bool"/>
+			</f>
+			<haxe_doc>
+		Tells if the string [s] ends with the string [end].
+	</haxe_doc>
+		</endsWith>
+		<isSpace public="1" set="method" line="114" static="1">
+			<f a="s:pos">
+				<c path="String"/>
+				<c path="Int"/>
+				<e path="Bool"/>
+			</f>
+			<haxe_doc>
+		Tells if the character in the string [s] at position [pos] is a space.
+	</haxe_doc>
+		</isSpace>
+		<ltrim public="1" set="method" line="122" static="1">
+			<f a="s">
+				<c path="String"/>
+				<c path="String"/>
+			</f>
+			<haxe_doc>
+		Removes spaces at the left of the String [s].
+	</haxe_doc>
+		</ltrim>
+		<rtrim public="1" set="method" line="141" static="1">
+			<f a="s">
+				<c path="String"/>
+				<c path="String"/>
+			</f>
+			<haxe_doc>
+		Removes spaces at the right of the String [s].
+	</haxe_doc>
+		</rtrim>
+		<trim public="1" set="method" line="161" static="1">
+			<f a="s">
+				<c path="String"/>
+				<c path="String"/>
+			</f>
+			<haxe_doc>
+		Removes spaces at the beginning and the end of the String [s].
+	</haxe_doc>
+		</trim>
+		<rpad public="1" set="method" line="172" static="1">
+			<f a="s:c:l">
+				<c path="String"/>
+				<c path="String"/>
+				<c path="Int"/>
+				<c path="String"/>
+			</f>
+			<haxe_doc>
+		Pad the string [s] by appending [c] at its right until it reach [l] characters.
+	</haxe_doc>
+		</rpad>
+		<lpad public="1" set="method" line="194" static="1">
+			<f a="s:c:l">
+				<c path="String"/>
+				<c path="String"/>
+				<c path="Int"/>
+				<c path="String"/>
+			</f>
+			<haxe_doc>
+		Pad the string [s] by appending [c] at its left until it reach [l] characters.
+	</haxe_doc>
+		</lpad>
+		<replace public="1" set="method" line="219" static="1">
+			<f a="s:sub:by">
+				<c path="String"/>
+				<c path="String"/>
+				<c path="String"/>
+				<c path="String"/>
+			</f>
+			<haxe_doc>
+		Replace all occurences of the string [sub] in the string [s] by the string [by].
+	</haxe_doc>
+		</replace>
+		<hex public="1" set="method" line="230" static="1">
+			<f a="n:?digits">
+				<c path="Int"/>
+				<c path="Int"/>
+				<c path="String"/>
+			</f>
+			<haxe_doc>
+		Encode a number into a hexadecimal representation, with an optional number of zeros for left padding.
+	</haxe_doc>
+		</hex>
+		<fastCodeAt public="1" get="inline" set="null" line="253" static="1">
+			<f a="s:index">
+				<c path="String"/>
+				<c path="Int"/>
+				<c path="Int"/>
+			</f>
+			<haxe_doc>
+		Provides a fast native string charCodeAt access. Since the EOF value might vary depending on the platforms, always test with StringTools.isEOF.
+		Only guaranteed to work if index in [0,s.length] range. Might not work with strings containing \0 char.
+	</haxe_doc>
+		</fastCodeAt>
+		<isEOF public="1" get="inline" set="null" line="270" static="1"><f a="c">
+	<c path="Int"/>
+	<e path="Bool"/>
+</f></isEOF>
+		<haxe_doc>
+	The StringTools class contains some extra functionalities for [String]
+	manipulation. It's stored in a different class in order to prevent
+	the standard [String] of being bloated and thus increasing the size of
+	each application using it.
 </haxe_doc>
 	</class>
 </haxe>

@@ -1,5 +1,6 @@
 package utest.ui.macro;
 
+#if macro
 import haxe.macro.Context;
 import neko.Lib;
 import haxe.Stack;
@@ -100,3 +101,4 @@ class MacroReport
 		trace("uTest results: " + totalTests + " tests run, " + failedTests + " failed, " + testWarnings + " warnings. Execution time: " + time + "ms.");
 	}	
 }
+#end

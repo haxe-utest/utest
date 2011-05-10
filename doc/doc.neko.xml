@@ -292,6 +292,84 @@
 	<unknown/>
 </f></__unserialize>
 	</class>
+	<class path="neko.Sys" params="" file="C:\Projects\haxe/std/neko/Sys.hx">
+		<args public="1" set="method" line="29" static="1"><f a=""><c path="Array"><c path="String"/></c></f></args>
+		<getEnv public="1" set="method" line="44" static="1"><f a="s">
+	<c path="String"/>
+	<c path="String"/>
+</f></getEnv>
+		<putEnv public="1" set="method" line="51" static="1"><f a="s:v">
+	<c path="String"/>
+	<c path="String"/>
+	<e path="Void"/>
+</f></putEnv>
+		<sleep public="1" set="method" line="55" static="1"><f a="seconds">
+	<c path="Float"/>
+	<e path="Void"/>
+</f></sleep>
+		<setTimeLocale public="1" set="method" line="59" static="1"><f a="loc">
+	<c path="String"/>
+	<e path="Bool"/>
+</f></setTimeLocale>
+		<getCwd public="1" set="method" line="63" static="1"><f a=""><c path="String"/></f></getCwd>
+		<setCwd public="1" set="method" line="67" static="1"><f a="s">
+	<c path="String"/>
+	<e path="Void"/>
+</f></setCwd>
+		<systemName public="1" set="method" line="71" static="1"><f a=""><c path="String"/></f></systemName>
+		<escapeArgument public="1" set="method" line="75" static="1"><f a="arg">
+	<c path="String"/>
+	<c path="String"/>
+</f></escapeArgument>
+		<command public="1" set="method" line="89" static="1"><f a="cmd:?args">
+	<c path="String"/>
+	<c path="Array"><c path="String"/></c>
+	<c path="Int"/>
+</f></command>
+		<exit public="1" set="method" line="98" static="1"><f a="code">
+	<c path="Int"/>
+	<e path="Void"/>
+</f></exit>
+		<time public="1" set="method" line="102" static="1"><f a=""><c path="Float"/></f></time>
+		<cpuTime public="1" set="method" line="106" static="1"><f a=""><c path="Float"/></f></cpuTime>
+		<executablePath public="1" set="method" line="110" static="1"><f a=""><c path="String"/></f></executablePath>
+		<environment public="1" set="method" line="114" static="1"><f a=""><c path="Hash"><c path="String"/></c></f></environment>
+		<get_env line="124" static="1"><f a="">
+	<unknown/>
+	<c path="String"/>
+</f></get_env>
+		<put_env line="125" static="1"><f a=":">
+	<unknown/>
+	<unknown/>
+	<unknown/>
+</f></put_env>
+		<_sleep line="126" static="1"><f a="">
+	<c path="Float"/>
+	<unknown/>
+</f></_sleep>
+		<set_time_locale line="127" static="1"><f a="">
+	<unknown/>
+	<e path="Bool"/>
+</f></set_time_locale>
+		<get_cwd line="128" static="1"><f a=""><c path="String"/></f></get_cwd>
+		<set_cwd line="129" static="1"><f a="">
+	<unknown/>
+	<unknown/>
+</f></set_cwd>
+		<sys_string line="130" static="1"><f a=""><c path="String"/></f></sys_string>
+		<sys_command line="131" static="1"><f a="">
+	<unknown/>
+	<c path="Int"/>
+</f></sys_command>
+		<sys_exit line="132" static="1"><f a="">
+	<c path="Int"/>
+	<unknown/>
+</f></sys_exit>
+		<sys_time line="133" static="1"><f a=""><c path="Float"/></f></sys_time>
+		<sys_cpu_time line="134" static="1"><f a=""><c path="Float"/></f></sys_cpu_time>
+		<sys_exe_path line="135" static="1"><f a=""><c path="String"/></f></sys_exe_path>
+		<sys_env line="136" static="1"><f a=""><c path="Array"><d/></c></f></sys_env>
+	</class>
 	<class path="StringTools" params="" file="C:\Projects\haxe/std/StringTools.hx">
 		<urlEncode public="1" set="method" line="38" static="1">
 			<f a="s">
@@ -459,84 +537,6 @@
 	each application using it.
 </haxe_doc>
 	</class>
-	<class path="neko.Sys" params="" file="C:\Projects\haxe/std/neko/Sys.hx">
-		<args public="1" set="method" line="29" static="1"><f a=""><c path="Array"><c path="String"/></c></f></args>
-		<getEnv public="1" set="method" line="44" static="1"><f a="s">
-	<c path="String"/>
-	<c path="String"/>
-</f></getEnv>
-		<putEnv public="1" set="method" line="51" static="1"><f a="s:v">
-	<c path="String"/>
-	<c path="String"/>
-	<e path="Void"/>
-</f></putEnv>
-		<sleep public="1" set="method" line="55" static="1"><f a="seconds">
-	<c path="Float"/>
-	<e path="Void"/>
-</f></sleep>
-		<setTimeLocale public="1" set="method" line="59" static="1"><f a="loc">
-	<c path="String"/>
-	<e path="Bool"/>
-</f></setTimeLocale>
-		<getCwd public="1" set="method" line="63" static="1"><f a=""><c path="String"/></f></getCwd>
-		<setCwd public="1" set="method" line="67" static="1"><f a="s">
-	<c path="String"/>
-	<e path="Void"/>
-</f></setCwd>
-		<systemName public="1" set="method" line="71" static="1"><f a=""><c path="String"/></f></systemName>
-		<escapeArgument public="1" set="method" line="75" static="1"><f a="arg">
-	<c path="String"/>
-	<c path="String"/>
-</f></escapeArgument>
-		<command public="1" set="method" line="89" static="1"><f a="cmd:?args">
-	<c path="String"/>
-	<c path="Array"><c path="String"/></c>
-	<c path="Int"/>
-</f></command>
-		<exit public="1" set="method" line="98" static="1"><f a="code">
-	<c path="Int"/>
-	<e path="Void"/>
-</f></exit>
-		<time public="1" set="method" line="102" static="1"><f a=""><c path="Float"/></f></time>
-		<cpuTime public="1" set="method" line="106" static="1"><f a=""><c path="Float"/></f></cpuTime>
-		<executablePath public="1" set="method" line="110" static="1"><f a=""><c path="String"/></f></executablePath>
-		<environment public="1" set="method" line="114" static="1"><f a=""><c path="Hash"><c path="String"/></c></f></environment>
-		<get_env line="124" static="1"><f a="">
-	<unknown/>
-	<c path="String"/>
-</f></get_env>
-		<put_env line="125" static="1"><f a=":">
-	<unknown/>
-	<unknown/>
-	<unknown/>
-</f></put_env>
-		<_sleep line="126" static="1"><f a="">
-	<c path="Float"/>
-	<unknown/>
-</f></_sleep>
-		<set_time_locale line="127" static="1"><f a="">
-	<unknown/>
-	<e path="Bool"/>
-</f></set_time_locale>
-		<get_cwd line="128" static="1"><f a=""><c path="String"/></f></get_cwd>
-		<set_cwd line="129" static="1"><f a="">
-	<unknown/>
-	<unknown/>
-</f></set_cwd>
-		<sys_string line="130" static="1"><f a=""><c path="String"/></f></sys_string>
-		<sys_command line="131" static="1"><f a="">
-	<unknown/>
-	<c path="Int"/>
-</f></sys_command>
-		<sys_exit line="132" static="1"><f a="">
-	<c path="Int"/>
-	<unknown/>
-</f></sys_exit>
-		<sys_time line="133" static="1"><f a=""><c path="Float"/></f></sys_time>
-		<sys_cpu_time line="134" static="1"><f a=""><c path="Float"/></f></sys_cpu_time>
-		<sys_exe_path line="135" static="1"><f a=""><c path="String"/></f></sys_exe_path>
-		<sys_env line="136" static="1"><f a=""><c path="Array"><d/></c></f></sys_env>
-	</class>
 	<class path="utest.ui.common.IReport" params="T" file="src/utest/ui/common/IReport.hx" interface="1">
 		<displaySuccessResults public="1"><e path="utest.ui.common.SuccessResultsDisplayMode"/></displaySuccessResults>
 		<displayHeader public="1"><e path="utest.ui.common.HeaderDisplayMode"/></displayHeader>
@@ -601,6 +601,16 @@
 		<haxe_doc>
 * @todo add documentation
 </haxe_doc>
+	</class>
+	<class path="haxe.unit.TestResult" params="" file="C:\Projects\haxe/std/haxe/unit/TestResult.hx">
+		<m_tests><c path="List"><c path="haxe.unit.TestStatus"/></c></m_tests>
+		<success public="1" set="null"><e path="Bool"/></success>
+		<add public="1" set="method" line="37"><f a="t">
+	<c path="haxe.unit.TestStatus"/>
+	<e path="Void"/>
+</f></add>
+		<toString public="1" set="method" line="43"><f a=""><c path="String"/></f></toString>
+		<new public="1" set="method" line="32"><f a=""><e path="Void"/></f></new>
 	</class>
 	<class path="Reflect" params="" file="C:\Projects\haxe/std/neko/_std/Reflect.hx">
 		<hasField public="1" set="method" line="28" static="1">
@@ -1157,29 +1167,36 @@
 	<e path="utest.ui.common.HeaderDisplayMode"/>
 	<c path="utest.ui.common.IReport"><d/></c>
 </f></create></class>
-	<class path="utest.ui.text.PrintReport" params="" file="src/utest/ui/text/PrintReport.hx">
-		<extends path="utest.ui.text.PlainTextReport"/>
-		<useTrace><e path="Bool"/></useTrace>
-		<_handler set="method" line="43"><f a="report">
-	<c path="utest.ui.text.PlainTextReport"/>
+	<class path="haxe.Public" params="" file="C:\Projects\haxe/std/haxe/Public.hx" interface="1"><haxe_doc>
+	When implementing this interface, all default fields access for the class and
+	subclasses becomes [public] instead of [private].
+</haxe_doc></class>
+	<class path="haxe.unit.TestCase" params="" file="C:\Projects\haxe/std/haxe/unit/TestCase.hx">
+		<implements path="haxe.Public"/>
+		<currentTest public="1"><c path="haxe.unit.TestStatus"/></currentTest>
+		<setup public="1" set="method" line="34"><f a=""><e path="Void"/></f></setup>
+		<tearDown public="1" set="method" line="37"><f a=""><e path="Void"/></f></tearDown>
+		<print public="1" set="method" line="40"><f a="v">
+	<d/>
 	<e path="Void"/>
-</f></_handler>
-		<_trace set="method" line="63"><f a="s">
-	<c path="String"/>
-	<e path="Void"/>
-</f></_trace>
-		<_print set="method" line="69"><f a="s">
-	<c path="String"/>
-	<e path="Void"/>
-</f></_print>
-		<new public="1" set="method" line="25"><f a="runner:?useTrace">
-	<c path="utest.Runner"/>
+</f></print>
+		<assertTrue public="1" set="method" line="44"><f a="b:?c">
 	<e path="Bool"/>
+	<t path="haxe.PosInfos"/>
 	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
-</haxe_doc>
+</f></assertTrue>
+		<assertFalse public="1" set="method" line="54"><f a="b:?c">
+	<e path="Bool"/>
+	<t path="haxe.PosInfos"/>
+	<e path="Void"/>
+</f></assertFalse>
+		<assertEquals public="1" params="T" set="method" line="64"><f a="expected:actual:?c">
+	<c path="assertEquals.T"/>
+	<c path="assertEquals.T"/>
+	<t path="haxe.PosInfos"/>
+	<e path="Void"/>
+</f></assertEquals>
+		<new public="1" set="method" line="31"><f a=""><e path="Void"/></f></new>
 	</class>
 	<class path="utest.ui.text.HtmlReport" params="" file="src/utest/ui/text/HtmlReport.hx">
 		<implements path="utest.ui.common.IReport"><c path="utest.ui.text.HtmlReport"/></implements>
@@ -1309,6 +1326,30 @@
 		<c path="utest.ui.text.HtmlReport"/>
 		<e path="Void"/>
 	</f>
+	<e path="Bool"/>
+	<e path="Void"/>
+</f></new>
+		<haxe_doc>
+* @todo add documentation
+</haxe_doc>
+	</class>
+	<class path="utest.ui.text.PrintReport" params="" file="src/utest/ui/text/PrintReport.hx">
+		<extends path="utest.ui.text.PlainTextReport"/>
+		<useTrace><e path="Bool"/></useTrace>
+		<_handler set="method" line="43"><f a="report">
+	<c path="utest.ui.text.PlainTextReport"/>
+	<e path="Void"/>
+</f></_handler>
+		<_trace set="method" line="63"><f a="s">
+	<c path="String"/>
+	<e path="Void"/>
+</f></_trace>
+		<_print set="method" line="69"><f a="s">
+	<c path="String"/>
+	<e path="Void"/>
+</f></_print>
+		<new public="1" set="method" line="25"><f a="runner:?useTrace">
+	<c path="utest.Runner"/>
 	<e path="Bool"/>
 	<e path="Void"/>
 </f></new>
@@ -1776,6 +1817,19 @@
 	Integer iterator. Used for interval implementation.
 </haxe_doc>
 	</class>
+	<class path="haxe.Timer" params="" file="C:\Projects\haxe/std/haxe/Timer.hx">
+		<measure public="1" params="T" set="method" line="87" static="1"><f a="f:?pos">
+	<f a=""><c path="measure.T"/></f>
+	<t path="haxe.PosInfos"/>
+	<c path="measure.T"/>
+</f></measure>
+		<stamp public="1" set="method" line="97" static="1">
+			<f a=""><c path="Float"/></f>
+			<haxe_doc>
+		Returns a timestamp, in seconds
+	</haxe_doc>
+		</stamp>
+	</class>
 	<class path="utest.Runner" params="" file="src/utest/Runner.hx">
 		<fixtures set="null"><c path="Array"><c path="utest.TestFixture"><d/></c></c></fixtures>
 		<onProgress public="1" set="null">
@@ -1859,19 +1913,6 @@
 * @todo AVOID CHAINING METHODS (long chains do not work properly on IE)
 </haxe_doc>
 	</class>
-	<class path="haxe.Timer" params="" file="C:\Projects\haxe/std/haxe/Timer.hx">
-		<measure public="1" params="T" set="method" line="87" static="1"><f a="f:?pos">
-	<f a=""><c path="measure.T"/></f>
-	<t path="haxe.PosInfos"/>
-	<c path="measure.T"/>
-</f></measure>
-		<stamp public="1" set="method" line="97" static="1">
-			<f a=""><c path="Float"/></f>
-			<haxe_doc>
-		Returns a timestamp, in seconds
-	</haxe_doc>
-		</stamp>
-	</class>
 	<enum path="haxe.io.Error" params="" file="C:\Projects\haxe/std/haxe/io/Error.hx">
 		<Overflow><haxe_doc> An integer value is outside its allowed range </haxe_doc></Overflow>
 		<OutsideBounds><haxe_doc> An operation on Bytes is outside of its valid range </haxe_doc></OutsideBounds>
@@ -1884,6 +1925,134 @@
 	The possible IO errors that can occur
 </haxe_doc>
 	</enum>
+	<class path="Float" params="" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes" extern="1"><haxe_doc>
+	The standard Float type, this is a double-precision IEEE 64bit float.
+</haxe_doc></class>
+	<class path="Int" params="" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes" extern="1">
+		<extends path="Float"/>
+		<haxe_doc>
+	The standard Int type. Its precision depends on the platform.
+</haxe_doc>
+	</class>
+	<enum path="Bool" params="" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes">
+		<true/>
+		<false/>
+		<haxe_doc>
+	The standard Boolean type is represented as an enum with two choices.
+</haxe_doc>
+	</enum>
+	<class path="Dynamic" params="T" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes" extern="1"><haxe_doc>
+	Dynamic is an internal compiler type which has special behavior.
+	See the haXe language reference for more informations.
+</haxe_doc></class>
+	<class path="Class" params="T" file="C:\Projects\haxe/std/Class.hx" extern="1"><haxe_doc>
+	An abstract type that represents a Class.
+	See [Type] for the haXe Reflection API.
+</haxe_doc></class>
+	<enum path="Void" params="" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes"><haxe_doc>
+	The standard Void type. Only [null] values can be of the type [Void].
+</haxe_doc></enum>
+	<class path="neko.Boot" params="" file="C:\Projects\haxe/std/neko/Boot.hx">
+		<__tmp_str set="method" line="29" static="1"><f a=""><c path="String"/></f></__tmp_str>
+		<__enum_str set="method" line="33" static="1"><f a="e">
+	<d/>
+	<c path="String"/>
+</f></__enum_str>
+		<__interfLoop set="method" line="55" static="1"><f a="cc:cl">
+	<d/>
+	<d/>
+	<e path="Bool"/>
+</f></__interfLoop>
+		<__instanceof set="method" line="70" static="1"><f a="o:cl">
+	<a>
+		<__name__ set="null"><unknown/></__name__>
+		<__enum__ set="null"><t path="#Dynamic"/></__enum__>
+		<__ename__ set="null"><unknown/></__ename__>
+		<__class__ set="null"><unknown/></__class__>
+	</a>
+	<t path="#Dynamic"/>
+	<e path="Bool"/>
+</f></__instanceof>
+		<__serialize set="method" line="88" static="1"><f a="o">
+	<a>
+		<__enum__ set="null"><a><__ename__ set="null"><a><length set="null"><c path="Int"/></length></a></__ename__></a></__enum__>
+		<__class__ set="null"><a><__name__ set="null"><a><length set="null"><c path="Int"/></length></a></__name__></a></__class__>
+	</a>
+	<c path="Array"><unknown/></c>
+</f></__serialize>
+		<__tagserialize set="method" line="108" static="1"><f a="o">
+	<a>
+		<tag set="null"><unknown/></tag>
+		<__enum__ set="null"><a><__ename__ set="null"><a><length set="null"><c path="Int"/></length></a></__ename__></a></__enum__>
+	</a>
+	<c path="Array"><unknown/></c>
+</f></__tagserialize>
+		<__unserialize set="method" line="117" static="1"><f a="v">
+	<c path="Array"><unknown/></c>
+	<unknown/>
+</f></__unserialize>
+		<__init set="method" line="140" static="1"><f a=""><e path="Void"/></f></__init>
+	</class>
+	<class path="Std" params="" file="C:\Projects\haxe/std/neko/_std/Std.hx">
+		<is public="1" set="method" line="28" static="1">
+			<f a="v:t">
+				<d/>
+				<d/>
+				<e path="Bool"/>
+			</f>
+			<haxe_doc>
+		Tells if a value v is of the type t.
+	</haxe_doc>
+		</is>
+		<string public="1" set="method" line="32" static="1">
+			<f a="s">
+				<d/>
+				<c path="String"/>
+			</f>
+			<haxe_doc>
+		Convert any value to a String
+	</haxe_doc>
+		</string>
+		<int public="1" set="method" line="36" static="1">
+			<f a="x">
+				<c path="Float"/>
+				<c path="Int"/>
+			</f>
+			<haxe_doc>
+		Convert a Float to an Int, rounded down.
+	</haxe_doc>
+		</int>
+		<parseInt public="1" set="method" line="41" static="1">
+			<f a="x">
+				<c path="String"/>
+				<t path="Null"><c path="Int"/></t>
+			</f>
+			<haxe_doc>
+		Convert a String to an Int, parsing different possible representations. Returns [null] if could not be parsed.
+	</haxe_doc>
+		</parseInt>
+		<parseFloat public="1" set="method" line="52" static="1">
+			<f a="x">
+				<c path="String"/>
+				<c path="Float"/>
+			</f>
+			<haxe_doc>
+		Convert a String to a Float, parsing different possible reprensations.
+	</haxe_doc>
+		</parseFloat>
+		<random public="1" set="method" line="59" static="1">
+			<f a="x">
+				<c path="Int"/>
+				<c path="Int"/>
+			</f>
+			<haxe_doc>
+		Return a random integer between 0 included and x excluded.
+	</haxe_doc>
+		</random>
+		<haxe_doc>
+	The Std class provides standard methods for manipulating basic types.
+</haxe_doc>
+	</class>
 	<class path="String" params="" file="C:\Projects\haxe/std/neko/_std/String.hx">
 		<__is_String static="1"><e path="Bool"/></__is_String>
 		<__split line="29" static="1"><d/></__split>
@@ -2233,134 +2402,6 @@
 		<haxe_doc>
 	This class is used for accessing the local Web server and the current
 	client request and informations.
-</haxe_doc>
-	</class>
-	<class path="Float" params="" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes" extern="1"><haxe_doc>
-	The standard Float type, this is a double-precision IEEE 64bit float.
-</haxe_doc></class>
-	<class path="Int" params="" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes" extern="1">
-		<extends path="Float"/>
-		<haxe_doc>
-	The standard Int type. Its precision depends on the platform.
-</haxe_doc>
-	</class>
-	<enum path="Bool" params="" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes">
-		<true/>
-		<false/>
-		<haxe_doc>
-	The standard Boolean type is represented as an enum with two choices.
-</haxe_doc>
-	</enum>
-	<class path="Dynamic" params="T" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes" extern="1"><haxe_doc>
-	Dynamic is an internal compiler type which has special behavior.
-	See the haXe language reference for more informations.
-</haxe_doc></class>
-	<class path="Class" params="T" file="C:\Projects\haxe/std/Class.hx" extern="1"><haxe_doc>
-	An abstract type that represents a Class.
-	See [Type] for the haXe Reflection API.
-</haxe_doc></class>
-	<enum path="Void" params="" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes"><haxe_doc>
-	The standard Void type. Only [null] values can be of the type [Void].
-</haxe_doc></enum>
-	<class path="neko.Boot" params="" file="C:\Projects\haxe/std/neko/Boot.hx">
-		<__tmp_str set="method" line="29" static="1"><f a=""><c path="String"/></f></__tmp_str>
-		<__enum_str set="method" line="33" static="1"><f a="e">
-	<d/>
-	<c path="String"/>
-</f></__enum_str>
-		<__interfLoop set="method" line="55" static="1"><f a="cc:cl">
-	<d/>
-	<d/>
-	<e path="Bool"/>
-</f></__interfLoop>
-		<__instanceof set="method" line="70" static="1"><f a="o:cl">
-	<a>
-		<__name__ set="null"><unknown/></__name__>
-		<__enum__ set="null"><t path="#Dynamic"/></__enum__>
-		<__ename__ set="null"><unknown/></__ename__>
-		<__class__ set="null"><unknown/></__class__>
-	</a>
-	<t path="#Dynamic"/>
-	<e path="Bool"/>
-</f></__instanceof>
-		<__serialize set="method" line="88" static="1"><f a="o">
-	<a>
-		<__enum__ set="null"><a><__ename__ set="null"><a><length set="null"><c path="Int"/></length></a></__ename__></a></__enum__>
-		<__class__ set="null"><a><__name__ set="null"><a><length set="null"><c path="Int"/></length></a></__name__></a></__class__>
-	</a>
-	<c path="Array"><unknown/></c>
-</f></__serialize>
-		<__tagserialize set="method" line="108" static="1"><f a="o">
-	<a>
-		<tag set="null"><unknown/></tag>
-		<__enum__ set="null"><a><__ename__ set="null"><a><length set="null"><c path="Int"/></length></a></__ename__></a></__enum__>
-	</a>
-	<c path="Array"><unknown/></c>
-</f></__tagserialize>
-		<__unserialize set="method" line="117" static="1"><f a="v">
-	<c path="Array"><unknown/></c>
-	<unknown/>
-</f></__unserialize>
-		<__init set="method" line="140" static="1"><f a=""><e path="Void"/></f></__init>
-	</class>
-	<class path="Std" params="" file="C:\Projects\haxe/std/neko/_std/Std.hx">
-		<is public="1" set="method" line="28" static="1">
-			<f a="v:t">
-				<d/>
-				<d/>
-				<e path="Bool"/>
-			</f>
-			<haxe_doc>
-		Tells if a value v is of the type t.
-	</haxe_doc>
-		</is>
-		<string public="1" set="method" line="32" static="1">
-			<f a="s">
-				<d/>
-				<c path="String"/>
-			</f>
-			<haxe_doc>
-		Convert any value to a String
-	</haxe_doc>
-		</string>
-		<int public="1" set="method" line="36" static="1">
-			<f a="x">
-				<c path="Float"/>
-				<c path="Int"/>
-			</f>
-			<haxe_doc>
-		Convert a Float to an Int, rounded down.
-	</haxe_doc>
-		</int>
-		<parseInt public="1" set="method" line="41" static="1">
-			<f a="x">
-				<c path="String"/>
-				<t path="Null"><c path="Int"/></t>
-			</f>
-			<haxe_doc>
-		Convert a String to an Int, parsing different possible representations. Returns [null] if could not be parsed.
-	</haxe_doc>
-		</parseInt>
-		<parseFloat public="1" set="method" line="52" static="1">
-			<f a="x">
-				<c path="String"/>
-				<c path="Float"/>
-			</f>
-			<haxe_doc>
-		Convert a String to a Float, parsing different possible reprensations.
-	</haxe_doc>
-		</parseFloat>
-		<random public="1" set="method" line="59" static="1">
-			<f a="x">
-				<c path="Int"/>
-				<c path="Int"/>
-			</f>
-			<haxe_doc>
-		Return a random integer between 0 included and x excluded.
-	</haxe_doc>
-		</random>
-		<haxe_doc>
-	The Std class provides standard methods for manipulating basic types.
 </haxe_doc>
 	</class>
 	<typedef path="Null" params="T" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes">
@@ -2840,6 +2881,29 @@
 	element doesn't imply to copy the whole array content everytime.
 </haxe_doc>
 	</class>
+	<class path="haxe.unit.TestRunner" params="" file="C:\Projects\haxe/std/haxe/unit/TestRunner.hx">
+		<print public="1" set="dynamic" line="38" static="1"><f a="v">
+	<d/>
+	<e path="Void"/>
+</f></print>
+		<customTrace set="method" line="79" static="1"><f a="v:?p">
+	<unknown/>
+	<t path="haxe.PosInfos"/>
+	<e path="Void"/>
+</f></customTrace>
+		<result><c path="haxe.unit.TestResult"/></result>
+		<cases><c path="List"><c path="haxe.unit.TestCase"/></c></cases>
+		<add public="1" set="method" line="88"><f a="c">
+	<c path="haxe.unit.TestCase"/>
+	<e path="Void"/>
+</f></add>
+		<run public="1" set="method" line="92"><f a=""><e path="Bool"/></f></run>
+		<runCase set="method" line="101"><f a="t">
+	<c path="haxe.unit.TestCase"/>
+	<e path="Void"/>
+</f></runCase>
+		<new public="1" set="method" line="83"><f a=""><e path="Void"/></f></new>
+	</class>
 	<enum path="ValueType" params="" file="C:\Projects\haxe/std/neko/_std/Type.hx" module="Type">
 		<TUnknown/>
 		<TObject/>
@@ -3037,72 +3101,6 @@
 	Classes and Enums at runtime.
 </haxe_doc>
 	</class>
-	<class path="IntHash" params="T" file="C:\Projects\haxe/std/neko/_std/IntHash.hx">
-		<h><d/></h>
-		<set public="1" get="inline" set="null" line="34">
-			<f a="key:value">
-				<c path="Int"/>
-				<c path="IntHash.T"/>
-				<e path="Void"/>
-			</f>
-			<haxe_doc>
-		Set a value for the given key.
-	</haxe_doc>
-		</set>
-		<get public="1" set="method" line="38">
-			<f a="key">
-				<c path="Int"/>
-				<t path="Null"><c path="IntHash.T"/></t>
-			</f>
-			<haxe_doc>
-		Get a value for the given key.
-	</haxe_doc>
-		</get>
-		<exists public="1" get="inline" set="null" line="42">
-			<f a="key">
-				<c path="Int"/>
-				<e path="Bool"/>
-			</f>
-			<haxe_doc>
-		Tells if a value exists for the given key.
-		In particular, it's useful to tells if a key has
-		a [null] value versus no value.
-	</haxe_doc>
-		</exists>
-		<remove public="1" get="inline" set="null" line="46">
-			<f a="key">
-				<c path="Int"/>
-				<e path="Bool"/>
-			</f>
-			<haxe_doc>
-		Removes a hashtable entry. Returns [true] if
-		there was such entry.
-	</haxe_doc>
-		</remove>
-		<keys public="1" set="method" line="50">
-			<f a=""><t path="Iterator"><c path="Int"/></t></f>
-			<haxe_doc>
-		Returns an iterator of all keys in the hashtable.
-	</haxe_doc>
-		</keys>
-		<iterator public="1" set="method" line="56">
-			<f a=""><t path="Iterator"><c path="IntHash.T"/></t></f>
-			<haxe_doc>
-		Returns an iterator of all values in the hashtable.
-	</haxe_doc>
-		</iterator>
-		<toString public="1" set="method" line="62">
-			<f a=""><c path="String"/></f>
-			<haxe_doc>
-		Returns an displayable representation of the hashtable content.
-	</haxe_doc>
-		</toString>
-		<new public="1" set="method" line="30"><f a=""><e path="Void"/></f></new>
-		<haxe_doc>
-	Hashtable over a set of elements, using [Int] as keys.
-	On Flash and Javascript, the underlying structure is an Object.
-</haxe_doc>
-	</class>
 	<class path="DateTools" params="" file="C:\Projects\haxe/std/DateTools.hx">
 		<date_format line="36" static="1"><f a=":">
 	<d/>
@@ -3216,23 +3214,103 @@
 	each application using it.
 </haxe_doc>
 	</class>
-	<class path="utest.ui.common.ReportTools" params="" file="src/utest/ui/common/ReportTools.hx">
-		<hasHeader public="1" set="method" line="7" static="1"><f a="report:stats">
-	<c path="utest.ui.common.IReport"><d/></c>
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Bool"/>
-</f></hasHeader>
-		<skipResult public="1" set="method" line="28" static="1"><f a="report:stats:isOk">
-	<c path="utest.ui.common.IReport"><d/></c>
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Bool"/>
-	<e path="Bool"/>
-</f></skipResult>
-		<hasOutput public="1" set="method" line="39" static="1"><f a="report:stats">
-	<c path="utest.ui.common.IReport"><d/></c>
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Bool"/>
-</f></hasOutput>
+	<class path="IntHash" params="T" file="C:\Projects\haxe/std/neko/_std/IntHash.hx">
+		<h><d/></h>
+		<set public="1" get="inline" set="null" line="34">
+			<f a="key:value">
+				<c path="Int"/>
+				<c path="IntHash.T"/>
+				<e path="Void"/>
+			</f>
+			<haxe_doc>
+		Set a value for the given key.
+	</haxe_doc>
+		</set>
+		<get public="1" set="method" line="38">
+			<f a="key">
+				<c path="Int"/>
+				<t path="Null"><c path="IntHash.T"/></t>
+			</f>
+			<haxe_doc>
+		Get a value for the given key.
+	</haxe_doc>
+		</get>
+		<exists public="1" get="inline" set="null" line="42">
+			<f a="key">
+				<c path="Int"/>
+				<e path="Bool"/>
+			</f>
+			<haxe_doc>
+		Tells if a value exists for the given key.
+		In particular, it's useful to tells if a key has
+		a [null] value versus no value.
+	</haxe_doc>
+		</exists>
+		<remove public="1" get="inline" set="null" line="46">
+			<f a="key">
+				<c path="Int"/>
+				<e path="Bool"/>
+			</f>
+			<haxe_doc>
+		Removes a hashtable entry. Returns [true] if
+		there was such entry.
+	</haxe_doc>
+		</remove>
+		<keys public="1" set="method" line="50">
+			<f a=""><t path="Iterator"><c path="Int"/></t></f>
+			<haxe_doc>
+		Returns an iterator of all keys in the hashtable.
+	</haxe_doc>
+		</keys>
+		<iterator public="1" set="method" line="56">
+			<f a=""><t path="Iterator"><c path="IntHash.T"/></t></f>
+			<haxe_doc>
+		Returns an iterator of all values in the hashtable.
+	</haxe_doc>
+		</iterator>
+		<toString public="1" set="method" line="62">
+			<f a=""><c path="String"/></f>
+			<haxe_doc>
+		Returns an displayable representation of the hashtable content.
+	</haxe_doc>
+		</toString>
+		<new public="1" set="method" line="30"><f a=""><e path="Void"/></f></new>
+		<haxe_doc>
+	Hashtable over a set of elements, using [Int] as keys.
+	On Flash and Javascript, the underlying structure is an Object.
+</haxe_doc>
+	</class>
+	<class path="haxe.rtti.Meta" params="" file="C:\Projects\haxe/std/haxe/rtti/Meta.hx">
+		<getType public="1" set="method" line="35" static="1">
+			<f a="t">
+				<d/>
+				<d><c path="Array"><d/></c></d>
+			</f>
+			<haxe_doc>
+		Returns the metadata that were declared for the given type (class or enum)
+	</haxe_doc>
+		</getType>
+		<getStatics public="1" set="method" line="43" static="1">
+			<f a="t">
+				<d/>
+				<d><d><c path="Array"><d/></c></d></d>
+			</f>
+			<haxe_doc>
+		Returns the metadata that were declared for the given class fields or enum constructors
+	</haxe_doc>
+		</getStatics>
+		<getFields public="1" set="method" line="51" static="1">
+			<f a="t">
+				<d/>
+				<d><d><c path="Array"><d/></c></d></d>
+			</f>
+			<haxe_doc>
+		Returns the metadata that were declared for the given class static fields
+	</haxe_doc>
+		</getFields>
+		<haxe_doc>
+	An api to access classes and enums metadata at runtime.
+</haxe_doc>
 	</class>
 	<class path="Array" params="T" file="C:\Projects\haxe/std/neko/_std/Array.hx">
 		<new1 params="T" set="method" line="36" static="1"><f a="a:l">
@@ -3476,6 +3554,24 @@
 * invoking one of the static methods of @see {@link utest.Assert}.
 </haxe_doc>
 	</enum>
+	<class path="utest.ui.common.ReportTools" params="" file="src/utest/ui/common/ReportTools.hx">
+		<hasHeader public="1" set="method" line="7" static="1"><f a="report:stats">
+	<c path="utest.ui.common.IReport"><d/></c>
+	<c path="utest.ui.common.ResultStats"/>
+	<e path="Bool"/>
+</f></hasHeader>
+		<skipResult public="1" set="method" line="28" static="1"><f a="report:stats:isOk">
+	<c path="utest.ui.common.IReport"><d/></c>
+	<c path="utest.ui.common.ResultStats"/>
+	<e path="Bool"/>
+	<e path="Bool"/>
+</f></skipResult>
+		<hasOutput public="1" set="method" line="39" static="1"><f a="report:stats">
+	<c path="utest.ui.common.IReport"><d/></c>
+	<c path="utest.ui.common.ResultStats"/>
+	<e path="Bool"/>
+</f></hasOutput>
+	</class>
 	<class path="EReg" params="" file="C:\Projects\haxe/std/neko/_std/EReg.hx">
 		<regexp_new_options line="157" static="1"><f a=":">
 	<unknown/>
@@ -3774,6 +3870,21 @@
 </haxe_doc>
 	</class>
 	<typedef path="haxe.io.BytesData" params="" file="C:\Projects\haxe/std/haxe/io/BytesData.hx"><c path="neko.NativeString"/></typedef>
+	<class path="haxe.unit.TestStatus" params="" file="C:\Projects\haxe/std/haxe/unit/TestStatus.hx">
+		<done public="1"><e path="Bool"/></done>
+		<success public="1"><e path="Bool"/></success>
+		<error public="1"><c path="String"/></error>
+		<method public="1"><c path="String"/></method>
+		<classname public="1"><c path="String"/></classname>
+		<posInfos public="1"><t path="haxe.PosInfos"/></posInfos>
+		<backtrace public="1"><c path="String"/></backtrace>
+		<new public="1" set="method" line="39"><f a=""><e path="Void"/></f></new>
+	</class>
+	<class path="utest.MacroRunner" params="" file="src/utest/MacroRunner.hx"><addClass set="method" line="71" static="1"><f a="runner:testClass">
+	<c path="utest.Runner"/>
+	<c path="Class"><d/></c>
+	<e path="Void"/>
+</f></addClass></class>
 	<class path="utest.TestFixture" params="T" file="src/utest/TestFixture.hx">
 		<target public="1" set="null"><c path="utest.TestFixture.T"/></target>
 		<method public="1" set="null"><c path="String"/></method>

@@ -328,114 +328,6 @@
 	each application using it.
 </haxe_doc>
 	</class>
-	<class path="flash.TextField" params="" file="C:\Projects\haxe/std/flash/TextField.hx" extern="1">
-		<getFontList public="1" set="method" static="1"><f a=""><c path="Array"><d/></c></f></getFontList>
-		<_x public="1"><c path="Float"/></_x>
-		<_y public="1"><c path="Float"/></_y>
-		<_xmouse public="1"><c path="Float"/></_xmouse>
-		<_ymouse public="1"><c path="Float"/></_ymouse>
-		<_xscale public="1"><c path="Float"/></_xscale>
-		<_yscale public="1"><c path="Float"/></_yscale>
-		<_width public="1"><c path="Float"/></_width>
-		<_height public="1"><c path="Float"/></_height>
-		<_alpha public="1"><c path="Float"/></_alpha>
-		<_visible public="1"><e path="Bool"/></_visible>
-		<_target public="1"><c path="String"/></_target>
-		<_rotation public="1"><c path="Float"/></_rotation>
-		<_name public="1"><c path="String"/></_name>
-		<_framesloaded public="1"><c path="Int"/></_framesloaded>
-		<_droptarget public="1"><c path="String"/></_droptarget>
-		<_currentframe public="1"><c path="Int"/></_currentframe>
-		<_totalframes public="1"><c path="Int"/></_totalframes>
-		<_quality public="1"><c path="String"/></_quality>
-		<_focusrect public="1"><e path="Bool"/></_focusrect>
-		<_soundbuftime public="1"><c path="Float"/></_soundbuftime>
-		<_url public="1"><c path="String"/></_url>
-		<_parent public="1"><c path="flash.MovieClip"/></_parent>
-		<autoSize public="1"><d/></autoSize>
-		<background public="1"><e path="Bool"/></background>
-		<backgroundColor public="1"><c path="Int"/></backgroundColor>
-		<border public="1"><e path="Bool"/></border>
-		<borderColor public="1"><c path="Int"/></borderColor>
-		<bottomScroll public="1"><c path="Float"/></bottomScroll>
-		<condenseWhite public="1"><e path="Bool"/></condenseWhite>
-		<embedFonts public="1"><e path="Bool"/></embedFonts>
-		<hscroll public="1"><c path="Float"/></hscroll>
-		<html public="1"><e path="Bool"/></html>
-		<htmlText public="1"><c path="String"/></htmlText>
-		<length public="1"><c path="Int"/></length>
-		<maxChars public="1"><c path="Int"/></maxChars>
-		<maxhscroll public="1"><c path="Float"/></maxhscroll>
-		<maxscroll public="1"><c path="Float"/></maxscroll>
-		<multiline public="1"><e path="Bool"/></multiline>
-		<password public="1"><e path="Bool"/></password>
-		<restrict public="1"><c path="String"/></restrict>
-		<scroll public="1"><c path="Float"/></scroll>
-		<selectable public="1"><e path="Bool"/></selectable>
-		<tabEnabled public="1"><e path="Bool"/></tabEnabled>
-		<tabIndex public="1"><c path="Int"/></tabIndex>
-		<text public="1"><c path="String"/></text>
-		<textColor public="1"><c path="Int"/></textColor>
-		<textHeight public="1"><c path="Float"/></textHeight>
-		<textWidth public="1"><c path="Float"/></textWidth>
-		<type public="1"><c path="String"/></type>
-		<variable public="1"><c path="String"/></variable>
-		<wordWrap public="1"><e path="Bool"/></wordWrap>
-		<mouseWheelEnabled public="1"><e path="Bool"/></mouseWheelEnabled>
-		<styleSheet public="1"><c path="flash.text.StyleSheet"/></styleSheet>
-		<replaceText public="1" set="method"><f a="beginIndex:endIndex:newText">
-	<c path="Int"/>
-	<c path="Int"/>
-	<c path="String"/>
-	<e path="Void"/>
-</f></replaceText>
-		<replaceSel public="1" set="method"><f a="newText">
-	<c path="String"/>
-	<e path="Void"/>
-</f></replaceSel>
-		<getTextFormat public="1" set="method"><f a="?beginIndex:?endIndex">
-	<c path="Int"/>
-	<c path="Int"/>
-	<c path="flash.TextFormat"/>
-</f></getTextFormat>
-		<setTextFormat public="1" set="method"><f a="begin:?end:?tf">
-	<d/>
-	<d/>
-	<c path="flash.TextFormat"/>
-	<e path="Void"/>
-</f></setTextFormat>
-		<removeTextField public="1" set="method"><f a=""><e path="Void"/></f></removeTextField>
-		<getNewTextFormat public="1" set="method"><f a=""><c path="flash.TextFormat"/></f></getNewTextFormat>
-		<setNewTextFormat public="1" set="method"><f a="tf">
-	<c path="flash.TextFormat"/>
-	<e path="Void"/>
-</f></setNewTextFormat>
-		<getDepth public="1" set="method"><f a=""><c path="Int"/></f></getDepth>
-		<addListener public="1" set="method"><f a="listener">
-	<d/>
-	<e path="Bool"/>
-</f></addListener>
-		<removeListener public="1" set="method"><f a="listener">
-	<d/>
-	<e path="Bool"/>
-</f></removeListener>
-		<onChanged public="1" set="dynamic"><f a="changedField">
-	<c path="flash.TextField"/>
-	<e path="Void"/>
-</f></onChanged>
-		<onKillFocus public="1" set="dynamic"><f a="newFocus">
-	<d/>
-	<e path="Void"/>
-</f></onKillFocus>
-		<onScroller public="1" set="dynamic"><f a="scrolledField">
-	<c path="flash.TextField"/>
-	<e path="Void"/>
-</f></onScroller>
-		<onSetFocus public="1" set="dynamic"><f a="oldFocus">
-	<d/>
-	<e path="Void"/>
-</f></onSetFocus>
-	</class>
 	<class path="flash._MovieClip.MCBounds" params="" file="C:\Projects\haxe/std/flash/MovieClip.hx" private="1" module="flash.MovieClip" extern="1">
 		<xMin public="1"><c path="Float"/></xMin>
 		<xMax public="1"><c path="Float"/></xMax>
@@ -653,6 +545,114 @@
 		</forceSmoothing>
 		<haxe_dynamic><d/></haxe_dynamic>
 	</class>
+	<class path="flash.TextField" params="" file="C:\Projects\haxe/std/flash/TextField.hx" extern="1">
+		<getFontList public="1" set="method" static="1"><f a=""><c path="Array"><d/></c></f></getFontList>
+		<_x public="1"><c path="Float"/></_x>
+		<_y public="1"><c path="Float"/></_y>
+		<_xmouse public="1"><c path="Float"/></_xmouse>
+		<_ymouse public="1"><c path="Float"/></_ymouse>
+		<_xscale public="1"><c path="Float"/></_xscale>
+		<_yscale public="1"><c path="Float"/></_yscale>
+		<_width public="1"><c path="Float"/></_width>
+		<_height public="1"><c path="Float"/></_height>
+		<_alpha public="1"><c path="Float"/></_alpha>
+		<_visible public="1"><e path="Bool"/></_visible>
+		<_target public="1"><c path="String"/></_target>
+		<_rotation public="1"><c path="Float"/></_rotation>
+		<_name public="1"><c path="String"/></_name>
+		<_framesloaded public="1"><c path="Int"/></_framesloaded>
+		<_droptarget public="1"><c path="String"/></_droptarget>
+		<_currentframe public="1"><c path="Int"/></_currentframe>
+		<_totalframes public="1"><c path="Int"/></_totalframes>
+		<_quality public="1"><c path="String"/></_quality>
+		<_focusrect public="1"><e path="Bool"/></_focusrect>
+		<_soundbuftime public="1"><c path="Float"/></_soundbuftime>
+		<_url public="1"><c path="String"/></_url>
+		<_parent public="1"><c path="flash.MovieClip"/></_parent>
+		<autoSize public="1"><d/></autoSize>
+		<background public="1"><e path="Bool"/></background>
+		<backgroundColor public="1"><c path="Int"/></backgroundColor>
+		<border public="1"><e path="Bool"/></border>
+		<borderColor public="1"><c path="Int"/></borderColor>
+		<bottomScroll public="1"><c path="Float"/></bottomScroll>
+		<condenseWhite public="1"><e path="Bool"/></condenseWhite>
+		<embedFonts public="1"><e path="Bool"/></embedFonts>
+		<hscroll public="1"><c path="Float"/></hscroll>
+		<html public="1"><e path="Bool"/></html>
+		<htmlText public="1"><c path="String"/></htmlText>
+		<length public="1"><c path="Int"/></length>
+		<maxChars public="1"><c path="Int"/></maxChars>
+		<maxhscroll public="1"><c path="Float"/></maxhscroll>
+		<maxscroll public="1"><c path="Float"/></maxscroll>
+		<multiline public="1"><e path="Bool"/></multiline>
+		<password public="1"><e path="Bool"/></password>
+		<restrict public="1"><c path="String"/></restrict>
+		<scroll public="1"><c path="Float"/></scroll>
+		<selectable public="1"><e path="Bool"/></selectable>
+		<tabEnabled public="1"><e path="Bool"/></tabEnabled>
+		<tabIndex public="1"><c path="Int"/></tabIndex>
+		<text public="1"><c path="String"/></text>
+		<textColor public="1"><c path="Int"/></textColor>
+		<textHeight public="1"><c path="Float"/></textHeight>
+		<textWidth public="1"><c path="Float"/></textWidth>
+		<type public="1"><c path="String"/></type>
+		<variable public="1"><c path="String"/></variable>
+		<wordWrap public="1"><e path="Bool"/></wordWrap>
+		<mouseWheelEnabled public="1"><e path="Bool"/></mouseWheelEnabled>
+		<styleSheet public="1"><c path="flash.text.StyleSheet"/></styleSheet>
+		<replaceText public="1" set="method"><f a="beginIndex:endIndex:newText">
+	<c path="Int"/>
+	<c path="Int"/>
+	<c path="String"/>
+	<e path="Void"/>
+</f></replaceText>
+		<replaceSel public="1" set="method"><f a="newText">
+	<c path="String"/>
+	<e path="Void"/>
+</f></replaceSel>
+		<getTextFormat public="1" set="method"><f a="?beginIndex:?endIndex">
+	<c path="Int"/>
+	<c path="Int"/>
+	<c path="flash.TextFormat"/>
+</f></getTextFormat>
+		<setTextFormat public="1" set="method"><f a="begin:?end:?tf">
+	<d/>
+	<d/>
+	<c path="flash.TextFormat"/>
+	<e path="Void"/>
+</f></setTextFormat>
+		<removeTextField public="1" set="method"><f a=""><e path="Void"/></f></removeTextField>
+		<getNewTextFormat public="1" set="method"><f a=""><c path="flash.TextFormat"/></f></getNewTextFormat>
+		<setNewTextFormat public="1" set="method"><f a="tf">
+	<c path="flash.TextFormat"/>
+	<e path="Void"/>
+</f></setNewTextFormat>
+		<getDepth public="1" set="method"><f a=""><c path="Int"/></f></getDepth>
+		<addListener public="1" set="method"><f a="listener">
+	<d/>
+	<e path="Bool"/>
+</f></addListener>
+		<removeListener public="1" set="method"><f a="listener">
+	<d/>
+	<e path="Bool"/>
+</f></removeListener>
+		<onChanged public="1" set="dynamic"><f a="changedField">
+	<c path="flash.TextField"/>
+	<e path="Void"/>
+</f></onChanged>
+		<onKillFocus public="1" set="dynamic"><f a="newFocus">
+	<d/>
+	<e path="Void"/>
+</f></onKillFocus>
+		<onScroller public="1" set="dynamic"><f a="scrolledField">
+	<c path="flash.TextField"/>
+	<e path="Void"/>
+</f></onScroller>
+		<onSetFocus public="1" set="dynamic"><f a="oldFocus">
+	<d/>
+	<e path="Void"/>
+</f></onSetFocus>
+	</class>
 	<class path="utest.ui.common.IReport" params="T" file="src/utest/ui/common/IReport.hx" interface="1">
 		<displaySuccessResults public="1"><e path="utest.ui.common.SuccessResultsDisplayMode"/></displaySuccessResults>
 		<displayHeader public="1"><e path="utest.ui.common.HeaderDisplayMode"/></displayHeader>
@@ -717,6 +717,16 @@
 		<haxe_doc>
 * @todo add documentation
 </haxe_doc>
+	</class>
+	<class path="haxe.unit.TestResult" params="" file="C:\Projects\haxe/std/haxe/unit/TestResult.hx">
+		<m_tests><c path="List"><c path="haxe.unit.TestStatus"/></c></m_tests>
+		<success public="1" set="null"><e path="Bool"/></success>
+		<add public="1" set="method" line="37"><f a="t">
+	<c path="haxe.unit.TestStatus"/>
+	<e path="Void"/>
+</f></add>
+		<toString public="1" set="method" line="43"><f a=""><c path="String"/></f></toString>
+		<new public="1" set="method" line="32"><f a=""><e path="Void"/></f></new>
 	</class>
 	<class path="Reflect" params="" file="C:\Projects\haxe/std/flash/_std/Reflect.hx">
 		<hasField public="1" get="inline" set="null" line="28" static="1">
@@ -845,40 +855,6 @@
 	The Reflect API is a way to manipulate values dynamicly through an
 	abstract interface in an untyped manner. Use with care.
 </haxe_doc>
-	</class>
-	<class path="flash.text.StyleSheet" params="" file="C:\Projects\haxe/std/flash/text/StyleSheet.hx" extern="1">
-		<getStyle public="1" set="method"><f a="name">
-	<c path="String"/>
-	<d/>
-</f></getStyle>
-		<setStyle public="1" set="method"><f a="name:style">
-	<c path="String"/>
-	<d/>
-	<e path="Void"/>
-</f></setStyle>
-		<clear public="1" set="method"><f a=""><e path="Void"/></f></clear>
-		<getStyleNames public="1" set="method"><f a=""><c path="Array"><d/></c></f></getStyleNames>
-		<transform public="1" set="method"><f a="style">
-	<d/>
-	<c path="flash.TextFormat"/>
-</f></transform>
-		<parseCSS public="1" set="method"><f a="cssText">
-	<c path="String"/>
-	<e path="Bool"/>
-</f></parseCSS>
-		<parse public="1" set="method"><f a="cssText">
-	<c path="String"/>
-	<e path="Bool"/>
-</f></parse>
-		<load public="1" set="method"><f a="url">
-	<c path="String"/>
-	<e path="Bool"/>
-</f></load>
-		<onLoad public="1" set="dynamic"><f a="success">
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></onLoad>
-		<new public="1" set="method"><f a=""><e path="Void"/></f></new>
 	</class>
 	<class path="haxe.Log" params="" file="C:\Projects\haxe/std/haxe/Log.hx">
 		<trace public="1" set="dynamic" line="29" static="1"><f a="v:?infos">
@@ -1300,30 +1276,76 @@
 	<path><c path="String"/></path>
 	<error><c path="String"/></error>
 </a></typedef>
+	<class path="flash.text.StyleSheet" params="" file="C:\Projects\haxe/std/flash/text/StyleSheet.hx" extern="1">
+		<getStyle public="1" set="method"><f a="name">
+	<c path="String"/>
+	<d/>
+</f></getStyle>
+		<setStyle public="1" set="method"><f a="name:style">
+	<c path="String"/>
+	<d/>
+	<e path="Void"/>
+</f></setStyle>
+		<clear public="1" set="method"><f a=""><e path="Void"/></f></clear>
+		<getStyleNames public="1" set="method"><f a=""><c path="Array"><d/></c></f></getStyleNames>
+		<transform public="1" set="method"><f a="style">
+	<d/>
+	<c path="flash.TextFormat"/>
+</f></transform>
+		<parseCSS public="1" set="method"><f a="cssText">
+	<c path="String"/>
+	<e path="Bool"/>
+</f></parseCSS>
+		<parse public="1" set="method"><f a="cssText">
+	<c path="String"/>
+	<e path="Bool"/>
+</f></parse>
+		<load public="1" set="method"><f a="url">
+	<c path="String"/>
+	<e path="Bool"/>
+</f></load>
+		<onLoad public="1" set="dynamic"><f a="success">
+	<e path="Bool"/>
+	<e path="Void"/>
+</f></onLoad>
+		<new public="1" set="method"><f a=""><e path="Void"/></f></new>
+	</class>
 	<class path="utest.ui.Report" params="" file="src/utest/ui/Report.hx"><create public="1" set="method" line="17" static="1"><f a="runner:?displaySuccessResults:?headerDisplayMode">
 	<c path="utest.Runner"/>
 	<e path="utest.ui.common.SuccessResultsDisplayMode"/>
 	<e path="utest.ui.common.HeaderDisplayMode"/>
 	<c path="utest.ui.common.IReport"><d/></c>
 </f></create></class>
-	<class path="utest.ui.text.PrintReport" params="" file="src/utest/ui/text/PrintReport.hx">
-		<extends path="utest.ui.text.PlainTextReport"/>
-		<useTrace><e path="Bool"/></useTrace>
-		<_handler set="method" line="57"><f a="report">
-	<c path="utest.ui.text.PlainTextReport"/>
+	<class path="haxe.Public" params="" file="C:\Projects\haxe/std/haxe/Public.hx" interface="1"><haxe_doc>
+	When implementing this interface, all default fields access for the class and
+	subclasses becomes [public] instead of [private].
+</haxe_doc></class>
+	<class path="haxe.unit.TestCase" params="" file="C:\Projects\haxe/std/haxe/unit/TestCase.hx">
+		<implements path="haxe.Public"/>
+		<currentTest public="1"><c path="haxe.unit.TestStatus"/></currentTest>
+		<setup public="1" set="method" line="34"><f a=""><e path="Void"/></f></setup>
+		<tearDown public="1" set="method" line="37"><f a=""><e path="Void"/></f></tearDown>
+		<print public="1" set="method" line="40"><f a="v">
+	<d/>
 	<e path="Void"/>
-</f></_handler>
-		<_trace set="method" line="63"><f a="s">
-	<c path="String"/>
+</f></print>
+		<assertTrue public="1" set="method" line="44"><f a="b:?c">
+	<e path="Bool"/>
+	<t path="haxe.PosInfos"/>
 	<e path="Void"/>
-</f></_trace>
-		<new public="1" set="method" line="51"><f a="runner">
-	<c path="utest.Runner"/>
+</f></assertTrue>
+		<assertFalse public="1" set="method" line="54"><f a="b:?c">
+	<e path="Bool"/>
+	<t path="haxe.PosInfos"/>
 	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
-</haxe_doc>
+</f></assertFalse>
+		<assertEquals public="1" params="T" set="method" line="64"><f a="expected:actual:?c">
+	<c path="assertEquals.T"/>
+	<c path="assertEquals.T"/>
+	<t path="haxe.PosInfos"/>
+	<e path="Void"/>
+</f></assertEquals>
+		<new public="1" set="method" line="31"><f a=""><e path="Void"/></f></new>
 	</class>
 	<class path="utest.ui.text.HtmlReport" params="" file="src/utest/ui/text/HtmlReport.hx">
 		<implements path="utest.ui.common.IReport"><c path="utest.ui.text.HtmlReport"/></implements>
@@ -1454,6 +1476,25 @@
 		<e path="Void"/>
 	</f>
 	<e path="Bool"/>
+	<e path="Void"/>
+</f></new>
+		<haxe_doc>
+* @todo add documentation
+</haxe_doc>
+	</class>
+	<class path="utest.ui.text.PrintReport" params="" file="src/utest/ui/text/PrintReport.hx">
+		<extends path="utest.ui.text.PlainTextReport"/>
+		<useTrace><e path="Bool"/></useTrace>
+		<_handler set="method" line="57"><f a="report">
+	<c path="utest.ui.text.PlainTextReport"/>
+	<e path="Void"/>
+</f></_handler>
+		<_trace set="method" line="63"><f a="s">
+	<c path="String"/>
+	<e path="Void"/>
+</f></_trace>
+		<new public="1" set="method" line="51"><f a="runner">
+	<c path="utest.Runner"/>
 	<e path="Void"/>
 </f></new>
 		<haxe_doc>
@@ -2365,6 +2406,21 @@
 	ArrayAccess is used to indicate a class that can be accessed using brackets.
 	The type parameter represent the type of the elements stored.
 </haxe_doc></class>
+	<class path="flash.Stage" params="" file="C:\Projects\haxe/std/flash/Stage.hx" extern="1">
+		<width public="1" static="1"><c path="Float"/></width>
+		<height public="1" static="1"><c path="Float"/></height>
+		<scaleMode public="1" static="1"><c path="String"/></scaleMode>
+		<align public="1" static="1"><c path="String"/></align>
+		<showMenu public="1" static="1"><e path="Bool"/></showMenu>
+		<addListener public="1" set="method" static="1"><f a="listener">
+	<d/>
+	<e path="Void"/>
+</f></addListener>
+		<removeListener public="1" set="method" static="1"><f a="listener">
+	<d/>
+	<e path="Void"/>
+</f></removeListener>
+	</class>
 	<class path="Lambda" params="" file="C:\Projects\haxe/std/Lambda.hx">
 		<array public="1" params="A" set="method" line="35" static="1">
 			<f a="it">
@@ -2636,21 +2692,6 @@
 	This class defines mathematical functions and constants.
 </haxe_doc>
 	</class>
-	<class path="flash.Stage" params="" file="C:\Projects\haxe/std/flash/Stage.hx" extern="1">
-		<width public="1" static="1"><c path="Float"/></width>
-		<height public="1" static="1"><c path="Float"/></height>
-		<scaleMode public="1" static="1"><c path="String"/></scaleMode>
-		<align public="1" static="1"><c path="String"/></align>
-		<showMenu public="1" static="1"><e path="Bool"/></showMenu>
-		<addListener public="1" set="method" static="1"><f a="listener">
-	<d/>
-	<e path="Void"/>
-</f></addListener>
-		<removeListener public="1" set="method" static="1"><f a="listener">
-	<d/>
-	<e path="Void"/>
-</f></removeListener>
-	</class>
 	<class path="utest.ui.common.ClassResult" params="" file="src/utest/ui/common/ClassResult.hx">
 		<fixtures><c path="Hash"><c path="utest.ui.common.FixtureResult"/></c></fixtures>
 		<className public="1" set="null"><c path="String"/></className>
@@ -2855,6 +2896,30 @@
 	<e path="Bool"/>
 	<e path="Void"/>
 </f></setSelected>
+	</class>
+	<class path="haxe.unit.TestRunner" params="" file="C:\Projects\haxe/std/haxe/unit/TestRunner.hx">
+		<tf line="35" static="1"><c path="flash.TextField"/></tf>
+		<print public="1" set="dynamic" line="38" static="1"><f a="v">
+	<d/>
+	<e path="Void"/>
+</f></print>
+		<customTrace set="method" line="79" static="1"><f a="v:?p">
+	<unknown/>
+	<t path="haxe.PosInfos"/>
+	<e path="Void"/>
+</f></customTrace>
+		<result><c path="haxe.unit.TestResult"/></result>
+		<cases><c path="List"><c path="haxe.unit.TestCase"/></c></cases>
+		<add public="1" set="method" line="88"><f a="c">
+	<c path="haxe.unit.TestCase"/>
+	<e path="Void"/>
+</f></add>
+		<run public="1" set="method" line="92"><f a=""><e path="Bool"/></f></run>
+		<runCase set="method" line="101"><f a="t">
+	<c path="haxe.unit.TestCase"/>
+	<e path="Void"/>
+</f></runCase>
+		<new public="1" set="method" line="83"><f a=""><e path="Void"/></f></new>
 	</class>
 	<enum path="ValueType" params="" file="C:\Projects\haxe/std/flash/_std/Type.hx" module="Type">
 		<TUnknown/>
@@ -3250,6 +3315,38 @@
 * invoking one of the static methods of @see {@link utest.Assert}.
 </haxe_doc>
 	</enum>
+	<class path="haxe.rtti.Meta" params="" file="C:\Projects\haxe/std/haxe/rtti/Meta.hx">
+		<getType public="1" set="method" line="35" static="1">
+			<f a="t">
+				<d/>
+				<d><c path="Array"><d/></c></d>
+			</f>
+			<haxe_doc>
+		Returns the metadata that were declared for the given type (class or enum)
+	</haxe_doc>
+		</getType>
+		<getStatics public="1" set="method" line="43" static="1">
+			<f a="t">
+				<d/>
+				<d><d><c path="Array"><d/></c></d></d>
+			</f>
+			<haxe_doc>
+		Returns the metadata that were declared for the given class fields or enum constructors
+	</haxe_doc>
+		</getStatics>
+		<getFields public="1" set="method" line="51" static="1">
+			<f a="t">
+				<d/>
+				<d><d><c path="Array"><d/></c></d></d>
+			</f>
+			<haxe_doc>
+		Returns the metadata that were declared for the given class static fields
+	</haxe_doc>
+		</getFields>
+		<haxe_doc>
+	An api to access classes and enums metadata at runtime.
+</haxe_doc>
+	</class>
 	<class path="utest.ui.common.ReportTools" params="" file="src/utest/ui/common/ReportTools.hx">
 		<hasHeader public="1" set="method" line="7" static="1"><f a="report:stats">
 	<c path="utest.ui.common.IReport"><d/></c>
@@ -3530,6 +3627,16 @@
 </haxe_doc>
 	</class>
 	<typedef path="haxe.io.BytesData" params="" file="C:\Projects\haxe/std/haxe/io/BytesData.hx"><c path="Array"><c path="Int"/></c></typedef>
+	<class path="haxe.unit.TestStatus" params="" file="C:\Projects\haxe/std/haxe/unit/TestStatus.hx">
+		<done public="1"><e path="Bool"/></done>
+		<success public="1"><e path="Bool"/></success>
+		<error public="1"><c path="String"/></error>
+		<method public="1"><c path="String"/></method>
+		<classname public="1"><c path="String"/></classname>
+		<posInfos public="1"><t path="haxe.PosInfos"/></posInfos>
+		<backtrace public="1"><c path="String"/></backtrace>
+		<new public="1" set="method" line="39"><f a=""><e path="Void"/></f></new>
+	</class>
 	<class path="flash.external.ExternalInterface" params="" file="C:\Projects\haxe/std/flash/external/ExternalInterface.hx" extern="1">
 		<available public="1" static="1"><e path="Bool"/></available>
 		<marshallExceptions public="1" static="1"><e path="Bool"/></marshallExceptions>
@@ -3553,6 +3660,11 @@
 	<d/>
 </f></call>
 	</class>
+	<class path="utest.MacroRunner" params="" file="src/utest/MacroRunner.hx"><addClass set="method" line="71" static="1"><f a="runner:testClass">
+	<c path="utest.Runner"/>
+	<c path="Class"><d/></c>
+	<e path="Void"/>
+</f></addClass></class>
 	<class path="utest.TestFixture" params="T" file="src/utest/TestFixture.hx">
 		<target public="1" set="null"><c path="utest.TestFixture.T"/></target>
 		<method public="1" set="null"><c path="String"/></method>
