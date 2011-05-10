@@ -5,7 +5,7 @@
 --no-output
 utest.Assert
 utest.Runner
-utest.ui.text.TraceReport
+utest.ui.Report
 --next
 # PHP
 -php _
@@ -14,7 +14,7 @@ utest.ui.text.TraceReport
 --no-output
 utest.Assert
 utest.Runner
-utest.ui.text.TraceReport
+utest.ui.Report
 --next
 # F9
 -swf9 _
@@ -23,7 +23,7 @@ utest.ui.text.TraceReport
 --no-output
 utest.Assert
 utest.Runner
-utest.ui.text.TraceReport
+utest.ui.Report
 --next
 # Other Flash
 -swf _
@@ -33,7 +33,7 @@ utest.ui.text.TraceReport
 --no-output
 utest.Assert
 utest.Runner
-utest.ui.text.TraceReport
+utest.ui.Report
 --next
 -swf _
 -swf-version 7
@@ -42,7 +42,7 @@ utest.ui.text.TraceReport
 --no-output
 utest.Assert
 utest.Runner
-utest.ui.text.TraceReport
+utest.ui.Report
 --next
 -swf _
 -swf-version 6
@@ -51,7 +51,7 @@ utest.ui.text.TraceReport
 --no-output
 utest.Assert
 utest.Runner
-utest.ui.text.TraceReport
+utest.ui.Report
 --next
 # JS
 -js _
@@ -60,4 +60,6 @@ utest.ui.text.TraceReport
 --no-output
 utest.Assert
 utest.Runner
-utest.ui.text.TraceReport
+utest.ui.Report
+# haxedoc.xml
+-cmd copy doc/doc.js.xml src/haxedoc.xml
