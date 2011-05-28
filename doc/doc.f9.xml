@@ -10,59 +10,6 @@
 		<JUSTIFY/>
 		<CENTER/>
 	</enum>
-	<class path="utest.ui.common.ResultAggregator" params="" file="src/utest/ui/common/ResultAggregator.hx">
-		<runner><c path="utest.Runner"/></runner>
-		<flattenPackage><e path="Bool"/></flattenPackage>
-		<root public="1" set="null"><c path="utest.ui.common.PackageResult"/></root>
-		<onStart public="1" set="null"><c path="utest.Notifier"/></onStart>
-		<onComplete public="1" set="null"><c path="utest.Dispatcher"><c path="utest.ui.common.PackageResult"/></c></onComplete>
-		<onProgress public="1" set="null"><c path="utest.Dispatcher"><a>
-	<totals><c path="Int"/></totals>
-	<done><c path="Int"/></done>
-</a></c></onProgress>
-		<start set="method" line="33"><f a="runner">
-	<c path="utest.Runner"/>
-	<e path="Void"/>
-</f></start>
-		<getOrCreatePackage set="method" line="38"><f a="pack:flat:?ref">
-	<c path="String"/>
-	<e path="Bool"/>
-	<c path="utest.ui.common.PackageResult"/>
-	<c path="utest.ui.common.PackageResult"/>
-</f></getOrCreatePackage>
-		<getOrCreateClass set="method" line="56"><f a="pack:cls:setup:teardown">
-	<c path="utest.ui.common.PackageResult"/>
-	<c path="String"/>
-	<c path="String"/>
-	<c path="String"/>
-	<t path="Null"><c path="utest.ui.common.ClassResult"/></t>
-</f></getOrCreateClass>
-		<createFixture set="method" line="63"><f a="result">
-	<c path="utest.TestResult"/>
-	<c path="utest.ui.common.FixtureResult"/>
-</f></createFixture>
-		<progress set="method" line="70"><f a="e">
-	<a>
-		<totals><c path="Int"/></totals>
-		<result set="null"><c path="utest.TestResult"/></result>
-		<done><c path="Int"/></done>
-	</a>
-	<e path="Void"/>
-</f></progress>
-		<complete set="method" line="75"><f a="runner">
-	<c path="utest.Runner"/>
-	<e path="Void"/>
-</f></complete>
-		<new public="1" set="method" line="20"><f a="runner:?flattenPackage">
-	<c path="utest.Runner"/>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
-* @todo add tests for this class
-</haxe_doc>
-	</class>
 	<enum path="flash.display.StageAlign" params="" file="C:\Projects\haxe/std/flash9/display/StageAlign.hx">
 		<TOP_RIGHT/>
 		<TOP_LEFT/>
@@ -894,6 +841,182 @@
 	On Flash and Javascript, the underlying structure is an Object.
 </haxe_doc>
 	</class>
+	<class path="Array" params="T" file="C:\Projects\haxe/std/Array.hx" extern="1">
+		<length public="1" set="null">
+			<c path="Int"/>
+			<haxe_doc>
+		The length of the Array
+	</haxe_doc>
+		</length>
+		<concat public="1" set="method">
+			<f a="a">
+				<c path="Array"><c path="Array.T"/></c>
+				<c path="Array"><c path="Array.T"/></c>
+			</f>
+			<haxe_doc>
+		Returns a new Array by appending [a] to [this].
+	</haxe_doc>
+		</concat>
+		<join public="1" set="method">
+			<f a="sep">
+				<c path="String"/>
+				<c path="String"/>
+			</f>
+			<haxe_doc>
+		Returns a representation of an array with [sep] for separating each element.
+	</haxe_doc>
+		</join>
+		<pop public="1" set="method">
+			<f a=""><t path="Null"><c path="Array.T"/></t></f>
+			<haxe_doc>
+		Removes the last element of the array and returns it.
+	</haxe_doc>
+		</pop>
+		<push public="1" set="method">
+			<f a="x">
+				<c path="Array.T"/>
+				<c path="Int"/>
+			</f>
+			<haxe_doc>
+		Adds the element [x] at the end of the array.
+	</haxe_doc>
+		</push>
+		<reverse public="1" set="method">
+			<f a=""><e path="Void"/></f>
+			<haxe_doc>
+		Reverse the order of elements of the Array.
+	</haxe_doc>
+		</reverse>
+		<shift public="1" set="method">
+			<f a=""><t path="Null"><c path="Array.T"/></t></f>
+			<haxe_doc>
+		Removes the first element and returns it.
+	</haxe_doc>
+		</shift>
+		<slice public="1" set="method">
+			<f a="pos:?end">
+				<c path="Int"/>
+				<c path="Int"/>
+				<c path="Array"><c path="Array.T"/></c>
+			</f>
+			<haxe_doc>
+		Copies the range of the array starting at [pos] up to,
+		but not including, [end]. Both [pos] and [end] can be
+		negative to count from the end: -1 is the last item in
+		the array.
+	</haxe_doc>
+		</slice>
+		<sort public="1" set="method">
+			<f a="f">
+				<f a=":">
+					<c path="Array.T"/>
+					<c path="Array.T"/>
+					<c path="Int"/>
+				</f>
+				<e path="Void"/>
+			</f>
+			<haxe_doc><![CDATA[
+		Sort the Array according to the comparison function [f].
+		[f(x,y)] should return [0] if [x == y], [>0] if [x > y]
+		and [<0] if [x < y].
+	]]></haxe_doc>
+		</sort>
+		<splice public="1" set="method">
+			<f a="pos:len">
+				<c path="Int"/>
+				<c path="Int"/>
+				<c path="Array"><c path="Array.T"/></c>
+			</f>
+			<haxe_doc>
+		Removes [len] elements starting from [pos] an returns them.
+	</haxe_doc>
+		</splice>
+		<toString public="1" set="method">
+			<f a=""><c path="String"/></f>
+			<haxe_doc>
+		Returns a displayable representation of the Array content.
+	</haxe_doc>
+		</toString>
+		<unshift public="1" set="method">
+			<f a="x">
+				<c path="Array.T"/>
+				<e path="Void"/>
+			</f>
+			<haxe_doc>
+		Adds the element [x] at the start of the array.
+	</haxe_doc>
+		</unshift>
+		<insert public="1" set="method">
+			<f a="pos:x">
+				<c path="Int"/>
+				<c path="Array.T"/>
+				<e path="Void"/>
+			</f>
+			<haxe_doc>
+		Inserts the element [x] at the position [pos].
+		All elements after [pos] are moved one index ahead.
+	</haxe_doc>
+		</insert>
+		<remove public="1" set="method">
+			<f a="x">
+				<c path="Array.T"/>
+				<e path="Bool"/>
+			</f>
+			<haxe_doc>
+		Removes the first occurence of [x].
+		Returns false if [x] was not present.
+		Elements are compared by using standard equality.
+	</haxe_doc>
+		</remove>
+		<copy public="1" set="method">
+			<f a=""><c path="Array"><c path="Array.T"/></c></f>
+			<haxe_doc>
+		Returns a copy of the Array. The values are not
+		copied, only the Array structure.
+	</haxe_doc>
+		</copy>
+		<iterator public="1" set="method">
+			<f a=""><t path="Iterator"><t path="Null"><c path="Array.T"/></t></t></f>
+			<haxe_doc>
+		Returns an iterator of the Array values.
+	</haxe_doc>
+		</iterator>
+		<new public="1" set="method">
+			<f a=""><e path="Void"/></f>
+			<haxe_doc>
+		Creates a new Array.
+	</haxe_doc>
+		</new>
+		<haxe_doc>
+	An Array is a storage for values. You can access it using indexes or
+	with its API. On the server side, it's often better to use a [List] which
+	is less memory and CPU consuming, unless you really need indexed access.
+</haxe_doc>
+	</class>
+	<class path="flash.text.StyleSheet" params="" file="C:\Projects\haxe/std/flash9/text/StyleSheet.hx" extern="1">
+		<extends path="flash.events.EventDispatcher"/>
+		<styleNames public="1" set="null"><c path="Array"><d/></c></styleNames>
+		<clear public="1" set="method"><f a=""><e path="Void"/></f></clear>
+		<getStyle public="1" set="method"><f a="styleName">
+	<c path="String"/>
+	<d/>
+</f></getStyle>
+		<parseCSS public="1" set="method"><f a="CSSText">
+	<c path="String"/>
+	<e path="Void"/>
+</f></parseCSS>
+		<setStyle public="1" set="method"><f a="styleName:styleObject">
+	<c path="String"/>
+	<d/>
+	<e path="Void"/>
+</f></setStyle>
+		<transform public="1" set="method"><f a="formatObject">
+	<d/>
+	<c path="flash.text.TextFormat"/>
+</f></transform>
+		<new public="1" set="method"><f a=""><e path="Void"/></f></new>
+		<haxe_dynamic><d/></haxe_dynamic>
+	</class>
 	<class path="flash.display.IBitmapDrawable" params="" file="C:\Projects\haxe/std/flash9/display/IBitmapDrawable.hx" extern="1" interface="1"/>
 	<class path="flash.display.DisplayObject" params="" file="C:\Projects\haxe/std/flash9/display/DisplayObject.hx" extern="1">
 		<extends path="flash.events.EventDispatcher"/>
@@ -1105,182 +1228,6 @@
 		<stop public="1" set="method"><f a=""><e path="Void"/></f></stop>
 		<new public="1" set="method"><f a=""><e path="Void"/></f></new>
 		<haxe_dynamic><d/></haxe_dynamic>
-	</class>
-	<class path="flash.text.StyleSheet" params="" file="C:\Projects\haxe/std/flash9/text/StyleSheet.hx" extern="1">
-		<extends path="flash.events.EventDispatcher"/>
-		<styleNames public="1" set="null"><c path="Array"><d/></c></styleNames>
-		<clear public="1" set="method"><f a=""><e path="Void"/></f></clear>
-		<getStyle public="1" set="method"><f a="styleName">
-	<c path="String"/>
-	<d/>
-</f></getStyle>
-		<parseCSS public="1" set="method"><f a="CSSText">
-	<c path="String"/>
-	<e path="Void"/>
-</f></parseCSS>
-		<setStyle public="1" set="method"><f a="styleName:styleObject">
-	<c path="String"/>
-	<d/>
-	<e path="Void"/>
-</f></setStyle>
-		<transform public="1" set="method"><f a="formatObject">
-	<d/>
-	<c path="flash.text.TextFormat"/>
-</f></transform>
-		<new public="1" set="method"><f a=""><e path="Void"/></f></new>
-		<haxe_dynamic><d/></haxe_dynamic>
-	</class>
-	<class path="Array" params="T" file="C:\Projects\haxe/std/Array.hx" extern="1">
-		<length public="1" set="null">
-			<c path="Int"/>
-			<haxe_doc>
-		The length of the Array
-	</haxe_doc>
-		</length>
-		<concat public="1" set="method">
-			<f a="a">
-				<c path="Array"><c path="Array.T"/></c>
-				<c path="Array"><c path="Array.T"/></c>
-			</f>
-			<haxe_doc>
-		Returns a new Array by appending [a] to [this].
-	</haxe_doc>
-		</concat>
-		<join public="1" set="method">
-			<f a="sep">
-				<c path="String"/>
-				<c path="String"/>
-			</f>
-			<haxe_doc>
-		Returns a representation of an array with [sep] for separating each element.
-	</haxe_doc>
-		</join>
-		<pop public="1" set="method">
-			<f a=""><t path="Null"><c path="Array.T"/></t></f>
-			<haxe_doc>
-		Removes the last element of the array and returns it.
-	</haxe_doc>
-		</pop>
-		<push public="1" set="method">
-			<f a="x">
-				<c path="Array.T"/>
-				<c path="Int"/>
-			</f>
-			<haxe_doc>
-		Adds the element [x] at the end of the array.
-	</haxe_doc>
-		</push>
-		<reverse public="1" set="method">
-			<f a=""><e path="Void"/></f>
-			<haxe_doc>
-		Reverse the order of elements of the Array.
-	</haxe_doc>
-		</reverse>
-		<shift public="1" set="method">
-			<f a=""><t path="Null"><c path="Array.T"/></t></f>
-			<haxe_doc>
-		Removes the first element and returns it.
-	</haxe_doc>
-		</shift>
-		<slice public="1" set="method">
-			<f a="pos:?end">
-				<c path="Int"/>
-				<c path="Int"/>
-				<c path="Array"><c path="Array.T"/></c>
-			</f>
-			<haxe_doc>
-		Copies the range of the array starting at [pos] up to,
-		but not including, [end]. Both [pos] and [end] can be
-		negative to count from the end: -1 is the last item in
-		the array.
-	</haxe_doc>
-		</slice>
-		<sort public="1" set="method">
-			<f a="f">
-				<f a=":">
-					<c path="Array.T"/>
-					<c path="Array.T"/>
-					<c path="Int"/>
-				</f>
-				<e path="Void"/>
-			</f>
-			<haxe_doc><![CDATA[
-		Sort the Array according to the comparison function [f].
-		[f(x,y)] should return [0] if [x == y], [>0] if [x > y]
-		and [<0] if [x < y].
-	]]></haxe_doc>
-		</sort>
-		<splice public="1" set="method">
-			<f a="pos:len">
-				<c path="Int"/>
-				<c path="Int"/>
-				<c path="Array"><c path="Array.T"/></c>
-			</f>
-			<haxe_doc>
-		Removes [len] elements starting from [pos] an returns them.
-	</haxe_doc>
-		</splice>
-		<toString public="1" set="method">
-			<f a=""><c path="String"/></f>
-			<haxe_doc>
-		Returns a displayable representation of the Array content.
-	</haxe_doc>
-		</toString>
-		<unshift public="1" set="method">
-			<f a="x">
-				<c path="Array.T"/>
-				<e path="Void"/>
-			</f>
-			<haxe_doc>
-		Adds the element [x] at the start of the array.
-	</haxe_doc>
-		</unshift>
-		<insert public="1" set="method">
-			<f a="pos:x">
-				<c path="Int"/>
-				<c path="Array.T"/>
-				<e path="Void"/>
-			</f>
-			<haxe_doc>
-		Inserts the element [x] at the position [pos].
-		All elements after [pos] are moved one index ahead.
-	</haxe_doc>
-		</insert>
-		<remove public="1" set="method">
-			<f a="x">
-				<c path="Array.T"/>
-				<e path="Bool"/>
-			</f>
-			<haxe_doc>
-		Removes the first occurence of [x].
-		Returns false if [x] was not present.
-		Elements are compared by using standard equality.
-	</haxe_doc>
-		</remove>
-		<copy public="1" set="method">
-			<f a=""><c path="Array"><c path="Array.T"/></c></f>
-			<haxe_doc>
-		Returns a copy of the Array. The values are not
-		copied, only the Array structure.
-	</haxe_doc>
-		</copy>
-		<iterator public="1" set="method">
-			<f a=""><t path="Iterator"><t path="Null"><c path="Array.T"/></t></t></f>
-			<haxe_doc>
-		Returns an iterator of the Array values.
-	</haxe_doc>
-		</iterator>
-		<new public="1" set="method">
-			<f a=""><e path="Void"/></f>
-			<haxe_doc>
-		Creates a new Array.
-	</haxe_doc>
-		</new>
-		<haxe_doc>
-	An Array is a storage for values. You can access it using indexes or
-	with its API. On the server side, it's often better to use a [List] which
-	is less memory and CPU consuming, unless you really need indexed access.
-</haxe_doc>
 	</class>
 	<class path="flash.text.TextSnapshot" params="" file="C:\Projects\haxe/std/flash9/text/TextSnapshot.hx" extern="1">
 		<charCount public="1" set="null"><c path="Int"/></charCount>
@@ -1494,24 +1441,6 @@
 	each application using it.
 </haxe_doc>
 	</class>
-	<class path="utest.ui.common.ReportTools" params="" file="src/utest/ui/common/ReportTools.hx">
-		<hasHeader public="1" set="method" line="7" static="1"><f a="report:stats">
-	<c path="utest.ui.common.IReport"><d/></c>
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Bool"/>
-</f></hasHeader>
-		<skipResult public="1" set="method" line="28" static="1"><f a="report:stats:isOk">
-	<c path="utest.ui.common.IReport"><d/></c>
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Bool"/>
-	<e path="Bool"/>
-</f></skipResult>
-		<hasOutput public="1" set="method" line="39" static="1"><f a="report:stats">
-	<c path="utest.ui.common.IReport"><d/></c>
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Bool"/>
-</f></hasOutput>
-	</class>
 	<class path="haxe.io.Bytes" params="" file="C:\Projects\haxe/std/haxe/io/Bytes.hx">
 		<alloc public="1" set="method" line="225" static="1"><f a="length">
 	<c path="Int"/>
@@ -1665,37 +1594,20 @@
 	<e path="Void"/>
 </f></new>
 	</class>
-	<class path="utest.ui.common.IReport" params="T" file="src/utest/ui/common/IReport.hx" interface="1">
-		<displaySuccessResults public="1"><e path="utest.ui.common.SuccessResultsDisplayMode"/></displaySuccessResults>
-		<displayHeader public="1"><e path="utest.ui.common.HeaderDisplayMode"/></displayHeader>
-		<setHandler public="1" set="method"><f a="handler">
-	<f a="">
-		<c path="utest.ui.common.IReport.T"/>
-		<e path="Void"/>
-	</f>
-	<e path="Void"/>
-</f></setHandler>
-	</class>
-	<enum path="flash.display.GradientType" params="" file="C:\Projects\haxe/std/flash9/display/GradientType.hx">
-		<RADIAL/>
-		<LINEAR/>
-	</enum>
-	<class path="Class" params="T" file="C:\Projects\haxe/std/Class.hx" extern="1"><haxe_doc>
-	An abstract type that represents a Class.
-	See [Type] for the haXe Reflection API.
-</haxe_doc></class>
 	<enum path="flash.text.TextFieldAutoSize" params="" file="C:\Projects\haxe/std/flash9/text/TextFieldAutoSize.hx">
 		<RIGHT/>
 		<NONE/>
 		<LEFT/>
 		<CENTER/>
 	</enum>
-	<class path="utest.ui.Report" params="" file="src/utest/ui/Report.hx"><create public="1" set="method" line="17" static="1"><f a="runner:?displaySuccessResults:?headerDisplayMode">
-	<c path="utest.Runner"/>
-	<e path="utest.ui.common.SuccessResultsDisplayMode"/>
-	<e path="utest.ui.common.HeaderDisplayMode"/>
-	<c path="utest.ui.common.IReport"><d/></c>
-</f></create></class>
+	<class path="Class" params="T" file="C:\Projects\haxe/std/Class.hx" extern="1"><haxe_doc>
+	An abstract type that represents a Class.
+	See [Type] for the haXe Reflection API.
+</haxe_doc></class>
+	<enum path="flash.display.GradientType" params="" file="C:\Projects\haxe/std/flash9/display/GradientType.hx">
+		<RADIAL/>
+		<LINEAR/>
+	</enum>
 	<class path="flash.accessibility.AccessibilityImplementation" params="" file="C:\Projects\haxe/std/flash9/accessibility/AccessibilityImplementation.hx" extern="1">
 		<errno public="1"><t path="UInt"/></errno>
 		<stub public="1"><e path="Bool"/></stub>
@@ -1741,6 +1653,11 @@
 </f></isLabeledBy>
 		<new public="1" set="method"><f a=""><e path="Void"/></f></new>
 	</class>
+	<enum path="flash.net.NetStreamAppendBytesAction" params="" file="C:\Projects\haxe/std/flash9/net/NetStreamAppendBytesAction.hx">
+		<RESET_SEEK/>
+		<RESET_BEGIN/>
+		<END_SEQUENCE/>
+	</enum>
 	<class path="flash.text.TextLineMetrics" params="" file="C:\Projects\haxe/std/flash9/text/TextLineMetrics.hx" extern="1">
 		<ascent public="1"><c path="Float"/></ascent>
 		<descent public="1"><c path="Float"/></descent>
@@ -1757,146 +1674,6 @@
 	<c path="Float"/>
 	<e path="Void"/>
 </f></new>
-	</class>
-	<enum path="flash.net.NetStreamAppendBytesAction" params="" file="C:\Projects\haxe/std/flash9/net/NetStreamAppendBytesAction.hx">
-		<RESET_SEEK/>
-		<RESET_BEGIN/>
-		<END_SEQUENCE/>
-	</enum>
-	<class path="utest.ui.text.HtmlReport" params="" file="src/utest/ui/text/HtmlReport.hx">
-		<implements path="utest.ui.common.IReport"><c path="utest.ui.text.HtmlReport"/></implements>
-		<platform line="33" static="1"><c path="String"/></platform>
-		<traceRedirected public="1" set="null"><e path="Bool"/></traceRedirected>
-		<displaySuccessResults public="1"><e path="utest.ui.common.SuccessResultsDisplayMode"/></displaySuccessResults>
-		<displayHeader public="1"><e path="utest.ui.common.HeaderDisplayMode"/></displayHeader>
-		<handler public="1"><f a="">
-	<c path="utest.ui.text.HtmlReport"/>
-	<e path="Void"/>
-</f></handler>
-		<aggregator><c path="utest.ui.common.ResultAggregator"/></aggregator>
-		<oldTrace><d/></oldTrace>
-		<_traces><c path="Array"><a>
-	<time><c path="Float"/></time>
-	<stack><c path="Array"><e path="haxe.StackItem"/></c></stack>
-	<msg><c path="String"/></msg>
-	<infos><t path="haxe.PosInfos"/></infos>
-	<delta><c path="Float"/></delta>
-</a></c></_traces>
-		<setHandler public="1" set="method" line="58"><f a="handler">
-	<f a="">
-		<c path="utest.ui.text.HtmlReport"/>
-		<e path="Void"/>
-	</f>
-	<e path="Void"/>
-</f></setHandler>
-		<redirectTrace public="1" set="method" line="63"><f a=""><e path="Void"/></f></redirectTrace>
-		<restoreTrace public="1" set="method" line="72"><f a=""><e path="Void"/></f></restoreTrace>
-		<_traceTime><t path="Null"><c path="Float"/></t></_traceTime>
-		<_trace set="method" line="80"><f a="v:?infos">
-	<d/>
-	<t path="haxe.PosInfos"/>
-	<e path="Void"/>
-</f></_trace>
-		<startTime><c path="Float"/></startTime>
-		<start set="method" line="95"><f a="e">
-	<c path="utest.Runner"/>
-	<e path="Void"/>
-</f></start>
-		<cls set="method" line="99"><f a="stats">
-	<c path="utest.ui.common.ResultStats"/>
-	<c path="String"/>
-</f></cls>
-		<resultNumbers set="method" line="111"><f a="buf:stats">
-	<c path="StringBuf"/>
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Void"/>
-</f></resultNumbers>
-		<blockNumbers set="method" line="145"><f a="buf:stats">
-	<c path="StringBuf"/>
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Void"/>
-</f></blockNumbers>
-		<formatStack set="method" line="152"><f a="stack:?addNL">
-	<c path="Array"><e path="haxe.StackItem"/></c>
-	<e path="Bool"/>
-	<c path="String"/>
-</f></formatStack>
-		<addFixture set="method" line="182"><f a="buf:result:name:isOk">
-	<c path="StringBuf"/>
-	<c path="utest.ui.common.FixtureResult"/>
-	<c path="String"/>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></addFixture>
-		<getErrorDescription set="method" line="231"><f a="e">
-	<d/>
-	<c path="String"/>
-</f></getErrorDescription>
-		<getErrorStack set="method" line="246"><f a="s:e">
-	<c path="Array"><e path="haxe.StackItem"/></c>
-	<d/>
-	<c path="String"/>
-</f></getErrorStack>
-		<addClass set="method" line="272"><f a="buf:result:name:isOk">
-	<c path="StringBuf"/>
-	<c path="utest.ui.common.ClassResult"/>
-	<c path="String"/>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></addClass>
-		<addPackages set="method" line="286"><f a="buf:result:isOk">
-	<c path="StringBuf"/>
-	<c path="utest.ui.common.PackageResult"/>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></addPackages>
-		<addPackage set="method" line="297"><f a="buf:result:name:isOk">
-	<c path="StringBuf"/>
-	<c path="utest.ui.common.PackageResult"/>
-	<c path="String"/>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></addPackage>
-		<getHeader public="1" set="method" line="311"><f a=""><c path="String"/></f></getHeader>
-		<getTrace public="1" set="method" line="335"><f a=""><c path="String"/></f></getTrace>
-		<getResults public="1" set="method" line="364"><f a=""><c path="String"/></f></getResults>
-		<getAll public="1" set="method" line="371"><f a=""><c path="String"/></f></getAll>
-		<getHtml public="1" set="method" line="379"><f a="?title">
-	<c path="String"/>
-	<c path="String"/>
-</f></getHtml>
-		<result><c path="utest.ui.common.PackageResult"/></result>
-		<complete set="method" line="391"><f a="result">
-	<c path="utest.ui.common.PackageResult"/>
-	<e path="Void"/>
-</f></complete>
-		<formatTime set="method" line="397"><f a="t">
-	<c path="Float"/>
-	<c path="String"/>
-</f></formatTime>
-		<cssStyle set="method" line="402"><f a=""><c path="String"/></f></cssStyle>
-		<jsScript set="method" line="612"><f a=""><c path="String"/></f></jsScript>
-		<wrapHtml set="method" line="646"><f a="title:s">
-	<c path="String"/>
-	<c path="String"/>
-	<c path="String"/>
-</f></wrapHtml>
-		<_handler set="method" line="655"><f a="report">
-	<c path="utest.ui.text.HtmlReport"/>
-	<e path="Void"/>
-</f></_handler>
-		<new public="1" set="method" line="44"><f a="runner:?outputHandler:?traceRedirected">
-	<c path="utest.Runner"/>
-	<f a="">
-		<c path="utest.ui.text.HtmlReport"/>
-		<e path="Void"/>
-	</f>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
-</haxe_doc>
 	</class>
 	<enum path="flash.display.ColorCorrectionSupport" params="" file="C:\Projects\haxe/std/flash9/display/ColorCorrectionSupport.hx">
 		<UNSUPPORTED/>
@@ -2052,57 +1829,6 @@
 	<e path="Void"/>
 </f></new>
 	</class>
-	<class path="utest.ui.common.ResultStats" params="" file="src/utest/ui/common/ResultStats.hx">
-		<assertations public="1" set="null"><c path="Int"/></assertations>
-		<successes public="1" set="null"><c path="Int"/></successes>
-		<failures public="1" set="null"><c path="Int"/></failures>
-		<errors public="1" set="null"><c path="Int"/></errors>
-		<warnings public="1" set="null"><c path="Int"/></warnings>
-		<onAddSuccesses public="1" set="null"><c path="utest.Dispatcher"><c path="Int"/></c></onAddSuccesses>
-		<onAddFailures public="1" set="null"><c path="utest.Dispatcher"><c path="Int"/></c></onAddFailures>
-		<onAddErrors public="1" set="null"><c path="utest.Dispatcher"><c path="Int"/></c></onAddErrors>
-		<onAddWarnings public="1" set="null"><c path="utest.Dispatcher"><c path="Int"/></c></onAddWarnings>
-		<isOk public="1" set="null"><e path="Bool"/></isOk>
-		<hasFailures public="1" set="null"><e path="Bool"/></hasFailures>
-		<hasErrors public="1" set="null"><e path="Bool"/></hasErrors>
-		<hasWarnings public="1" set="null"><e path="Bool"/></hasWarnings>
-		<addSuccesses public="1" set="method" line="42"><f a="v">
-	<c path="Int"/>
-	<e path="Void"/>
-</f></addSuccesses>
-		<addFailures public="1" set="method" line="49"><f a="v">
-	<c path="Int"/>
-	<e path="Void"/>
-</f></addFailures>
-		<addErrors public="1" set="method" line="58"><f a="v">
-	<c path="Int"/>
-	<e path="Void"/>
-</f></addErrors>
-		<addWarnings public="1" set="method" line="67"><f a="v">
-	<c path="Int"/>
-	<e path="Void"/>
-</f></addWarnings>
-		<sum public="1" set="method" line="76"><f a="other">
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Void"/>
-</f></sum>
-		<subtract public="1" set="method" line="83"><f a="other">
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Void"/>
-</f></subtract>
-		<wire public="1" set="method" line="90"><f a="dependant">
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Void"/>
-</f></wire>
-		<unwire public="1" set="method" line="98"><f a="dependant">
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Void"/>
-</f></unwire>
-		<new public="1" set="method" line="24"><f a=""><e path="Void"/></f></new>
-		<haxe_doc>
-* @todo add documentation
-</haxe_doc>
-	</class>
 	<class path="flash.accessibility.AccessibilityProperties" params="" file="C:\Projects\haxe/std/flash9/accessibility/AccessibilityProperties.hx" extern="1">
 		<description public="1"><c path="String"/></description>
 		<forceSimple public="1"><e path="Bool"/></forceSimple>
@@ -2143,25 +1869,6 @@
 	<t path="UInt"/>
 	<e path="Void"/>
 </f></uploadFromByteArray>
-	</class>
-	<class path="flash.external.ExternalInterface" params="" file="C:\Projects\haxe/std/flash9/external/ExternalInterface.hx" extern="1">
-		<available public="1" set="null" static="1"><e path="Bool"/></available>
-		<marshallExceptions public="1" static="1"><e path="Bool"/></marshallExceptions>
-		<objectID public="1" set="null" static="1"><c path="String"/></objectID>
-		<addCallback public="1" set="method" static="1"><f a="functionName:closure">
-	<c path="String"/>
-	<d/>
-	<e path="Void"/>
-</f></addCallback>
-		<call public="1" set="method" static="1"><f a="functionName:?p1:?p2:?p3:?p4:?p5">
-	<c path="String"/>
-	<d/>
-	<d/>
-	<d/>
-	<d/>
-	<d/>
-	<d/>
-</f></call>
 	</class>
 	<class path="flash.net.NetStreamInfo" params="" file="C:\Projects\haxe/std/flash9/net/NetStreamInfo.hx" extern="1">
 		<SRTT public="1" set="null"><c path="Float"/></SRTT>
@@ -2217,41 +1924,6 @@
 	<c path="String"/>
 	<e path="Void"/>
 </f></requestContext3D>
-	</class>
-	<class path="utest.ui.common.ClassResult" params="" file="src/utest/ui/common/ClassResult.hx">
-		<fixtures><c path="Hash"><c path="utest.ui.common.FixtureResult"/></c></fixtures>
-		<className public="1" set="null"><c path="String"/></className>
-		<setupName public="1" set="null"><c path="String"/></setupName>
-		<teardownName public="1" set="null"><c path="String"/></teardownName>
-		<hasSetup public="1" set="null"><e path="Bool"/></hasSetup>
-		<hasTeardown public="1" set="null"><e path="Bool"/></hasTeardown>
-		<methods public="1" set="null"><c path="Int"/></methods>
-		<stats public="1" set="null"><c path="utest.ui.common.ResultStats"/></stats>
-		<add public="1" set="method" line="31"><f a="result">
-	<c path="utest.ui.common.FixtureResult"/>
-	<e path="Void"/>
-</f></add>
-		<get public="1" set="method" line="40"><f a="method">
-	<c path="String"/>
-	<t path="Null"><c path="utest.ui.common.FixtureResult"/></t>
-</f></get>
-		<exists public="1" set="method" line="44"><f a="method">
-	<c path="String"/>
-	<e path="Bool"/>
-</f></exists>
-		<methodNames public="1" set="method" line="48"><f a="?errorsHavePriority">
-	<e path="Bool"/>
-	<c path="Array"><c path="String"/></c>
-</f></methodNames>
-		<new public="1" set="method" line="19"><f a="className:setupName:teardownName">
-	<c path="String"/>
-	<c path="String"/>
-	<c path="String"/>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
-</haxe_doc>
 	</class>
 	<enum path="haxe.StackItem" params="" file="C:\Projects\haxe/std/haxe/Stack.hx" module="haxe.Stack">
 		<Module a="m"><c path="String"/></Module>
@@ -2973,79 +2645,6 @@
 	<e path="Void"/>
 </f></new>
 	</class>
-	<class path="utest.ui.text.PlainTextReport" params="" file="src/utest/ui/text/PlainTextReport.hx">
-		<implements path="utest.ui.common.IReport"><c path="utest.ui.text.PlainTextReport"/></implements>
-		<displaySuccessResults public="1"><e path="utest.ui.common.SuccessResultsDisplayMode"/></displaySuccessResults>
-		<displayHeader public="1"><e path="utest.ui.common.HeaderDisplayMode"/></displayHeader>
-		<handler public="1"><f a="">
-	<c path="utest.ui.text.PlainTextReport"/>
-	<e path="Void"/>
-</f></handler>
-		<aggregator><c path="utest.ui.common.ResultAggregator"/></aggregator>
-		<newline><c path="String"/></newline>
-		<indent><c path="String"/></indent>
-		<setHandler public="1" set="method" line="35"><f a="handler">
-	<f a="">
-		<c path="utest.ui.text.PlainTextReport"/>
-		<e path="Void"/>
-	</f>
-	<e path="Void"/>
-</f></setHandler>
-		<startTime><c path="Float"/></startTime>
-		<start set="method" line="41"><f a="e">
-	<c path="utest.Runner"/>
-	<e path="Void"/>
-</f></start>
-		<indents set="method" line="45"><f a="c">
-	<c path="Int"/>
-	<c path="String"/>
-</f></indents>
-		<dumpStack set="method" line="52"><f a="stack">
-	<c path="Array"><e path="haxe.StackItem"/></c>
-	<c path="String"/>
-</f></dumpStack>
-		<addHeader set="method" line="67"><f a="buf:result">
-	<c path="StringBuf"/>
-	<c path="utest.ui.common.PackageResult"/>
-	<e path="Void"/>
-</f></addHeader>
-		<result><c path="utest.ui.common.PackageResult"/></result>
-		<getResults public="1" set="method" line="93"><f a=""><c path="String"/></f></getResults>
-		<complete set="method" line="154"><f a="result">
-	<c path="utest.ui.common.PackageResult"/>
-	<e path="Void"/>
-</f></complete>
-		<new public="1" set="method" line="25"><f a="runner:?outputHandler">
-	<c path="utest.Runner"/>
-	<f a="">
-		<c path="utest.ui.text.PlainTextReport"/>
-		<e path="Void"/>
-	</f>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
-</haxe_doc>
-	</class>
-	<class path="utest.ui.text.PrintReport" params="" file="src/utest/ui/text/PrintReport.hx">
-		<extends path="utest.ui.text.PlainTextReport"/>
-		<useTrace><e path="Bool"/></useTrace>
-		<_handler set="method" line="57"><f a="report">
-	<c path="utest.ui.text.PlainTextReport"/>
-	<e path="Void"/>
-</f></_handler>
-		<_trace set="method" line="63"><f a="s">
-	<c path="String"/>
-	<e path="Void"/>
-</f></_trace>
-		<new public="1" set="method" line="51"><f a="runner">
-	<c path="utest.Runner"/>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
-</haxe_doc>
-	</class>
 	<class path="flash.events.UncaughtErrorEvents" params="" file="C:\Projects\haxe/std/flash9/events/UncaughtErrorEvents.hx" extern="1">
 		<extends path="flash.events.EventDispatcher"/>
 		<new public="1"><f a=""><e path="Void"/></f></new>
@@ -3084,6 +2683,27 @@
 		<NONE/>
 		<HORIZONTAL/>
 	</enum>
+	<enum path="flash.display.SWFVersion" params="" file="C:\Projects\haxe/std/flash9/display/SWFVersion.hx">
+		<FLASH9/>
+		<FLASH8/>
+		<FLASH7/>
+		<FLASH6/>
+		<FLASH5/>
+		<FLASH4/>
+		<FLASH3/>
+		<FLASH2/>
+		<FLASH12/>
+		<FLASH11/>
+		<FLASH10/>
+		<FLASH1/>
+	</enum>
+	<class path="flash.display.ShaderData" params="" file="C:\Projects\haxe/std/flash9/display/ShaderData.hx" extern="1">
+		<new public="1" set="method"><f a="byteCode">
+	<c path="flash.utils.ByteArray"/>
+	<e path="Void"/>
+</f></new>
+		<haxe_dynamic><d/></haxe_dynamic>
+	</class>
 	<class path="flash.display.Graphics" params="" file="C:\Projects\haxe/std/flash9/display/Graphics.hx" extern="1">
 		<beginBitmapFill public="1" set="method"><f a="bitmap:?matrix:?repeat:?smooth">
 	<c path="flash.display.BitmapData"/>
@@ -3237,27 +2857,6 @@
 	<e path="Void"/>
 </f></moveTo>
 		<new public="1" set="method"><f a=""><e path="Void"/></f></new>
-	</class>
-	<enum path="flash.display.SWFVersion" params="" file="C:\Projects\haxe/std/flash9/display/SWFVersion.hx">
-		<FLASH9/>
-		<FLASH8/>
-		<FLASH7/>
-		<FLASH6/>
-		<FLASH5/>
-		<FLASH4/>
-		<FLASH3/>
-		<FLASH2/>
-		<FLASH12/>
-		<FLASH11/>
-		<FLASH10/>
-		<FLASH1/>
-	</enum>
-	<class path="flash.display.ShaderData" params="" file="C:\Projects\haxe/std/flash9/display/ShaderData.hx" extern="1">
-		<new public="1" set="method"><f a="byteCode">
-	<c path="flash.utils.ByteArray"/>
-	<e path="Void"/>
-</f></new>
-		<haxe_dynamic><d/></haxe_dynamic>
 	</class>
 	<class path="haxe.Public" params="" file="C:\Projects\haxe/std/haxe/Public.hx" interface="1"><haxe_doc>
 	When implementing this interface, all default fields access for the class and
@@ -4174,16 +3773,6 @@
 		<NORMAL/>
 		<ADVANCED/>
 	</enum>
-	<enum path="utest.ui.common.HeaderDisplayMode" params="" file="src/utest/ui/common/HeaderDisplayMode.hx">
-		<ShowHeaderWithResults/>
-		<NeverShowHeader/>
-		<AlwaysShowHeader/>
-	</enum>
-	<enum path="utest.ui.common.SuccessResultsDisplayMode" params="" file="src/utest/ui/common/HeaderDisplayMode.hx" module="utest.ui.common.HeaderDisplayMode">
-		<ShowSuccessResultsWithNoErrors/>
-		<NeverShowSuccessResults/>
-		<AlwaysShowSuccessResults/>
-	</enum>
 	<class path="flash.ui.ContextMenuClipboardItems" params="" file="C:\Projects\haxe/std/flash9/ui/ContextMenuClipboardItems.hx" extern="1">
 		<clear public="1"><e path="Bool"/></clear>
 		<copy public="1"><e path="Bool"/></copy>
@@ -4247,75 +3836,6 @@
 	<t path="UInt"/>
 	<e path="Void"/>
 </f></writeUnsignedInt>
-	</class>
-	<class path="utest.ui.common.PackageResult" params="" file="src/utest/ui/common/PackageResult.hx">
-		<packageName public="1" set="null"><c path="String"/></packageName>
-		<classes><c path="Hash"><c path="utest.ui.common.ClassResult"/></c></classes>
-		<packages><c path="Hash"><c path="utest.ui.common.PackageResult"/></c></packages>
-		<stats public="1" set="null"><c path="utest.ui.common.ResultStats"/></stats>
-		<addResult public="1" set="method" line="24"><f a="result:flattenPackage">
-	<c path="utest.TestResult"/>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></addResult>
-		<addClass public="1" set="method" line="31"><f a="result">
-	<c path="utest.ui.common.ClassResult"/>
-	<e path="Void"/>
-</f></addClass>
-		<addPackage public="1" set="method" line="36"><f a="result">
-	<c path="utest.ui.common.PackageResult"/>
-	<e path="Void"/>
-</f></addPackage>
-		<existsPackage public="1" set="method" line="41"><f a="name">
-	<c path="String"/>
-	<e path="Bool"/>
-</f></existsPackage>
-		<existsClass public="1" set="method" line="45"><f a="name">
-	<c path="String"/>
-	<e path="Bool"/>
-</f></existsClass>
-		<getPackage public="1" set="method" line="49"><f a="name">
-	<c path="String"/>
-	<c path="utest.ui.common.PackageResult"/>
-</f></getPackage>
-		<getClass public="1" set="method" line="54"><f a="name">
-	<c path="String"/>
-	<t path="Null"><c path="utest.ui.common.ClassResult"/></t>
-</f></getClass>
-		<classNames public="1" set="method" line="58"><f a="?errorsHavePriority">
-	<e path="Bool"/>
-	<c path="Array"><c path="String"/></c>
-</f></classNames>
-		<packageNames public="1" set="method" line="91"><f a="?errorsHavePriority">
-	<e path="Bool"/>
-	<c path="Array"><c path="String"/></c>
-</f></packageNames>
-		<createFixture set="method" line="125"><f a="method:assertations">
-	<c path="String"/>
-	<t path="Iterable"><e path="utest.Assertation"/></t>
-	<c path="utest.ui.common.FixtureResult"/>
-</f></createFixture>
-		<getOrCreateClass set="method" line="132"><f a="pack:cls:setup:teardown">
-	<c path="utest.ui.common.PackageResult"/>
-	<c path="String"/>
-	<c path="String"/>
-	<c path="String"/>
-	<t path="Null"><c path="utest.ui.common.ClassResult"/></t>
-</f></getOrCreateClass>
-		<getOrCreatePackage set="method" line="139"><f a="pack:flat:ref">
-	<c path="String"/>
-	<e path="Bool"/>
-	<c path="utest.ui.common.PackageResult"/>
-	<c path="utest.ui.common.PackageResult"/>
-</f></getOrCreatePackage>
-		<new public="1" set="method" line="17"><f a="packageName">
-	<c path="String"/>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
-* @todo add tests for this class
-</haxe_doc>
 	</class>
 	<class path="flash.media.SoundTransform" params="" file="C:\Projects\haxe/std/flash9/media/SoundTransform.hx" extern="1">
 		<leftToLeft public="1"><c path="Float"/></leftToLeft>
@@ -4579,10 +4099,6 @@
 	The Std class provides standard methods for manipulating basic types.
 </haxe_doc>
 	</class>
-	<enum path="flash.display.ActionScriptVersion" params="" file="C:\Projects\haxe/std/flash9/display/ActionScriptVersion.hx">
-		<ACTIONSCRIPT3/>
-		<ACTIONSCRIPT2/>
-	</enum>
 	<class path="haxe.Timer" params="" file="C:\Projects\haxe/std/haxe/Timer.hx">
 		<delay public="1" set="method" line="76" static="1"><f a="f:time_ms">
 	<f a=""><e path="Void"/></f>
@@ -4608,6 +4124,10 @@
 	<e path="Void"/>
 </f></new>
 	</class>
+	<enum path="flash.display.ActionScriptVersion" params="" file="C:\Projects\haxe/std/flash9/display/ActionScriptVersion.hx">
+		<ACTIONSCRIPT3/>
+		<ACTIONSCRIPT2/>
+	</enum>
 	<enum path="flash.display3D.Context3DStencilAction" params="" file="C:\Projects\haxe/std/flash9/display3D/Context3DStencilAction.hx">
 		<ZERO/>
 		<SET/>
@@ -5967,17 +5487,17 @@
 		<COMPRESSED/>
 		<BGRA/>
 	</enum>
-	<enum path="flash.text.GridFitType" params="" file="C:\Projects\haxe/std/flash9/text/GridFitType.hx">
-		<SUBPIXEL/>
-		<PIXEL/>
-		<NONE/>
-	</enum>
 	<enum path="flash.media.MicrophoneEnhancedMode" params="" file="C:\Projects\haxe/std/flash9/media/MicrophoneEnhancedMode.hx">
 		<SPEAKER_MUTE/>
 		<OFF/>
 		<HEADSET/>
 		<HALF_DUPLEX/>
 		<FULL_DUPLEX/>
+	</enum>
+	<enum path="flash.text.GridFitType" params="" file="C:\Projects\haxe/std/flash9/text/GridFitType.hx">
+		<SUBPIXEL/>
+		<PIXEL/>
+		<NONE/>
 	</enum>
 	<enum path="flash.display.BlendMode" params="" file="C:\Projects\haxe/std/flash9/display/BlendMode.hx">
 		<SUBTRACT/>
@@ -6406,27 +5926,5 @@
 	<c path="Float"/>
 	<e path="Void"/>
 </f></new>
-	</class>
-	<class path="utest.ui.common.FixtureResult" params="" file="src/utest/ui/common/FixtureResult.hx">
-		<methodName public="1" set="null"><c path="String"/></methodName>
-		<hasTestError public="1" set="null"><e path="Bool"/></hasTestError>
-		<hasSetupError public="1" set="null"><e path="Bool"/></hasSetupError>
-		<hasTeardownError public="1" set="null"><e path="Bool"/></hasTeardownError>
-		<hasTimeoutError public="1" set="null"><e path="Bool"/></hasTimeoutError>
-		<hasAsyncError public="1" set="null"><e path="Bool"/></hasAsyncError>
-		<stats public="1" set="null"><c path="utest.ui.common.ResultStats"/></stats>
-		<list set="null"><c path="List"><e path="utest.Assertation"/></c></list>
-		<iterator public="1" set="method" line="31"><f a=""><t path="Iterator"><e path="utest.Assertation"/></t></f></iterator>
-		<add public="1" set="method" line="35"><f a="assertation">
-	<e path="utest.Assertation"/>
-	<e path="Void"/>
-</f></add>
-		<new public="1" set="method" line="19"><f a="methodName">
-	<c path="String"/>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
-</haxe_doc>
 	</class>
 </haxe>

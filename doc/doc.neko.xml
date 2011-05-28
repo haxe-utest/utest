@@ -3,75 +3,6 @@
 	An abstract type that represents an Enum.
 	See [Type] for the haXe Reflection API.
 </haxe_doc></class>
-	<class path="utest.ui.common.PackageResult" params="" file="src/utest/ui/common/PackageResult.hx">
-		<packageName public="1" set="null"><c path="String"/></packageName>
-		<classes><c path="Hash"><c path="utest.ui.common.ClassResult"/></c></classes>
-		<packages><c path="Hash"><c path="utest.ui.common.PackageResult"/></c></packages>
-		<stats public="1" set="null"><c path="utest.ui.common.ResultStats"/></stats>
-		<addResult public="1" set="method" line="24"><f a="result:flattenPackage">
-	<c path="utest.TestResult"/>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></addResult>
-		<addClass public="1" set="method" line="31"><f a="result">
-	<c path="utest.ui.common.ClassResult"/>
-	<e path="Void"/>
-</f></addClass>
-		<addPackage public="1" set="method" line="36"><f a="result">
-	<c path="utest.ui.common.PackageResult"/>
-	<e path="Void"/>
-</f></addPackage>
-		<existsPackage public="1" set="method" line="41"><f a="name">
-	<c path="String"/>
-	<e path="Bool"/>
-</f></existsPackage>
-		<existsClass public="1" set="method" line="45"><f a="name">
-	<c path="String"/>
-	<e path="Bool"/>
-</f></existsClass>
-		<getPackage public="1" set="method" line="49"><f a="name">
-	<c path="String"/>
-	<c path="utest.ui.common.PackageResult"/>
-</f></getPackage>
-		<getClass public="1" set="method" line="54"><f a="name">
-	<c path="String"/>
-	<t path="Null"><c path="utest.ui.common.ClassResult"/></t>
-</f></getClass>
-		<classNames public="1" set="method" line="58"><f a="?errorsHavePriority">
-	<e path="Bool"/>
-	<c path="Array"><c path="String"/></c>
-</f></classNames>
-		<packageNames public="1" set="method" line="91"><f a="?errorsHavePriority">
-	<e path="Bool"/>
-	<c path="Array"><c path="String"/></c>
-</f></packageNames>
-		<createFixture set="method" line="125"><f a="method:assertations">
-	<c path="String"/>
-	<t path="Iterable"><e path="utest.Assertation"/></t>
-	<c path="utest.ui.common.FixtureResult"/>
-</f></createFixture>
-		<getOrCreateClass set="method" line="132"><f a="pack:cls:setup:teardown">
-	<c path="utest.ui.common.PackageResult"/>
-	<c path="String"/>
-	<c path="String"/>
-	<c path="String"/>
-	<t path="Null"><c path="utest.ui.common.ClassResult"/></t>
-</f></getOrCreateClass>
-		<getOrCreatePackage set="method" line="139"><f a="pack:flat:ref">
-	<c path="String"/>
-	<e path="Bool"/>
-	<c path="utest.ui.common.PackageResult"/>
-	<c path="utest.ui.common.PackageResult"/>
-</f></getOrCreatePackage>
-		<new public="1" set="method" line="17"><f a="packageName">
-	<c path="String"/>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
-* @todo add tests for this class
-</haxe_doc>
-	</class>
 	<enum path="haxe.StackItem" params="" file="C:\Projects\haxe/std/haxe/Stack.hx" module="haxe.Stack">
 		<Module a="m"><c path="String"/></Module>
 		<Method a="classname:method">
@@ -125,31 +56,6 @@
 		<haxe_doc>
 	Get informations about the call stack.
 </haxe_doc>
-	</class>
-	<class path="haxe.io.BytesBuffer" params="" file="C:\Projects\haxe/std/haxe/io/BytesBuffer.hx">
-		<b><e path="Void"/></b>
-		<addByte public="1" get="inline" set="null" line="55"><f a="byte">
-	<c path="Int"/>
-	<e path="Void"/>
-</f></addByte>
-		<add public="1" get="inline" set="null" line="69"><f a="src">
-	<c path="haxe.io.Bytes"/>
-	<e path="Void"/>
-</f></add>
-		<addBytes public="1" get="inline" set="null" line="84"><f a="src:pos:len">
-	<c path="haxe.io.Bytes"/>
-	<c path="Int"/>
-	<c path="Int"/>
-	<e path="Void"/>
-</f></addBytes>
-		<getBytes public="1" set="method" line="106">
-			<f a=""><c path="haxe.io.Bytes"/></f>
-			<haxe_doc>
-		Returns either a copy or a reference of the current bytes.
-		Once called, the buffer can no longer be used.
-	</haxe_doc>
-		</getBytes>
-		<new public="1" set="method" line="41"><f a=""><e path="Void"/></f></new>
 	</class>
 	<class path="neko.Lib" params="" file="C:\Projects\haxe/std/neko/Lib.hx">
 		<load public="1" set="method" line="32" static="1">
@@ -535,71 +441,6 @@
 	manipulation. It's stored in a different class in order to prevent
 	the standard [String] of being bloated and thus increasing the size of
 	each application using it.
-</haxe_doc>
-	</class>
-	<class path="utest.ui.common.IReport" params="T" file="src/utest/ui/common/IReport.hx" interface="1">
-		<displaySuccessResults public="1"><e path="utest.ui.common.SuccessResultsDisplayMode"/></displaySuccessResults>
-		<displayHeader public="1"><e path="utest.ui.common.HeaderDisplayMode"/></displayHeader>
-		<setHandler public="1" set="method"><f a="handler">
-	<f a="">
-		<c path="utest.ui.common.IReport.T"/>
-		<e path="Void"/>
-	</f>
-	<e path="Void"/>
-</f></setHandler>
-	</class>
-	<class path="utest.ui.text.PlainTextReport" params="" file="src/utest/ui/text/PlainTextReport.hx">
-		<implements path="utest.ui.common.IReport"><c path="utest.ui.text.PlainTextReport"/></implements>
-		<displaySuccessResults public="1"><e path="utest.ui.common.SuccessResultsDisplayMode"/></displaySuccessResults>
-		<displayHeader public="1"><e path="utest.ui.common.HeaderDisplayMode"/></displayHeader>
-		<handler public="1"><f a="">
-	<c path="utest.ui.text.PlainTextReport"/>
-	<e path="Void"/>
-</f></handler>
-		<aggregator><c path="utest.ui.common.ResultAggregator"/></aggregator>
-		<newline><c path="String"/></newline>
-		<indent><c path="String"/></indent>
-		<setHandler public="1" set="method" line="35"><f a="handler">
-	<f a="">
-		<c path="utest.ui.text.PlainTextReport"/>
-		<e path="Void"/>
-	</f>
-	<e path="Void"/>
-</f></setHandler>
-		<startTime><c path="Float"/></startTime>
-		<start set="method" line="41"><f a="e">
-	<c path="utest.Runner"/>
-	<e path="Void"/>
-</f></start>
-		<indents set="method" line="45"><f a="c">
-	<c path="Int"/>
-	<c path="String"/>
-</f></indents>
-		<dumpStack set="method" line="52"><f a="stack">
-	<c path="Array"><e path="haxe.StackItem"/></c>
-	<c path="String"/>
-</f></dumpStack>
-		<addHeader set="method" line="67"><f a="buf:result">
-	<c path="StringBuf"/>
-	<c path="utest.ui.common.PackageResult"/>
-	<e path="Void"/>
-</f></addHeader>
-		<result><c path="utest.ui.common.PackageResult"/></result>
-		<getResults public="1" set="method" line="93"><f a=""><c path="String"/></f></getResults>
-		<complete set="method" line="154"><f a="result">
-	<c path="utest.ui.common.PackageResult"/>
-	<e path="Void"/>
-</f></complete>
-		<new public="1" set="method" line="25"><f a="runner:?outputHandler">
-	<c path="utest.Runner"/>
-	<f a="">
-		<c path="utest.ui.text.PlainTextReport"/>
-		<e path="Void"/>
-	</f>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
 </haxe_doc>
 	</class>
 	<class path="haxe.unit.TestResult" params="" file="C:\Projects\haxe/std/haxe/unit/TestResult.hx">
@@ -1161,12 +1002,6 @@
 	<path><c path="String"/></path>
 	<error><c path="String"/></error>
 </a></typedef>
-	<class path="utest.ui.Report" params="" file="src/utest/ui/Report.hx"><create public="1" set="method" line="17" static="1"><f a="runner:?displaySuccessResults:?headerDisplayMode">
-	<c path="utest.Runner"/>
-	<e path="utest.ui.common.SuccessResultsDisplayMode"/>
-	<e path="utest.ui.common.HeaderDisplayMode"/>
-	<c path="utest.ui.common.IReport"><d/></c>
-</f></create></class>
 	<class path="haxe.Public" params="" file="C:\Projects\haxe/std/haxe/Public.hx" interface="1"><haxe_doc>
 	When implementing this interface, all default fields access for the class and
 	subclasses becomes [public] instead of [private].
@@ -1197,165 +1032,6 @@
 	<e path="Void"/>
 </f></assertEquals>
 		<new public="1" set="method" line="31"><f a=""><e path="Void"/></f></new>
-	</class>
-	<class path="utest.ui.text.HtmlReport" params="" file="src/utest/ui/text/HtmlReport.hx">
-		<implements path="utest.ui.common.IReport"><c path="utest.ui.text.HtmlReport"/></implements>
-		<platform line="33" static="1"><c path="String"/></platform>
-		<traceRedirected public="1" set="null"><e path="Bool"/></traceRedirected>
-		<displaySuccessResults public="1"><e path="utest.ui.common.SuccessResultsDisplayMode"/></displaySuccessResults>
-		<displayHeader public="1"><e path="utest.ui.common.HeaderDisplayMode"/></displayHeader>
-		<handler public="1"><f a="">
-	<c path="utest.ui.text.HtmlReport"/>
-	<e path="Void"/>
-</f></handler>
-		<aggregator><c path="utest.ui.common.ResultAggregator"/></aggregator>
-		<oldTrace><d/></oldTrace>
-		<_traces><c path="Array"><a>
-	<time><c path="Float"/></time>
-	<stack><c path="Array"><e path="haxe.StackItem"/></c></stack>
-	<msg><c path="String"/></msg>
-	<infos><t path="haxe.PosInfos"/></infos>
-	<delta><c path="Float"/></delta>
-</a></c></_traces>
-		<setHandler public="1" set="method" line="58"><f a="handler">
-	<f a="">
-		<c path="utest.ui.text.HtmlReport"/>
-		<e path="Void"/>
-	</f>
-	<e path="Void"/>
-</f></setHandler>
-		<redirectTrace public="1" set="method" line="63"><f a=""><e path="Void"/></f></redirectTrace>
-		<restoreTrace public="1" set="method" line="72"><f a=""><e path="Void"/></f></restoreTrace>
-		<_traceTime><t path="Null"><c path="Float"/></t></_traceTime>
-		<_trace set="method" line="80"><f a="v:?infos">
-	<d/>
-	<t path="haxe.PosInfos"/>
-	<e path="Void"/>
-</f></_trace>
-		<startTime><c path="Float"/></startTime>
-		<start set="method" line="95"><f a="e">
-	<c path="utest.Runner"/>
-	<e path="Void"/>
-</f></start>
-		<cls set="method" line="99"><f a="stats">
-	<c path="utest.ui.common.ResultStats"/>
-	<c path="String"/>
-</f></cls>
-		<resultNumbers set="method" line="111"><f a="buf:stats">
-	<c path="StringBuf"/>
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Void"/>
-</f></resultNumbers>
-		<blockNumbers set="method" line="145"><f a="buf:stats">
-	<c path="StringBuf"/>
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Void"/>
-</f></blockNumbers>
-		<formatStack set="method" line="152"><f a="stack:?addNL">
-	<c path="Array"><e path="haxe.StackItem"/></c>
-	<e path="Bool"/>
-	<c path="String"/>
-</f></formatStack>
-		<addFixture set="method" line="182"><f a="buf:result:name:isOk">
-	<c path="StringBuf"/>
-	<c path="utest.ui.common.FixtureResult"/>
-	<c path="String"/>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></addFixture>
-		<getErrorDescription set="method" line="231"><f a="e">
-	<d/>
-	<c path="String"/>
-</f></getErrorDescription>
-		<getErrorStack set="method" line="246"><f a="s:e">
-	<c path="Array"><e path="haxe.StackItem"/></c>
-	<d/>
-	<c path="String"/>
-</f></getErrorStack>
-		<addClass set="method" line="272"><f a="buf:result:name:isOk">
-	<c path="StringBuf"/>
-	<c path="utest.ui.common.ClassResult"/>
-	<c path="String"/>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></addClass>
-		<addPackages set="method" line="286"><f a="buf:result:isOk">
-	<c path="StringBuf"/>
-	<c path="utest.ui.common.PackageResult"/>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></addPackages>
-		<addPackage set="method" line="297"><f a="buf:result:name:isOk">
-	<c path="StringBuf"/>
-	<c path="utest.ui.common.PackageResult"/>
-	<c path="String"/>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></addPackage>
-		<getHeader public="1" set="method" line="311"><f a=""><c path="String"/></f></getHeader>
-		<getTrace public="1" set="method" line="335"><f a=""><c path="String"/></f></getTrace>
-		<getResults public="1" set="method" line="364"><f a=""><c path="String"/></f></getResults>
-		<getAll public="1" set="method" line="371"><f a=""><c path="String"/></f></getAll>
-		<getHtml public="1" set="method" line="379"><f a="?title">
-	<c path="String"/>
-	<c path="String"/>
-</f></getHtml>
-		<result><c path="utest.ui.common.PackageResult"/></result>
-		<complete set="method" line="391"><f a="result">
-	<c path="utest.ui.common.PackageResult"/>
-	<e path="Void"/>
-</f></complete>
-		<formatTime set="method" line="397"><f a="t">
-	<c path="Float"/>
-	<c path="String"/>
-</f></formatTime>
-		<cssStyle set="method" line="402"><f a=""><c path="String"/></f></cssStyle>
-		<jsScript set="method" line="612"><f a=""><c path="String"/></f></jsScript>
-		<wrapHtml set="method" line="646"><f a="title:s">
-	<c path="String"/>
-	<c path="String"/>
-	<c path="String"/>
-</f></wrapHtml>
-		<_handler set="method" line="655"><f a="report">
-	<c path="utest.ui.text.HtmlReport"/>
-	<e path="Void"/>
-</f></_handler>
-		<new public="1" set="method" line="44"><f a="runner:?outputHandler:?traceRedirected">
-	<c path="utest.Runner"/>
-	<f a="">
-		<c path="utest.ui.text.HtmlReport"/>
-		<e path="Void"/>
-	</f>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
-</haxe_doc>
-	</class>
-	<class path="utest.ui.text.PrintReport" params="" file="src/utest/ui/text/PrintReport.hx">
-		<extends path="utest.ui.text.PlainTextReport"/>
-		<useTrace><e path="Bool"/></useTrace>
-		<_handler set="method" line="43"><f a="report">
-	<c path="utest.ui.text.PlainTextReport"/>
-	<e path="Void"/>
-</f></_handler>
-		<_trace set="method" line="63"><f a="s">
-	<c path="String"/>
-	<e path="Void"/>
-</f></_trace>
-		<_print set="method" line="69"><f a="s">
-	<c path="String"/>
-	<e path="Void"/>
-</f></_print>
-		<new public="1" set="method" line="25"><f a="runner:?useTrace">
-	<c path="utest.Runner"/>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
-</haxe_doc>
 	</class>
 	<class path="StringBuf" params="" file="C:\Projects\haxe/std/neko/_std/StringBuf.hx">
 		<__make line="50" static="1"><d/></__make>
@@ -1406,16 +1082,6 @@
 	appending small elements together.
 </haxe_doc>
 	</class>
-	<enum path="utest.ui.common.HeaderDisplayMode" params="" file="src/utest/ui/common/HeaderDisplayMode.hx">
-		<ShowHeaderWithResults/>
-		<NeverShowHeader/>
-		<AlwaysShowHeader/>
-	</enum>
-	<enum path="utest.ui.common.SuccessResultsDisplayMode" params="" file="src/utest/ui/common/HeaderDisplayMode.hx" module="utest.ui.common.HeaderDisplayMode">
-		<ShowSuccessResultsWithNoErrors/>
-		<NeverShowSuccessResults/>
-		<AlwaysShowSuccessResults/>
-	</enum>
 	<class path="utest.TestResult" params="" file="src/utest/TestResult.hx">
 		<ofHandler public="1" set="method" line="18" static="1"><f a="handler">
 	<c path="utest.TestHandler"><d/></c>
@@ -1431,110 +1097,6 @@
 		<new public="1" set="method" line="16"><f a=""><e path="Void"/></f></new>
 		<haxe_doc>
 * @todo add documentation
-</haxe_doc>
-	</class>
-	<class path="utest.ui.common.ResultStats" params="" file="src/utest/ui/common/ResultStats.hx">
-		<assertations public="1" set="null"><c path="Int"/></assertations>
-		<successes public="1" set="null"><c path="Int"/></successes>
-		<failures public="1" set="null"><c path="Int"/></failures>
-		<errors public="1" set="null"><c path="Int"/></errors>
-		<warnings public="1" set="null"><c path="Int"/></warnings>
-		<onAddSuccesses public="1" set="null"><c path="utest.Dispatcher"><c path="Int"/></c></onAddSuccesses>
-		<onAddFailures public="1" set="null"><c path="utest.Dispatcher"><c path="Int"/></c></onAddFailures>
-		<onAddErrors public="1" set="null"><c path="utest.Dispatcher"><c path="Int"/></c></onAddErrors>
-		<onAddWarnings public="1" set="null"><c path="utest.Dispatcher"><c path="Int"/></c></onAddWarnings>
-		<isOk public="1" set="null"><e path="Bool"/></isOk>
-		<hasFailures public="1" set="null"><e path="Bool"/></hasFailures>
-		<hasErrors public="1" set="null"><e path="Bool"/></hasErrors>
-		<hasWarnings public="1" set="null"><e path="Bool"/></hasWarnings>
-		<addSuccesses public="1" set="method" line="42"><f a="v">
-	<c path="Int"/>
-	<e path="Void"/>
-</f></addSuccesses>
-		<addFailures public="1" set="method" line="49"><f a="v">
-	<c path="Int"/>
-	<e path="Void"/>
-</f></addFailures>
-		<addErrors public="1" set="method" line="58"><f a="v">
-	<c path="Int"/>
-	<e path="Void"/>
-</f></addErrors>
-		<addWarnings public="1" set="method" line="67"><f a="v">
-	<c path="Int"/>
-	<e path="Void"/>
-</f></addWarnings>
-		<sum public="1" set="method" line="76"><f a="other">
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Void"/>
-</f></sum>
-		<subtract public="1" set="method" line="83"><f a="other">
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Void"/>
-</f></subtract>
-		<wire public="1" set="method" line="90"><f a="dependant">
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Void"/>
-</f></wire>
-		<unwire public="1" set="method" line="98"><f a="dependant">
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Void"/>
-</f></unwire>
-		<new public="1" set="method" line="24"><f a=""><e path="Void"/></f></new>
-		<haxe_doc>
-* @todo add documentation
-</haxe_doc>
-	</class>
-	<class path="utest.ui.common.ResultAggregator" params="" file="src/utest/ui/common/ResultAggregator.hx">
-		<runner><c path="utest.Runner"/></runner>
-		<flattenPackage><e path="Bool"/></flattenPackage>
-		<root public="1" set="null"><c path="utest.ui.common.PackageResult"/></root>
-		<onStart public="1" set="null"><c path="utest.Notifier"/></onStart>
-		<onComplete public="1" set="null"><c path="utest.Dispatcher"><c path="utest.ui.common.PackageResult"/></c></onComplete>
-		<onProgress public="1" set="null"><c path="utest.Dispatcher"><a>
-	<totals><c path="Int"/></totals>
-	<done><c path="Int"/></done>
-</a></c></onProgress>
-		<start set="method" line="33"><f a="runner">
-	<c path="utest.Runner"/>
-	<e path="Void"/>
-</f></start>
-		<getOrCreatePackage set="method" line="38"><f a="pack:flat:?ref">
-	<c path="String"/>
-	<e path="Bool"/>
-	<c path="utest.ui.common.PackageResult"/>
-	<c path="utest.ui.common.PackageResult"/>
-</f></getOrCreatePackage>
-		<getOrCreateClass set="method" line="56"><f a="pack:cls:setup:teardown">
-	<c path="utest.ui.common.PackageResult"/>
-	<c path="String"/>
-	<c path="String"/>
-	<c path="String"/>
-	<t path="Null"><c path="utest.ui.common.ClassResult"/></t>
-</f></getOrCreateClass>
-		<createFixture set="method" line="63"><f a="result">
-	<c path="utest.TestResult"/>
-	<c path="utest.ui.common.FixtureResult"/>
-</f></createFixture>
-		<progress set="method" line="70"><f a="e">
-	<a>
-		<totals><c path="Int"/></totals>
-		<result set="null"><c path="utest.TestResult"/></result>
-		<done><c path="Int"/></done>
-	</a>
-	<e path="Void"/>
-</f></progress>
-		<complete set="method" line="75"><f a="runner">
-	<c path="utest.Runner"/>
-	<e path="Void"/>
-</f></complete>
-		<new public="1" set="method" line="20"><f a="runner:?flattenPackage">
-	<c path="utest.Runner"/>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
-* @todo add tests for this class
 </haxe_doc>
 	</class>
 	<class path="neko.NativeArray" params="T" file="C:\Projects\haxe/std/neko/NativeArray.hx">
@@ -1787,6 +1349,19 @@
 	<e path="Void"/>
 </f></new>
 	</class>
+	<class path="haxe.Timer" params="" file="C:\Projects\haxe/std/haxe/Timer.hx">
+		<measure public="1" params="T" set="method" line="87" static="1"><f a="f:?pos">
+	<f a=""><c path="measure.T"/></f>
+	<t path="haxe.PosInfos"/>
+	<c path="measure.T"/>
+</f></measure>
+		<stamp public="1" set="method" line="97" static="1">
+			<f a=""><c path="Float"/></f>
+			<haxe_doc>
+		Returns a timestamp, in seconds
+	</haxe_doc>
+		</stamp>
+	</class>
 	<class path="IntIter" params="" file="C:\Projects\haxe/std/IntIter.hx">
 		<min><c path="Int"/></min>
 		<max><c path="Int"/></max>
@@ -1816,19 +1391,6 @@
 		<haxe_doc>
 	Integer iterator. Used for interval implementation.
 </haxe_doc>
-	</class>
-	<class path="haxe.Timer" params="" file="C:\Projects\haxe/std/haxe/Timer.hx">
-		<measure public="1" params="T" set="method" line="87" static="1"><f a="f:?pos">
-	<f a=""><c path="measure.T"/></f>
-	<t path="haxe.PosInfos"/>
-	<c path="measure.T"/>
-</f></measure>
-		<stamp public="1" set="method" line="97" static="1">
-			<f a=""><c path="Float"/></f>
-			<haxe_doc>
-		Returns a timestamp, in seconds
-	</haxe_doc>
-		</stamp>
 	</class>
 	<class path="utest.Runner" params="" file="src/utest/Runner.hx">
 		<fixtures set="null"><c path="Array"><c path="utest.TestFixture"><d/></c></c></fixtures>
@@ -2051,357 +1613,6 @@
 		</random>
 		<haxe_doc>
 	The Std class provides standard methods for manipulating basic types.
-</haxe_doc>
-	</class>
-	<class path="String" params="" file="C:\Projects\haxe/std/neko/_std/String.hx">
-		<__is_String static="1"><e path="Bool"/></__is_String>
-		<__split line="29" static="1"><d/></__split>
-		<fromCharCode public="1" set="method" line="180" static="1"><f a="code">
-	<c path="Int"/>
-	<c path="String"/>
-</f></fromCharCode>
-		<length public="1" set="null">
-			<c path="Int"/>
-			<haxe_doc>
-		The number of characters in the String.
-	</haxe_doc>
-		</length>
-		<charAt public="1" set="method" line="46">
-			<f a="index">
-				<c path="Int"/>
-				<c path="String"/>
-			</f>
-			<haxe_doc>
-		Returns the character at the given position.
-		Returns the empty String if outside of String bounds.
-	</haxe_doc>
-		</charAt>
-		<charCodeAt public="1" set="method" line="58">
-			<f a="index">
-				<c path="Int"/>
-				<t path="Null"><c path="Int"/></t>
-			</f>
-			<haxe_doc>
-		Returns the character code at the given position.
-		Returns [null] if outside of String bounds.
-	</haxe_doc>
-		</charCodeAt>
-		<indexOf public="1" set="method" line="64">
-			<f a="str:?startIndex">
-				<c path="String"/>
-				<c path="Int"/>
-				<c path="Int"/>
-			</f>
-			<haxe_doc>
-		Returns the index of first occurence of [value]
-		Returns [1-1] if [value] is not found.
-		The optional [startIndex] parameter allows you to specify at which character to start searching.
-		The position returned is still relative to the beginning of the string.
-	</haxe_doc>
-		</indexOf>
-		<lastIndexOf public="1" set="method" line="73">
-			<f a="str:?startIndex">
-				<c path="String"/>
-				<c path="Int"/>
-				<c path="Int"/>
-			</f>
-			<haxe_doc>
-		Similar to [indexOf] but returns the latest index.
-	</haxe_doc>
-		</lastIndexOf>
-		<split public="1" set="method" line="88">
-			<f a="delimiter">
-				<c path="String"/>
-				<c path="Array"><c path="String"/></c>
-			</f>
-			<haxe_doc>
-		Split the string using the specified delimiter.
-	</haxe_doc>
-		</split>
-		<substr public="1" set="method" line="104">
-			<f a="pos:?len">
-				<c path="Int"/>
-				<c path="Int"/>
-				<c path="String"/>
-			</f>
-			<haxe_doc>
-		Returns a part of the String, taking [len] characters starting from [pos].
-		If [len] is not specified, it takes all the remaining characters.
-	</haxe_doc>
-		</substr>
-		<toLowerCase public="1" set="method" line="130">
-			<f a=""><c path="String"/></f>
-			<haxe_doc>
-		Returns an String where all characters have been lowercased.
-	</haxe_doc>
-		</toLowerCase>
-		<toUpperCase public="1" set="method" line="146">
-			<f a=""><c path="String"/></f>
-			<haxe_doc>
-		Returns an String where all characters have been uppercased.
-	</haxe_doc>
-		</toUpperCase>
-		<toString public="1" set="method" line="162">
-			<f a=""><c path="String"/></f>
-			<haxe_doc>
-		Returns the String itself.
-	</haxe_doc>
-		</toString>
-		<__compare set="method" line="168"><f a="o">
-	<c path="String"/>
-	<c path="Int"/>
-</f></__compare>
-		<__add set="method" line="172"><f a="s">
-	<d/>
-	<c path="String"/>
-</f></__add>
-		<__radd set="method" line="176"><f a="s">
-	<d/>
-	<c path="String"/>
-</f></__radd>
-		<new public="1" set="method" line="37"><f a="s">
-	<c path="String"/>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-	The basic String class.
-</haxe_doc>
-	</class>
-	<class path="neko.Web" params="" file="C:\Projects\haxe/std/neko/Web.hx">
-		<getParams public="1" set="method" line="36" static="1">
-			<f a=""><c path="Hash"><c path="String"/></c></f>
-			<haxe_doc>
-		Returns the GET and POST parameters.
-	</haxe_doc>
-		</getParams>
-		<getParamValues public="1" set="method" line="53" static="1">
-			<f a="param">
-				<c path="String"/>
-				<c path="Array"><c path="String"/></c>
-			</f>
-			<haxe_doc>
-		Returns an Array of Strings built using GET / POST values.
-		If you have in your URL the parameters [a[]=foo;a[]=hello;a[5]=bar;a[3]=baz] then
-		[neko.Web.getParamValues("a")] will return [["foo","hello",null,"baz",null,"bar"]]
-	</haxe_doc>
-		</getParamValues>
-		<getHostName public="1" set="method" line="80" static="1">
-			<f a=""><c path="String"/></f>
-			<haxe_doc>
-		Returns the local server host name
-	</haxe_doc>
-		</getHostName>
-		<getClientIP public="1" set="method" line="87" static="1">
-			<f a=""><c path="String"/></f>
-			<haxe_doc>
-		Surprisingly returns the client IP address.
-	</haxe_doc>
-		</getClientIP>
-		<getURI public="1" set="method" line="94" static="1">
-			<f a=""><c path="String"/></f>
-			<haxe_doc>
-		Returns the original request URL (before any server internal redirections)
-	</haxe_doc>
-		</getURI>
-		<redirect public="1" set="method" line="101" static="1">
-			<f a="url">
-				<c path="String"/>
-				<e path="Void"/>
-			</f>
-			<haxe_doc>
-		Tell the client to redirect to the given url ("Location" header)
-	</haxe_doc>
-		</redirect>
-		<setHeader public="1" set="method" line="109" static="1">
-			<f a="h:v">
-				<c path="String"/>
-				<c path="String"/>
-				<e path="Void"/>
-			</f>
-			<haxe_doc>
-		Set an output header value. If some data have been printed, the headers have
-		already been sent so this will raise an exception.
-	</haxe_doc>
-		</setHeader>
-		<setReturnCode public="1" set="method" line="116" static="1">
-			<f a="r">
-				<c path="Int"/>
-				<e path="Void"/>
-			</f>
-			<haxe_doc>
-		Set the HTTP return code. Same remark as setHeader.
-	</haxe_doc>
-		</setReturnCode>
-		<getClientHeader public="1" set="method" line="123" static="1">
-			<f a="k">
-				<c path="String"/>
-				<c path="String"/>
-			</f>
-			<haxe_doc>
-		Retrieve a client header value sent with the request.
-	</haxe_doc>
-		</getClientHeader>
-		<getClientHeaders public="1" set="method" line="133" static="1">
-			<f a=""><c path="List"><a>
-	<value><c path="String"/></value>
-	<header><c path="String"/></header>
-</a></c></f>
-			<haxe_doc>
-		Retrieve all the client headers.
-	</haxe_doc>
-		</getClientHeaders>
-		<getParamsString public="1" set="method" line="146" static="1">
-			<f a=""><c path="String"/></f>
-			<haxe_doc>
-		Returns all the GET parameters String
-	</haxe_doc>
-		</getParamsString>
-		<getPostData public="1" set="method" line="159" static="1">
-			<f a=""><c path="String"/></f>
-			<haxe_doc>
-		Returns all the POST data. POST Data is always parsed as
-		being application/x-www-form-urlencoded and is stored into
-		the getParams hashtable. POST Data is maximimized to 256K
-		unless the content type is multipart/form-data. In that
-		case, you will have to use [getMultipart] or [parseMultipart]
-		methods.
-	</haxe_doc>
-		</getPostData>
-		<getCookies public="1" set="method" line="170" static="1">
-			<f a=""><c path="Hash"><c path="String"/></c></f>
-			<haxe_doc>
-		Returns an hashtable of all Cookies sent by the client.
-		Modifying the hashtable will not modify the cookie, use setCookie instead.
-	</haxe_doc>
-		</getCookies>
-		<setCookie public="1" set="method" line="186" static="1">
-			<f a="key:value:?expire:?domain:?path:?secure">
-				<c path="String"/>
-				<c path="String"/>
-				<c path="Date"/>
-				<c path="String"/>
-				<c path="String"/>
-				<e path="Bool"/>
-				<e path="Void"/>
-			</f>
-			<haxe_doc>
-		Set a Cookie value in the HTTP headers. Same remark as setHeader.
-	</haxe_doc>
-		</setCookie>
-		<addPair set="method" line="197" static="1"><f a="buf:name:value">
-	<c path="StringBuf"/>
-	<c path="String"/>
-	<c path="String"/>
-	<e path="Void"/>
-</f></addPair>
-		<getAuthorization public="1" set="method" line="207" static="1">
-			<f a=""><a>
-	<user><c path="String"/></user>
-	<pass><c path="String"/></pass>
-</a></f>
-			<haxe_doc>
-		Returns an object with the authorization sent by the client (Basic scheme only).
-	</haxe_doc>
-		</getAuthorization>
-		<getCwd public="1" set="method" line="225" static="1">
-			<f a=""><c path="String"/></f>
-			<haxe_doc>
-		Get the current script directory in the local filesystem.
-	</haxe_doc>
-		</getCwd>
-		<cacheModule public="1" set="method" line="233" static="1">
-			<f a="f">
-				<f a=""><e path="Void"/></f>
-				<e path="Void"/>
-			</f>
-			<haxe_doc>
-		Set the main entry point function used to handle requests.
-		Setting it back to null will disable code caching.
-	</haxe_doc>
-		</cacheModule>
-		<getMultipart public="1" set="method" line="241" static="1">
-			<f a="maxSize">
-				<c path="Int"/>
-				<c path="Hash"><c path="String"/></c>
-			</f>
-			<haxe_doc>
-		Get the multipart parameters as an hashtable. The data
-		cannot exceed the maximum size specified.
-	</haxe_doc>
-		</getMultipart>
-		<parseMultipart public="1" set="method" line="270" static="1">
-			<f a="onPart:onData">
-				<f a=":">
-					<c path="String"/>
-					<c path="String"/>
-					<e path="Void"/>
-				</f>
-				<f a="::">
-					<c path="haxe.io.Bytes"/>
-					<c path="Int"/>
-					<c path="Int"/>
-					<e path="Void"/>
-				</f>
-				<e path="Void"/>
-			</f>
-			<haxe_doc>
-		Parse the multipart data. Call [onPart] when a new part is found
-		with the part name and the filename if present
-		and [onData] when some part data is readed. You can this way
-		directly save the data on hard drive in the case of a file upload.
-	</haxe_doc>
-		</parseMultipart>
-		<flush public="1" set="method" line="281" static="1">
-			<f a=""><e path="Void"/></f>
-			<haxe_doc>
-		Flush the data sent to the client. By default on Apache, outgoing data is buffered so
-		this can be useful for displaying some long operation progress.
-	</haxe_doc>
-		</flush>
-		<getMethod public="1" set="method" line="288" static="1">
-			<f a=""><c path="String"/></f>
-			<haxe_doc>
-		Get the HTTP method used by the client. This api requires Neko 1.7.1+
-	</haxe_doc>
-		</getMethod>
-		<logMessage public="1" set="method" line="295" static="1">
-			<f a="msg">
-				<c path="String"/>
-				<e path="Void"/>
-			</f>
-			<haxe_doc>
-		Write a message into the web server log file. This api requires Neko 1.7.1+
-	</haxe_doc>
-		</logMessage>
-		<isModNeko public="1" set="null" static="1"><e path="Bool"/></isModNeko>
-		<isTora public="1" set="null" static="1"><e path="Bool"/></isTora>
-		<_set_main static="1"><d/></_set_main>
-		<_get_host_name static="1"><d/></_get_host_name>
-		<_get_client_ip static="1"><d/></_get_client_ip>
-		<_get_uri static="1"><d/></_get_uri>
-		<_cgi_redirect static="1"><d/></_cgi_redirect>
-		<_cgi_set_header static="1"><d/></_cgi_set_header>
-		<_set_return_code static="1"><d/></_set_return_code>
-		<_get_client_header static="1"><d/></_get_client_header>
-		<_get_params_string static="1"><d/></_get_params_string>
-		<_get_post_data static="1"><d/></_get_post_data>
-		<_get_params static="1"><d/></_get_params>
-		<_get_cookies static="1"><d/></_get_cookies>
-		<_set_cookie static="1"><d/></_set_cookie>
-		<_get_cwd static="1"><d/></_get_cwd>
-		<_parse_multipart static="1"><d/></_parse_multipart>
-		<_flush static="1"><d/></_flush>
-		<_get_client_headers static="1"><d/></_get_client_headers>
-		<_get_http_method static="1"><d/></_get_http_method>
-		<_base_decode line="320" static="1"><f a=":">
-	<unknown/>
-	<unknown/>
-	<c path="String"/>
-</f></_base_decode>
-		<_log_message static="1"><d/></_log_message>
-		<haxe_doc>
-	This class is used for accessing the local Web server and the current
-	client request and informations.
 </haxe_doc>
 	</class>
 	<typedef path="Null" params="T" file="C:\Projects\haxe/std/StdTypes.hx" module="StdTypes">
@@ -2714,41 +1925,6 @@
 </f></isFinite>
 		<haxe_doc>
 	This class defines mathematical functions and constants.
-</haxe_doc>
-	</class>
-	<class path="utest.ui.common.ClassResult" params="" file="src/utest/ui/common/ClassResult.hx">
-		<fixtures><c path="Hash"><c path="utest.ui.common.FixtureResult"/></c></fixtures>
-		<className public="1" set="null"><c path="String"/></className>
-		<setupName public="1" set="null"><c path="String"/></setupName>
-		<teardownName public="1" set="null"><c path="String"/></teardownName>
-		<hasSetup public="1" set="null"><e path="Bool"/></hasSetup>
-		<hasTeardown public="1" set="null"><e path="Bool"/></hasTeardown>
-		<methods public="1" set="null"><c path="Int"/></methods>
-		<stats public="1" set="null"><c path="utest.ui.common.ResultStats"/></stats>
-		<add public="1" set="method" line="31"><f a="result">
-	<c path="utest.ui.common.FixtureResult"/>
-	<e path="Void"/>
-</f></add>
-		<get public="1" set="method" line="40"><f a="method">
-	<c path="String"/>
-	<t path="Null"><c path="utest.ui.common.FixtureResult"/></t>
-</f></get>
-		<exists public="1" set="method" line="44"><f a="method">
-	<c path="String"/>
-	<e path="Bool"/>
-</f></exists>
-		<methodNames public="1" set="method" line="48"><f a="?errorsHavePriority">
-	<e path="Bool"/>
-	<c path="Array"><c path="String"/></c>
-</f></methodNames>
-		<new public="1" set="method" line="19"><f a="className:setupName:teardownName">
-	<c path="String"/>
-	<c path="String"/>
-	<c path="String"/>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
 </haxe_doc>
 	</class>
 	<class path="List" params="T" file="C:\Projects\haxe/std/List.hx">
@@ -3101,119 +2277,6 @@
 	Classes and Enums at runtime.
 </haxe_doc>
 	</class>
-	<class path="DateTools" params="" file="C:\Projects\haxe/std/DateTools.hx">
-		<date_format line="36" static="1"><f a=":">
-	<d/>
-	<unknown/>
-	<unknown/>
-</f></date_format>
-		<format public="1" set="method" line="116" static="1">
-			<f a="d:f">
-				<c path="Date"/>
-				<c path="String"/>
-				<c path="String"/>
-			</f>
-			<haxe_doc>
-		Format the date [d] according to the format [f]. The format
-		is compatible with the [strftime] standard format, except that there
-		is no support in Flash and JS for day and months names (due to lack
-		of proper internationalization API). On haXe/Neko/Windows, some
-		formats are not supported.
-	</haxe_doc>
-		</format>
-		<delta public="1" set="method" line="129" static="1">
-			<f a="d:t">
-				<c path="Date"/>
-				<c path="Float"/>
-				<c path="Date"/>
-			</f>
-			<haxe_doc>
-		Returns a Date which time has been changed by [t] milliseconds.
-	</haxe_doc>
-		</delta>
-		<DAYS_OF_MONTH line="133" static="1"><c path="Array"><c path="Int"/></c></DAYS_OF_MONTH>
-		<getMonthDays public="1" set="method" line="138" static="1">
-			<f a="d">
-				<c path="Date"/>
-				<c path="Int"/>
-			</f>
-			<haxe_doc>
-		Returns the number of days in a month
-	</haxe_doc>
-		</getMonthDays>
-		<seconds public="1" set="method" line="152" static="1">
-			<f a="n">
-				<c path="Float"/>
-				<c path="Float"/>
-			</f>
-			<haxe_doc>
-		Convert a number of seconds to a date-time
-	</haxe_doc>
-		</seconds>
-		<minutes public="1" set="method" line="159" static="1">
-			<f a="n">
-				<c path="Float"/>
-				<c path="Float"/>
-			</f>
-			<haxe_doc>
-		Convert a number of minutes to a date-time
-	</haxe_doc>
-		</minutes>
-		<hours public="1" set="method" line="166" static="1">
-			<f a="n">
-				<c path="Float"/>
-				<c path="Float"/>
-			</f>
-			<haxe_doc>
-		Convert a number of hours to a date-time
-	</haxe_doc>
-		</hours>
-		<days public="1" set="method" line="173" static="1">
-			<f a="n">
-				<c path="Float"/>
-				<c path="Float"/>
-			</f>
-			<haxe_doc>
-		Convert a number of days to a date-time
-	</haxe_doc>
-		</days>
-		<parse public="1" set="method" line="180" static="1">
-			<f a="t">
-				<c path="Float"/>
-				<a>
-					<seconds><c path="Int"/></seconds>
-					<ms><c path="Float"/></ms>
-					<minutes><c path="Int"/></minutes>
-					<hours><c path="Int"/></hours>
-					<days><c path="Int"/></days>
-				</a>
-			</f>
-			<haxe_doc>
-		Separate a date-time into several components
-	</haxe_doc>
-		</parse>
-		<make public="1" set="method" line="196" static="1">
-			<f a="o">
-				<a>
-					<seconds><c path="Int"/></seconds>
-					<ms><c path="Float"/></ms>
-					<minutes><c path="Int"/></minutes>
-					<hours><c path="Int"/></hours>
-					<days><c path="Int"/></days>
-				</a>
-				<c path="Float"/>
-			</f>
-			<haxe_doc>
-		Build a date-time from several components
-	</haxe_doc>
-		</make>
-		<haxe_doc>
-	The DateTools class contains some extra functionalities for [Date]
-	manipulation. It's stored in a different class in order to prevent
-	the standard [Date] of being bloated and thus increasing the size of
-	each application using it.
-</haxe_doc>
-	</class>
 	<class path="IntHash" params="T" file="C:\Projects\haxe/std/neko/_std/IntHash.hx">
 		<h><d/></h>
 		<set public="1" get="inline" set="null" line="34">
@@ -3280,36 +2343,118 @@
 	On Flash and Javascript, the underlying structure is an Object.
 </haxe_doc>
 	</class>
-	<class path="haxe.rtti.Meta" params="" file="C:\Projects\haxe/std/haxe/rtti/Meta.hx">
-		<getType public="1" set="method" line="35" static="1">
-			<f a="t">
-				<d/>
-				<d><c path="Array"><d/></c></d>
+	<class path="String" params="" file="C:\Projects\haxe/std/neko/_std/String.hx">
+		<__is_String static="1"><e path="Bool"/></__is_String>
+		<__split line="29" static="1"><d/></__split>
+		<fromCharCode public="1" set="method" line="180" static="1"><f a="code">
+	<c path="Int"/>
+	<c path="String"/>
+</f></fromCharCode>
+		<length public="1" set="null">
+			<c path="Int"/>
+			<haxe_doc>
+		The number of characters in the String.
+	</haxe_doc>
+		</length>
+		<charAt public="1" set="method" line="46">
+			<f a="index">
+				<c path="Int"/>
+				<c path="String"/>
 			</f>
 			<haxe_doc>
-		Returns the metadata that were declared for the given type (class or enum)
+		Returns the character at the given position.
+		Returns the empty String if outside of String bounds.
 	</haxe_doc>
-		</getType>
-		<getStatics public="1" set="method" line="43" static="1">
-			<f a="t">
-				<d/>
-				<d><d><c path="Array"><d/></c></d></d>
+		</charAt>
+		<charCodeAt public="1" set="method" line="58">
+			<f a="index">
+				<c path="Int"/>
+				<t path="Null"><c path="Int"/></t>
 			</f>
 			<haxe_doc>
-		Returns the metadata that were declared for the given class fields or enum constructors
+		Returns the character code at the given position.
+		Returns [null] if outside of String bounds.
 	</haxe_doc>
-		</getStatics>
-		<getFields public="1" set="method" line="51" static="1">
-			<f a="t">
-				<d/>
-				<d><d><c path="Array"><d/></c></d></d>
+		</charCodeAt>
+		<indexOf public="1" set="method" line="64">
+			<f a="str:?startIndex">
+				<c path="String"/>
+				<c path="Int"/>
+				<c path="Int"/>
 			</f>
 			<haxe_doc>
-		Returns the metadata that were declared for the given class static fields
+		Returns the index of first occurence of [value]
+		Returns [1-1] if [value] is not found.
+		The optional [startIndex] parameter allows you to specify at which character to start searching.
+		The position returned is still relative to the beginning of the string.
 	</haxe_doc>
-		</getFields>
+		</indexOf>
+		<lastIndexOf public="1" set="method" line="73">
+			<f a="str:?startIndex">
+				<c path="String"/>
+				<c path="Int"/>
+				<c path="Int"/>
+			</f>
+			<haxe_doc>
+		Similar to [indexOf] but returns the latest index.
+	</haxe_doc>
+		</lastIndexOf>
+		<split public="1" set="method" line="88">
+			<f a="delimiter">
+				<c path="String"/>
+				<c path="Array"><c path="String"/></c>
+			</f>
+			<haxe_doc>
+		Split the string using the specified delimiter.
+	</haxe_doc>
+		</split>
+		<substr public="1" set="method" line="104">
+			<f a="pos:?len">
+				<c path="Int"/>
+				<c path="Int"/>
+				<c path="String"/>
+			</f>
+			<haxe_doc>
+		Returns a part of the String, taking [len] characters starting from [pos].
+		If [len] is not specified, it takes all the remaining characters.
+	</haxe_doc>
+		</substr>
+		<toLowerCase public="1" set="method" line="130">
+			<f a=""><c path="String"/></f>
+			<haxe_doc>
+		Returns an String where all characters have been lowercased.
+	</haxe_doc>
+		</toLowerCase>
+		<toUpperCase public="1" set="method" line="146">
+			<f a=""><c path="String"/></f>
+			<haxe_doc>
+		Returns an String where all characters have been uppercased.
+	</haxe_doc>
+		</toUpperCase>
+		<toString public="1" set="method" line="162">
+			<f a=""><c path="String"/></f>
+			<haxe_doc>
+		Returns the String itself.
+	</haxe_doc>
+		</toString>
+		<__compare set="method" line="168"><f a="o">
+	<c path="String"/>
+	<c path="Int"/>
+</f></__compare>
+		<__add set="method" line="172"><f a="s">
+	<d/>
+	<c path="String"/>
+</f></__add>
+		<__radd set="method" line="176"><f a="s">
+	<d/>
+	<c path="String"/>
+</f></__radd>
+		<new public="1" set="method" line="37"><f a="s">
+	<c path="String"/>
+	<e path="Void"/>
+</f></new>
 		<haxe_doc>
-	An api to access classes and enums metadata at runtime.
+	The basic String class.
 </haxe_doc>
 	</class>
 	<class path="Array" params="T" file="C:\Projects\haxe/std/neko/_std/Array.hx">
@@ -3554,23 +2699,37 @@
 * invoking one of the static methods of @see {@link utest.Assert}.
 </haxe_doc>
 	</enum>
-	<class path="utest.ui.common.ReportTools" params="" file="src/utest/ui/common/ReportTools.hx">
-		<hasHeader public="1" set="method" line="7" static="1"><f a="report:stats">
-	<c path="utest.ui.common.IReport"><d/></c>
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Bool"/>
-</f></hasHeader>
-		<skipResult public="1" set="method" line="28" static="1"><f a="report:stats:isOk">
-	<c path="utest.ui.common.IReport"><d/></c>
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Bool"/>
-	<e path="Bool"/>
-</f></skipResult>
-		<hasOutput public="1" set="method" line="39" static="1"><f a="report:stats">
-	<c path="utest.ui.common.IReport"><d/></c>
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Bool"/>
-</f></hasOutput>
+	<class path="haxe.rtti.Meta" params="" file="C:\Projects\haxe/std/haxe/rtti/Meta.hx">
+		<getType public="1" set="method" line="35" static="1">
+			<f a="t">
+				<d/>
+				<d><c path="Array"><d/></c></d>
+			</f>
+			<haxe_doc>
+		Returns the metadata that were declared for the given type (class or enum)
+	</haxe_doc>
+		</getType>
+		<getStatics public="1" set="method" line="43" static="1">
+			<f a="t">
+				<d/>
+				<d><d><c path="Array"><d/></c></d></d>
+			</f>
+			<haxe_doc>
+		Returns the metadata that were declared for the given class fields or enum constructors
+	</haxe_doc>
+		</getStatics>
+		<getFields public="1" set="method" line="51" static="1">
+			<f a="t">
+				<d/>
+				<d><d><c path="Array"><d/></c></d></d>
+			</f>
+			<haxe_doc>
+		Returns the metadata that were declared for the given class static fields
+	</haxe_doc>
+		</getFields>
+		<haxe_doc>
+	An api to access classes and enums metadata at runtime.
+</haxe_doc>
 	</class>
 	<class path="EReg" params="" file="C:\Projects\haxe/std/neko/_std/EReg.hx">
 		<regexp_new_options line="157" static="1"><f a=":">
@@ -3692,28 +2851,6 @@
 	Regular expressions are a way to find regular patterns into
 	Strings. Have a look at the tutorial on haXe website to learn
 	how to use them.
-</haxe_doc>
-	</class>
-	<class path="utest.ui.common.FixtureResult" params="" file="src/utest/ui/common/FixtureResult.hx">
-		<methodName public="1" set="null"><c path="String"/></methodName>
-		<hasTestError public="1" set="null"><e path="Bool"/></hasTestError>
-		<hasSetupError public="1" set="null"><e path="Bool"/></hasSetupError>
-		<hasTeardownError public="1" set="null"><e path="Bool"/></hasTeardownError>
-		<hasTimeoutError public="1" set="null"><e path="Bool"/></hasTimeoutError>
-		<hasAsyncError public="1" set="null"><e path="Bool"/></hasAsyncError>
-		<stats public="1" set="null"><c path="utest.ui.common.ResultStats"/></stats>
-		<list set="null"><c path="List"><e path="utest.Assertation"/></c></list>
-		<iterator public="1" set="method" line="31"><f a=""><t path="Iterator"><e path="utest.Assertation"/></t></f></iterator>
-		<add public="1" set="method" line="35"><f a="assertation">
-	<e path="utest.Assertation"/>
-	<e path="Void"/>
-</f></add>
-		<new public="1" set="method" line="19"><f a="methodName">
-	<c path="String"/>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
 </haxe_doc>
 	</class>
 	<enum path="utest._Dispatcher.EventException" params="" file="src/utest/Dispatcher.hx" private="1" module="utest.Dispatcher"><StopPropagation/></enum>
@@ -3880,32 +3017,6 @@
 		<backtrace public="1"><c path="String"/></backtrace>
 		<new public="1" set="method" line="39"><f a=""><e path="Void"/></f></new>
 	</class>
-	<class path="utest.MacroRunner" params="" file="src/utest/MacroRunner.hx"><addClass set="method" line="71" static="1"><f a="runner:testClass">
-	<c path="utest.Runner"/>
-	<c path="Class"><d/></c>
-	<e path="Void"/>
-</f></addClass></class>
-	<class path="utest.TestFixture" params="T" file="src/utest/TestFixture.hx">
-		<target public="1" set="null"><c path="utest.TestFixture.T"/></target>
-		<method public="1" set="null"><c path="String"/></method>
-		<setup public="1" set="null"><c path="String"/></setup>
-		<teardown public="1" set="null"><c path="String"/></teardown>
-		<checkMethod set="method" line="18"><f a="name:arg">
-	<c path="String"/>
-	<c path="String"/>
-	<e path="Void"/>
-</f></checkMethod>
-		<new public="1" set="method" line="11"><f a="target:method:?setup:?teardown">
-	<c path="utest.TestFixture.T"/>
-	<c path="String"/>
-	<c path="String"/>
-	<c path="String"/>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
-</haxe_doc>
-	</class>
 	<class path="Hash" params="T" file="C:\Projects\haxe/std/neko/_std/Hash.hx">
 		<h><d/></h>
 		<set public="1" get="inline" set="null" line="34">
@@ -3971,6 +3082,32 @@
 	Hashtable over a set of elements, using [String] as keys.
 	Other kind of keys are not possible on all platforms since they
 	can't always be implemented efficiently.
+</haxe_doc>
+	</class>
+	<class path="utest.MacroRunner" params="" file="src/utest/MacroRunner.hx"><addClass set="method" line="71" static="1"><f a="runner:testClass">
+	<c path="utest.Runner"/>
+	<c path="Class"><d/></c>
+	<e path="Void"/>
+</f></addClass></class>
+	<class path="utest.TestFixture" params="T" file="src/utest/TestFixture.hx">
+		<target public="1" set="null"><c path="utest.TestFixture.T"/></target>
+		<method public="1" set="null"><c path="String"/></method>
+		<setup public="1" set="null"><c path="String"/></setup>
+		<teardown public="1" set="null"><c path="String"/></teardown>
+		<checkMethod set="method" line="18"><f a="name:arg">
+	<c path="String"/>
+	<c path="String"/>
+	<e path="Void"/>
+</f></checkMethod>
+		<new public="1" set="method" line="11"><f a="target:method:?setup:?teardown">
+	<c path="utest.TestFixture.T"/>
+	<c path="String"/>
+	<c path="String"/>
+	<c path="String"/>
+	<e path="Void"/>
+</f></new>
+		<haxe_doc>
+* @todo add documentation
 </haxe_doc>
 	</class>
 </haxe>

@@ -3,5 +3,5 @@
 	<tag v="cross"/>
 	<tag v="unittesting" />
     <description>Unit Testing System for haXe</description>
-    <version name="1.0.0">first official release</version>
+    <version name="1.0.1">changes to comply with the new limitation imposed by the haxe compiler (SVN) for empty methods</version>
 </project>

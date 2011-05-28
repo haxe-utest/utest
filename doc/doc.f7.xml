@@ -3,75 +3,6 @@
 	An abstract type that represents an Enum.
 	See [Type] for the haXe Reflection API.
 </haxe_doc></class>
-	<class path="utest.ui.common.PackageResult" params="" file="src/utest/ui/common/PackageResult.hx">
-		<packageName public="1" set="null"><c path="String"/></packageName>
-		<classes><c path="Hash"><c path="utest.ui.common.ClassResult"/></c></classes>
-		<packages><c path="Hash"><c path="utest.ui.common.PackageResult"/></c></packages>
-		<stats public="1" set="null"><c path="utest.ui.common.ResultStats"/></stats>
-		<addResult public="1" set="method" line="24"><f a="result:flattenPackage">
-	<c path="utest.TestResult"/>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></addResult>
-		<addClass public="1" set="method" line="31"><f a="result">
-	<c path="utest.ui.common.ClassResult"/>
-	<e path="Void"/>
-</f></addClass>
-		<addPackage public="1" set="method" line="36"><f a="result">
-	<c path="utest.ui.common.PackageResult"/>
-	<e path="Void"/>
-</f></addPackage>
-		<existsPackage public="1" set="method" line="41"><f a="name">
-	<c path="String"/>
-	<e path="Bool"/>
-</f></existsPackage>
-		<existsClass public="1" set="method" line="45"><f a="name">
-	<c path="String"/>
-	<e path="Bool"/>
-</f></existsClass>
-		<getPackage public="1" set="method" line="49"><f a="name">
-	<c path="String"/>
-	<c path="utest.ui.common.PackageResult"/>
-</f></getPackage>
-		<getClass public="1" set="method" line="54"><f a="name">
-	<c path="String"/>
-	<t path="Null"><c path="utest.ui.common.ClassResult"/></t>
-</f></getClass>
-		<classNames public="1" set="method" line="58"><f a="?errorsHavePriority">
-	<e path="Bool"/>
-	<c path="Array"><c path="String"/></c>
-</f></classNames>
-		<packageNames public="1" set="method" line="91"><f a="?errorsHavePriority">
-	<e path="Bool"/>
-	<c path="Array"><c path="String"/></c>
-</f></packageNames>
-		<createFixture set="method" line="125"><f a="method:assertations">
-	<c path="String"/>
-	<t path="Iterable"><e path="utest.Assertation"/></t>
-	<c path="utest.ui.common.FixtureResult"/>
-</f></createFixture>
-		<getOrCreateClass set="method" line="132"><f a="pack:cls:setup:teardown">
-	<c path="utest.ui.common.PackageResult"/>
-	<c path="String"/>
-	<c path="String"/>
-	<c path="String"/>
-	<t path="Null"><c path="utest.ui.common.ClassResult"/></t>
-</f></getOrCreateClass>
-		<getOrCreatePackage set="method" line="139"><f a="pack:flat:ref">
-	<c path="String"/>
-	<e path="Bool"/>
-	<c path="utest.ui.common.PackageResult"/>
-	<c path="utest.ui.common.PackageResult"/>
-</f></getOrCreatePackage>
-		<new public="1" set="method" line="17"><f a="packageName">
-	<c path="String"/>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
-* @todo add tests for this class
-</haxe_doc>
-	</class>
 	<enum path="haxe.StackItem" params="" file="C:\Projects\haxe/std/haxe/Stack.hx" module="haxe.Stack">
 		<Module a="m"><c path="String"/></Module>
 		<Method a="classname:method">
@@ -653,71 +584,6 @@
 	<e path="Void"/>
 </f></onSetFocus>
 	</class>
-	<class path="utest.ui.common.IReport" params="T" file="src/utest/ui/common/IReport.hx" interface="1">
-		<displaySuccessResults public="1"><e path="utest.ui.common.SuccessResultsDisplayMode"/></displaySuccessResults>
-		<displayHeader public="1"><e path="utest.ui.common.HeaderDisplayMode"/></displayHeader>
-		<setHandler public="1" set="method"><f a="handler">
-	<f a="">
-		<c path="utest.ui.common.IReport.T"/>
-		<e path="Void"/>
-	</f>
-	<e path="Void"/>
-</f></setHandler>
-	</class>
-	<class path="utest.ui.text.PlainTextReport" params="" file="src/utest/ui/text/PlainTextReport.hx">
-		<implements path="utest.ui.common.IReport"><c path="utest.ui.text.PlainTextReport"/></implements>
-		<displaySuccessResults public="1"><e path="utest.ui.common.SuccessResultsDisplayMode"/></displaySuccessResults>
-		<displayHeader public="1"><e path="utest.ui.common.HeaderDisplayMode"/></displayHeader>
-		<handler public="1"><f a="">
-	<c path="utest.ui.text.PlainTextReport"/>
-	<e path="Void"/>
-</f></handler>
-		<aggregator><c path="utest.ui.common.ResultAggregator"/></aggregator>
-		<newline><c path="String"/></newline>
-		<indent><c path="String"/></indent>
-		<setHandler public="1" set="method" line="35"><f a="handler">
-	<f a="">
-		<c path="utest.ui.text.PlainTextReport"/>
-		<e path="Void"/>
-	</f>
-	<e path="Void"/>
-</f></setHandler>
-		<startTime><c path="Float"/></startTime>
-		<start set="method" line="41"><f a="e">
-	<c path="utest.Runner"/>
-	<e path="Void"/>
-</f></start>
-		<indents set="method" line="45"><f a="c">
-	<c path="Int"/>
-	<c path="String"/>
-</f></indents>
-		<dumpStack set="method" line="52"><f a="stack">
-	<c path="Array"><e path="haxe.StackItem"/></c>
-	<c path="String"/>
-</f></dumpStack>
-		<addHeader set="method" line="67"><f a="buf:result">
-	<c path="StringBuf"/>
-	<c path="utest.ui.common.PackageResult"/>
-	<e path="Void"/>
-</f></addHeader>
-		<result><c path="utest.ui.common.PackageResult"/></result>
-		<getResults public="1" set="method" line="93"><f a=""><c path="String"/></f></getResults>
-		<complete set="method" line="154"><f a="result">
-	<c path="utest.ui.common.PackageResult"/>
-	<e path="Void"/>
-</f></complete>
-		<new public="1" set="method" line="25"><f a="runner:?outputHandler">
-	<c path="utest.Runner"/>
-	<f a="">
-		<c path="utest.ui.text.PlainTextReport"/>
-		<e path="Void"/>
-	</f>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
-</haxe_doc>
-	</class>
 	<class path="haxe.unit.TestResult" params="" file="C:\Projects\haxe/std/haxe/unit/TestResult.hx">
 		<m_tests><c path="List"><c path="haxe.unit.TestStatus"/></c></m_tests>
 		<success public="1" set="null"><e path="Bool"/></success>
@@ -867,6 +733,40 @@
 	<c path="Int"/>
 	<e path="Void"/>
 </f></setColor>
+	</class>
+	<class path="flash.text.StyleSheet" params="" file="C:\Projects\haxe/std/flash/text/StyleSheet.hx" extern="1">
+		<getStyle public="1" set="method"><f a="name">
+	<c path="String"/>
+	<d/>
+</f></getStyle>
+		<setStyle public="1" set="method"><f a="name:style">
+	<c path="String"/>
+	<d/>
+	<e path="Void"/>
+</f></setStyle>
+		<clear public="1" set="method"><f a=""><e path="Void"/></f></clear>
+		<getStyleNames public="1" set="method"><f a=""><c path="Array"><d/></c></f></getStyleNames>
+		<transform public="1" set="method"><f a="style">
+	<d/>
+	<c path="flash.TextFormat"/>
+</f></transform>
+		<parseCSS public="1" set="method"><f a="cssText">
+	<c path="String"/>
+	<e path="Bool"/>
+</f></parseCSS>
+		<parse public="1" set="method"><f a="cssText">
+	<c path="String"/>
+	<e path="Bool"/>
+</f></parse>
+		<load public="1" set="method"><f a="url">
+	<c path="String"/>
+	<e path="Bool"/>
+</f></load>
+		<onLoad public="1" set="dynamic"><f a="success">
+	<e path="Bool"/>
+	<e path="Void"/>
+</f></onLoad>
+		<new public="1" set="method"><f a=""><e path="Void"/></f></new>
 	</class>
 	<class path="utest.Assert" params="" file="src/utest/Assert.hx">
 		<results public="1" static="1">
@@ -1276,46 +1176,6 @@
 	<path><c path="String"/></path>
 	<error><c path="String"/></error>
 </a></typedef>
-	<class path="flash.text.StyleSheet" params="" file="C:\Projects\haxe/std/flash/text/StyleSheet.hx" extern="1">
-		<getStyle public="1" set="method"><f a="name">
-	<c path="String"/>
-	<d/>
-</f></getStyle>
-		<setStyle public="1" set="method"><f a="name:style">
-	<c path="String"/>
-	<d/>
-	<e path="Void"/>
-</f></setStyle>
-		<clear public="1" set="method"><f a=""><e path="Void"/></f></clear>
-		<getStyleNames public="1" set="method"><f a=""><c path="Array"><d/></c></f></getStyleNames>
-		<transform public="1" set="method"><f a="style">
-	<d/>
-	<c path="flash.TextFormat"/>
-</f></transform>
-		<parseCSS public="1" set="method"><f a="cssText">
-	<c path="String"/>
-	<e path="Bool"/>
-</f></parseCSS>
-		<parse public="1" set="method"><f a="cssText">
-	<c path="String"/>
-	<e path="Bool"/>
-</f></parse>
-		<load public="1" set="method"><f a="url">
-	<c path="String"/>
-	<e path="Bool"/>
-</f></load>
-		<onLoad public="1" set="dynamic"><f a="success">
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></onLoad>
-		<new public="1" set="method"><f a=""><e path="Void"/></f></new>
-	</class>
-	<class path="utest.ui.Report" params="" file="src/utest/ui/Report.hx"><create public="1" set="method" line="17" static="1"><f a="runner:?displaySuccessResults:?headerDisplayMode">
-	<c path="utest.Runner"/>
-	<e path="utest.ui.common.SuccessResultsDisplayMode"/>
-	<e path="utest.ui.common.HeaderDisplayMode"/>
-	<c path="utest.ui.common.IReport"><d/></c>
-</f></create></class>
 	<class path="haxe.Public" params="" file="C:\Projects\haxe/std/haxe/Public.hx" interface="1"><haxe_doc>
 	When implementing this interface, all default fields access for the class and
 	subclasses becomes [public] instead of [private].
@@ -1346,160 +1206,6 @@
 	<e path="Void"/>
 </f></assertEquals>
 		<new public="1" set="method" line="31"><f a=""><e path="Void"/></f></new>
-	</class>
-	<class path="utest.ui.text.HtmlReport" params="" file="src/utest/ui/text/HtmlReport.hx">
-		<implements path="utest.ui.common.IReport"><c path="utest.ui.text.HtmlReport"/></implements>
-		<platform line="33" static="1"><c path="String"/></platform>
-		<traceRedirected public="1" set="null"><e path="Bool"/></traceRedirected>
-		<displaySuccessResults public="1"><e path="utest.ui.common.SuccessResultsDisplayMode"/></displaySuccessResults>
-		<displayHeader public="1"><e path="utest.ui.common.HeaderDisplayMode"/></displayHeader>
-		<handler public="1"><f a="">
-	<c path="utest.ui.text.HtmlReport"/>
-	<e path="Void"/>
-</f></handler>
-		<aggregator><c path="utest.ui.common.ResultAggregator"/></aggregator>
-		<oldTrace><d/></oldTrace>
-		<_traces><c path="Array"><a>
-	<time><c path="Float"/></time>
-	<stack><c path="Array"><e path="haxe.StackItem"/></c></stack>
-	<msg><c path="String"/></msg>
-	<infos><t path="haxe.PosInfos"/></infos>
-	<delta><c path="Float"/></delta>
-</a></c></_traces>
-		<setHandler public="1" set="method" line="58"><f a="handler">
-	<f a="">
-		<c path="utest.ui.text.HtmlReport"/>
-		<e path="Void"/>
-	</f>
-	<e path="Void"/>
-</f></setHandler>
-		<redirectTrace public="1" set="method" line="63"><f a=""><e path="Void"/></f></redirectTrace>
-		<restoreTrace public="1" set="method" line="72"><f a=""><e path="Void"/></f></restoreTrace>
-		<_traceTime><t path="Null"><c path="Float"/></t></_traceTime>
-		<_trace set="method" line="80"><f a="v:?infos">
-	<d/>
-	<t path="haxe.PosInfos"/>
-	<e path="Void"/>
-</f></_trace>
-		<startTime><c path="Float"/></startTime>
-		<start set="method" line="95"><f a="e">
-	<c path="utest.Runner"/>
-	<e path="Void"/>
-</f></start>
-		<cls set="method" line="99"><f a="stats">
-	<c path="utest.ui.common.ResultStats"/>
-	<c path="String"/>
-</f></cls>
-		<resultNumbers set="method" line="111"><f a="buf:stats">
-	<c path="StringBuf"/>
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Void"/>
-</f></resultNumbers>
-		<blockNumbers set="method" line="145"><f a="buf:stats">
-	<c path="StringBuf"/>
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Void"/>
-</f></blockNumbers>
-		<formatStack set="method" line="152"><f a="stack:?addNL">
-	<c path="Array"><e path="haxe.StackItem"/></c>
-	<e path="Bool"/>
-	<c path="String"/>
-</f></formatStack>
-		<addFixture set="method" line="182"><f a="buf:result:name:isOk">
-	<c path="StringBuf"/>
-	<c path="utest.ui.common.FixtureResult"/>
-	<c path="String"/>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></addFixture>
-		<getErrorDescription set="method" line="231"><f a="e">
-	<d/>
-	<c path="String"/>
-</f></getErrorDescription>
-		<getErrorStack set="method" line="246"><f a="s:e">
-	<c path="Array"><e path="haxe.StackItem"/></c>
-	<d/>
-	<c path="String"/>
-</f></getErrorStack>
-		<addClass set="method" line="272"><f a="buf:result:name:isOk">
-	<c path="StringBuf"/>
-	<c path="utest.ui.common.ClassResult"/>
-	<c path="String"/>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></addClass>
-		<addPackages set="method" line="286"><f a="buf:result:isOk">
-	<c path="StringBuf"/>
-	<c path="utest.ui.common.PackageResult"/>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></addPackages>
-		<addPackage set="method" line="297"><f a="buf:result:name:isOk">
-	<c path="StringBuf"/>
-	<c path="utest.ui.common.PackageResult"/>
-	<c path="String"/>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></addPackage>
-		<getHeader public="1" set="method" line="311"><f a=""><c path="String"/></f></getHeader>
-		<getTrace public="1" set="method" line="335"><f a=""><c path="String"/></f></getTrace>
-		<getResults public="1" set="method" line="364"><f a=""><c path="String"/></f></getResults>
-		<getAll public="1" set="method" line="371"><f a=""><c path="String"/></f></getAll>
-		<getHtml public="1" set="method" line="379"><f a="?title">
-	<c path="String"/>
-	<c path="String"/>
-</f></getHtml>
-		<result><c path="utest.ui.common.PackageResult"/></result>
-		<complete set="method" line="391"><f a="result">
-	<c path="utest.ui.common.PackageResult"/>
-	<e path="Void"/>
-</f></complete>
-		<formatTime set="method" line="397"><f a="t">
-	<c path="Float"/>
-	<c path="String"/>
-</f></formatTime>
-		<cssStyle set="method" line="402"><f a=""><c path="String"/></f></cssStyle>
-		<jsScript set="method" line="612"><f a=""><c path="String"/></f></jsScript>
-		<wrapHtml set="method" line="646"><f a="title:s">
-	<c path="String"/>
-	<c path="String"/>
-	<c path="String"/>
-</f></wrapHtml>
-		<_handler set="method" line="655"><f a="report">
-	<c path="utest.ui.text.HtmlReport"/>
-	<e path="Void"/>
-</f></_handler>
-		<new public="1" set="method" line="44"><f a="runner:?outputHandler:?traceRedirected">
-	<c path="utest.Runner"/>
-	<f a="">
-		<c path="utest.ui.text.HtmlReport"/>
-		<e path="Void"/>
-	</f>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
-</haxe_doc>
-	</class>
-	<class path="utest.ui.text.PrintReport" params="" file="src/utest/ui/text/PrintReport.hx">
-		<extends path="utest.ui.text.PlainTextReport"/>
-		<useTrace><e path="Bool"/></useTrace>
-		<_handler set="method" line="57"><f a="report">
-	<c path="utest.ui.text.PlainTextReport"/>
-	<e path="Void"/>
-</f></_handler>
-		<_trace set="method" line="63"><f a="s">
-	<c path="String"/>
-	<e path="Void"/>
-</f></_trace>
-		<new public="1" set="method" line="51"><f a="runner">
-	<c path="utest.Runner"/>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
-</haxe_doc>
 	</class>
 	<class path="StringBuf" params="" file="C:\Projects\haxe/std/StringBuf.hx">
 		<add public="1" get="inline" set="null" line="46">
@@ -1550,16 +1256,6 @@
 	appending small elements together.
 </haxe_doc>
 	</class>
-	<enum path="utest.ui.common.HeaderDisplayMode" params="" file="src/utest/ui/common/HeaderDisplayMode.hx">
-		<ShowHeaderWithResults/>
-		<NeverShowHeader/>
-		<AlwaysShowHeader/>
-	</enum>
-	<enum path="utest.ui.common.SuccessResultsDisplayMode" params="" file="src/utest/ui/common/HeaderDisplayMode.hx" module="utest.ui.common.HeaderDisplayMode">
-		<ShowSuccessResultsWithNoErrors/>
-		<NeverShowSuccessResults/>
-		<AlwaysShowSuccessResults/>
-	</enum>
 	<class path="utest.TestResult" params="" file="src/utest/TestResult.hx">
 		<ofHandler public="1" set="method" line="18" static="1"><f a="handler">
 	<c path="utest.TestHandler"><d/></c>
@@ -1575,110 +1271,6 @@
 		<new public="1" set="method" line="16"><f a=""><e path="Void"/></f></new>
 		<haxe_doc>
 * @todo add documentation
-</haxe_doc>
-	</class>
-	<class path="utest.ui.common.ResultStats" params="" file="src/utest/ui/common/ResultStats.hx">
-		<assertations public="1" set="null"><c path="Int"/></assertations>
-		<successes public="1" set="null"><c path="Int"/></successes>
-		<failures public="1" set="null"><c path="Int"/></failures>
-		<errors public="1" set="null"><c path="Int"/></errors>
-		<warnings public="1" set="null"><c path="Int"/></warnings>
-		<onAddSuccesses public="1" set="null"><c path="utest.Dispatcher"><c path="Int"/></c></onAddSuccesses>
-		<onAddFailures public="1" set="null"><c path="utest.Dispatcher"><c path="Int"/></c></onAddFailures>
-		<onAddErrors public="1" set="null"><c path="utest.Dispatcher"><c path="Int"/></c></onAddErrors>
-		<onAddWarnings public="1" set="null"><c path="utest.Dispatcher"><c path="Int"/></c></onAddWarnings>
-		<isOk public="1" set="null"><e path="Bool"/></isOk>
-		<hasFailures public="1" set="null"><e path="Bool"/></hasFailures>
-		<hasErrors public="1" set="null"><e path="Bool"/></hasErrors>
-		<hasWarnings public="1" set="null"><e path="Bool"/></hasWarnings>
-		<addSuccesses public="1" set="method" line="42"><f a="v">
-	<c path="Int"/>
-	<e path="Void"/>
-</f></addSuccesses>
-		<addFailures public="1" set="method" line="49"><f a="v">
-	<c path="Int"/>
-	<e path="Void"/>
-</f></addFailures>
-		<addErrors public="1" set="method" line="58"><f a="v">
-	<c path="Int"/>
-	<e path="Void"/>
-</f></addErrors>
-		<addWarnings public="1" set="method" line="67"><f a="v">
-	<c path="Int"/>
-	<e path="Void"/>
-</f></addWarnings>
-		<sum public="1" set="method" line="76"><f a="other">
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Void"/>
-</f></sum>
-		<subtract public="1" set="method" line="83"><f a="other">
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Void"/>
-</f></subtract>
-		<wire public="1" set="method" line="90"><f a="dependant">
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Void"/>
-</f></wire>
-		<unwire public="1" set="method" line="98"><f a="dependant">
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Void"/>
-</f></unwire>
-		<new public="1" set="method" line="24"><f a=""><e path="Void"/></f></new>
-		<haxe_doc>
-* @todo add documentation
-</haxe_doc>
-	</class>
-	<class path="utest.ui.common.ResultAggregator" params="" file="src/utest/ui/common/ResultAggregator.hx">
-		<runner><c path="utest.Runner"/></runner>
-		<flattenPackage><e path="Bool"/></flattenPackage>
-		<root public="1" set="null"><c path="utest.ui.common.PackageResult"/></root>
-		<onStart public="1" set="null"><c path="utest.Notifier"/></onStart>
-		<onComplete public="1" set="null"><c path="utest.Dispatcher"><c path="utest.ui.common.PackageResult"/></c></onComplete>
-		<onProgress public="1" set="null"><c path="utest.Dispatcher"><a>
-	<totals><c path="Int"/></totals>
-	<done><c path="Int"/></done>
-</a></c></onProgress>
-		<start set="method" line="33"><f a="runner">
-	<c path="utest.Runner"/>
-	<e path="Void"/>
-</f></start>
-		<getOrCreatePackage set="method" line="38"><f a="pack:flat:?ref">
-	<c path="String"/>
-	<e path="Bool"/>
-	<c path="utest.ui.common.PackageResult"/>
-	<c path="utest.ui.common.PackageResult"/>
-</f></getOrCreatePackage>
-		<getOrCreateClass set="method" line="56"><f a="pack:cls:setup:teardown">
-	<c path="utest.ui.common.PackageResult"/>
-	<c path="String"/>
-	<c path="String"/>
-	<c path="String"/>
-	<t path="Null"><c path="utest.ui.common.ClassResult"/></t>
-</f></getOrCreateClass>
-		<createFixture set="method" line="63"><f a="result">
-	<c path="utest.TestResult"/>
-	<c path="utest.ui.common.FixtureResult"/>
-</f></createFixture>
-		<progress set="method" line="70"><f a="e">
-	<a>
-		<totals><c path="Int"/></totals>
-		<result set="null"><c path="utest.TestResult"/></result>
-		<done><c path="Int"/></done>
-	</a>
-	<e path="Void"/>
-</f></progress>
-		<complete set="method" line="75"><f a="runner">
-	<c path="utest.Runner"/>
-	<e path="Void"/>
-</f></complete>
-		<new public="1" set="method" line="20"><f a="runner:?flattenPackage">
-	<c path="utest.Runner"/>
-	<e path="Bool"/>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
-* @todo add tests for this class
 </haxe_doc>
 	</class>
 	<class path="Date" params="" file="C:\Projects\haxe/std/Date.hx" extern="1">
@@ -1840,6 +1432,31 @@
 	<e path="Void"/>
 </f></new>
 	</class>
+	<class path="haxe.Timer" params="" file="C:\Projects\haxe/std/haxe/Timer.hx">
+		<delay public="1" set="method" line="76" static="1"><f a="f:time_ms">
+	<f a=""><e path="Void"/></f>
+	<c path="Int"/>
+	<c path="haxe.Timer"/>
+</f></delay>
+		<measure public="1" params="T" set="method" line="87" static="1"><f a="f:?pos">
+	<f a=""><c path="measure.T"/></f>
+	<t path="haxe.PosInfos"/>
+	<c path="measure.T"/>
+</f></measure>
+		<stamp public="1" set="method" line="97" static="1">
+			<f a=""><c path="Float"/></f>
+			<haxe_doc>
+		Returns a timestamp, in seconds
+	</haxe_doc>
+		</stamp>
+		<id><t path="Null"><c path="Int"/></t></id>
+		<stop public="1" set="method" line="52"><f a=""><e path="Void"/></f></stop>
+		<run public="1" set="dynamic" line="73"><f a=""><e path="Void"/></f></run>
+		<new public="1" set="method" line="38"><f a="time_ms">
+	<c path="Int"/>
+	<e path="Void"/>
+</f></new>
+	</class>
 	<class path="IntIter" params="" file="C:\Projects\haxe/std/IntIter.hx">
 		<min><c path="Int"/></min>
 		<max><c path="Int"/></max>
@@ -1958,31 +1575,6 @@
 * @todo complete documentation
 * @todo AVOID CHAINING METHODS (long chains do not work properly on IE)
 </haxe_doc>
-	</class>
-	<class path="haxe.Timer" params="" file="C:\Projects\haxe/std/haxe/Timer.hx">
-		<delay public="1" set="method" line="76" static="1"><f a="f:time_ms">
-	<f a=""><e path="Void"/></f>
-	<c path="Int"/>
-	<c path="haxe.Timer"/>
-</f></delay>
-		<measure public="1" params="T" set="method" line="87" static="1"><f a="f:?pos">
-	<f a=""><c path="measure.T"/></f>
-	<t path="haxe.PosInfos"/>
-	<c path="measure.T"/>
-</f></measure>
-		<stamp public="1" set="method" line="97" static="1">
-			<f a=""><c path="Float"/></f>
-			<haxe_doc>
-		Returns a timestamp, in seconds
-	</haxe_doc>
-		</stamp>
-		<id><t path="Null"><c path="Int"/></t></id>
-		<stop public="1" set="method" line="52"><f a=""><e path="Void"/></f></stop>
-		<run public="1" set="dynamic" line="73"><f a=""><e path="Void"/></f></run>
-		<new public="1" set="method" line="38"><f a="time_ms">
-	<c path="Int"/>
-	<e path="Void"/>
-</f></new>
 	</class>
 	<enum path="haxe.io.Error" params="" file="C:\Projects\haxe/std/haxe/io/Error.hx">
 		<Overflow><haxe_doc> An integer value is outside its allowed range </haxe_doc></Overflow>
@@ -2692,41 +2284,6 @@
 	This class defines mathematical functions and constants.
 </haxe_doc>
 	</class>
-	<class path="utest.ui.common.ClassResult" params="" file="src/utest/ui/common/ClassResult.hx">
-		<fixtures><c path="Hash"><c path="utest.ui.common.FixtureResult"/></c></fixtures>
-		<className public="1" set="null"><c path="String"/></className>
-		<setupName public="1" set="null"><c path="String"/></setupName>
-		<teardownName public="1" set="null"><c path="String"/></teardownName>
-		<hasSetup public="1" set="null"><e path="Bool"/></hasSetup>
-		<hasTeardown public="1" set="null"><e path="Bool"/></hasTeardown>
-		<methods public="1" set="null"><c path="Int"/></methods>
-		<stats public="1" set="null"><c path="utest.ui.common.ResultStats"/></stats>
-		<add public="1" set="method" line="31"><f a="result">
-	<c path="utest.ui.common.FixtureResult"/>
-	<e path="Void"/>
-</f></add>
-		<get public="1" set="method" line="40"><f a="method">
-	<c path="String"/>
-	<t path="Null"><c path="utest.ui.common.FixtureResult"/></t>
-</f></get>
-		<exists public="1" set="method" line="44"><f a="method">
-	<c path="String"/>
-	<e path="Bool"/>
-</f></exists>
-		<methodNames public="1" set="method" line="48"><f a="?errorsHavePriority">
-	<e path="Bool"/>
-	<c path="Array"><c path="String"/></c>
-</f></methodNames>
-		<new public="1" set="method" line="19"><f a="className:setupName:teardownName">
-	<c path="String"/>
-	<c path="String"/>
-	<c path="String"/>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
-</haxe_doc>
-	</class>
 	<class path="List" params="T" file="C:\Projects\haxe/std/List.hx">
 		<h><c path="Array"><d/></c></h>
 		<q><c path="Array"><d/></c></q>
@@ -3347,24 +2904,6 @@
 	An api to access classes and enums metadata at runtime.
 </haxe_doc>
 	</class>
-	<class path="utest.ui.common.ReportTools" params="" file="src/utest/ui/common/ReportTools.hx">
-		<hasHeader public="1" set="method" line="7" static="1"><f a="report:stats">
-	<c path="utest.ui.common.IReport"><d/></c>
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Bool"/>
-</f></hasHeader>
-		<skipResult public="1" set="method" line="28" static="1"><f a="report:stats:isOk">
-	<c path="utest.ui.common.IReport"><d/></c>
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Bool"/>
-	<e path="Bool"/>
-</f></skipResult>
-		<hasOutput public="1" set="method" line="39" static="1"><f a="report:stats">
-	<c path="utest.ui.common.IReport"><d/></c>
-	<c path="utest.ui.common.ResultStats"/>
-	<e path="Bool"/>
-</f></hasOutput>
-	</class>
 	<class path="EReg" params="" file="C:\Projects\haxe/std/EReg.hx">
 		<match public="1" set="method" line="45">
 			<f a="s">
@@ -3463,28 +3002,6 @@
 	Regular expressions are a way to find regular patterns into
 	Strings. Have a look at the tutorial on haXe website to learn
 	how to use them.
-</haxe_doc>
-	</class>
-	<class path="utest.ui.common.FixtureResult" params="" file="src/utest/ui/common/FixtureResult.hx">
-		<methodName public="1" set="null"><c path="String"/></methodName>
-		<hasTestError public="1" set="null"><e path="Bool"/></hasTestError>
-		<hasSetupError public="1" set="null"><e path="Bool"/></hasSetupError>
-		<hasTeardownError public="1" set="null"><e path="Bool"/></hasTeardownError>
-		<hasTimeoutError public="1" set="null"><e path="Bool"/></hasTimeoutError>
-		<hasAsyncError public="1" set="null"><e path="Bool"/></hasAsyncError>
-		<stats public="1" set="null"><c path="utest.ui.common.ResultStats"/></stats>
-		<list set="null"><c path="List"><e path="utest.Assertation"/></c></list>
-		<iterator public="1" set="method" line="31"><f a=""><t path="Iterator"><e path="utest.Assertation"/></t></f></iterator>
-		<add public="1" set="method" line="35"><f a="assertation">
-	<e path="utest.Assertation"/>
-	<e path="Void"/>
-</f></add>
-		<new public="1" set="method" line="19"><f a="methodName">
-	<c path="String"/>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
 </haxe_doc>
 	</class>
 	<enum path="utest._Dispatcher.EventException" params="" file="src/utest/Dispatcher.hx" private="1" module="utest.Dispatcher"><StopPropagation/></enum>
@@ -3637,55 +3154,6 @@
 		<backtrace public="1"><c path="String"/></backtrace>
 		<new public="1" set="method" line="39"><f a=""><e path="Void"/></f></new>
 	</class>
-	<class path="flash.external.ExternalInterface" params="" file="C:\Projects\haxe/std/flash/external/ExternalInterface.hx" extern="1">
-		<available public="1" static="1"><e path="Bool"/></available>
-		<marshallExceptions public="1" static="1"><e path="Bool"/></marshallExceptions>
-		<addCallback public="1" set="method" static="1"><f a="methodName:instance:method">
-	<c path="String"/>
-	<d/>
-	<d/>
-	<e path="Bool"/>
-</f></addCallback>
-		<call public="1" set="method" static="1"><f a="methodName:?p1:?p2:?p3:?p4:?p5:?p6:?p7:?p8:?p9">
-	<c path="String"/>
-	<d/>
-	<d/>
-	<d/>
-	<d/>
-	<d/>
-	<d/>
-	<d/>
-	<d/>
-	<d/>
-	<d/>
-</f></call>
-	</class>
-	<class path="utest.MacroRunner" params="" file="src/utest/MacroRunner.hx"><addClass set="method" line="71" static="1"><f a="runner:testClass">
-	<c path="utest.Runner"/>
-	<c path="Class"><d/></c>
-	<e path="Void"/>
-</f></addClass></class>
-	<class path="utest.TestFixture" params="T" file="src/utest/TestFixture.hx">
-		<target public="1" set="null"><c path="utest.TestFixture.T"/></target>
-		<method public="1" set="null"><c path="String"/></method>
-		<setup public="1" set="null"><c path="String"/></setup>
-		<teardown public="1" set="null"><c path="String"/></teardown>
-		<checkMethod set="method" line="18"><f a="name:arg">
-	<c path="String"/>
-	<c path="String"/>
-	<e path="Void"/>
-</f></checkMethod>
-		<new public="1" set="method" line="11"><f a="target:method:?setup:?teardown">
-	<c path="utest.TestFixture.T"/>
-	<c path="String"/>
-	<c path="String"/>
-	<c path="String"/>
-	<e path="Void"/>
-</f></new>
-		<haxe_doc>
-* @todo add documentation
-</haxe_doc>
-	</class>
 	<class path="Hash" params="T" file="C:\Projects\haxe/std/flash/_std/Hash.hx">
 		<h><d/></h>
 		<set public="1" set="method" line="34">
@@ -3751,6 +3219,32 @@
 	Hashtable over a set of elements, using [String] as keys.
 	Other kind of keys are not possible on all platforms since they
 	can't always be implemented efficiently.
+</haxe_doc>
+	</class>
+	<class path="utest.MacroRunner" params="" file="src/utest/MacroRunner.hx"><addClass set="method" line="71" static="1"><f a="runner:testClass">
+	<c path="utest.Runner"/>
+	<c path="Class"><d/></c>
+	<e path="Void"/>
+</f></addClass></class>
+	<class path="utest.TestFixture" params="T" file="src/utest/TestFixture.hx">
+		<target public="1" set="null"><c path="utest.TestFixture.T"/></target>
+		<method public="1" set="null"><c path="String"/></method>
+		<setup public="1" set="null"><c path="String"/></setup>
+		<teardown public="1" set="null"><c path="String"/></teardown>
+		<checkMethod set="method" line="18"><f a="name:arg">
+	<c path="String"/>
+	<c path="String"/>
+	<e path="Void"/>
+</f></checkMethod>
+		<new public="1" set="method" line="11"><f a="target:method:?setup:?teardown">
+	<c path="utest.TestFixture.T"/>
+	<c path="String"/>
+	<c path="String"/>
+	<c path="String"/>
+	<e path="Void"/>
+</f></new>
+		<haxe_doc>
+* @todo add documentation
 </haxe_doc>
 	</class>
 </haxe>
