@@ -10,7 +10,7 @@ import haxe.Http;
 
 class TestIssue142
 {
-	public function new();
+	public function new(){}
 
 	public function testIssue()
 	{

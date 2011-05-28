@@ -16,7 +16,7 @@ class TestMeta
 	static var foo : Int;
 
 	@new
-	public function new();
+	public function new(){}
 	
 	function fields( o : Dynamic ) {
 		if( o == null ) return null;

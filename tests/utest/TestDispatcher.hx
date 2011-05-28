@@ -5,7 +5,7 @@ import utest.Dispatcher;
 import utest.Runner;
 
 class TestDispatcher {
-	public function new();
+	public function new(){}
 	
 	public function testBase() {
 		var dispatcher : Dispatcher<String> = new Dispatcher();

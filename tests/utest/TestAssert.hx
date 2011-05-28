@@ -5,7 +5,7 @@ import utest.Assertation;
 import utest.Runner;
 
 class TestAssert {
-	public function new();
+	public function new(){}
 	
 	var resultsbypass : List<Assertation>;
 	var results : List<Assertation>;

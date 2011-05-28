@@ -136,5 +136,5 @@ class TestLocals
 			Assert.equals( 55, funs[k](55) );
 	}
 	
-	public function new();
+	public function new(){}
 }

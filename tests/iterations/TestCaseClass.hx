@@ -1,7 +1,7 @@
 package iterations;
 
 class TestCaseClass {
-	public function new();
+	public function new(){}
 
 	public function _setup() {}
 	public function teardown() {}

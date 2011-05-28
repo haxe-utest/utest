@@ -4,7 +4,7 @@ import utest.Assert;
 
 class TestIssueMy001
 {
-	public function new();
+	public function new(){}
 	
 	public function testIssue()
 	{

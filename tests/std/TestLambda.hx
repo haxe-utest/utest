@@ -9,7 +9,7 @@ import utest.Assert;
 
 class TestLambda
 {
-	public function new();
+	public function new(){}
 	
 	public function testEmptyParam()
 	{

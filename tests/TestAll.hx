@@ -48,5 +48,5 @@ class TestAll
 #end
 	}
 	
-	public function new();
+	public function new(){}
 }

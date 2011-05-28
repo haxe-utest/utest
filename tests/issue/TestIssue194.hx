@@ -9,7 +9,7 @@ import utest.Assert;
 
 class TestIssue194
 {
-	public function new();
+	public function new(){}
 	
 	static function encode(v : String)
 	{

@@ -12,7 +12,7 @@ class TestIssue124
 	public var prop(getProp, setProp):String;
 	public var prop2(getProp, null):String;
 
-	public function new();
+	public function new(){}
 	
 	public function getProp()
 	{

@@ -86,5 +86,5 @@ class TestOps
 		Assert.equals( ("bla" + "x").indexOf("x"), 3);
 	}
 	
-	public function new();
+	public function new(){}
 }

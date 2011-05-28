@@ -9,7 +9,7 @@ import utest.Assert;
 
 class TestIssue229
 {
-	public function new();
+	public function new(){}
 	
 #if php
 	public function testIssue()

@@ -13,7 +13,7 @@ class TestResult {
 	public var teardown      : String;
 	public var assertations  : List<Assertation>;
 
-	public function new();
+	public function new(){}
 
 	public static function ofHandler(handler : TestHandler<Dynamic>) {
 		var r = new TestResult();

@@ -3,7 +3,7 @@ package unit;
 import utest.Assert;
 
 class Test {
-	public function new();
+	public function new(){}
 
 	function eq<T>( v : T, v2 : T, ?pos ) {
 		Assert.equals(v2, v, null, pos);

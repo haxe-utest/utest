@@ -19,7 +19,7 @@ import cpp.Sys;
 #end
 
 class TestFileSystem {
-	public function new();
+	public function new(){}
 	
 	static function testfile()
 	{

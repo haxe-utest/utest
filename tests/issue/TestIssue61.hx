@@ -9,7 +9,7 @@ import utest.Assert;
 
 class TestIssue61
 {
-	public function new();
+	public function new(){}
 #if !js // expression in abs can't be compiled in JS
 	public function testIssue()
 	{

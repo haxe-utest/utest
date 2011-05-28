@@ -5,7 +5,7 @@ import utest.Runner;
 import utest.TestFixture;
 
 class Iteration2 {
-	public function new();
+	public function new(){}
 
 	// @1
 	public function testRunnerRun() {

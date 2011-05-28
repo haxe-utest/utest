@@ -10,7 +10,7 @@ class TestMiscPhp {
 		return "test";
 	}
 	
-	public function new();
+	public function new(){}
 
 	public function testConflictingFieldName()
 	{

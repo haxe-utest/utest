@@ -4,7 +4,7 @@ import utest.Assert;
 
 class TestOps 
 {
-	public function new();
+	public function new(){}
 	public function testOps()
 	{
 		Assert.equals(1 + 2 + "", "3");

@@ -74,7 +74,7 @@ class TestPhpReservedWords {
 
 private class Foo
 {
-	public function new();
+	public function new(){}
 	public function final()
 	{
 		return "A";

@@ -40,7 +40,7 @@ class TestFile {
 		return dir;
 	}
 	
-	public function new();
+	public function new(){}
 
 	public function teardown() {
 		TestFileSystem.aggressiveDelete(testfile());

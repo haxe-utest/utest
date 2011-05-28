@@ -7,7 +7,7 @@ import utest.TestHandler;
 class Iteration1 {
 	static inline var TIMEOUT = 50;
 	static inline var DELAY   = 5;
-	function new();
+	function new(){}
 
 	// @1
 	public function testTestClass() {

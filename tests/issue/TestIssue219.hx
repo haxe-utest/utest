@@ -10,7 +10,7 @@ import utest.Assert;
 // this should not compile
 class TestIssue219
 {
-	public function new();
+	public function new(){}
 	public function testPushReturnLength()
 	{
 		var a = [];

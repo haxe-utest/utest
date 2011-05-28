@@ -9,7 +9,7 @@ import utest.Assert;
 
 class TestIssue268
 {
-	public function new();
+	public function new(){}
 	
 	public function testIssue()
 	{

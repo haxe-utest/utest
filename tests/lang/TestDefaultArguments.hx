@@ -9,7 +9,7 @@ import utest.Assert;
 
 class TestDefaultArguments
 {
-	public function new();
+	public function new(){}
 
 	static function f(?a : Null<Int> = 1, ?pos : haxe.PosInfos)
 	{

@@ -9,7 +9,7 @@ import utest.Assert;
 
 class TestIssue191
 {
-	public function new();
+	public function new(){}
 	
 	public function testInterface()
 	{
@@ -25,6 +25,6 @@ interface IHasEmpty
 
 class HasEmpty implements IHasEmpty
 {
-	public function new();
-	public function empty() : Void;
+	public function new(){}
+	public function empty() : Void {}
 }

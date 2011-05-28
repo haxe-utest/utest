@@ -9,7 +9,7 @@ import utest.Assert;
 
 class TestIssue123
 {
-	public function new();
+	public function new(){}
 	
 	public function testIssue()
 	{
@@ -25,7 +25,7 @@ private interface I
 
 private class A implements I
 {
-    public function new ();
+    public function new () {}
     public function test() {
         return "test";
 	}

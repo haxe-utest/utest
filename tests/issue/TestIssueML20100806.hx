@@ -12,7 +12,7 @@ using issue.TestIssueML20100806.MyIteratorExtension;
 
 class TestIssueML20100806
 {
-	public function new();
+	public function new(){}
 	
 	public function testIssue()
 	{

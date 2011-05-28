@@ -15,7 +15,7 @@ import neko.FileSystem;
 
 class TestIssue226
 {
-	public function new();
+	public function new(){}
 	
 	public function testIssue()
 	{

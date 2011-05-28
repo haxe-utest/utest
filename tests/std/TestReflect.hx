@@ -447,7 +447,7 @@ enum MyPublicEnum {
 }
 
 class TestImplementsDynamic implements Dynamic {
-	public function new();
+	public function new(){}
 }
 
 
