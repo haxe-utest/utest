@@ -5265,11 +5265,11 @@
 	<t path="utest._Assert.LikeStatus"/>
 	<e path="Bool"/>
 </f></sameAs>
-		<q set="method" line="471" static="1"><f a="v">
+		<q set="method" line="475" static="1"><f a="v">
 	<d/>
 	<c path="String"/>
 </f></q>
-		<same public="1" set="method" line="493" static="1">
+		<same public="1" set="method" line="497" static="1">
 			<f a="expected:value:?recursive:?msg:?pos">
 				<d/>
 				<d/>
@@ -5293,7 +5293,7 @@
 	* unless you know what you are doing.
 	]]></haxe_doc>
 		</same>
-		<raises public="1" set="method" line="521" static="1">
+		<raises public="1" set="method" line="523" static="1">
 			<f a="method:?type:?msgNotThrown:?msgWrongType:?pos">
 				<f a=""><e path="Void"/></f>
 				<c path="Class"><d/></c>
@@ -5320,7 +5320,7 @@
 	* @todo test the optional type parameter
 	]]></haxe_doc>
 		</raises>
-		<allows public="1" params="T" set="method" line="547" static="1">
+		<allows public="1" params="T" set="method" line="549" static="1">
 			<f a="possibilities:value:?msg:?pos">
 				<c path="Array"><c path="allows.T"/></c>
 				<c path="allows.T"/>
@@ -5337,7 +5337,7 @@
 	* unless you know what you are doing.
 	</haxe_doc>
 		</allows>
-		<contains public="1" params="T" set="method" line="562" static="1">
+		<contains public="1" params="T" set="method" line="564" static="1">
 			<f a="match:values:?msg:?pos">
 				<c path="contains.T"/>
 				<c path="Array"><c path="contains.T"/></c>
@@ -5354,7 +5354,7 @@
 	* unless you know what you are doing.
 	</haxe_doc>
 		</contains>
-		<notContains public="1" params="T" set="method" line="578" static="1">
+		<notContains public="1" params="T" set="method" line="580" static="1">
 			<f a="match:values:?msg:?pos">
 				<c path="notContains.T"/>
 				<c path="Array"><c path="notContains.T"/></c>
@@ -5371,7 +5371,7 @@
 	* unless you know what you are doing.
 	</haxe_doc>
 		</notContains>
-		<stringContains public="1" set="method" line="593" static="1">
+		<stringContains public="1" set="method" line="595" static="1">
 			<f a="match:value:?msg:?pos">
 				<c path="String"/>
 				<c path="String"/>
@@ -5387,14 +5387,14 @@
 	* @param pos: Code position where the Assert call has been executed. Don't fill it
 	 </haxe_doc>
 		</stringContains>
-		<stringSequence public="1" set="method" line="601" static="1"><f a="sequence:value:?msg:?pos">
+		<stringSequence public="1" set="method" line="603" static="1"><f a="sequence:value:?msg:?pos">
 	<c path="Array"><c path="String"/></c>
 	<c path="String"/>
 	<c path="String"/>
 	<t path="haxe.PosInfos"/>
 	<e path="Void"/>
 </f></stringSequence>
-		<fail public="1" set="method" line="639" static="1">
+		<fail public="1" set="method" line="641" static="1">
 			<f a="?msg:?pos">
 				<c path="String"/>
 				<t path="haxe.PosInfos"/>
@@ -5407,7 +5407,7 @@
 	* unless you know what you are doing.
 	</haxe_doc>
 		</fail>
-		<warn public="1" set="method" line="648" static="1">
+		<warn public="1" set="method" line="650" static="1">
 			<f a="msg">
 				<c path="String"/>
 				<e path="Void"/>
@@ -5419,7 +5419,7 @@
 	* unless you know what you are doing.
 	</haxe_doc>
 		</warn>
-		<createAsync public="1" set="dynamic" line="663" static="1">
+		<createAsync public="1" set="dynamic" line="665" static="1">
 			<f a="f:?timeout">
 				<f a=""><e path="Void"/></f>
 				<c path="Int"/>
@@ -5437,7 +5437,7 @@
 	* @param timeout: Optional timeout value in milliseconds.
 	]]></haxe_doc>
 		</createAsync>
-		<createEvent public="1" params="EventArg" set="dynamic" line="674" static="1">
+		<createEvent public="1" params="EventArg" set="dynamic" line="676" static="1">
 			<f a="f:?timeout">
 				<f a="">
 					<c path="createEvent.EventArg"/>
@@ -5458,7 +5458,7 @@
 	* @param timeout: Optional timeout value in milliseconds.
 	</haxe_doc>
 		</createEvent>
-		<typeToString set="method" line="678" static="1"><f a="t">
+		<typeToString set="method" line="680" static="1"><f a="t">
 	<d/>
 	<c path="String"/>
 </f></typeToString>
