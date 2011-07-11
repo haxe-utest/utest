@@ -203,7 +203,12 @@ class Assert {
 		switch(Type.typeof(expected))
 		{
 			case TFloat:
-				return _floatEquals(expected, value);
+				if (!_floatEquals(expected, value))
+				{
+					status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
+					return false;
+				}
+				return true;
 			case TNull, TInt, TBool:
 				if(expected != value) {
 					status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
