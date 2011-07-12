@@ -3,5 +3,5 @@
 	<tag v="cross"/>
 	<tag v="unittesting" />
     <description>Unit Testing System for haXe</description>
-    <version name="1.0.2">minor fix to Assert.same error message</version>
+    <version name="1.0.3">fix to Assert.same for Flash 9</version>
 </project>

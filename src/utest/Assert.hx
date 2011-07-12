@@ -494,8 +494,8 @@ class Assert {
 	* @param pos: Code position where the Assert call has been executed. Don't fill it
 	* unless you know what you are doing.
 	*/
-	public static function same(expected : Dynamic, value : Dynamic, recursive : Bool = true, ?msg : String, ?pos : PosInfos) {
-		var status = { recursive : recursive, path : '', error : null };
+	public static function same(expected : Dynamic, value : Dynamic, ?recursive : Bool, ?msg : String, ?pos : PosInfos) {
+		var status = { recursive : null == recursive ? true : recursive, path : '', error : null };
 		if(sameAs(expected, value, status)) {
 			Assert.isTrue(true, msg, pos);
 		} else {
