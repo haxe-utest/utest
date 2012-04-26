@@ -4,7 +4,7 @@ import utest.Assert;
 
 class TestBitwise {
 	public function new() {}
-	
+
 	public function testSHL() {
 		Assert.equals(320, 5<<6);
 	}
@@ -19,19 +19,21 @@ class TestBitwise {
 	}
 
 	public function testNegSHR() {
+#if !neko
 		Assert.equals(2147483136, -1024 >>> 1);
+#end
 		Assert.equals(-512, -1024 >> 1);
 	}
-	
+
 	public function testRightShift() {
 		Assert.equals(15, -4 >>> 28);
-		
+
 		var expected = [
 			{ age : 20, gender : 0, height : 5 },
 			{ age : 19, gender : 1, height : 12 },
 			{ age : 4, gender : 0, height : 1 },
 		];
-		
+
 		for (e in expected)
 		{
 			var packed_info = (((e.age << 1) | e.gender) << 7) | e.height;
@@ -43,7 +45,7 @@ class TestBitwise {
 			Assert.equals(e.height, height);
 		}
 	}
-	
+
 
 	public function testXOR() {
 		Assert.equals(481923, 25968 ^ 475123);
@@ -87,11 +89,13 @@ class TestBitwise {
 	}
 
 	public function testNegSHRAssign() {
-    var x = -1024;
-    x >>>= 1;
+	    var x = -1024;
+	    x >>>= 1;
+#if !neko
 		Assert.equals(2147483136, x);
-    x = -1024;
-    x >>= 1;
+#end
+	    x = -1024;
+	    x >>= 1;
 		Assert.equals(-512, x);
 	}
 
