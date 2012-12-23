@@ -1,4 +1,4 @@
-﻿package utest.ui.text;
+package utest.ui.text;
 
 import haxe.PosInfos;
 
@@ -6,7 +6,12 @@ import utest.Runner;
 import utest.TestResult;
 import utest.ui.common.ResultAggregator;
 import utest.ui.common.PackageResult;
+
+#if haxe_211
+import haxe.CallStack;
+#else
 import haxe.Stack;
+#end
 
 #if php
 import php.Lib;

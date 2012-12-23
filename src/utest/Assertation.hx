@@ -1,7 +1,12 @@
 package utest;
 
 import haxe.PosInfos;
+
+#if haxe_211
+import haxe.CallStack;
+#else
 import haxe.Stack;
+#end
 
 /**
 * Enumerates the states available as a result of
