@@ -1,4 +1,4 @@
-﻿package utest.ui.text;
+package utest.ui.text;
 
 import haxe.PosInfos;
 import haxe.Timer;
@@ -12,7 +12,12 @@ import utest.TestResult;
 import utest.ui.common.ResultAggregator;
 import utest.ui.common.PackageResult;
 import utest.ui.common.ResultStats;
+
+#if haxe_211
+import haxe.CallStack;
+#else
 import haxe.Stack;
+#end
 
 using utest.ui.common.ReportTools;
 
@@ -86,7 +91,7 @@ class HtmlReport implements IReport < HtmlReport > {
 			infos : infos,
 			time : time - startTime,
 			delta : delta,
-			stack : Stack.callStack()
+			stack : #if haxe_211 CallStack.callStack() #else Stack.callStack() #end
 		} );
 		_traceTime = Timer.stamp();
 	}
@@ -155,7 +160,7 @@ class HtmlReport implements IReport < HtmlReport > {
 		var nl = addNL ? '\n' : '';
 		var last = null;
 		var count = 1;
-		for (part in Stack.toString(stack).split('\n'))
+		for (part in #if haxe_211 CallStack #else Stack #end .toString(stack).split('\n'))
 		{
 			if (StringTools.trim(part) == '')
 				continue;
