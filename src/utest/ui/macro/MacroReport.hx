@@ -3,7 +3,12 @@ package utest.ui.macro;
 #if macro
 import haxe.macro.Context;
 import neko.Lib;
+
+#if haxe_211
+import haxe.CallStack;
+#else
 import haxe.Stack;
+#end
 
 import utest.Runner;
 import utest.TestResult;
