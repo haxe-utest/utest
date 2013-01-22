@@ -9,7 +9,11 @@ import utest.TestResult;
 import utest.ui.common.ResultAggregator;
 using utest.ui.common.ReportTools;
 import utest.ui.common.PackageResult;
+#if haxe_211
 import haxe.CallStack;
+#else
+import haxe.Stack;
+#end
 
 /**
 * @todo add documentation
@@ -53,8 +57,11 @@ class PlainTextReport implements IReport<PlainTextReport> {
 	{
 		if (stack.length == 0)
 			return "";
-
+		#if haxe_211
 		var parts = CallStack.toString(stack).split("\n");
+		#else
+		var parts = Stack.toString(stack).split("\n");
+		#end
 		var r = [];
 		for (part in parts)
 		{

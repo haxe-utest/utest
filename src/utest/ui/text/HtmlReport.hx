@@ -1,4 +1,4 @@
-﻿package utest.ui.text;
+package utest.ui.text;
 
 import haxe.PosInfos;
 import haxe.Timer;
@@ -12,7 +12,12 @@ import utest.TestResult;
 import utest.ui.common.ResultAggregator;
 import utest.ui.common.PackageResult;
 import utest.ui.common.ResultStats;
+
+#if haxe_211
 import haxe.CallStack;
+#else
+import haxe.Stack;
+#end
 
 using utest.ui.common.ReportTools;
 
@@ -86,7 +91,7 @@ class HtmlReport implements IReport < HtmlReport > {
 			infos : infos,
 			time : time - startTime,
 			delta : delta,
-			stack : CallStack.callStack()
+			stack : #if haxe_211 CallStack.callStack() #else Stack.callStack() #end
 		} );
 		_traceTime = Timer.stamp();
 	}
@@ -155,7 +160,7 @@ class HtmlReport implements IReport < HtmlReport > {
 		var nl = addNL ? '\n' : '';
 		var last = null;
 		var count = 1;
-		for (part in CallStack.toString(stack).split('\n'))
+		for (part in #if haxe_211 CallStack #else Stack #end .toString(stack).split('\n'))
 		{
 			if (StringTools.trim(part) == '')
 				continue;
@@ -201,7 +206,7 @@ class HtmlReport implements IReport < HtmlReport > {
 		var messages = [];
 		for(assertation in result.iterator()) {
 			switch(assertation) {
-				case Success(_):
+				case Success(pos):
 				case Failure(msg, pos):
 					messages.push("<strong>line " + pos.lineNumber + "</strong>: <em>" + StringTools.htmlEscape(msg) + "</em>");
 				case Error(e, s):
@@ -210,7 +215,7 @@ class HtmlReport implements IReport < HtmlReport > {
 					messages.push("<strong>setup error</strong>: " + getErrorDescription(e) + "\n<br/><strong>stack</strong>:" + getErrorStack(s, e));
 				case TeardownError(e, s):
 					messages.push("<strong>tear-down error</strong>: " + getErrorDescription(e) + "\n<br/><strong>stack</strong>:" + getErrorStack(s, e));
-				case TimeoutError(missedAsyncs, _):
+				case TimeoutError(missedAsyncs, s):
 					messages.push("<strong>missed async call(s)</strong>: " + missedAsyncs);
 				case AsyncError(e, s):
 					messages.push("<strong>async error</strong>: " + getErrorDescription(e) + "\n<br/><strong>stack</strong>:" + getErrorStack(s, e));

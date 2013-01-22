@@ -202,8 +202,8 @@ class TestAssert {
 		Assert.same(list1, list3, false);
 		Assert.same(list1, list3, true);
 
-		Assert.same(new IntIter(0,3), new IntIter(0,3));
-		Assert.same(new IntIter(0,3), new IntIter(0,4));
+		Assert.same(0...3, 0...3);
+		Assert.same(0...3, 0...4);
 
 		restore();
 		expect(3, 2);

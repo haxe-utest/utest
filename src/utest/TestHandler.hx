@@ -41,7 +41,11 @@ class TestHandler<T> {
 
 	static function exceptionStack(pops = 2)
 	{
+		#if haxe_211
 		var stack = haxe.CallStack.exceptionStack();
+		#else
+		var stack = haxe.Stack.exceptionStack();
+		#end
 		while (pops-- > 0)
 		{
 			stack.pop();
