@@ -85,7 +85,7 @@ class Assert {
 		if (msg == null) msg = "expected type " + typeToString(type) + " but was " + typeToString(value);
 		isTrue(Std.is(value, type), msg, pos);
 	}
-	
+
 	/**
 	* Asserts successfully when the value parameter is not the same as the expected one.
 	* <pre>
@@ -101,7 +101,7 @@ class Assert {
 		if(msg == null) msg = "expected " + q(expected) + " and testa value " + q(value) + " should be different";
 		isFalse(expected == value, msg, pos);
 	}
-	
+
 	/**
 	* Asserts successfully when the value parameter is equal to the expected one.
 	* <pre>
@@ -117,7 +117,7 @@ class Assert {
 		if(msg == null) msg = "expected " + q(expected) + " but was " + q(value);
 		isTrue(expected == value, msg, pos);
 	}
-	
+
 	/**
 	* Asserts successfully when the value parameter does match against the passed EReg instance.
 	* <pre>
@@ -151,7 +151,7 @@ class Assert {
 		if (msg == null) msg = "expected " + q(expected) + " but was " + q(value);
 		return isTrue(_floatEquals(expected, value, approx), msg, pos);
 	}
-	
+
 	static function _floatEquals(expected : Float, value : Float, ?approx : Float)
 	{
 		if (Math.isNaN(expected))
@@ -230,14 +230,14 @@ class Assert {
 					status.error = "expected instance of " + q(cexpected) + " but it is " + q(cvalue) + (status.path == '' ? '' : ' for field '+status.path);
 					return false;
 				}
-				
+
 				// string
 				if (Std.is(expected, String) && expected != value)
 				{
 					status.error = "expected '" + expected + "' but it is '" + value + "'";
 					return false;
 				}
-				
+
 				// arrays
 				if(Std.is(expected, Array)) {
 					if(status.recursive || status.path == '') {
@@ -266,7 +266,7 @@ class Assert {
 					}
 					return true;
 				}
-				
+
 				// bytes
 				if(Std.is(expected, Bytes)) {
 					if(status.recursive || status.path == '') {
@@ -304,7 +304,7 @@ class Assert {
 					}
 					return true;
 				}
-				
+
 				// iterator
 				if(isIterator(expected, false)) {
 					if(status.recursive || status.path == '') {
@@ -345,7 +345,7 @@ class Assert {
 					}
 					return true;
 				}
-				
+
 				// custom class
 				if(status.recursive || status.path == '') {
 					var fields = Type.getInstanceFields(Type.getClass(expected));
@@ -359,7 +359,7 @@ class Assert {
 							return false;
 					}
 				}
-				
+
 				return true;
 			case TEnum(e) :
 				var eexpected = Type.getEnumName(e);
@@ -416,7 +416,7 @@ class Assert {
 						return false;
 					}
 				}
-				
+
 				// iterator
 				if(isIterator(expected, true)) {
 					if(!(isIterator(value, true))) {
@@ -471,7 +471,7 @@ class Assert {
 		}
 		return throw "Unable to compare values: " + q(expected) + " and " + q(value);
 	}
-	
+
 	static function q(v : Dynamic)
 	{
 		if (Std.is(v, String))
@@ -568,7 +568,7 @@ class Assert {
 			fail(msg == null ? "values " + q(values) + " do not contain "+match: msg, pos);
 		}
 	}
-	
+
 	/**
 	* Checks that the test array does not contain the match parameter.
 	* @param match: The element that must NOT be included in the tested array
@@ -584,7 +584,7 @@ class Assert {
 			fail(msg == null ? "values " + q(values) + " do contain "+match: msg, pos);
 		}
 	}
-	
+
 	/**
 	 * Checks that the expected values is contained in value.
 	 * @param match: the string value that must be contained in value
@@ -599,7 +599,7 @@ class Assert {
 			fail(msg == null ? "value " + q(value) + " does not contain " + q(match) : msg, pos);
 		}
 	}
-	
+
 	public static function stringSequence(sequence : Array<String>, value : String, ?msg : String , ?pos : PosInfos) {
 		if (null == value)
 		{
@@ -631,7 +631,7 @@ class Assert {
 		}
 		isTrue(true, msg, pos);
 	}
-	
+
 	/**
 	* Forces a failure.
 	* @param msg: An optional error message. If not passed a default one will be used
@@ -676,7 +676,7 @@ class Assert {
 	public static dynamic function createEvent<EventArg>(f : EventArg -> Void, ?timeout : Int) {
 		return function(e){};
 	}
-	
+
 	static function typeToString(t : Dynamic)
 	{
 		try {

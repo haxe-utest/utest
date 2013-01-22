@@ -9,7 +9,7 @@ import utest.TestResult;
 import utest.ui.common.ResultAggregator;
 using utest.ui.common.ReportTools;
 import utest.ui.common.PackageResult;
-import haxe.Stack;
+import haxe.CallStack;
 
 /**
 * @todo add documentation
@@ -18,7 +18,7 @@ class PlainTextReport implements IReport<PlainTextReport> {
 	public var displaySuccessResults : SuccessResultsDisplayMode;
 	public var displayHeader : HeaderDisplayMode;
 	public var handler : PlainTextReport -> Void;
-	
+
 	var aggregator : ResultAggregator;
 	var newline : String;
 	var indent : String;
@@ -31,7 +31,7 @@ class PlainTextReport implements IReport<PlainTextReport> {
 		displaySuccessResults = AlwaysShowSuccessResults;
 		displayHeader = AlwaysShowHeader;
 	}
-	
+
 	public function setHandler(handler : PlainTextReport -> Void) : Void
 	{
 		this.handler = handler;
@@ -48,13 +48,13 @@ class PlainTextReport implements IReport<PlainTextReport> {
 			s += indent;
 		return s;
 	}
-	
+
 	function dumpStack(stack : Array<StackItem>)
 	{
 		if (stack.length == 0)
 			return "";
-		
-		var parts = Stack.toString(stack).split("\n");
+
+		var parts = CallStack.toString(stack).split("\n");
 		var r = [];
 		for (part in parts)
 		{
@@ -68,13 +68,13 @@ class PlainTextReport implements IReport<PlainTextReport> {
 	{
 		if (!this.hasHeader(result.stats))
 			return;
-		
+
 		var end = haxe.Timer.stamp();
 #if php
 		var scripttime = Std.int(php.Sys.cpuTime()*1000)/1000;
 #end
 		var time = Std.int((end-startTime)*1000)/1000;
-		
+
 		buf.add("results: " + (result.stats.isOk ? "ALL TESTS OK" : "SOME TESTS FAILURES")+newline+" "+newline);
 
 		buf.add("assertations: "   + result.stats.assertations+newline);
@@ -88,13 +88,13 @@ class PlainTextReport implements IReport<PlainTextReport> {
 #end
 		buf.add(newline);
 	}
-	
+
 	var result : PackageResult;
 	public function getResults() : String
 	{
 		var buf = new StringBuf();
 		addHeader(buf, result);
-		
+
 		for(pname in result.packageNames()) {
 			var pack = result.getPackage(pname);
 			if (this.skipResult(pack.stats, result.stats.isOk)) continue;
@@ -118,7 +118,7 @@ class PlainTextReport implements IReport<PlainTextReport> {
 					var messages = '';
 					for(assertation in fix.iterator()) {
 						switch(assertation) {
-							case Success(pos):
+							case Success(_):
 								buf.add('.');
 							case Failure(msg, pos):
 								buf.add('F');

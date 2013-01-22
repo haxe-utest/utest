@@ -12,7 +12,7 @@ import utest.TestResult;
 import utest.ui.common.ResultAggregator;
 import utest.ui.common.PackageResult;
 import utest.ui.common.ResultStats;
-import haxe.Stack;
+import haxe.CallStack;
 
 using utest.ui.common.ReportTools;
 
@@ -31,16 +31,16 @@ import js.Lib;
 */
 class HtmlReport implements IReport < HtmlReport > {
 	static var platform = #if neko 'neko' #elseif php 'php'  #elseif cpp 'cpp'  #elseif js 'javascript' #elseif flash 'flash' #else 'unknown' #end;
-	
+
 	public var traceRedirected(default, null) : Bool;
 	public var displaySuccessResults : SuccessResultsDisplayMode;
 	public var displayHeader : HeaderDisplayMode;
 	public var handler : HtmlReport -> Void;
-	
+
 	var aggregator : ResultAggregator;
 	var oldTrace : Dynamic;
 	var _traces : Array<{ msg : String, infos : PosInfos, time : Float, delta : Float, stack : Array<StackItem> }>;
-	
+
 	public function new(runner : Runner, ?outputHandler : HtmlReport -> Void, traceRedirected = true) {
 		aggregator = new ResultAggregator(runner, true);
 		runner.onStart.add(start);
@@ -54,12 +54,12 @@ class HtmlReport implements IReport < HtmlReport > {
 		displaySuccessResults = AlwaysShowSuccessResults;
 		displayHeader = AlwaysShowHeader;
 	}
-	
+
 	public function setHandler(handler : HtmlReport -> Void) : Void
 	{
 		this.handler = handler;
 	}
-	
+
 	public function redirectTrace()
 	{
 		if (traceRedirected)
@@ -68,7 +68,7 @@ class HtmlReport implements IReport < HtmlReport > {
 		oldTrace = haxe.Log.trace;
 		haxe.Log.trace = _trace;
 	}
-	
+
 	public function restoreTrace()
 	{
 		if (!traceRedirected)
@@ -86,16 +86,16 @@ class HtmlReport implements IReport < HtmlReport > {
 			infos : infos,
 			time : time - startTime,
 			delta : delta,
-			stack : Stack.callStack()
+			stack : CallStack.callStack()
 		} );
 		_traceTime = Timer.stamp();
 	}
-	
+
 	var startTime : Float;
 	function start(e) {
 		startTime = Timer.stamp();
 	}
-	
+
 	function cls(stats : ResultStats)
 	{
 		if (stats.hasErrors)
@@ -107,7 +107,7 @@ class HtmlReport implements IReport < HtmlReport > {
 		else
 			return 'ok';
 	}
-	
+
 	function resultNumbers(buf : StringBuf, stats : ResultStats)
 	{
 		var numbers = [];
@@ -115,7 +115,7 @@ class HtmlReport implements IReport < HtmlReport > {
 			numbers.push('<strong>1</strong> test');
 		else
 			numbers.push('<strong>' + stats.assertations + '</strong> tests');
-		
+
 		if (stats.successes != stats.assertations)
 		{
 			if (stats.successes == 1)
@@ -123,39 +123,39 @@ class HtmlReport implements IReport < HtmlReport > {
 			else if (stats.successes > 0)
 				numbers.push('<strong>' + stats.successes + '</strong> passes');
 		}
-		
+
 		if (stats.errors == 1)
 			numbers.push('<strong>1</strong> error');
 		else if (stats.errors > 0)
 			numbers.push('<strong>' + stats.errors + '</strong> errors');
-			
+
 		if (stats.failures == 1)
 			numbers.push('<strong>1</strong> failure');
 		else if (stats.failures > 0)
 			numbers.push('<strong>' + stats.failures + '</strong> failures');
-			
+
 		if (stats.warnings == 1)
 			numbers.push('<strong>1</strong> warning');
 		else if (stats.warnings > 0)
 			numbers.push('<strong>' + stats.warnings + '</strong> warnings');
-		
+
 		buf.add(numbers.join(', '));
 	}
-	
+
 	function blockNumbers(buf : StringBuf, stats : ResultStats)
 	{
 		buf.add('<div class="' + cls(stats) + 'bg statnumbers">');
 		resultNumbers(buf, stats);
 		buf.add('</div>');
 	}
-	
+
 	function formatStack(stack : Array<StackItem>, addNL = true)
 	{
 		var parts = [];
 		var nl = addNL ? '\n' : '';
 		var last = null;
 		var count = 1;
-		for (part in Stack.toString(stack).split('\n'))
+		for (part in CallStack.toString(stack).split('\n'))
 		{
 			if (StringTools.trim(part) == '')
 				continue;
@@ -173,12 +173,12 @@ class HtmlReport implements IReport < HtmlReport > {
 				parts.push(last = part);
 			}
 		}
-		
+
 		var s = '<ul><li>' + parts.join('</li>'+nl+'<li>') + '</li></ul>'+nl;
-		
+
 		return "<div>" + s + "</div>"+nl;
 	}
-	
+
 	function addFixture(buf : StringBuf, result : FixtureResult, name : String, isOk : Bool)
 	{
 		if (this.skipResult(result.stats, isOk)) return;
@@ -201,7 +201,7 @@ class HtmlReport implements IReport < HtmlReport > {
 		var messages = [];
 		for(assertation in result.iterator()) {
 			switch(assertation) {
-				case Success(pos):
+				case Success(_):
 				case Failure(msg, pos):
 					messages.push("<strong>line " + pos.lineNumber + "</strong>: <em>" + StringTools.htmlEscape(msg) + "</em>");
 				case Error(e, s):
@@ -210,7 +210,7 @@ class HtmlReport implements IReport < HtmlReport > {
 					messages.push("<strong>setup error</strong>: " + getErrorDescription(e) + "\n<br/><strong>stack</strong>:" + getErrorStack(s, e));
 				case TeardownError(e, s):
 					messages.push("<strong>tear-down error</strong>: " + getErrorDescription(e) + "\n<br/><strong>stack</strong>:" + getErrorStack(s, e));
-				case TimeoutError(missedAsyncs, s):
+				case TimeoutError(missedAsyncs, _):
 					messages.push("<strong>missed async call(s)</strong>: " + missedAsyncs);
 				case AsyncError(e, s):
 					messages.push("<strong>async error</strong>: " + getErrorDescription(e) + "\n<br/><strong>stack</strong>:" + getErrorStack(s, e));
@@ -227,7 +227,7 @@ class HtmlReport implements IReport < HtmlReport > {
 		buf.add('</div>\n');
 		buf.add('</div></li>\n');
 	}
-	
+
 	function getErrorDescription(e : Dynamic)
 	{
 #if flash9
@@ -242,7 +242,7 @@ class HtmlReport implements IReport < HtmlReport > {
 		return Std.string(e);
 #end
 	}
-	
+
 	function getErrorStack(s : Array<StackItem>, e : Dynamic)
 	{
 #if flash9
@@ -268,7 +268,7 @@ class HtmlReport implements IReport < HtmlReport > {
 		return formatStack(s);
 #end
 	}
-	
+
 	function addClass(buf : StringBuf, result : ClassResult, name : String, isOk : Bool)
 	{
 		if (this.skipResult(result.stats, isOk)) return;
@@ -282,7 +282,7 @@ class HtmlReport implements IReport < HtmlReport > {
 		buf.add('</ul>\n');
 		buf.add('</li>\n');
 	}
-	
+
 	function addPackages(buf : StringBuf, result : PackageResult, isOk : Bool)
 	{
 		if (this.skipResult(result.stats, isOk)) return;
@@ -293,7 +293,7 @@ class HtmlReport implements IReport < HtmlReport > {
 		}
 		buf.add('</ul>\n');
 	}
-	
+
 	function addPackage(buf : StringBuf, result : PackageResult, name : String, isOk : Bool)
 	{
 		if (this.skipResult(result.stats, isOk)) return;
@@ -307,7 +307,7 @@ class HtmlReport implements IReport < HtmlReport > {
 		buf.add('</ul>\n');
 		buf.add('</li>\n');
 	}
-	
+
 	public function getHeader() : String
 	{
 		var buf = new StringBuf();
@@ -323,15 +323,15 @@ class HtmlReport implements IReport < HtmlReport > {
 			msg = 'TEST FAILED';
 		else if (result.stats.hasWarnings)
 			msg = 'WARNING REPORTED';
-			
+
 		buf.add('<h1 class="' + cls(result.stats) + 'bg header">' + msg + "</h1>\n");
 		buf.add('<div class="headerinfo">');
-		
+
 		resultNumbers(buf, result.stats);
 		buf.add(' performed on <strong>' + platform + '</strong>, executed in <strong> ' + time + ' sec. </strong></div >\n ');
 		return buf.toString();
 	}
-	
+
 	public function getTrace() : String
 	{
 		var buf = new StringBuf();
@@ -345,29 +345,29 @@ class HtmlReport implements IReport < HtmlReport > {
 			var method = '<span class="tracepackage">' + t.infos.className + "</span><br/>" + t.infos.methodName + "(" + t.infos.lineNumber + ")";
 			buf.add('<span class="tracepos" onmouseover="utestTooltip(this.parentNode, \'' + stack + '\')" onmouseout="utestRemoveTooltip()">');
 			buf.add(method);
-			
+
 			// time
 			buf.add('</span><span class="tracetime">');
 			buf.add("@ " + formatTime(t.time));
 			if(Math.round(t.delta * 1000) > 0)
 				buf.add(", ~" + formatTime(t.delta));
-			
+
 			buf.add('</span><span class="tracemsg">');
 			buf.add(StringTools.replace(StringTools.trim(t.msg), "\n", "<br/>\n"));
-			
+
 			buf.add('</span><div class="clr"></div></div></li>');
 		}
 		buf.add('</ol></div>');
 		return buf.toString();
 	}
-	
+
 	public function getResults() : String
 	{
 		var buf = new StringBuf();
 		addPackages(buf, result, result.stats.isOk);
 		return buf.toString();
 	}
-	
+
 	public function getAll() : String
 	{
 		if (!this.hasOutput(result.stats))
@@ -375,7 +375,7 @@ class HtmlReport implements IReport < HtmlReport > {
 		else
 			return getHeader() + getTrace() + getResults();
 	}
-	
+
 	public function getHtml(?title : String) : String
 	{
 		if(null == title)
@@ -386,19 +386,19 @@ class HtmlReport implements IReport < HtmlReport > {
 		else
 			return wrapHtml(title, s);
 	}
-	
+
 	var result : PackageResult;
 	function complete(result : PackageResult) {
 		this.result = result;
 		handler(this);
 		restoreTrace();
 	}
-	
+
 	function formatTime(t : Float)
 	{
 		return Math.round(t * 1000) + " ms";
 	}
-	
+
 	function cssStyle()
 	{
 		return 'body, dd, dt {
@@ -608,7 +608,7 @@ div.trace h2 {
 	border-bottom: 1px dashed #ffff33;
 }';
 	}
-	
+
 	function jsScript()
 	{
 		return
@@ -642,7 +642,7 @@ function utestRemoveTooltip() {
 		document.body.removeChild(el)
 }';
 	}
-	
+
 	function wrapHtml(title : String, s : String)
 	{
 		return
@@ -651,7 +651,7 @@ function utestRemoveTooltip() {
 			<script type="text/javascript">\n' + jsScript() + '\n</script>\n</head>
 			<body>\n'+ s + '\n</body>\n</html>';
 	}
-	
+
 	function _handler(report : HtmlReport)
 	{
 #if (php || neko || cpp || nodejs)
@@ -661,7 +661,7 @@ function utestRemoveTooltip() {
 		{
 			return untyped __js__("typeof v != 'undefined'");
 		}
-		
+
 		var head = Lib.document.getElementsByTagName("head")[0];
 		// add script
 		var script = Lib.document.createElement('script');
@@ -674,11 +674,11 @@ function utestRemoveTooltip() {
 			script.innerHTML = sjs;
 		}
 		head.appendChild(script);
-		
+
 		// add style
 		var style = Lib.document.createElement('style');
 		untyped style.type = 'text/css';
-		
+
 		var scss = report.cssStyle();
 		untyped
 		if (isDef(style.styleSheet))
@@ -692,7 +692,7 @@ function utestRemoveTooltip() {
 			style.innerHTML = scss;
 		}
 		head.appendChild(style);
-		
+
 		// add content
 		var el = Lib.document.getElementById("utest-results");
 		if (null == el)
@@ -709,7 +709,7 @@ function utestRemoveTooltip() {
 			s = StringTools.replace(s, '"', '\\"');
 			return '"' + s + '"';
 		};
-		
+
 		var fHeader = "function() {
 var head = document.getElementsByTagName('head')[0];
 // add script
@@ -753,7 +753,7 @@ utest.append_package = function(s) {
 //		var ef = function(s : String) { flash.external.ExternalInterface.call('(alert(' + s + '))()'); };
 		var er = function(s : String) { ef("function() { utest.append_result(" + quote(s) + "); }"); };
 		var ep = function(s : String) { ef("function() { utest.append_package(" + quote(s) + "); }"); };
-		
+
 		var me = this;
 		haxe.Timer.delay(function() {
 			ef(fHeader);
@@ -761,7 +761,7 @@ utest.append_package = function(s) {
 			er(report.getTrace());
 			if (me.skipResult(me.result.stats, me.result.stats.isOk)) return;
 			er('<ul id="utest-results-packages"></ul>');
-			
+
 			for (name in me.result.packageNames(false))
 			{
 				var buf = new StringBuf();
@@ -769,9 +769,9 @@ utest.append_package = function(s) {
 				ep(buf.toString());
 			}
 //			er(report.getResults());
-			
+
 //			buf.add('<ul id="utest-results-packages"></ul>');
-			
+
 /*			public function getResults() : String {
 				var buf = new StringBuf();
 				addPackage(buf, result, result.stats.isOk);

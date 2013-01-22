@@ -30,7 +30,7 @@ class TestResult {
         public function allOk():Bool{
 		for (l in assertations){
 			switch (l){
-				case Success(pos): break;
+				case Success(_): break;
 				default: return false;
 			}
 		}

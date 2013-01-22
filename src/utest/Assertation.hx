@@ -1,7 +1,7 @@
 package utest;
 
 import haxe.PosInfos;
-import haxe.Stack;
+import haxe.CallStack;
 
 /**
 * Enumerates the states available as a result of
