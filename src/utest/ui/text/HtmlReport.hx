@@ -206,7 +206,7 @@ class HtmlReport implements IReport < HtmlReport > {
 		var messages = [];
 		for(assertation in result.iterator()) {
 			switch(assertation) {
-				case Success(pos):
+				case Success(_):
 				case Failure(msg, pos):
 					messages.push("<strong>line " + pos.lineNumber + "</strong>: <em>" + StringTools.htmlEscape(msg) + "</em>");
 				case Error(e, s):
@@ -215,7 +215,7 @@ class HtmlReport implements IReport < HtmlReport > {
 					messages.push("<strong>setup error</strong>: " + getErrorDescription(e) + "\n<br/><strong>stack</strong>:" + getErrorStack(s, e));
 				case TeardownError(e, s):
 					messages.push("<strong>tear-down error</strong>: " + getErrorDescription(e) + "\n<br/><strong>stack</strong>:" + getErrorStack(s, e));
-				case TimeoutError(missedAsyncs, s):
+				case TimeoutError(missedAsyncs, _):
 					messages.push("<strong>missed async call(s)</strong>: " + missedAsyncs);
 				case AsyncError(e, s):
 					messages.push("<strong>async error</strong>: " + getErrorDescription(e) + "\n<br/><strong>stack</strong>:" + getErrorStack(s, e));
