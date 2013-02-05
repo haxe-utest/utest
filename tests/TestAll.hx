@@ -7,12 +7,6 @@ class TestAll
 {
 	public static function addTests(runner : Runner)
 	{
-		issue.TestAll.addTests(runner);
-		cross.TestAll.addTests(runner);
-		lang.TestAll.addTests(runner);
-		platform.TestAll.addTests(runner);
-		std.TestAll.addTests(runner);
-
 		runner.addCase(new utest.TestAssert());
 		runner.addCase(new utest.TestDispatcher());
 		
@@ -44,7 +38,7 @@ class TestAll
 		runner.onProgress.add(function(o){ if (o.done == o.totals) r = o.result;});
 		runner.run();
 #if php
-		php.Sys.exit(r.allOk() ? 0 : 1);
+		Sys.exit(r.allOk() ? 0 : 1);
 #end
 	}
 	

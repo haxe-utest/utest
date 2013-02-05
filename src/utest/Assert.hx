@@ -284,7 +284,7 @@ class Assert {
 				}
 
 				// hash, inthash
-				if(Std.is(expected, Hash) || Std.is(expected, IntHash)) {
+				if(Std.is(expected, haxe.ds.StringMap) || Std.is(expected, haxe.ds.IntMap)) {
 					if(status.recursive || status.path == '') {
 						var keys  = Lambda.array({ iterator : function() return expected.keys() });
 						var vkeys = Lambda.array({ iterator : function() return value.keys() });

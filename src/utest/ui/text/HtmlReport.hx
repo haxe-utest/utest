@@ -13,11 +13,7 @@ import utest.ui.common.ResultAggregator;
 import utest.ui.common.PackageResult;
 import utest.ui.common.ResultStats;
 
-#if haxe_211
 import haxe.CallStack;
-#else
-import haxe.Stack;
-#end
 
 using utest.ui.common.ReportTools;
 
@@ -28,7 +24,7 @@ import neko.Lib;
 #elseif cpp
 import cpp.Lib;
 #elseif js
-import js.Lib;
+import js.Browser;
 #end
 
 /**
@@ -91,7 +87,7 @@ class HtmlReport implements IReport < HtmlReport > {
 			infos : infos,
 			time : time - startTime,
 			delta : delta,
-			stack : #if haxe_211 CallStack.callStack() #else Stack.callStack() #end
+			stack : CallStack.callStack()
 		} );
 		_traceTime = Timer.stamp();
 	}
@@ -160,7 +156,7 @@ class HtmlReport implements IReport < HtmlReport > {
 		var nl = addNL ? '\n' : '';
 		var last = null;
 		var count = 1;
-		for (part in #if haxe_211 CallStack #else Stack #end .toString(stack).split('\n'))
+		for (part in CallStack.toString(stack).split('\n'))
 		{
 			if (StringTools.trim(part) == '')
 				continue;
@@ -667,9 +663,9 @@ function utestRemoveTooltip() {
 			return untyped __js__("typeof v != 'undefined'");
 		}
 
-		var head = Lib.document.getElementsByTagName("head")[0];
+		var head = Browser.document.getElementsByTagName("head")[0];
 		// add script
-		var script = Lib.document.createElement('script');
+		var script = Browser.document.createElement('script');
 		untyped script.type = 'text/javascript';
 		var sjs = report.jsScript();
 		untyped if (isDef(script.text))
@@ -681,7 +677,7 @@ function utestRemoveTooltip() {
 		head.appendChild(script);
 
 		// add style
-		var style = Lib.document.createElement('style');
+		var style = Browser.document.createElement('style');
 		untyped style.type = 'text/css';
 
 		var scss = report.cssStyle();
@@ -699,12 +695,12 @@ function utestRemoveTooltip() {
 		head.appendChild(style);
 
 		// add content
-		var el = Lib.document.getElementById("utest-results");
+		var el = Browser.document.getElementById("utest-results");
 		if (null == el)
 		{
-			el = Lib.document.createElement("div");
+			el = Browser.document.createElement("div");
 			el.id = "utest-results";
-			Lib.document.body.appendChild(el);
+			Browser.document.body.appendChild(el);
 		}
 		el.innerHTML = report.getAll();
 #elseif flash

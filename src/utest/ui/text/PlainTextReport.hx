@@ -9,11 +9,7 @@ import utest.TestResult;
 import utest.ui.common.ResultAggregator;
 using utest.ui.common.ReportTools;
 import utest.ui.common.PackageResult;
-#if haxe_211
 import haxe.CallStack;
-#else
-import haxe.Stack;
-#end
 
 /**
 * @todo add documentation
@@ -57,12 +53,8 @@ class PlainTextReport implements IReport<PlainTextReport> {
 	{
 		if (stack.length == 0)
 			return "";
-		#if haxe_211
-		var parts = CallStack.toString(stack).split("\n");
-		#else
-		var parts = Stack.toString(stack).split("\n");
-		#end
-		var r = [];
+		var parts = CallStack.toString(stack).split("\n"),
+			r = [];
 		for (part in parts)
 		{
 			if (part.indexOf(" utest.") >= 0) continue;
@@ -78,7 +70,7 @@ class PlainTextReport implements IReport<PlainTextReport> {
 
 		var end = haxe.Timer.stamp();
 #if php
-		var scripttime = Std.int(php.Sys.cpuTime()*1000)/1000;
+		var scripttime = Std.int(Sys.cpuTime()*1000)/1000;
 #end
 		var time = Std.int((end-startTime)*1000)/1000;
 

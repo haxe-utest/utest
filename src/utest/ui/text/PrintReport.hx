@@ -7,12 +7,6 @@ import utest.TestResult;
 import utest.ui.common.ResultAggregator;
 import utest.ui.common.PackageResult;
 
-#if haxe_211
-import haxe.CallStack;
-#else
-import haxe.Stack;
-#end
-
 #if php
 import php.Lib;
 #elseif neko
