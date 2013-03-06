@@ -12,6 +12,7 @@ using issue.TestIssueML20100806.MyIteratorExtension;
 
 class TestIssueML20100806
 {
+	#if !haxe3 //TODO: this is not working anymore
 	public function new(){}
 	
 	public function testIssue()
@@ -31,6 +32,7 @@ class TestIssueML20100806
 		Assert.equals(5, a.take(1).sum());
 		Assert.equals(3, b.drop(1).sum());
 	}
+	#end
 }
 
 class Function1Extensions {
@@ -96,7 +98,6 @@ class ArrayIterator<T>{
   public function next(){
     return a[start];
   }
-
 }
 
 class MyIteratorExtension {

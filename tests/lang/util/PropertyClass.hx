@@ -23,28 +23,32 @@ class PropertyClass {
 	public function setNopoint(v) { nopoint = v; }
 
 	private var value : String;
-	public var getterReadonly(getValue, null) : String;
-	public var setterReadonly(null, setValue) : String;
-	public var setter(default, setSetterValue) : String;
-	public var both(getValue, setValue) : String;
+	public var getterReadonly(get_getterReadonly, null) : String;
+	@:isVar public var setterReadonly(null, set_setterReadonly) : String;
+	public var setter(default, set_setter) : String;
+	public var both(get_both, set_both) : String;
 	public var getterDynamic(dynamic, null) : String;
 	public var setterDynamic(null, dynamic) : String;
-
-	private function getValue() {
+	
+	private function get_getterReadonly() { return get_value(); }
+	private function get_both() { return get_value(); }
+	private function set_both(v) { return set_value(v); }
+	private function set_setterReadonly(v) { return set_value(v); }
+	private function get_value() {
 		return value;
 	}
 
-	private function setValue(v) {
+	private function set_value(v) {
 		value = v;
 		return v;
 	}
 
-	private function setSetterValue(v) {
+	private function set_setter(v) {
 		setter = v;
 		return v;
 	}
 
-	public function getSetterValue() {
+	public function get_setterValue() {
 		return setter;
 	}
 }

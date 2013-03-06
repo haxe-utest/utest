@@ -5,6 +5,14 @@ import lang.util.ImplementsDynamic;
 import lang.util.F9Dynamic;
 import lang.util.MethodVariable;
 
+#if haxe3
+import haxe.ds.StringMap in Hash;
+import haxe.ds.IntMap in IntHash;
+import haxe.ds.GenericStack in FastList;
+#else
+import haxe.FastList;
+#end
+
 class TestDynamicFunction {
 	public function new() {}
 
@@ -40,7 +48,7 @@ class TestDynamicFunction {
 #if !(flash9 || cpp || php)
 	public function testFastListReference() {
 		var f = function() Assert.isTrue(true);
-		var list = new haxe.FastList();
+		var list = new FastList();
 		list.add(f);
 		list.pop()();
 	}
@@ -224,15 +232,15 @@ class TestDynamicFunction {
 		return val + "!";
 	}
 
-	private var f2(default, setDynamicFunction) : String;
+	private var f2(default, set_f2) : String;
 
-	private dynamic function setDynamicFunction(v : String) {
+	private dynamic function set_f2(v : String) {
 		return f2 = v +"!";
 	}
 
-	private static var sf2(default, setStaticDynamicFunction) : String;
+	private static var sf2(default, set_sf2) : String;
 
-	private static dynamic function setStaticDynamicFunction(v : String) {
+	private static dynamic function set_sf2(v : String) {
 		return sf2 = v +"!";
 	}
 

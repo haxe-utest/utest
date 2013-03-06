@@ -117,8 +117,10 @@ class TestNativeString {
 			case dstr(s):
 				Assert.equals(seq.length, s.length);
 				Assert.equals(seq, s);
+#if !haxe3
 			default:
 				Assert.fail();
+#end
 		}
 	}
 #if php // this should proabably unified in php and fail as in other platoforms

@@ -1,5 +1,6 @@
 package lang;
 
+import haxe.io.Bytes;
 import utest.Assert;
 
 import lang.util.T;
@@ -7,8 +8,9 @@ import lang.util.T2;
 import lang.util.ITest;
 
 class TestTryCatch {
-	public function new() {}
+	public function new() { }
 
+#if !haxe3
 	public function testCatchInt() {
 		Assert.equals("Int", throwCatch(1));
 	}
@@ -20,7 +22,7 @@ class TestTryCatch {
 	public function testCatchBool() {
 		Assert.equals("Bool", throwCatch(true));
 	}
-
+#end
 	public function testCatchString() {
 		Assert.equals("String", throwCatch("haXe"));
 	}
@@ -68,12 +70,12 @@ class TestTryCatch {
 	public function testRethrow() {
 		try {
 			try {
-				throw 0;
+				throw Bytes.alloc(0);
 			} catch(s : String) {
 				Assert.fail();
 			}
 			Assert.fail();
-		} catch(e : Int) {
+		} catch(e : Bytes) {
 			Assert.isTrue(true);
 		}
 	}
@@ -104,12 +106,14 @@ class TestTryCatch {
 	function throwCatch(ex : Dynamic) {
 		try {
 			throw ex;
+#if !haxe3
 		} catch(e : Int) {
 			return "Int";
 		} catch(e : Float) {
 			return "Float";
 		} catch(e : Bool) {
 			return "Bool";
+#end
 		} catch(e : String) {
 			return "String";
 		} catch(e : Array<Dynamic>) {

@@ -2,6 +2,9 @@ package utest.ui.common;
 
 import utest.TestResult;
 import utest.Assertation;
+#if haxe3
+import haxe.ds.StringMap in Hash;
+#end
 
 /**
 * @todo add documentation

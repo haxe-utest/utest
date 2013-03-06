@@ -130,11 +130,15 @@ class TestXml {
 		// doctype is parsed but not printed
 		Assert.equals( Xml.createDocType("XHTML").toString(), "" );
 		#else
+		#if haxe3
+		Assert.equals( Xml.createProcessingInstruction("XHTML").toString(), "<?XHTML?>");
+		#else
 		Assert.equals( Xml.createProlog("XHTML").toString(), "<?XHTML?>");
+		#end
 		Assert.equals( Xml.createDocType("XHTML").toString(), "<!DOCTYPE XHTML>" );
 		#end
 		
-		Assert.equals( Xml.parse("<?some header?>").firstChild().nodeType, Xml.Prolog );
+		Assert.equals( Xml.parse("<?some header?>").firstChild().nodeType, Xml.ProcessingInstruction );
 		Assert.equals( Xml.parse("<?some header?>").firstChild().nodeValue, "some header" );
 		Assert.equals( Xml.parse("<?some header?>").toString(), "<?some header?>" );
 		Assert.equals( Xml.parse('<!DOCTYPE root SYSTEM "">').firstChild().nodeType, Xml.DocType );
@@ -178,13 +182,22 @@ class TestXml {
 		Assert.equals( h.nodeName, "hello" );
 		h.nodeName = "em";
 		Assert.equals( h.nodeName, "em" );
-
-		Assert.equals( Lambda.count({ iterator : callback(x.elementsNamed,"em") }), 1 );
+		
+		#if haxe3
+		Assert.equals( Lambda.count( { iterator : x.elementsNamed.bind("em") } ), 1 );
+		#else
+		Assert.equals( Lambda.count( { iterator : callback(x.elementsNamed, "em") } ), 1 );
+		#end
 
 		h.nodeName = "xhtml:em";
-
+	
+		#if haxe3
+		Assert.equals( Lambda.count({ iterator : x.elementsNamed.bind("xhtml:em") }), 1 );
+		Assert.equals( Lambda.count( { iterator : x.elementsNamed.bind("em") } ), 0 );
+		#else
 		Assert.equals( Lambda.count({ iterator : callback(x.elementsNamed,"xhtml:em") }), 1 );
-		Assert.equals( Lambda.count({ iterator : callback(x.elementsNamed,"em") }), 0 );
+		Assert.equals( Lambda.count( { iterator : callback(x.elementsNamed, "em") } ), 0 );
+		#end
 
 		Assert.equals( h.nodeName, "xhtml:em" );
 	}

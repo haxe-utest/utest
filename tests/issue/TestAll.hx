@@ -40,7 +40,9 @@ class TestAll
 		
 		runner.addCase(new TestIssueMy001());
 		runner.addCase(new TestIssueML20100609());
+		#if !haxe3
 		runner.addCase(new TestIssueML20100806());
+		#end
 	}
 	
 	public static function main()

@@ -41,7 +41,7 @@ class TestHandler<T> {
 
 	static function exceptionStack(pops = 2)
 	{
-		#if haxe_211
+		#if haxe3
 		var stack = haxe.CallStack.exceptionStack();
 		#else
 		var stack = haxe.Stack.exceptionStack();

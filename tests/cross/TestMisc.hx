@@ -1,6 +1,9 @@
 package cross;
 
 import utest.Assert;
+#if haxe3
+import IntIterator in IntIter;
+#end
 
 enum EmptyEnum {
 }

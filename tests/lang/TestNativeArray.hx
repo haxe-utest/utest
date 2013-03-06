@@ -70,8 +70,10 @@ class TestNativeArray {
 			case darr(a):
 				Assert.equals(aeq.length, a.length);
 				Assert.equals(aeq[0], a[0]);
+#if !haxe3
 			default:
 				Assert.fail();
+#end
 		}
 	}
 

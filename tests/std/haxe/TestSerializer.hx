@@ -1,6 +1,10 @@
 package std.haxe;
 
 import utest.Assert;
+#if haxe3
+import haxe.ds.StringMap in Hash;
+import haxe.ds.IntMap in IntHash;
+#end
 
 enum MyUniquePublicEnum {
 	Y;

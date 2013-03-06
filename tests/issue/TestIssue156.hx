@@ -108,6 +108,7 @@ class TestIssue156
 		{
 			case 0: this.x;
 			case 1: y;
+			default:
 		};
 		Assert.equals(3, s);
 	}
@@ -124,6 +125,7 @@ class TestIssue156
 		{
 			case 0: 7;
 			case 1: y;
+			default:
 		};
 		return s;
 	}

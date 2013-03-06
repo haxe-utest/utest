@@ -3,7 +3,11 @@ package lang;
 import utest.Assert;
 
 class TestArraySyntax {
-	public static inline var data = ["0", "1", "2"];
+	public static var data(get_data, null):Array<String>;
+	private static inline function get_data()
+	{
+		return ["0", "1", "2"];
+	}
 	
 	public function new() {}
 
@@ -204,7 +208,8 @@ class TestArraySyntax {
 
 	public function testArrayCast() {
 		var done = false;
-		for(i in cast(["1", 1], Array<Dynamic>)) {
+		var arr:Array<Dynamic> = ["1", 1];
+		for(i in arr) {
 			done = true;
 			Assert.equals("1", ''+i);
 		}
