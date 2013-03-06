@@ -48,9 +48,9 @@ class TestPropertyAccess {
 	
 	public function testSetter() {
 		var o = new PropertyClass();
-		Assert.equals("setter", o.getSetterValue());
+		Assert.equals("setter", o.get_setterValue());
 		o.setter = "test";
-		Assert.equals("test", o.getSetterValue());
+		Assert.equals("test", o.get_setterValue());
 	}
 	
 	public function testBoth() {
@@ -60,9 +60,9 @@ class TestPropertyAccess {
 		Assert.equals("test", o.both);
 	}
 	
-	public static var f(default, setF) : String;
+	public static var f(default, set_f) : String;
 	
-	public static function setF(v : String) {
+	public static function set_f(v : String) {
 		f = v+"!";
 		return f;
 	}
@@ -73,16 +73,16 @@ class TestPropertyAccess {
 		Assert.equals("test!", f);
 	}
 	
-	public static var f2(getF2, setF2) : String;
+	public static var f2(get_f2, set_f2) : String;
 	
 	private static var _f2 : String;
 	
-	public static function setF2(v : String) {
+	public static function set_f2(v : String) {
 		_f2 = v+"!";
 		return _f2;
 	}
 	
-	public static function getF2() {
+	public static function get_f2() {
 		return _f2 + "?";
 	}
 	

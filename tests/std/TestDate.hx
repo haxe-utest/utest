@@ -19,10 +19,8 @@ class TestDate {
 	}
 
 	public function testFormat2(){
-		#if neko
-		var isWindows = neko.Sys.systemName() == "Windows";
-		#elseif php
-		var isWindows = php.Sys.systemName() == "Windows";
+		#if sys
+		var isWindows = Sys.systemName() == "Windows";
 		#else
 		var isWindows = false;
 		#end

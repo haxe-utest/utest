@@ -1,5 +1,10 @@
 package lang.util;
 
-class SubImplementsDynamic extends ImplementsDynamic, implements Dynamic<Int> {
+#if haxe3
+class SubImplementsDynamic extends ImplementsDynamic implements Dynamic<Int> 
+#else
+class SubImplementsDynamic extends ImplementsDynamic, implements Dynamic<Int> 
+#end
+{
 
 }

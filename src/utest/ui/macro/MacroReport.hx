@@ -4,7 +4,7 @@ package utest.ui.macro;
 import haxe.macro.Context;
 import neko.Lib;
 
-#if haxe_211
+#if haxe3
 import haxe.CallStack;
 #else
 import haxe.Stack;

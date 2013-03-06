@@ -6,11 +6,8 @@
 package issue;
 
 import utest.Assert;
-#if php
-import php.FileSystem;
-#end
-#if neko
-import neko.FileSystem;
+#if sys
+import sys.FileSystem;
 #end
 
 class TestIssue226

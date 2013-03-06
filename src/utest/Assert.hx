@@ -3,6 +3,10 @@ package utest;
 import haxe.io.Bytes;
 import utest.Assertation;
 import haxe.PosInfos;
+#if haxe3
+import haxe.ds.IntMap in IntHash;
+import haxe.ds.StringMap in Hash;
+#end
 
 /**
 * This class contains only static members used to perform assertations inside a test method.
@@ -520,7 +524,7 @@ class Assert {
 	* unless you know what you are doing.
 	* @todo test the optional type parameter
 	*/
-	public static function raises(method:Void -> Void, ?type:Class<Dynamic>, ?msgNotThrown : String , ?msgWrongType : String, ?pos : PosInfos) {
+	public static function raises(method:Void -> Void, ?type:Dynamic, ?msgNotThrown : String , ?msgWrongType : String, ?pos : PosInfos) {
 		if(type == null)
 			type = String;
 		try {

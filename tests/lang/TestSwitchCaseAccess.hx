@@ -35,6 +35,7 @@ class TestSwitchCaseAccess {
 		}
 	}
 	
+#if !haxe3
 	public function testCalcSwitch() {
 		Assert.equals(-1, calcSwitch(1));
 		Assert.equals(2, calcSwitch(2));
@@ -48,6 +49,7 @@ class TestSwitchCaseAccess {
 			default: return -1;
 		}
 	}
+#end
 	
 	static function subtractOne(i : Int) {
 	  return i - 1;

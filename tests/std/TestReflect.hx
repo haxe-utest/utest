@@ -3,7 +3,10 @@ package std;
 import utest.Assert;
 
 import Type;
-
+#if haxe3
+import haxe.ds.StringMap in Hash;
+import haxe.ds.IntMap in IntHash;
+#end
 
 class ObjectWithGetterSetter {
 
@@ -14,13 +17,13 @@ class ObjectWithGetterSetter {
   }
 
   private var _value: String;
-  public var value(getValue, setValue) : String;
-  private function getValue(): String
+  public var value(get_value, set_value) : String;
+  private function get_value(): String
   {
     getter_setter_called = true;
     return _value;
   }
-  public function setValue(value : String): String
+  public function set_value(value : String): String
   {
     getter_setter_called = true;
     if (_value == value) return _value;
@@ -495,7 +498,12 @@ interface TestReflectInterface2 {
 	public var toto : Int;
 }
 
-class TestReflectExt extends TestReflectClass, implements TestReflectInterface, implements TestReflectInterface2 {
+#if haxe3
+class TestReflectExt extends TestReflectClass implements TestReflectInterface implements TestReflectInterface2
+#else
+class TestReflectExt extends TestReflectClass, implements TestReflectInterface, implements TestReflectInterface2 
+#end
+{
 	public var toto : Int;
 }
 

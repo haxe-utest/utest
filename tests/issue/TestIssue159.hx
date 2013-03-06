@@ -20,6 +20,7 @@ class TestIssue159
 					while( f ) {}
 				}
 				1;
+			default:
 		}
 			
 		Assert.equals(1, s);
@@ -37,6 +38,7 @@ class TestIssue159
 						}
 					}
 					1;
+				default:
 			}
 		Assert.equals(1, a);
 	}
@@ -51,6 +53,7 @@ class TestIssue159
 							default: i = 0;
 						}
 						7;
+					default:
 		}
 		Assert.equals(7, s);
 	}

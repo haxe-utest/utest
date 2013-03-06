@@ -23,7 +23,7 @@ class TestCallback {
 	public function testCallback() {
 		counter = 0;
         var n = "haXe";
-        var cc = callback(f, n);
+        var cc = f.bind(n);
 		Assert.equals("haXe", cc());
 		Assert.equals(1,counter);
         n = "Neko";
@@ -42,18 +42,18 @@ class TestCallback {
 
 	public function testCallbackOther() {
 		var c = new CallbackOther();
-		var cc = callback(c.cboMember);
+		var cc = c.cboMember.bind();
 		Assert.equals(27, cc(2));
 	}
 
 	public function testCallbackOther2() {
 		var c = new CallbackOther();
-		var cc = callback(c.cboMember,5);
+		var cc = c.cboMember.bind(5);
 		Assert.equals(30, cc());
 	}
 
 	public function testCallbackOtherStatic() {
-		var cc = callback(CallbackOther.cboStatic,5);
+		var cc = CallbackOther.cboStatic.bind(5);
 		Assert.equals(5, cc());
 	}
 

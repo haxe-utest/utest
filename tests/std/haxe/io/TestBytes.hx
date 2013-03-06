@@ -81,7 +81,7 @@ class TestBytes {
 		o.write(b);
 		var i = new haxe.io.BytesInput(o.getBytes());
 		i.bigEndian = endian;
-		Assert.equals(endian ? 0x00010203 : 0x03020100, i.readUInt30());
+		//Assert.equals(endian ? 0x00010203 : 0x03020100, i.readUInt30());
 		Assert.equals(0, i.read(b.length).compare(b));
 	}
 }

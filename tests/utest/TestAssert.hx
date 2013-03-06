@@ -4,6 +4,11 @@ import utest.Assert;
 import utest.Assertation;
 import utest.Runner;
 
+#if haxe3
+import haxe.ds.StringMap in Hash;
+import haxe.ds.IntMap in IntHash;
+#end
+
 class TestAssert {
 	public function new(){}
 	

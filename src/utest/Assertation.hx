@@ -1,7 +1,7 @@
 package utest;
 
 import haxe.PosInfos;
-#if haxe_211
+#if haxe3
 import haxe.CallStack;
 #else
 import haxe.Stack;

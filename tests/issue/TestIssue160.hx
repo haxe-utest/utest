@@ -15,6 +15,7 @@ class TestIssue160
 	{
 		var d = switch (true) {
 			case true: try 1 catch (e:Dynamic) 2;
+			default:
 		}
 		Assert.equals(1, d);
 	}
@@ -23,6 +24,7 @@ class TestIssue160
 	{
 		var d = switch (true) {
 			case true: try throw "" catch (e:Dynamic) 2;
+			default:
 		}
 		Assert.equals(2, d);
 	}
