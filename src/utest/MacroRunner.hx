@@ -37,7 +37,7 @@ class MacroRunner
 	 * @param n: String of test class to use, "package.ClassName" for example.
 	 * @todo Parse real package/class references instead of just a string.
 	 */
-	@:macro public static function generateMainCode(n : Expr)
+	macro public static function generateMainCode(n : Expr)
 	{
 		var className = "YOURTESTCLASS";
 		
@@ -57,12 +57,12 @@ class MacroRunner
 		
 		trace("MacroRunner.run() can only be executed from a macro context.\nUse this code as a template in the main class:\n\n" +
 		"class Main\n{\n\tstatic function main()\n\t{\n\t\tMain.runTests();\n\t}\n\n" +
-		"\t@:macro static function runTests()\n\t{\n\t\treturn MacroRunner.run(new " + className + "());\n\t}\n}\n");
+		"\tmacro static function runTests()\n\t{\n\t\treturn MacroRunner.run(new " + className + "());\n\t}\n}\n");
 		
 		return { expr: EConst(CType("Void")), pos: Context.currentPos() };
 	}
 	
-	//@:macro public static function debugExpr(n : Expr)
+	//macro public static function debugExpr(n : Expr)
 	//{
 	//	trace(n);
 	//	return { expr: EConst(CType("Void")), pos: Context.currentPos() };

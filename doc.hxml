@@ -19,9 +19,18 @@
 --no-output
 --macro include('utest', true, null, ['src'])
 --next
-# F9
--swf9 _
+# F10
+-swf _
 -cp src
+-swf-version 10
+-xml doc/doc.f10.xml
+--no-output
+--macro include('utest', true, null, ['src'])
+--next
+# F9
+-swf _
+-cp src
+-swf-version 9
 -xml doc/doc.f9.xml
 --no-output
 --macro include('utest', true, null, ['src'])
@@ -54,7 +63,3 @@
 -xml doc/doc.js.xml
 # --no-output
 --macro include('utest', true, null, ['src'])
-# haxedoc.xml
--cmd del _
--cmd copy doc\doc.js.xml haxedoc.xml
--cmd PAUSE
