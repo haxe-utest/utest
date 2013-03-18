@@ -5,7 +5,7 @@ cp doc/doc.js.xml haxedoc.xml
 rm -f -r release
 rm release.zip
 mkdir release
-cp -r src release
+cp -r src/. release
 cp haxelib.xml release
 cp haxedoc.xml release
 cd release
