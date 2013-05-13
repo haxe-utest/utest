@@ -1,0 +1,13 @@
+{
+  "name": "utest",
+  "url": "https://github.com/fponticelli/utest",
+  "license": "MIT",
+  "tags": ["cross","unittesting"],
+  "description": "Unit Testing System for Haxe",
+  "version": "1.1.2",
+  "releasenote": "Haxe3 release",
+  "contributors": ["fponticelli"],
+  "dependencies": {
+
+  }
+}
