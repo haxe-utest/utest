@@ -1,7 +1,0 @@
-<project name="utest" url="http://code.google.com/p/utest" license="LGPL">
-    <user name="fponticelli"/>
-	<tag v="cross"/>
-	<tag v="unittesting" />
-    <description>Unit Testing System for haXe</description>
-    <version name="1.1.1">Haxe3 fixes</version>
-</project>
