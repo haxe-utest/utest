@@ -655,8 +655,10 @@ function utestRemoveTooltip() {
 
 	function _handler(report : HtmlReport)
 	{
-#if (php || neko || cpp || nodejs)
+#if (php || neko || cpp)
 		Lib.print(report.getHtml());
+#elseif (js && nodejs)
+        js.Node.process.stdout.write(report.getHtml());
 #elseif js
 		var isDef = function(v) : Bool
 		{
