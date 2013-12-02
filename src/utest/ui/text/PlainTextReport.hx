@@ -74,7 +74,7 @@ class PlainTextReport implements IReport<PlainTextReport> {
 #end
 		var time = Std.int((end-startTime)*1000)/1000;
 
-		buf.add("results: " + (result.stats.isOk ? "ALL TESTS OK" : "SOME TESTS FAILURES")+newline+" "+newline);
+		buf.add("results: " + (result.stats.isOk ? "ALL TESTS OK" : "SOME TESTS FAILURES")+newline+newline);
 
 		buf.add("assertations: "   + result.stats.assertations+newline);
 		buf.add("successes: "      + result.stats.successes+newline);

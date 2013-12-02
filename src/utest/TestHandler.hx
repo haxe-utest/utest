@@ -80,7 +80,7 @@ class TestHandler<T> {
 
 	function unbindHandler() {
 		Assert.results     = null;
-		Assert.createAsync = function(f, ?t){ return function(){}};
+		Assert.createAsync = function(?f, ?t){ return function(){}};
 		Assert.createEvent = function(f, ?t){ return function(e){}};
 	}
 
@@ -108,7 +108,7 @@ class TestHandler<T> {
 	* @param	timeout, the maximum time to wait for f() (default is 250)
 	* @return	returns a function closure that must be executed asynchrnously
 	*/
-	public function addAsync(f : Void->Void, timeout = 250) {
+	public function addAsync(?f : Void->Void, timeout = 250) {
 		if (null == f)
 			f = function() { }
 		asyncStack.add(f);
@@ -116,7 +116,7 @@ class TestHandler<T> {
 		setTimeout(timeout);
 		return function() {
 			if(!handler.asyncStack.remove(f)) {
-				handler.results.add(AsyncError("method already executed", []));
+				handler.results.add(AsyncError("async function already executed", []));
 				return;
 			}
 			try {

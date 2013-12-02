@@ -22,16 +22,16 @@ class MacroRunner
 	 */
 	public static function run(testClass : Dynamic)
 	{
-		var runner = new Runner();		
+		var runner = new Runner();
 		addClass(runner, testClass);
-	
+
 		new MacroReport(runner);
 		runner.run();
-		
+
 		return { expr: EConst(CType("Void")), pos: Context.currentPos() };
-	}	
+	}
 	#end
-	
+
 	/**
 	 * Displays stub code for using MacroRunner.
 	 * @param n: String of test class to use, "package.ClassName" for example.
@@ -40,7 +40,7 @@ class MacroRunner
 	macro public static function generateMainCode(n : Expr)
 	{
 		var className = "YOURTESTCLASS";
-		
+
 		switch(n.expr)
 		{
 			case EConst(c):
@@ -48,32 +48,30 @@ class MacroRunner
 				{
 					case CString(s):
 						className = s;
-						
 					default:
 				}
-				
 			default:
 		}
-		
+
 		trace("MacroRunner.run() can only be executed from a macro context.\nUse this code as a template in the main class:\n\n" +
 		"class Main\n{\n\tstatic function main()\n\t{\n\t\tMain.runTests();\n\t}\n\n" +
 		"\tmacro static function runTests()\n\t{\n\t\treturn MacroRunner.run(new " + className + "());\n\t}\n}\n");
-		
+
 		return { expr: EConst(CType("Void")), pos: Context.currentPos() };
 	}
-	
+
 	//macro public static function debugExpr(n : Expr)
 	//{
 	//	trace(n);
 	//	return { expr: EConst(CType("Void")), pos: Context.currentPos() };
 	//}
-	
+
 	static function addClass(runner : Runner, testClass : Class<Dynamic>)
 	{
 		runner.addCase(testClass);
-		
+
 		var addTests = Reflect.field(testClass, "addTests");
-		
+
 		if (addTests != null && Reflect.isFunction(addTests))
 		{
 			Reflect.callMethod(testClass, addTests, [runner]);

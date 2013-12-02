@@ -70,7 +70,7 @@ class Assert {
 	*/
 	public static function notNull(value : Dynamic, ?msg : String, ?pos : PosInfos) {
 		if (null == msg)
-			msg = "expected false";
+			msg = "expected not null";
 		isTrue(value != null, msg, pos);
 	}
 	/**
@@ -662,7 +662,7 @@ class Assert {
 	* @param f: A function that contains other Assert tests
 	* @param timeout: Optional timeout value in milliseconds.
 	*/
-	public static dynamic function createAsync(f : Void -> Void, ?timeout : Int) {
+	public static dynamic function createAsync(?f : Void -> Void, ?timeout : Int) {
 		return function(){};
 	}
 	/**

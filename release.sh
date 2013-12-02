@@ -1,8 +1,8 @@
 clear
 haxe doc.hxml
-rm _
+rm -fr _
 cp doc/doc.js.xml haxedoc.xml
-rm -f -r release
+rm -fr release
 rm release.zip
 mkdir release
 cp haxelib.json release
