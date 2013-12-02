@@ -38,12 +38,12 @@ class Report
 			report.displaySuccessResults = ShowSuccessResultsWithNoErrors;
 		else
 			report.displaySuccessResults = displaySuccessResults;
-			
+
 		if (null == headerDisplayMode)
 			report.displayHeader = ShowHeaderWithResults;
 		else
 			report.displayHeader = headerDisplayMode;
-			
+
 		return report;
 	}
 }
