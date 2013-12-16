@@ -26,10 +26,19 @@ class Runner {
 	* performed during the tests.
 	*/
 	public var onComplete(default, null) : Dispatcher<Runner>;
+
+	/**
+	* Event object that monitors when a handler has executed a test case, and
+	* is about to evaluate the results.  Useful for mocking certain
+	* custom asynchronouse behavior in order for certain tests to pass.
+	*/
+	public var onPrecheck(default, null) : Dispatcher<TestHandler<TestFixture<Dynamic>>>;
+
 	/**
 	* The number of fixtures registered.
 	*/
 	public var length(default, null)      : Int;
+
 	/**
 	* Instantiates a Runner onject.
 	*/
@@ -38,6 +47,7 @@ class Runner {
 		onProgress = new Dispatcher();
 		onStart    = new Dispatcher();
 		onComplete = new Dispatcher();
+		onPrecheck = new Dispatcher();
 		length = 0;
 	}
 
@@ -101,6 +111,9 @@ class Runner {
 
 	function runFixture(fixture : TestFixture<Dynamic>) {
 		var handler = new TestHandler(fixture);
+		handler.onPrecheck.add(function(x){
+            this.onPrecheck.dispatch(x);
+        });
 		handler.execute();
 		return handler;
 	}
@@ -122,6 +135,9 @@ class Runner {
 	function runFixture(fixture : TestFixture<Dynamic>) {
 		var handler = new TestHandler(fixture);
 		handler.onComplete.add(testComplete);
+		handler.onPrecheck.add(function(x){
+            this.onPrecheck.dispatch(x);
+        });
 		handler.execute();
 	}
 
