@@ -14,6 +14,9 @@ class TestHandler<T> {
 	public var onTested(default, null) : Dispatcher<TestHandler<T>>;
 	public var onTimeout(default, null) : Dispatcher<TestHandler<T>>;
 	public var onComplete(default, null) : Dispatcher<TestHandler<T>>;
+	public var onPrecheck(default, null) : Dispatcher<TestHandler<T>>;
+
+	public var precheck(default, null) : Void->Void;
 
 	public function new(fixture : TestFixture<T>) {
 		if(fixture == null) throw "fixture argument is null";
@@ -23,6 +26,7 @@ class TestHandler<T> {
 		onTested   = new Dispatcher();
 		onTimeout  = new Dispatcher();
 		onComplete = new Dispatcher();
+		onPrecheck = new Dispatcher();
 	}
 
 	public function execute() {
@@ -36,6 +40,7 @@ class TestHandler<T> {
 		} catch(e : Dynamic) {
 			results.add(SetupError(e, exceptionStack()));
 		}
+		onPrecheck.dispatch(this);
 		checkTested();
 	}
 
