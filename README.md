@@ -55,7 +55,7 @@ class TestCase {
 }
 ```
 
-`(Assert)[src/utest/Assert.hx]` contains a plethora of methods to perform your tests.
+[Assert](src/utest/Assert.hx) contains a plethora of methods to perform your tests.
 
 Creating an asynchronous test is easy:
 
