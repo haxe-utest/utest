@@ -79,53 +79,53 @@ Note: Asynchronous tests work correctly for JS and Flash. The support for other 
 #### `isTrue(cond : Bool, ?msg : String, ?pos : PosInfos)`
 Asserts successfully when the condition is true.
 
-`cond`: The condition to test
+`cond` The condition to test
 
-`msg`: An optional error message. If not passed a default one will be used
+`msg` An optional error message. If not passed a default one will be used
 
-`pos`: Code position where the Assert call has been executed. Don't fill it
+`pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 
 #### `isFalse(value : Bool, ?msg : String, ?pos : PosInfos)`
 Asserts successfully when the condition is false.
 
-`cond`: The condition to test
+`cond` The condition to test
 
-`msg`: An optional error message. If not passed a default one will be used
+`msg` An optional error message. If not passed a default one will be used
 
-`pos`: Code position where the Assert call has been executed. Don't fill it
+`pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 
 #### `isNull(value : Dynamic, ?msg : String, ?pos : PosInfos)`
 Asserts successfully when the value is null.
 
-`value`: The value to test
+`value` The value to test
 
-`msg`: An optional error message. If not passed a default one will be used
+`msg` An optional error message. If not passed a default one will be used
 
-`pos`: Code position where the Assert call has been executed. Don't fill it
+`pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 
 #### `notNull(value : Dynamic, ?msg : String, ?pos : PosInfos)`
 Asserts successfully when the value is not null.
 
-`value`: The value to test
+`value` The value to test
 
-`msg`: An optional error message. If not passed a default one will be used
+`msg` An optional error message. If not passed a default one will be used
 
-`pos`: Code position where the Assert call has been executed. Don't fill it
+`pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 
 #### `is(value : Dynamic, type : Dynamic, ?msg : String , ?pos : PosInfos)`
 Asserts successfully when the 'value' parameter is of the of the passed type 'type'.
 
-`value`: The value to test
+`value` The value to test
 
-`type`: The type to test against
+`type` The type to test against
 
-`msg`: An optional error message. If not passed a default one will be used
+`msg` An optional error message. If not passed a default one will be used
 
-`pos`: Code position where the Assert call has been executed. Don't fill it
+`pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 
 #### `notEquals(expected : Dynamic, value : Dynamic, ?msg : String , ?pos : PosInfos)`
@@ -134,13 +134,13 @@ Asserts successfully when the value parameter is not the same as the expected on
 Assert.notEquals(10, age);
 ```
 
-`expected`: The expected value to check against
+`expected` The expected value to check against
 
-`value`: The value to test
+`value` The value to test
 
-`msg`: An optional error message. If not passed a default one will be used
+`msg` An optional error message. If not passed a default one will be used
 
-`pos`: Code position where the Assert call has been executed. Don't fill it
+`pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 
 #### `equals(expected : Dynamic, value : Dynamic, ?msg : String , ?pos : PosInfos)`
@@ -149,13 +149,13 @@ Asserts successfully when the value parameter is equal to the expected one.
 Assert.equals(10, age);
 ```
 
-`expected`: The expected value to check against
+`expected` The expected value to check against
 
-`value`: The value to test
+`value` The value to test
 
-`msg`: An optional error message. If not passed a default one will be used
+`msg` An optional error message. If not passed a default one will be used
 
-`pos`: Code position where the Assert call has been executed. Don't fill it
+`pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 
 
@@ -165,13 +165,13 @@ Asserts successfully when the value parameter does match against the passed EReg
 Assert.match(~/x/i, "haXe");
 ```
 
-`pattern`: The pattern to match against
+`pattern` The pattern to match against
 
-`value`: The value to test
+`value` The value to test
 
-`msg`: An optional error message. If not passed a default one will be used
+`msg` An optional error message. If not passed a default one will be used
 
-`pos`: Code position where the Assert call has been executed. Don't fill it
+`pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 
 #### `floatEquals(expected : Float, value : Float, ?approx : Float, ?msg : String , ?pos : PosInfos)`
@@ -180,15 +180,15 @@ Same as Assert.equals but considering an approximation error.
 Assert.floatEquals(Math.PI, value);
 ```
 
-`expected`: The expected value to check against
+`expected` The expected value to check against
 
-`value`: The value to test
+`value` The value to test
 
-`approx`: The approximation tollerance. Default is 1e-5
+`approx` The approximation tollerance. Default is 1e-5
 
-`msg`: An optional error message. If not passed a default one will be used
+`msg` An optional error message. If not passed a default one will be used
 
-`pos`: Code position where the Assert call has been executed. Don't fill it
+`pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 
 #### `same(expected : Dynamic, value : Dynamic, ?recursive : Bool, ?msg : String, ?pos : PosInfos)`
@@ -198,16 +198,16 @@ The default behavior is to check nested objects in fields recursively.
 Assert.same({ name : "utest"}, ob);
 ```
 
-`expected`: The expected value to check against
+`expected` The expected value to check against
 
-`value`: The value to test
+`value` The value to test
 
-`recursive`: States whether or not the test will apply also to sub-objects.
+`recursive` States whether or not the test will apply also to sub-objects.
 Defaults to true
 
-`msg`: An optional error message. If not passed a default one will be used
+`msg` An optional error message. If not passed a default one will be used
 
-`pos`: Code position where the Assert call has been executed. Don't fill it
+`pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 
 #### `raises(method:Void -> Void, ?type:Class<Dynamic>, ?msgNotThrown : String , ?msgWrongType : String, ?pos : PosInfos)`
@@ -218,82 +218,82 @@ correct type (or Dynamic if non is specified).
 Assert.raises(function() { throw "Error!"; }, String);
 ```
 
-`method`: A method that generates the exception.
+`method` A method that generates the exception.
 
-`type`: The type of the expected error. Defaults to Dynamic (catch all).
+`type` The type of the expected error. Defaults to Dynamic (catch all).
 
-`msgNotThrown`: An optional error message used when the function fails to raise the expected
+`msgNotThrown` An optional error message used when the function fails to raise the expected
      exception. If not passed a default one will be used
 
-`msgWrongType`: An optional error message used when the function raises the exception but it is
+`msgWrongType` An optional error message used when the function raises the exception but it is
      of a different type than the one expected. If not passed a default one will be used
 
-`pos`: Code position where the Assert call has been executed. Don't fill it
+`pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 @todo test the optional type parameter
 
 #### `allows<T>(possibilities : Array<T>, value : T, ?msg : String , ?pos : PosInfos)`
 Checks that the test value matches at least one of the possibilities.
 
-`possibility`: An array of mossible matches
+`possibility` An array of mossible matches
 
-`value`: The value to test
+`value` The value to test
 
-`msg`: An optional error message. If not passed a default one will be used
+`msg` An optional error message. If not passed a default one will be used
 
-`pos`: Code position where the Assert call has been executed. Don't fill it
+`pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 
 #### `contains<T>(match : T, values : Array<T>, ?msg : String , ?pos : PosInfos)`
 Checks that the test array contains the match parameter.
 
-`match`: The element that must be included in the tested array
+`match` The element that must be included in the tested array
 
-`values`: The values to test
+`values` The values to test
 
-`msg`: An optional error message. If not passed a default one will be used
+`msg` An optional error message. If not passed a default one will be used
 
-`pos`: Code position where the Assert call has been executed. Don't fill it
+`pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 
 #### `notContains<T>(match : T, values : Array<T>, ?msg : String , ?pos : PosInfos)`
 Checks that the test array does not contain the match parameter.
 
-`match`: The element that must NOT be included in the tested array
+`match` The element that must NOT be included in the tested array
 
-`values`: The values to test
+`values` The values to test
 
-`msg`: An optional error message. If not passed a default one will be used
+`msg` An optional error message. If not passed a default one will be used
 
-`pos`: Code position where the Assert call has been executed. Don't fill it
+`pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 
 #### `stringContains(match : String, value : String, ?msg : String , ?pos : PosInfos)`
 Checks that the expected values is contained in value.
 
-`match`: the string value that must be contained in value
+`match` the string value that must be contained in value
 
-`value`: the value to test
+`value` the value to test
 
-`msg`: An optional error message. If not passed a default one will be used
+`msg` An optional error message. If not passed a default one will be used
 
-`pos`: Code position where the Assert call has been executed. Don't fill it
+`pos` Code position where the Assert call has been executed. Don't fill it
 
 #### `fail(msg = "failure expected", ?pos : PosInfos)`
 Forces a failure.
 
-`msg`: An optional error message. If not passed a default one will be used
+`msg` An optional error message. If not passed a default one will be used
 
-`pos`: Code position where the Assert call has been executed. Don't fill it
+`pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 
 
 #### `warn(msg)`
 Creates a warning message.
 
-`msg`: A mandatory message that justifies the warning.
+`msg` A mandatory message that justifies the warning.
 
-`pos`: Code position where the Assert call has been executed. Don't fill it
+`pos` Code position where the Assert call has been executed. Don't fill it
 
 #### `createAsync(?f : Void -> Void, ?timeout : Int)`
 Creates an asynchronous context for test execution. Assertions should be included
@@ -305,9 +305,9 @@ public function assertAsync() {
 }
 ```
 
-`f`: A function that contains other Assert tests
+`f` A function that contains other Assert tests
 
-`timeout`: Optional timeout value in milliseconds.
+`timeout` Optional timeout value in milliseconds.
 
 #### `createEvent<EventArg>(f : EventArg -> Void, ?timeout : Int)`
 Creates an asynchronous context for test execution of an event like method.
@@ -315,6 +315,6 @@ Assertions should be included in the passed function.
 It works the same way as Assert.assertAsync() but accepts a function with one
 argument (usually some event data) instead of a function with no arguments
 
-`f`: A function that contains other Assert tests
+`f` A function that contains other Assert tests
 
-`timeout`: Optional timeout value in milliseconds.
+`timeout` Optional timeout value in milliseconds.
