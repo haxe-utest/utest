@@ -15,9 +15,6 @@ import utest.TestResult;
 
 using StringTools;
 
-/**
-* @todo add documentation
-*/
 class MacroReport 
 {
 	public function new(runner : Runner) 

@@ -3,10 +3,6 @@ package utest.ui.common;
 import utest.TestResult;
 import utest.Assertation;
 
-/**
-* @todo add documentation
-* @todo add tests for this class
-*/
 class PackageResult {
 	public var packageName(default, null) : String;
 	var classes : Map<String, ClassResult>;

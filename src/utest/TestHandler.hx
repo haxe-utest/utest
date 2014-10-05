@@ -2,9 +2,6 @@ package utest;
 
 import utest.Assertation;
 
-/**
-* @todo add documentation
-*/
 class TestHandler<T> {
 	private static inline var POLLING_TIME = 10;
 	public var results(default, null) : List<Assertation>;

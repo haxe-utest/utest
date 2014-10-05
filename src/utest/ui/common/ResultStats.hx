@@ -2,9 +2,6 @@ package utest.ui.common;
 
 import utest.Dispatcher;
 
-/**
-* @todo add documentation
-*/
 class ResultStats {
 	public var assertations(default, null) : Int;
 	public var successes(default, null) : Int;

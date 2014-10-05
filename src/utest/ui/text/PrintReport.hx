@@ -15,9 +15,6 @@ import neko.Lib;
 import cpp.Lib;
 #end
 
-/**
-* @todo add documentation
-*/
 class PrintReport extends PlainTextReport {
 	var useTrace : Bool;
 #if (php || neko)

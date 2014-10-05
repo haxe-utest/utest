@@ -27,9 +27,6 @@ import cpp.Lib;
 import js.Browser;
 #end
 
-/**
-* @todo add documentation
-*/
 class HtmlReport implements IReport < HtmlReport > {
 	static var platform = #if neko 'neko' #elseif php 'php'  #elseif cpp 'cpp'  #elseif js 'javascript' #elseif flash 'flash' #else 'unknown' #end;
 

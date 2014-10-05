@@ -2,9 +2,6 @@ package utest.ui.common;
 
 import utest.Assertation;
 
-/**
-* @todo add documentation
-*/
 class FixtureResult {
 	public var methodName(default, null) : String;
 	public var hasTestError(default, null) : Bool;

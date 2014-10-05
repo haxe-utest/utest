@@ -1,8 +1,5 @@
 package utest;
 
-/**
-* @todo add documentation
-*/
 class TestFixture<T> {
 	public var target(default, null)   : T;
 	public var method(default, null)   : String;

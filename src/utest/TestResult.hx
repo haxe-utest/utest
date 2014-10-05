@@ -2,9 +2,6 @@ package utest;
 
 import utest.Assertation;
 
-/**
-* @todo add documentation
-*/
 class TestResult {
   public var pack          : String;
   public var cls           : String;

@@ -2,9 +2,6 @@ package utest.ui.common;
 
 import utest.TestResult;
 
-/**
-* @todo add documentation
-*/
 class ClassResult {
 	var fixtures : Map<String, FixtureResult>;
 	public var className(default, null) : String;

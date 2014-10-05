@@ -11,9 +11,6 @@ using utest.ui.common.ReportTools;
 import utest.ui.common.PackageResult;
 import haxe.CallStack;
 
-/**
-* @todo add documentation
-*/
 class PlainTextReport implements IReport<PlainTextReport> {
 	public var displaySuccessResults : SuccessResultsDisplayMode;
 	public var displayHeader : HeaderDisplayMode;
