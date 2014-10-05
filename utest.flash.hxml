@@ -1,4 +1,0 @@
--cp src
--cp tests
--swf bin/test.swf
--main TestAll

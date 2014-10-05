@@ -1,6 +1,0 @@
--cp src
--cp tests
--neko bin/index.n
--main TestAll
--D neko2
--D haxe3

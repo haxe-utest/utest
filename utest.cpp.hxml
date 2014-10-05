@@ -1,4 +1,0 @@
--cp src
--cp tests
--cpp bin/cpp
--main TestAll

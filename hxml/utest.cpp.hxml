@@ -1,0 +1,7 @@
+-cp src
+-cp test
+-cpp bin/cpp
+-main TestAll
+-lib utest
+
+-cmd ./bin/cpp/TestAll

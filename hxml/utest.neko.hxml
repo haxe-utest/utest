@@ -1,0 +1,9 @@
+-cp src
+-cp test
+-neko bin/test.n
+-main TestAll
+-D neko2
+-D haxe3
+-lib utest
+
+-cmd neko ./bin/test.n

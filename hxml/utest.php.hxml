@@ -1,0 +1,7 @@
+-cp src
+-cp test
+-php bin/php
+-main TestAll
+-lib utest
+
+-cmd php ./bin/php/index.php

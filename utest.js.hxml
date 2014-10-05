@@ -1,4 +1,0 @@
--cp src
--cp tests
--js bin/test.js
--main TestAll

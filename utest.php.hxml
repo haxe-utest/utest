@@ -1,4 +1,0 @@
--cp src
--cp tests
--php bin/php
--main TestAll

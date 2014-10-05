@@ -1,0 +1,8 @@
+-cp src
+-cp test
+-cs bin/cs
+-main TestAll
+-lib utest
+-lib hxcs
+
+-cmd mono ./bin/cs/bin/TestAll.exe
