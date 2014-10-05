@@ -135,11 +135,10 @@ Adds a new test case.
   }
 
   function runFixture(fixture : TestFixture<Dynamic>) {
-    var handler = new TestHandler(fixture);
+    // cast is required by C#
+    var handler = new TestHandler(cast fixture);
     handler.onComplete.add(testComplete);
-    handler.onPrecheck.add(function(x){
-            this.onPrecheck.dispatch(x);
-        });
+    handler.onPrecheck.add(this.onPrecheck.dispatch);
     handler.execute();
   }
 
