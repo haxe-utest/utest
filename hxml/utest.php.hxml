@@ -2,6 +2,6 @@
 -cp test
 -php bin/php
 -main TestAll
--lib utest
+-D utest
 
 -cmd php ./bin/php/index.php

@@ -2,7 +2,7 @@
 -cp test
 -cs bin/cs
 -main TestAll
--lib utest
+-D utest
 -lib hxcs
 
 -cmd mono ./bin/cs/bin/TestAll.exe

@@ -2,6 +2,6 @@
 -cp test
 -swf bin/test.swf
 -main TestAll
--lib utest
+-D utest
 
 -cmd open ./bin/test.swf

@@ -2,7 +2,7 @@
 -cp test
 -js bin/test.js
 -main TestAll
--lib utest
+-D utest
 -D nodejs
 
 -cmd node ./bin/test.js

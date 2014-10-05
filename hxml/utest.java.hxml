@@ -2,7 +2,7 @@
 -cp test
 -java bin/java
 -main TestAll
--lib utest
+-D utest
 -lib hxjava
 
 -cmd java -jar "./bin/java/TestAll.jar"
