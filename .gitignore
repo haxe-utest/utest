@@ -1,3 +1,6 @@
-release.zip
 bin
-doc
+doc/pages
+doc/xml
+doc/dox
+.DS_Store
+*.sublime-*
