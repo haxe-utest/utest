@@ -55,7 +55,7 @@ class TestHandler<T> {
 	}
 
 	function checkTested() {
-#if (flash || js)
+#if (flash || js || java)
 		if(expireson == null || asyncStack.length == 0) {
 			tested();
 		} else if(haxe.Timer.stamp() > expireson) {
