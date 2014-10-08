@@ -4,11 +4,11 @@ env:
   matrix:
   - TARGET=flash
   - TARGET=js
-  - TARGET=php
-  - TARGET=neko
-  - TARGET=cpp
-  - TARGET=cs
-  - TARGET=java
+  #- TARGET=php
+  #- TARGET=neko
+  #- TARGET=cpp
+  #- TARGET=cs
+  #- TARGET=java
 
 matrix:
   fast_finish: true

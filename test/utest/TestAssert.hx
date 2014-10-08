@@ -18,11 +18,11 @@ class TestAssert {
     results = Assert.results;
     Assert.results = resultsbypass;
   }
-
+/*
   public function testFailOnPurpose() {
     Assert.fail("test failing");
   }
-
+*/
   public function testBooleans() {
     bypass();
     Assert.isTrue(true);
