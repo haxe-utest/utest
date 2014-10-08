@@ -23,9 +23,9 @@ before_install:
   - mkdir ~/haxelib                                    # create a folder for installing haxelib
   - haxelib setup ~/haxelib
   - mkdir -p ./bin
-  #- sudo mkdir -p /etc/adobe/FlashPlayerTrust/
-  #- sudo ls /etc/adobe/
-  #- sudo pwd > /etc/adobe/FlashPlayerTrust/test.cfg
+  - sudo mkdir -p /etc/adobe/FlashPlayerTrust/
+  - sudo pwd
+  - sudo echo "/home/travis/bin/test.swf" > > /etc/adobe/FlashPlayerTrust/test.cfg
   - mkdir -p "/home/travis/.macromedia/Flash_Player/#Security/FlashPlayerTrust/"
   #- sudo touch "~/.macromedia/Flash_Player/#Security/FlashPlayerTrust/test.cfg"
   - echo "/home/travis/bin/test.swf" > "/home/travis/.macromedia/Flash_Player/#Security/FlashPlayerTrust/test.cfg"
@@ -48,11 +48,11 @@ script:
   #- sh -c "if [ '$TARGET' = 'flash' ]; then xvfb :100 -screen 0 1024x768x24 -extension RANDR; fi"
   #- sh -c "if [ '$TARGET' = 'flash' ]; then sh -e Xvfb +extension RANDR; fi"
   #- sh -c "if [ '$TARGET' = 'flash' ]; then sh -e /etc/init.d/xvfb stop; fi"
-  - sh -c "if [ '$TARGET' = 'flash' ]; then sh -e Xvfb :99 -screen 0 1024x768x24 2>&1 >/dev/null; fi"
-  - sh -c "if [ '$TARGET' = 'flash' ]; then export DISPLAY=:99; fi"
+  #- sh -c "if [ '$TARGET' = 'flash' ]; then sh -e Xvfb :99 -screen 0 1024x768x24 2>&1 >/dev/null; fi"
+  #- sh -c "if [ '$TARGET' = 'flash' ]; then export DISPLAY=:99; fi"
   #- sh -c "if [ '$TARGET' = 'flash' ]; then sh -e /etc/init.d/xvfb start; fi"
   - sh -c "if [ '$TARGET' = 'flash' ]; then sudo xvfb-run -e /dev/stdout /usr/bin/flashplayerdebugger ./bin/test.swf; fi"
-  - sh -c "if [ '$TARGET' = 'flash' ]; then sh -e /etc/init.d/xvfb stop; fi"
+  - sh -c "if [ '$TARGET' = 'flash' ]; then sudo sh -e /etc/init.d/xvfb stop; fi"
   #- sh -c "if [ '$TARGET' = 'flash' ]; then /usr/bin/flashplayerdebugger ./bin/test.swf; fi"
 
 branches:
