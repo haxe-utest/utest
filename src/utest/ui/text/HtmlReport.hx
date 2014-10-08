@@ -616,8 +616,11 @@ function utestRemoveTooltip() {
   function _handler(report : HtmlReport) {
 #if (php || neko || cpp)
     Lib.print(report.getHtml());
-#elseif (js && nodejs)
-    (untyped __js__(process.stdout.write))(report.getHtml());
+#elseif js
+    if(untyped __js__("typeof process != 'undefined"))
+      (untyped __js__(process.stdout.write))(report.getHtml());
+    else
+      (untyped __js__(console.log))(report.getHtml());
 #elseif js
     var isDef = function(v) : Bool
       return untyped __js__("typeof v != 'undefined'");
