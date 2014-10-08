@@ -45,8 +45,10 @@ before_script:
 script:
   - haxe hxml/utest.${TARGET}.hxml
   #- sh -c "if [ '$TARGET' = 'flash' ]; then sh -e /etc/init.d/xvfb start; fi"
+  #- sh -c "if [ '$TARGET' = 'flash' ]; then sh -e /etc/init.d/xvfb start; fi"
   #- sh -c "if [ '$TARGET' = 'flash' ]; then xvfb :100 -screen 0 1024x768x24 -extension RANDR; fi"
-  - sh -c "if [ '$TARGET' = 'flash' ]; then xvfb-run +extension RANDR /usr/bin/flashplayerdebugger ./bin/test.swf; fi"
+  - sh -c "if [ '$TARGET' = 'flash' ]; then Xvfb +extension RANDR /usr/bin/flashplayerdebugger ./bin/test.swf; fi"
+  #- sh -c "if [ '$TARGET' = 'flash' ]; then xvfb-run +extension RANDR /usr/bin/flashplayerdebugger ./bin/test.swf; fi"
   #- sh -c "if [ '$TARGET' = 'flash' ]; then /usr/bin/flashplayerdebugger ./bin/test.swf; fi"
 
 branches:
