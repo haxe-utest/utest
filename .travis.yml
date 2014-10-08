@@ -30,6 +30,7 @@ before_install:
   #- sudo touch "~/.macromedia/Flash_Player/#Security/FlashPlayerTrust/test.cfg"
   - echo "ErrorReportingEnable=1\nTraceOutputFileEnable=1" > "/home/travis/mm.cfg"
   - echo "/home/travis/bin/test.swf" > "/home/travis/.macromedia/Flash_Player/#Security/FlashPlayerTrust/test.cfg"
+  - echo "/home/travis/bin/test.swf" > "/home/travis/test.cfg"
 before_script:
   - sh -c "if [ '$TARGET' = 'cpp' ]; then sudo apt-get install gcc-multilib g++-multilib -y; fi"
   - sh -c "if [ '$TARGET' = 'cpp' ]; then haxelib install hxcpp; fi"
@@ -38,8 +39,8 @@ before_script:
   - sh -c "if [ '$TARGET' = 'java' ]; then haxelib install hxjava; fi"
   - sh -c "if [ '$TARGET' = 'flash' ]; then wget http://fpdownload.macromedia.com/pub/flashplayer/updaters/11/flashplayer_11_sa_debug.i386.tar.gz; fi"
   - sh -c "if [ '$TARGET' = 'flash' ]; then tar xvzf flashplayer_11_sa_debug.i386.tar.gz; fi"
-  - sh -c "if [ '$TARGET' = 'flash' ]; then chmod +x flashplayerdebugger; fi"
-  - sh -c "if [ '$TARGET' = 'flash' ]; then sudo mv flashplayerdebugger /usr/bin/flashplayerdebugger; fi"
+  #- sh -c "if [ '$TARGET' = 'flash' ]; then chmod +x flashplayerdebugger; fi"
+  #- sh -c "if [ '$TARGET' = 'flash' ]; then sudo mv flashplayerdebugger /usr/bin/flashplayerdebugger; fi"
   - sh -c "if [ '$TARGET' = 'flash' ]; then export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/; fi"
 
 # Run the test!
@@ -53,8 +54,8 @@ script:
   - sh -c "if [ '$TARGET' = 'flash' ]; then export DISPLAY=:99.0; fi"
   - sh -c "if [ '$TARGET' = 'flash' ]; then sh -e /etc/init.d/xvfb start; fi"
   - sh -c "if [ '$TARGET' = 'flash' ]; then export AUDIODEV=null; fi"
-  - sh -c "if [ '$TARGET' = 'flash' ]; then sudo xvfb-run -a -e /dev/stdout /usr/bin/flashplayerdebugger ./bin/test.swf; fi"
-  - sh -c "if [ '$TARGET' = 'flash' ]; then sudo sh -e /etc/init.d/xvfb stop; fi"
+  - sh -c "if [ '$TARGET' = 'flash' ]; then sudo xvfb-run -a -e /dev/stdout ./flashplayerdebugger ./bin/test.swf; fi"
+  #- sh -c "if [ '$TARGET' = 'flash' ]; then sudo sh -e /etc/init.d/xvfb stop; fi"
   #- sh -c "if [ '$TARGET' = 'flash' ]; then /usr/bin/flashplayerdebugger ./bin/test.swf; fi"
 
 branches:
