@@ -150,7 +150,7 @@ class PlainTextReport implements IReport<PlainTextReport> {
       untyped __js__('process').exit(result.stats.isOk ? 0 : 1);
 #elseif flash
       if(flash.system.Security.sandboxType == "localTrusted") {
-        var delay = #;
+        var delay = 5;
         trace('all done, exiting in $delay seconds');
         haxe.Timer.delay(function() try {
             flash.system.System.exit(result.stats.isOk ? 0 : 1);
