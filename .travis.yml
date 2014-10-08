@@ -58,6 +58,9 @@ script:
   #- sh -c "if [ '$TARGET' = 'flash' ]; then sudo sh -e /etc/init.d/xvfb stop; fi"
   #- sh -c "if [ '$TARGET' = 'flash' ]; then /usr/bin/flashplayerdebugger ./bin/test.swf; fi"
 
+after_script:
+  - sh -c "if [ '$TARGET' = 'flash' ]; then cat /home/username/.macromedia/Flash_Player/Logs/flashlog.txt; fi"
+
 branches:
   only:
     - master
