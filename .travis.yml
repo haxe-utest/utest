@@ -53,7 +53,7 @@ script:
   - sh -c "if [ '$TARGET' = 'flash' ]; then export DISPLAY=:99.0; fi"
   - sh -c "if [ '$TARGET' = 'flash' ]; then sh -e /etc/init.d/xvfb start; fi"
   - sh -c "if [ '$TARGET' = 'flash' ]; then export AUDIODEV=null; fi"
-  - sh -c "if [ '$TARGET' = 'flash' ]; then sudo /usr/bin/flashplayerdebugger ./bin/test.swf; fi"
+  - sh -c "if [ '$TARGET' = 'flash' ]; then sudo xvfb-run -e /dev/stdout /usr/bin/flashplayerdebugger ./bin/test.swf; fi"
   - sh -c "if [ '$TARGET' = 'flash' ]; then sudo sh -e /etc/init.d/xvfb stop; fi"
   #- sh -c "if [ '$TARGET' = 'flash' ]; then /usr/bin/flashplayerdebugger ./bin/test.swf; fi"
 
