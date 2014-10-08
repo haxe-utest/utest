@@ -617,7 +617,7 @@ function utestRemoveTooltip() {
 #if (php || neko || cpp)
     Lib.print(report.getHtml());
 #elseif js
-    if(untyped __js__("typeof process != 'undefined"))
+    if(untyped __js__("typeof process != 'undefined'"))
       (untyped __js__(process.stdout.write))(report.getHtml());
     else
       (untyped __js__(console.log))(report.getHtml());
