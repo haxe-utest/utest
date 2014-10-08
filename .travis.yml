@@ -48,6 +48,7 @@ script:
   #- sh -c "if [ '$TARGET' = 'flash' ]; then xvfb :100 -screen 0 1024x768x24 -extension RANDR; fi"
   #- sh -c "if [ '$TARGET' = 'flash' ]; then sh -e Xvfb +extension RANDR; fi"
   #- sh -c "if [ '$TARGET' = 'flash' ]; then sh -e /etc/init.d/xvfb stop; fi"
+  - sh -c "if [ '$TARGET' = 'flash' ]; then sh -e Xvfb :99 -screen 0 1024x768x24 2>&1 >/dev/null; fi"
   - sh -c "if [ '$TARGET' = 'flash' ]; then export DISPLAY=:99; fi"
   #- sh -c "if [ '$TARGET' = 'flash' ]; then sh -e /etc/init.d/xvfb start; fi"
   - sh -c "if [ '$TARGET' = 'flash' ]; then sudo xvfb-run -e /dev/stdout /usr/bin/flashplayerdebugger ./bin/test.swf; fi"
