@@ -3,6 +3,5 @@
 -js bin/test.js
 -main TestAll
 -D utest
--D nodejs
 
 -cmd node ./bin/test.js

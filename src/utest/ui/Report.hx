@@ -21,7 +21,10 @@ class Report {
 #elseif nodejs
     report = new utest.ui.text.PrintReport(runner);
 #elseif js
-    report = new utest.ui.text.HtmlReport(runner, true);
+    if(untyped __js__("typeof window != 'undefined'"))
+      report = new utest.ui.text.HtmlReport(runner, true);
+    else
+      report = new utest.ui.text.PrintReport(runner);
 #elseif flash
     if(flash.external.ExternalInterface.available)
       report = new utest.ui.text.HtmlReport(runner, true);
