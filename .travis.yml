@@ -23,6 +23,10 @@ before_install:
   - mkdir ~/haxelib                                    # create a folder for installing haxelib
   - haxelib setup ~/haxelib
   - mkdir -p ./bin
+  - sudo mkdir -p /etc/adobe/FlashPlayerTrust/
+  - sudo pwd > /etc/adobe/FlashPlayerTrust/test.cfg
+  - sudo mkdir -p "~/.macromedia/Flash_Player/#Security/FlashPlayerTrust/"
+  - sudo pwd > ~/.macromedia/Flash_Player/#Security/FlashPlayerTrust/test.cfg
 before_script:
   - sh -c "if [ '$TARGET' = 'cpp' ]; then sudo apt-get install gcc-multilib g++-multilib -y; fi"
   - sh -c "if [ '$TARGET' = 'cpp' ]; then haxelib install hxcpp; fi"
@@ -37,7 +41,7 @@ before_script:
 
 # Run the test!
 script:
-  - haxe hxml/utest.${TARGET}.hxml
+  - haxe hxml/utes
   - sh -c "if [ '$TARGET' = 'flash' ]; then sh -e /etc/init.d/xvfb start; fi"
   - sh -c "if [ '$TARGET' = 'flash' ]; then xvfb-run -a /usr/bin/flashplayerdebugger ./bin/test.swf; fi"
 
