@@ -24,7 +24,7 @@ before_install:
   - haxelib setup ~/haxelib
   - mkdir -p ./bin
   - sudo mkdir -p /etc/adobe/FlashPlayerTrust/
-  - sudo pwd
+  - sudo touch /etc/adobe/FlashPlayerTrust/test.cfg
   - sudo echo "/home/travis/bin/test.swf" > /etc/adobe/FlashPlayerTrust/test.cfg
   - mkdir -p "/home/travis/.macromedia/Flash_Player/#Security/FlashPlayerTrust/"
   #- sudo touch "~/.macromedia/Flash_Player/#Security/FlashPlayerTrust/test.cfg"
