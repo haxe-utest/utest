@@ -19,7 +19,7 @@ class TestAssert {
     Assert.results = resultsbypass;
   }
 
-  public function testFail() {
+  public function testFailOnPurpose() {
     Assert.fail("test failing");
   }
 
