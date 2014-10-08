@@ -19,6 +19,10 @@ class TestAssert {
     Assert.results = resultsbypass;
   }
 
+  public function testFail() {
+    Assert.fail("test failing");
+  }
+
   public function testBooleans() {
     bypass();
     Assert.isTrue(true);
