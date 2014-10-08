@@ -1,6 +1,7 @@
 -cp src
 -cp test
 -cpp bin/cpp
+-lib hxcpp
 -main TestAll
 -D utest
 

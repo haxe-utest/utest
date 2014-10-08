@@ -2,8 +2,6 @@ package utest.ui;
 
 import utest.Runner;
 import utest.ui.common.IReport;
-import utest.ui.text.HtmlReport;
-import utest.ui.text.PrintReport;
 import utest.ui.common.HeaderDisplayMode;
 
 #if php
@@ -17,20 +15,20 @@ class Report {
     var report : IReport<Dynamic>;
 #if (php || neko)
     if (!Web.isModNeko)
-      report = new PrintReport(runner);
+      report = new utest.ui.text.PrintReport(runner);
     else
-    report = new HtmlReport(runner, true);
+    report = new utest.ui.text.HtmlReport(runner, true);
 #elseif nodejs
-    report = new PrintReport(runner);
+    report = new utest.ui.text.PrintReport(runner);
 #elseif js
-    report = new HtmlReport(runner, true);
+    report = new utest.ui.text.HtmlReport(runner, true);
 #elseif flash
     if(flash.external.ExternalInterface.available)
-      report = new HtmlReport(runner, true);
+      report = new utest.ui.text.HtmlReport(runner, true);
     else
-      report = new PrintReport(runner);
+      report = new utest.ui.text.PrintReport(runner);
 #else
-    report = new PrintReport(runner);
+    report = new utest.ui.text.PrintReport(runner);
 #end
     if (null == displaySuccessResults)
       report.displaySuccessResults = ShowSuccessResultsWithNoErrors;

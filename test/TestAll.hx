@@ -7,22 +7,9 @@ class TestAll {
   public static function addTests(runner : Runner) {
     runner.addCase(new utest.TestAssert());
     runner.addCase(new utest.TestDispatcher());
-    runner.addCase(new TestAll());
   }
-
-// test that PHP doesn't emit warnings
-// this also catches some parse errors
-#if php
-  public function testFinal() {
-    var s:String = untyped __call__("ob_get_clean");
-    Assert.equals("",s);
-  }
-#end
 
   public static function main() {
-#if php
-    untyped __call__("ob_start");
-#end
     var runner = new Runner();
 
     addTests(runner);
@@ -33,9 +20,6 @@ class TestAll {
     var r:TestResult = null;
     runner.onProgress.add(function(o){ if (o.done == o.totals) r = o.result;});
     runner.run();
-#if php
-    Sys.exit(r.allOk() ? 0 : 1);
-#end
   }
 
   public function new(){}

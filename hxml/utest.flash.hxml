@@ -4,4 +4,4 @@
 -main TestAll
 -D utest
 
--cmd open ./bin/test.swf
+#-cmd open ./bin/test.swf

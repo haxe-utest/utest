@@ -143,5 +143,18 @@ class PlainTextReport implements IReport<PlainTextReport> {
   function complete(result : PackageResult) {
     this.result = result;
     handler(this);
+#if (php || neko || cpp || cs || java)
+    Sys.exit(result.stats.isOk ? 0 : 1);
+#elseif (js && nodejs)
+    untyped __js__('process').exit(result.stats.isOk ? 0 : 1);
+#elseif flash
+      var delay = 5;
+      trace('all done, exiting in $delay seconds (if this is a trusted file)');
+      haxe.Timer.delay(function() try {
+          flash.system.System.exit(result.stats.isOk ? 0 : 1);
+        } catch(e : Dynamic) {
+          // do nothing
+        }, delay * 1000);
+#end
   }
 }
