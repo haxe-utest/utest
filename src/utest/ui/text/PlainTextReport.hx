@@ -149,13 +149,15 @@ class PlainTextReport implements IReport<PlainTextReport> {
     if(untyped __js__('typeof process != "undefined"'))
       untyped __js__('process').exit(result.stats.isOk ? 0 : 1);
 #elseif flash
-      var delay = 5;
-      trace('all done, exiting in $delay seconds (if this is a trusted file)');
-      haxe.Timer.delay(function() try {
-          flash.system.System.exit(result.stats.isOk ? 0 : 1);
-        } catch(e : Dynamic) {
-          // do nothing
-        }, delay * 1000);
+      if(flash.system.Security.sandboxType == "localTrusted") {
+        var delay = #;
+        trace('all done, exiting in $delay seconds');
+        haxe.Timer.delay(function() try {
+            flash.system.System.exit(result.stats.isOk ? 0 : 1);
+          } catch(e : Dynamic) {
+            // do nothing
+          }, delay * 1000);
+      }
 #end
   }
 }
