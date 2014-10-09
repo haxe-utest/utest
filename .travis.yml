@@ -3,7 +3,9 @@ language: c
 env:
   global:
     - TARGET_DIR=bin
+      # SAUCE_ACCESS_KEY
     - secure: ryN8BYRWLf7IhrW5665eoPaXXHZM8XA75vm9WERwWUKuLz775oIdlHnfjXO0MFZCQ1qiTuw4uED1lwMzqpLAmuGQgEy7j1X8NYmY21CziXBSy3MYdVxx2xkkUwQlswcqA2MRNoM3CNSmDuT3g/yo1HfmjCa0NpjG4obW9pC8Bwo=
+      # SAUCE_USERNAME
     - secure: R8e8OcFNtYhbbAO554yL9j4980aVsWYNy+i+6vP5IW8aiv5mIGh6FSCAtM9IlY1JAhrRkVVGDsUBX5XaaIXXmJVBaEQ2gDwN6vBG+RHLfLX7JtVJXezMmDiE0fK5o6EVn+Jr76FCzSLp4hkTZl7VOLvMpXGo6A9MCatfio+18Zc=
   matrix:
     - TARGET=cpp

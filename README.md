@@ -164,7 +164,7 @@ unless you know what you are doing.
 #### `match(pattern : EReg, value : Dynamic, ?msg : String , ?pos : PosInfos)`
 Asserts successfully when the value parameter does match against the passed EReg instance.
 ```haxe
-Assert.match(~/x/i, "haXe");
+Assert.match(~/x/i, "Haxe");
 ```
 
 `pattern` The pattern to match against
