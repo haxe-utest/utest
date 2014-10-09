@@ -3,5 +3,6 @@
 -swf bin/test.swf
 -main TestAll
 -D utest
-
+-debug
+-D fdb
 #-cmd open ./bin/test.swf
