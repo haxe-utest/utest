@@ -76,7 +76,7 @@ class PlainTextReport implements IReport<PlainTextReport> {
     buf.add("script time: "    + scripttime+newline);
 #end
     buf.add(newline);
-    buf.add("results: " + (result.stats.isOk ? "ALL TESTS OK" : "SOME TESTS FAILURES"));
+    buf.add("results: " + (result.stats.isOk ? "ALL TESTS OK (success: true)" : "SOME TESTS FAILURES (success: false)"));
     buf.add(newline);
   }
 
