@@ -29,8 +29,11 @@ before_install:
   - mkdir -p "/home/travis/.macromedia/Macromedia/Flash_Player/#Security/FlashPlayerTrust/"
   #- sudo touch "~/.macromedia/Flash_Player/#Security/FlashPlayerTrust/test.cfg"
   - echo "ErrorReportingEnable=1\nTraceOutputFileEnable=1" > "/home/travis/mm.cfg"
-  - echo "/home/travis/bin/test.swf" > "/home/travis/.macromedia/Macromedia/Flash_Player/#Security/FlashPlayerTrust/test.cfg"
-  - echo "/home/travis/bin/test.swf" > "/home/travis/test.cfg"
+  - cd /home/travis/.macromedia/Macromedia/Flash_Player/
+  - cd "#Security/FlashPlayerTrust"
+  - echo "/home/travis/bin/test.swf" > "test.cfg"
+  - cd /home/travis/
+  #- echo "/home/travis/bin/test.swf" > "/home/travis/test.cfg"
 before_script:
   - sh -c "if [ '$TARGET' = 'cpp' ]; then sudo apt-get install gcc-multilib g++-multilib -y; fi"
   - sh -c "if [ '$TARGET' = 'cpp' ]; then haxelib install hxcpp; fi"
