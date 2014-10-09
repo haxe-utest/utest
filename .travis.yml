@@ -3,6 +3,7 @@ language: c
 env:
   matrix:
     - TARGET=neko FILENAME=bin/test.n
+    - TARGET=flash FILENAME=bin/flash.swf
 
 matrix:
   fast_finish: true
@@ -15,6 +16,6 @@ install: # setup the target
 
 script:
   - cd $TRAVIS_BUILD_DIR
-  - haxe hxml/utest.$TARGET.hxml -D fdb
+  - haxe hxml/utest.$TARGET.hxml
   # run the tests
   - ~/travis-hx/runtests.sh $FILENAME # this will set the $FILENAME defined on the environment variable to run the tests
