@@ -26,10 +26,11 @@ before_install:
   #- sudo mkdir -p /etc/adobe/FlashPlayerTrust/
   #- sudo touch /etc/adobe/FlashPlayerTrust/test.cfg
   #- sudo echo "/home/travis/bin/test.swf" > /etc/adobe/FlashPlayerTrust/test.cfg
-  - mkdir -p "/home/travis/.macromedia/Macromedia/Flash_Player/#Security/FlashPlayerTrust/"
+  - mkdir -p "/home/travis/.macromedia/Flash_Player/#Security/FlashPlayerTrust/"
   #- sudo touch "~/.macromedia/Flash_Player/#Security/FlashPlayerTrust/test.cfg"
   - echo "ErrorReportingEnable=1\nTraceOutputFileEnable=1" > "/home/travis/mm.cfg"
-  - cd /home/travis/.macromedia/Macromedia/Flash_Player/
+  - pwd
+  - cd /home/travis/.macromedia/Flash_Player/
   - cd "#Security/FlashPlayerTrust"
   - echo "/home/travis/bin/test.swf" > "test.cfg"
   - cd /home/travis/
