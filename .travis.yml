@@ -3,7 +3,7 @@ language: c
 env:
   matrix:
     - TARGET=neko FILENAME=bin/test.n
-    - TARGET=flash FILENAME=bin/flash.swf
+    - TARGET=flash FILENAME=bin/test.swf
 
 matrix:
   fast_finish: true
