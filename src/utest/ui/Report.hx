@@ -39,7 +39,7 @@ class Report {
       report.displaySuccessResults = displaySuccessResults;
 
     if (null == headerDisplayMode)
-      report.displayHeader = ShowHeaderWithResults;
+      report.displayHeader = #if (travis || showheader) AlwaysShowHeader #else ShowHeaderWithResults #end;
     else
       report.displayHeader = headerDisplayMode;
 

@@ -1,5 +1,5 @@
 -cp src
 -cp test
--python bin/python
+-python bin/python.py
 -main TestAll
 -D utest

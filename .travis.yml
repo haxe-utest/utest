@@ -8,7 +8,7 @@ env:
     - TARGET=cs
     - TARGET=flash
     - TARGET=java
-    - TARGET=js
+    - TARGET=js TOOLCHAIN="nodejs browser"
     - TARGET=neko
     - TARGET=php
     - TARGET=python
