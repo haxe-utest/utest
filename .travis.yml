@@ -19,7 +19,7 @@ before_install:
   - sudo add-apt-repository ppa:eyecreate/haxe -y      # add the ubuntu ppa that contains haxe
   - sudo apt-get update                                # pull info from ppa
   - sudo apt-get install haxe -y                       # install haxe (and neko)
-  - sudo apt-get install xvfb x11-xserver-utils xfonts-cyrillic libcurl3:i386 libglib2.0-0:i386 libx11-6:i386 libxext6:i386 libxt6:i386 libxcursor1:i386 libnss3:i386 libgtk2.0-0:i386
+  - sudo apt-get install xvfb x11-xserver-utils libcurl3:i386 libglib2.0-0:i386 libx11-6:i386 libxext6:i386 libxt6:i386 libxcursor1:i386 libnss3:i386 libgtk2.0-0:i386
   - mkdir ~/haxelib                                    # create a folder for installing haxelib
   - haxelib setup ~/haxelib
   - mkdir -p ./bin
@@ -29,11 +29,10 @@ before_install:
   - mkdir -p "/home/travis/.macromedia/Flash_Player/#Security/FlashPlayerTrust/"
   #- sudo touch "~/.macromedia/Flash_Player/#Security/FlashPlayerTrust/test.cfg"
   - echo "ErrorReportingEnable=1\nTraceOutputFileEnable=1" > "/home/travis/mm.cfg"
-  - pwd
   - cd /home/travis/.macromedia/Flash_Player/
   - cd "#Security/FlashPlayerTrust"
   - echo "/home/travis/bin/test.swf" > "test.cfg"
-  - cd /home/travis/utest/
+  - cd /home/travis/fponticelli/utest/
   #- echo "/home/travis/bin/test.swf" > "/home/travis/test.cfg"
 before_script:
   - sh -c "if [ '$TARGET' = 'cpp' ]; then sudo apt-get install gcc-multilib g++-multilib -y; fi"
