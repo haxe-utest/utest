@@ -4,5 +4,3 @@
 -main TestAll
 -D utest
 -lib hxcs
-
--cmd mono ./bin/cs/bin/TestAll.exe

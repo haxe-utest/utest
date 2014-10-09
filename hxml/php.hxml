@@ -3,5 +3,3 @@
 -php bin/php
 -main TestAll
 -D utest
-
--cmd php ./bin/php/index.php

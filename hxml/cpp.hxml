@@ -4,5 +4,3 @@
 -lib hxcpp
 -main TestAll
 -D utest
-
--cmd ./bin/cpp/TestAll

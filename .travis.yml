@@ -4,8 +4,14 @@ env:
   global:
     - TARGET_DIR=bin
   matrix:
-    - TARGET=neko
+    - TARGET=cpp
+    - TARGET=cs
     - TARGET=flash
+    - TARGET=java
+    - TARGET=js
+    - TARGET=neko
+    - TARGET=php
+    - TARGET=python
 
 matrix:
   fast_finish: true

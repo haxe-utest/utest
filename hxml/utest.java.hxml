@@ -1,8 +1,0 @@
--cp src
--cp test
--java bin/java
--main TestAll
--D utest
--lib hxjava
-
--cmd java -jar "./bin/java/TestAll.jar"
