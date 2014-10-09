@@ -34,7 +34,7 @@ class Report {
     report = new utest.ui.text.PrintReport(runner);
 #end
     if (null == displaySuccessResults)
-      report.displaySuccessResults = ShowSuccessResultsWithNoErrors;
+      report.displaySuccessResults = #if (travis || hidesuccess) NeverShowSuccessResults #else ShowSuccessResultsWithNoErrors #end;
     else
       report.displaySuccessResults = displaySuccessResults;
 

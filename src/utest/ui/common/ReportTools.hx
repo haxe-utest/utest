@@ -24,7 +24,7 @@ class ReportTools
 				return true;
 		};
 	}
-	
+
 	public static function skipResult(report : IReport<Dynamic>, stats : ResultStats, isOk)
 	{
 		if (!stats.isOk) return false;
@@ -35,7 +35,7 @@ class ReportTools
 			case ShowSuccessResultsWithNoErrors: !isOk;
 		};
 	}
-	
+
 	public static function hasOutput(report : IReport<Dynamic>, stats : ResultStats)
 	{
 		if (!stats.isOk) return true;
