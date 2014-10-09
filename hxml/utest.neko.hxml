@@ -1,6 +1,6 @@
 -cp src
 -cp test
--neko bin/test.n
+-neko bin/neko.n
 -main TestAll
 -D neko2
 -D haxe3

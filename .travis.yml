@@ -1,9 +1,11 @@
 language: c
 
 env:
+  global:
+    - TARGET_DIR=bin
   matrix:
-    - TARGET=neko FILENAME=bin/test.n
-    - TARGET=flash FILENAME=bin/test.swf
+    - TARGET=neko
+    - TARGET=flash
 
 matrix:
   fast_finish: true

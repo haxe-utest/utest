@@ -1,8 +1,7 @@
 -cp src
 -cp test
--swf bin/test.swf
+-swf bin/flash.swf
 -main TestAll
 -D utest
 -debug
 -D fdb
-#-cmd open ./bin/test.swf
