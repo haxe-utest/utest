@@ -13,12 +13,14 @@ import neko.Web;
 class Report {
   public static function create(runner : Runner, ?displaySuccessResults : SuccessResultsDisplayMode, ?headerDisplayMode : HeaderDisplayMode) : IReport<Dynamic> {
     var report : IReport<Dynamic>;
-#if (php || neko)
+#if travis
+    report = new utest.ui.text.PrintReport(runner);
+#elseif (php || neko)
     if (!Web.isModNeko)
       report = new utest.ui.text.PrintReport(runner);
     else
     report = new utest.ui.text.HtmlReport(runner, true);
-#elseif (nodejs || travis)
+#elseif nodejs
     report = new utest.ui.text.PrintReport(runner);
 #elseif js
     if(untyped __js__("typeof window != 'undefined'"))
