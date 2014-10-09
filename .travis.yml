@@ -3,7 +3,7 @@ language: php
 env:
   matrix:
   - TARGET=flash
-  - TARGET=js
+  #- TARGET=js
   #- TARGET=php
   #- TARGET=neko
   #- TARGET=cpp
@@ -32,7 +32,7 @@ before_install:
   - cd /home/travis/.macromedia/Flash_Player/
   - cd "#Security/FlashPlayerTrust"
   - echo "/home/travis/bin/test.swf" > "test.cfg"
-  - cd /home/travis/fponticelli/utest/
+  #- cd /home/travis/fponticelli/utest/
   #- echo "/home/travis/bin/test.swf" > "/home/travis/test.cfg"
 before_script:
   - sh -c "if [ '$TARGET' = 'cpp' ]; then sudo apt-get install gcc-multilib g++-multilib -y; fi"
