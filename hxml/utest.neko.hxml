@@ -5,5 +5,3 @@
 -D neko2
 -D haxe3
 -D utest
-
--cmd neko ./bin/test.n
