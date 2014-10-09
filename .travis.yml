@@ -27,6 +27,7 @@ install: # setup the target
 
 script:
   - cd $TRAVIS_BUILD_DIR
+  # build the tests
   - haxe hxml/$TARGET.hxml -D travis
   # run the tests
-  - ~/travis-hx/runtests.sh $FILENAME # this will set the $FILENAME defined on the environment variable to run the tests
+  - ~/travis-hx/runtests.sh $FILENAME

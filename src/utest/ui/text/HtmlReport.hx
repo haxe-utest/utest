@@ -617,13 +617,13 @@ function utestRemoveTooltip() {
 #if (php || neko || cpp)
     Lib.print(report.getHtml());
 #elseif js
-    if(untyped __js__("typeof process != 'undefined'"))
-      (untyped __js__(process.stdout.write))(report.getHtml());
-    else
-      (untyped __js__(console.log))(report.getHtml());
-#elseif js
-    var isDef = function(v) : Bool
-      return untyped __js__("typeof v != 'undefined'");
+    var isDef = function(v) : Bool return untyped __js__("typeof v != 'undefined'");
+    var hasProcess : Bool = untyped __js__("typeof process != 'undefined'");
+
+    if(hasProcess) {
+      untyped __js__("process.stdout.write")(report.getHtml());
+      return;
+    }
 
     var head = Browser.document.getElementsByTagName("head")[0];
     // add script
