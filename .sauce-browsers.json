@@ -18,9 +18,8 @@
   { "browserName": "opera", "version": "11", "platform": "Windows 7" },
   { "browserName": "opera", "version": "12", "platform": "Windows 7" },
 
+  { "browserName": "safari", "version": "6", "platform": "OS X 10.8" },
   { "browserName": "safari", "version": "7", "platform": "OS X 10.9" },
-  { "browserName": "safari", "version": "7.1", "platform": "OS X 10.9" },
-  { "browserName": "safari", "version": "8", "platform": "OS X 10.9" },
 
   { "browserName": "android", "version": "4.0", "platform": "Linux", "device-orientation": "portrait" },
   { "browserName": "android", "version": "4.1", "platform": "Linux", "device-orientation": "portrait" },
