@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/fponticelli/utest.svg?branch=master)](https://travis-ci.org/fponticelli/utest)
 
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/fponticelli-utest.svg)](https://saucelabs.com/u/fponticelli-utest)
+
 utest is an easy to use unit testing library for Haxe. It works on all the supported platforms including nodejs.
 
 ## install
