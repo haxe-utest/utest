@@ -56,7 +56,7 @@ class PrintReport extends PlainTextReport {
   function _trace(s : String) {
     s = StringTools.replace(s, '  ', indent);
     s = StringTools.replace(s, '\n', newline);
-    trace(s);
+    haxe.Log.trace(s);
   }
 #if (php || neko || cpp)
   function _print(s : String)
