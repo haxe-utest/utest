@@ -8,15 +8,15 @@ env:
       # SAUCE_USERNAME
     - secure: R8e8OcFNtYhbbAO554yL9j4980aVsWYNy+i+6vP5IW8aiv5mIGh6FSCAtM9IlY1JAhrRkVVGDsUBX5XaaIXXmJVBaEQ2gDwN6vBG+RHLfLX7JtVJXezMmDiE0fK5o6EVn+Jr76FCzSLp4hkTZl7VOLvMpXGo6A9MCatfio+18Zc=
   matrix:
-    - TARGET=cpp
-    - TARGET=cs
-    - TARGET=flash
-    - TARGET=java
+    #- TARGET=cpp
+    #- TARGET=cs
+    #- TARGET=flash
+    #- TARGET=java
     - TARGET=js TOOLCHAIN="browser"
-    - TARGET=js TOOLCHAIN="nodejs"
-    - TARGET=neko
-    - TARGET=php
-    - TARGET=python
+    #- TARGET=js TOOLCHAIN="nodejs"
+    #- TARGET=neko
+    #- TARGET=php
+    #- TARGET=python
 
 matrix:
   fast_finish: true
