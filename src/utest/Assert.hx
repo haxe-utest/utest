@@ -284,10 +284,13 @@ unless you know what you are doing.
         }
 
         // hash, inthash
-        if(Std.is(expected, haxe.ds.StringMap) || Std.is(expected, haxe.ds.IntMap)) {
+        if (Std.is(expected, Map.IMap)) {
           if(status.recursive || status.path == '') {
-            var keys  = Lambda.array({ iterator : function() return expected.keys() });
-            var vkeys = Lambda.array({ iterator : function() return value.keys() });
+            var map = cast(expected, Map.IMap<Dynamic, Dynamic>);
+            var vmap = cast(value, Map.IMap<Dynamic, Dynamic>);
+            var keys:Array<Dynamic> = [for (k in map.keys()) k];
+            var vkeys:Array<Dynamic> = [for (k in vmap.keys()) k];
+
             if(keys.length != vkeys.length) {
               status.error = "expected "+keys.length+" keys but they were "+vkeys.length + (status.path == '' ? '' : ' for field '+status.path);
               return false;
@@ -295,7 +298,7 @@ unless you know what you are doing.
             var path = status.path;
             for(key in keys) {
               status.path = path == '' ? 'hash['+key+']' : path + '['+key+']';
-              if (!sameAs(expected.get(key), value.get(key), status))
+              if (!sameAs(map.get(key), vmap.get(key), status))
               {
                 status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
                 return false;

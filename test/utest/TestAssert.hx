@@ -101,11 +101,15 @@ class TestAssert {
     Assert.same("a", "a");
     Assert.same(null, "");
     Assert.same(new Date(2000, 0, 1, 0, 0, 0), null);
+    Assert.same([1 => "a", 2 => "b"], [1 => "a", 2 => "b"]);
+    Assert.same(["a" => 1], ["a" => 1]);
+    Assert.same(["a" => 1], [1 => 1]);
+    Assert.same([1 => "a"], [1 => "a", 2 => "b"]);
 //    TODO doesn't work anymore
 //    Assert.same(new Date(2000, 0, 1, 0, 0, 0), new Date(2000, 0, 1, 0, 0, 0));
 
     restore();
-    expect(3, 4);
+    expect(5, 6);
   }
 
   public function testSameType() {
