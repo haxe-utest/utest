@@ -284,7 +284,7 @@ unless you know what you are doing.
         }
 
         // hash, inthash
-        if (Std.is(expected, Map.IMap)) {
+        if (Std.is(expected, #if (haxe_ver >= 3.200) haxe.Constraints.IMap #else Map.IMap #end)) {
           if(status.recursive || status.path == '') {
             var map = cast(expected, Map.IMap<Dynamic, Dynamic>);
             var vmap = cast(value, Map.IMap<Dynamic, Dynamic>);
