@@ -4,9 +4,9 @@
   "license": "MIT",
   "tags": ["cross","unittesting"],
   "description": "Unit Testing System for Haxe",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "classPath": "src",
-  "releasenote": "Fixed issues with Map/IMap in Assert.same()",
+  "releasenote": "Future proof IMap check.",
   "contributors": ["fponticelli"],
   "dependencies": {
 
