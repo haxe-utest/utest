@@ -149,6 +149,8 @@ class PlainTextReport implements IReport<PlainTextReport> {
 #elseif js
     if(untyped __js__('typeof process != "undefined"'))
       untyped __js__('process').exit(result.stats.isOk ? 0 : 1);
+    if(untyped __js__('typeof phantom != "undefined"'))
+      untyped __js__('phantom').exit(result.stats.isOk ? 0 : 1);
 #elseif (flash && exit)
       if(flash.system.Security.sandboxType == "localTrusted") {
         var delay = 5;
