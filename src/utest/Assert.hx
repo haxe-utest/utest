@@ -376,7 +376,7 @@ unless you know what you are doing.
         {
           if (Type.enumIndex(expected) != Type.enumIndex(value))
           {
-            status.error = 'expected ' + q(Type.enumConstructor(expected)) + ' but is ' + q(Type.enumConstructor(value)) + (status.path == '' ? '' : ' for field '+status.path);
+            status.error = 'expected ' + q(Type.enumConstructor(expected)) + ' but it is ' + q(Type.enumConstructor(value)) + (status.path == '' ? '' : ' for field '+status.path);
             return false;
           }
           var eparams = Type.enumParameters(expected);
