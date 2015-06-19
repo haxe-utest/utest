@@ -168,7 +168,7 @@ unless you know what you are doing.
   static function getTypeName(v : Dynamic) {
     switch(Type.typeof(v))
     {
-      case TNull    : return "[null]";
+      case TNull    : return "`null`";
       case TInt     : return "Int";
       case TFloat   : return "Float";
       case TBool    : return "Bool";
@@ -176,7 +176,7 @@ unless you know what you are doing.
       case TClass(c): return Type.getClassName(c);
       case TEnum(e) : return Type.getEnumName(e);
       case TObject  : return "Object";
-      case TUnknown : return "Unknown";
+      case TUnknown : return "`Unknown`";
     }
   }
 
