@@ -295,6 +295,13 @@ class TestAssert {
     expect(expectedsuccess, i-expectedsuccess);
   }
 
+  public function testPass() {
+    bypass();
+    Assert.pass();
+    restore();
+    expect(1, 0);
+  }
+
   public function testFail() {
     bypass();
     Assert.fail();

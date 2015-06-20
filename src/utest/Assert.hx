@@ -638,6 +638,16 @@ Checks that the expected values is contained in value.
   }
 
 /**
+Adds a successful assertion for cases where there are no values to assert.
+@param msg: An optional success message. If not passed a default one will be used
+@param pos: Code position where the Assert call has been executed. Don't fill it
+unless you know what you are doing.
+*/
+  public static function pass(msg = "pass expected", ?pos : PosInfos) {
+    isTrue(true, msg, pos);
+  }
+
+/**
 Forces a failure.
 @param msg: An optional error message. If not passed a default one will be used
 @param pos: Code position where the Assert call has been executed. Don't fill it
