@@ -250,7 +250,7 @@ unless you know what you are doing.
               status.path = path == '' ? 'array['+i+']' : path + '['+i+']';
               if (!sameAs(expected[i], value[i], status))
               {
-                status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
+                status.error = "expected " + q(expected[i]) + " but it is " + q(value[i]) + (status.path == '' ? '' : ' for field '+status.path);
                 return false;
               }
             }
