@@ -4,9 +4,9 @@
   "license": "MIT",
   "tags": ["cross","unittesting"],
   "description": "Unit Testing for Haxe",
-  "version": "1.3.4",
+  "version": "1.3.5",
   "classPath": "src",
-  "releasenote": "Added `Assert.pass()` (thanks Andy White) and other minor improvements.",
+  "releasenote": "Minor message improvement.",
   "contributors": ["fponticelli"],
   "dependencies": { }
 }
