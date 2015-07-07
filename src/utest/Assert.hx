@@ -500,9 +500,9 @@ unless you know what you are doing.
   public static function same(expected : Dynamic, value : Dynamic, ?recursive : Bool, ?msg : String, ?pos : PosInfos) {
     var status = { recursive : null == recursive ? true : recursive, path : '', error : null };
     if(sameAs(expected, value, status)) {
-      Assert.isTrue(true, msg, pos);
+      pass(msg, pos);
     } else {
-      Assert.fail(msg == null ? status.error : msg, pos);
+      fail(msg == null ? status.error : msg, pos);
     }
   }
 
