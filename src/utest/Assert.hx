@@ -6,7 +6,7 @@ import haxe.PosInfos;
 
 /**
 This class contains only static members used to perform assertations inside a test method.
-It's use is straight forward:
+Its use is straight forward:
 ```haxe
 public function testObvious() {
   Assert.equals(1, 0); // fails
