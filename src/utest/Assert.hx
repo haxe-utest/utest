@@ -58,7 +58,7 @@ unless you know what you are doing.
 */
   public static function isNull(value : Dynamic, ?msg : String, ?pos : PosInfos) {
     if (msg == null)
-      msg = "expected null but was " + q(value);
+      msg = "expected null but it is " + q(value);
     isTrue(value == null, msg, pos);
   }
 /**
@@ -82,7 +82,7 @@ Asserts successfully when the 'value' parameter is of the of the passed type 'ty
 unless you know what you are doing.
 */
   public static function is(value : Dynamic, type : Dynamic, ?msg : String , ?pos : PosInfos) {
-    if (msg == null) msg = "expected type " + typeToString(type) + " but was " + typeToString(value);
+    if (msg == null) msg = "expected type " + typeToString(type) + " but it is " + typeToString(value);
     isTrue(Std.is(value, type), msg, pos);
   }
 
@@ -98,7 +98,7 @@ Assert.notEquals(10, age);
 unless you know what you are doing.
 */
   public static function notEquals(expected : Dynamic, value : Dynamic, ?msg : String , ?pos : PosInfos) {
-    if(msg == null) msg = "expected " + q(expected) + " and testa value " + q(value) + " should be different";
+    if(msg == null) msg = "expected " + q(expected) + " and test value " + q(value) + " should be different";
     isFalse(expected == value, msg, pos);
   }
 
@@ -114,7 +114,7 @@ Assert.equals(10, age);
 unless you know what you are doing.
 */
   public static function equals(expected : Dynamic, value : Dynamic, ?msg : String , ?pos : PosInfos) {
-    if(msg == null) msg = "expected " + q(expected) + " but was " + q(value);
+    if(msg == null) msg = "expected " + q(expected) + " but it is " + q(value);
     isTrue(expected == value, msg, pos);
   }
 
@@ -130,7 +130,7 @@ Assert.match(~/x/i, "haXe");
 unless you know what you are doing.
 */
   public static function match(pattern : EReg, value : Dynamic, ?msg : String , ?pos : PosInfos) {
-    if(msg == null) msg = "the value " + q(value) + "does not match the provided pattern";
+    if(msg == null) msg = "the value " + q(value) + " does not match the provided pattern";
     isTrue(pattern.match(value), msg, pos);
   }
 
@@ -148,7 +148,7 @@ unless you know what you are doing.
 @todo test the approximation argument
 */
   public static function floatEquals(expected : Float, value : Float, ?approx : Float, ?msg : String , ?pos : PosInfos) : Void {
-    if (msg == null) msg = "expected " + q(expected) + " but was " + q(value);
+    if (msg == null) msg = "expected " + q(expected) + " but it is " + q(value);
     return isTrue(_floatEquals(expected, value, approx), msg, pos);
   }
 
@@ -242,7 +242,7 @@ unless you know what you are doing.
         if(Std.is(expected, Array)) {
           if(status.recursive || status.path == '') {
             if(expected.length != value.length) {
-              status.error = "expected "+expected.length+" elements but they were "+value.length + (status.path == '' ? '' : ' for field '+status.path);
+              status.error = "expected "+expected.length+" elements but they are "+value.length + (status.path == '' ? '' : ' for field '+status.path);
               return false;
             }
             var path = status.path;
@@ -276,7 +276,7 @@ unless you know what you are doing.
             for (i in 0...ebytes.length)
               if (ebytes.get(i) != vbytes.get(i))
               {
-                status.error = "expected byte " + ebytes.get(i) + " but wss " + ebytes.get(i) + (status.path == '' ? '' : ' for field '+status.path);
+                status.error = "expected byte " + ebytes.get(i) + " but it is " + vbytes.get(i) + (status.path == '' ? '' : ' for field '+status.path);
                 return false;
               }
           }
@@ -292,7 +292,7 @@ unless you know what you are doing.
             var vkeys:Array<Dynamic> = [for (k in vmap.keys()) k];
 
             if(keys.length != vkeys.length) {
-              status.error = "expected "+keys.length+" keys but they were "+vkeys.length + (status.path == '' ? '' : ' for field '+status.path);
+              status.error = "expected "+keys.length+" keys but they are "+vkeys.length + (status.path == '' ? '' : ' for field '+status.path);
               return false;
             }
             var path = status.path;
@@ -314,7 +314,7 @@ unless you know what you are doing.
             var evalues = Lambda.array({ iterator : function() return expected });
             var vvalues = Lambda.array({ iterator : function() return value });
             if(evalues.length != vvalues.length) {
-              status.error = "expected "+evalues.length+" values in Iterator but they were "+vvalues.length + (status.path == '' ? '' : ' for field '+status.path);
+              status.error = "expected "+evalues.length+" values in Iterator but they are "+vvalues.length + (status.path == '' ? '' : ' for field '+status.path);
               return false;
             }
             var path = status.path;
@@ -336,7 +336,7 @@ unless you know what you are doing.
             var evalues = Lambda.array(expected);
             var vvalues = Lambda.array(value);
             if(evalues.length != vvalues.length) {
-              status.error = "expected "+evalues.length+" values in Iterable but they were "+vvalues.length + (status.path == '' ? '' : ' for field '+status.path);
+              status.error = "expected "+evalues.length+" values in Iterable but they are "+vvalues.length + (status.path == '' ? '' : ' for field '+status.path);
               return false;
             }
             var path = status.path;
@@ -430,7 +430,7 @@ unless you know what you are doing.
             var evalues = Lambda.array({ iterator : function() return expected });
             var vvalues = Lambda.array({ iterator : function() return value });
             if(evalues.length != vvalues.length) {
-              status.error = "expected "+evalues.length+" values in Iterator but they were "+vvalues.length + (status.path == '' ? '' : ' for field '+status.path);
+              status.error = "expected "+evalues.length+" values in Iterator but they are "+vvalues.length + (status.path == '' ? '' : ' for field '+status.path);
               return false;
             }
             var path = status.path;
@@ -456,7 +456,7 @@ unless you know what you are doing.
             var evalues = Lambda.array(expected);
             var vvalues = Lambda.array(value);
             if(evalues.length != vvalues.length) {
-              status.error = "expected "+evalues.length+" values in Iterable but they were "+vvalues.length + (status.path == '' ? '' : ' for field '+status.path);
+              status.error = "expected "+evalues.length+" values in Iterable but they are "+vvalues.length + (status.path == '' ? '' : ' for field '+status.path);
               return false;
             }
             var path = status.path;
@@ -537,14 +537,14 @@ unless you know what you are doing.
       var name = Type.getClassName(type);
       if (name == null) name = ""+type;
       if (null == msgWrongType)
-        msgWrongType = "expected throw of type " + name + " but was "  + ex;
+        msgWrongType = "expected throw of type " + name + " but it is "  + ex;
       isTrue(Std.is(ex, type), msgWrongType, pos);
     }
   }
 
 /**
 Checks that the test value matches at least one of the possibilities.
-@param possibility: An array of mossible matches
+@param possibility: An array of possible matches
 @param value: The value to test
 @param msg: An optional error message. If not passed a default one will be used
 @param pos: Code position where the Assert call has been executed. Don't fill it
@@ -595,7 +595,7 @@ Checks that the expected values is contained in value.
 @param match: the string value that must be contained in value
 @param value: the value to test
 @param msg: An optional error message. If not passed a default one will be used
-@param pos: Code position where the Assert call has been executed. Don't fill it
+@param pos: Code position where the Assert call has been executed.
 */
   public static function stringContains(match : String, value : String, ?msg : String , ?pos : PosInfos) {
     if (value != null && value.indexOf(match) >= 0) {
@@ -605,6 +605,14 @@ Checks that the expected values is contained in value.
     }
   }
 
+/**
+Checks that the test string contains all the values in `sequence` in the order
+they are defined.
+@param sequence: the values to match in the string
+@param value: the value to test
+@param msg: An optional error message. If not passed a default one is be used
+@param pos: Code position where the Assert call has been executed.
+*/
   public static function stringSequence(sequence : Array<String>, value : String, ?msg : String , ?pos : PosInfos) {
     if (null == value)
     {
