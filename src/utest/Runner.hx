@@ -100,7 +100,7 @@ Adds a new test case.
       return false;
     }
   }
-#if (php || neko)
+#if (php || neko || python)
   public function run() {
     onStart.dispatch(this);
     for (i in 0...fixtures.length)
@@ -114,8 +114,8 @@ Adds a new test case.
   function runFixture(fixture : TestFixture<Dynamic>) {
     var handler = new TestHandler(fixture);
     handler.onPrecheck.add(function(x){
-            this.onPrecheck.dispatch(x);
-        });
+      this.onPrecheck.dispatch(x);
+    });
     handler.execute();
     return handler;
   }
