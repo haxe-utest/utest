@@ -614,7 +614,7 @@ function utestRemoveTooltip() {
       <body>\n'+ s + '\n</body>\n</html>';
 
   function _handler(report : HtmlReport) {
-#if (php || neko || cpp)
+#if (php || neko || cpp || java)
     Lib.print(report.getHtml());
 #elseif js
     var isDef = function(v) : Bool return untyped __js__("typeof v != 'undefined'");

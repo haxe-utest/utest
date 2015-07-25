@@ -5,7 +5,7 @@ import utest.Assertation;
 class TestHandler<T> {
   private static inline var POLLING_TIME = 10;
   public var results(default, null) : List<Assertation>;
-  public var fixture(default, null) : TestFixture<T>;
+  public var fixture(default, null) : TestFixture;
   var asyncStack : List<Dynamic>;
 
   public var onTested(default, null) : Dispatcher<TestHandler<T>>;
@@ -15,7 +15,7 @@ class TestHandler<T> {
 
   public var precheck(default, null) : Void->Void;
 
-  public function new(fixture : TestFixture<T>) {
+  public function new(fixture : TestFixture) {
     if(fixture == null) throw "fixture argument is null";
     this.fixture  = fixture;
     results       = new List();

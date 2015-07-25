@@ -11,7 +11,7 @@ the classes in the utest.ui package.
 @todo AVOID CHAINING METHODS (long chains do not work properly on IE)
 */
 class Runner {
-  var fixtures(default, null) : Array<TestFixture<Dynamic>>;
+  var fixtures(default, null) : Array<TestFixture>;
 
 /**
 Event object that monitors the progress of the runner.
@@ -34,7 +34,7 @@ Event object that monitors when a handler has executed a test case, and
 is about to evaluate the results.  Useful for mocking certain
 custom asynchronouse behavior in order for certain tests to pass.
 */
-  public var onPrecheck(default, null) : Dispatcher<TestHandler<TestFixture<Dynamic>>>;
+  public var onPrecheck(default, null) : Dispatcher<TestHandler<TestFixture>>;
 
 /**
 The number of fixtures registered.
@@ -84,7 +84,7 @@ Adds a new test case.
     }
   }
 
-  public function addFixture(fixture : TestFixture<Dynamic>) {
+  public function addFixture(fixture : TestFixture) {
     fixtures.push(fixture);
     length++;
   }
@@ -100,7 +100,7 @@ Adds a new test case.
       return false;
     }
   }
-#if (php || neko || python)
+#if (php || neko || python || java)
   public function run() {
     onStart.dispatch(this);
     for (i in 0...fixtures.length)
@@ -111,7 +111,7 @@ Adds a new test case.
     onComplete.dispatch(this);
   }
 
-  function runFixture(fixture : TestFixture<Dynamic>) {
+  function runFixture(fixture : TestFixture) {
     var handler = new TestHandler(fixture);
     handler.onPrecheck.add(function(x){
       this.onPrecheck.dispatch(x);
@@ -134,7 +134,7 @@ Adds a new test case.
       onComplete.dispatch(this);
   }
 
-  function runFixture(fixture : TestFixture<Dynamic>) {
+  function runFixture(fixture : TestFixture) {
     // cast is required by C#
     var handler = new TestHandler(cast fixture);
     handler.onComplete.add(testComplete);
@@ -142,7 +142,7 @@ Adds a new test case.
     handler.execute();
   }
 
-  function testComplete(h : TestHandler<Dynamic>) {
+  function testComplete(h : TestHandler<TestFixture>) {
     onProgress.dispatch({ result : TestResult.ofHandler(h), done : pos, totals : length });
     runNext();
   }
