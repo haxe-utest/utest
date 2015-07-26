@@ -33,8 +33,16 @@ class PlainTextReport implements IReport<PlainTextReport> {
     this.handler = handler;
 
   var startTime : Float;
-  function start(e)
-    startTime = haxe.Timer.stamp();
+  function start(e) {
+    startTime = getTime();
+  }
+
+  function getTime()
+    #if java
+    return Date.now().getTime()/1000;
+    #else
+    return haxe.Timer.stamp();
+    #end
 
   function indents(c : Int) {
     var s = '';
@@ -59,7 +67,7 @@ class PlainTextReport implements IReport<PlainTextReport> {
     if (!this.hasHeader(result.stats))
       return;
 
-    var end = haxe.Timer.stamp();
+    var end = getTime();
 #if php
     var scripttime = Std.int(Sys.cpuTime()*1000)/1000;
 #end
