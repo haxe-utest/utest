@@ -74,13 +74,13 @@ class HtmlReport implements IReport < HtmlReport > {
   function _trace(v : Dynamic, ?infos : PosInfos) {
     var time = Timer.stamp();
     var delta = _traceTime == null ? 0 : time - _traceTime;
-    _traces.push( {
+    _traces.push({
       msg : StringTools.htmlEscape(Std.string(v)),
       infos : infos,
       time : time - startTime,
       delta : delta,
       stack : CallStack.callStack()
-    } );
+    });
     _traceTime = Timer.stamp();
   }
 
