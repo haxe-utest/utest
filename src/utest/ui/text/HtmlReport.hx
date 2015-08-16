@@ -610,7 +610,7 @@ function utestRemoveTooltip() {
     return
       '<head>\n<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />\n<title>' + title + '</title>
       <style type="text/css">' + cssStyle() + '</style>
-      <script type="text/javascript">\n' + jsScript() + '\n</script>\n</head>
+      <script type="text/javascript">\n' + jsScript() + '\n</'+'script>\n</head>
       <body>\n'+ s + '\n</body>\n</html>';
 
   function _handler(report : HtmlReport) {
