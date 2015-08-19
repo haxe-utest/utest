@@ -162,7 +162,7 @@ unless you know what you are doing.
       return (expected > 0) == (value > 0);
     if (null == approx)
       approx = 1e-5;
-    return Math.abs(value-expected) < approx;
+    return Math.abs(value-expected) <= approx;
   }
 
   static function getTypeName(v : Dynamic) {
