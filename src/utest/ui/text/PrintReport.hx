@@ -17,12 +17,9 @@ import cpp.Lib;
 
 class PrintReport extends PlainTextReport {
 #if (php || neko)
-  var print : String -> Void;
+  var useTrace : Bool;
   public function new(runner : Runner, ?useTrace : Bool = false) {
-    if(useTrace)
-      print = _trace;
-    else
-      print = _print;
+    this.useTrace = useTrace;
     super(runner, _handler);
 #if php
     if (php.Lib.isCli()) {
@@ -38,7 +35,10 @@ class PrintReport extends PlainTextReport {
   }
 
   function _handler(report : PlainTextReport)
-    print(report.getResults());
+    if(useTrace)
+      _trace(report.getResults());
+    else
+      _print(report.getResults());
 
 #else
   public function new(runner : Runner) {
