@@ -521,24 +521,24 @@ Assert.raises(function() { throw "Error!"; }, String);
      of a different type than the one expected. If not passed a default one will be used
 @param pos: Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
-@todo test the optional type parameter
 */
   public static function raises(method:Void -> Void, ?type:Class<Dynamic>, ?msgNotThrown : String , ?msgWrongType : String, ?pos : PosInfos) {
-    if(type == null)
-      type = String;
     try {
       method();
       var name = Type.getClassName(type);
-      if (name == null) name = ""+type;
+      if (name == null) name = "Dynamic";
       if (null == msgNotThrown)
         msgNotThrown = "exception of type " + name + " not raised";
       fail(msgNotThrown, pos);
     } catch (ex : Dynamic) {
-      var name = Type.getClassName(type);
-      if (name == null) name = ""+type;
-      if (null == msgWrongType)
-        msgWrongType = "expected throw of type " + name + " but it is "  + ex;
-      isTrue(Std.is(ex, type), msgWrongType, pos);
+      if(null == type) {
+        pass(pos);
+      } else {
+        var name = Type.getClassName(type);
+        if (null == msgWrongType)
+          msgWrongType = "expected throw of type " + name + " but it is "  + ex;
+        isTrue(Std.is(ex, type), msgWrongType, pos);
+      }
     }
   }
 
