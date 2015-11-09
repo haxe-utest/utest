@@ -27,7 +27,7 @@ import cpp.Lib;
 import js.Browser;
 #end
 
-class HtmlReport implements IReport < HtmlReport > {
+class HtmlReport implements IReport<HtmlReport> {
   static var platform = #if neko 'neko' #elseif php 'php'  #elseif cpp 'cpp'  #elseif js 'javascript' #elseif flash 'flash' #else 'unknown' #end;
 
   public var traceRedirected(default, null) : Bool;
@@ -283,6 +283,80 @@ class HtmlReport implements IReport < HtmlReport > {
     buf.add('</li>\n');
   }
 
+  public function getTextResults() : String {
+    var newline = "\n";
+    function indents(count : Int) {
+      return [for(i in 0...count) "  "].join("");
+    }
+    function dumpStack(stack : Array<StackItem>) {
+      if (stack.length == 0)
+        return "";
+      var parts = CallStack.toString(stack).split("\n"),
+        r = [];
+      for (part in parts) {
+        if (part.indexOf(" utest.") >= 0) continue;
+        r.push(part);
+      }
+      return r.join(newline);
+    }
+    var buf = new StringBuf();
+    for(pname in result.packageNames()) {
+      var pack = result.getPackage(pname);
+      if (this.skipResult(pack.stats, result.stats.isOk)) continue;
+      for(cname in pack.classNames()) {
+        var cls = pack.getClass(cname);
+        if (this.skipResult(cls.stats, result.stats.isOk)) continue;
+        buf.add((pname == '' ? '' : pname+".")+cname+newline);
+        for(mname in cls.methodNames()) {
+          var fix = cls.get(mname);
+          if (this.skipResult(fix.stats, result.stats.isOk)) continue;
+          buf.add(indents(1)+mname+": ");
+          if(fix.stats.isOk) {
+            buf.add("OK ");
+          } else if(fix.stats.hasErrors) {
+            buf.add("ERROR ");
+          } else if(fix.stats.hasFailures) {
+            buf.add("FAILURE ");
+          } else if(fix.stats.hasWarnings) {
+            buf.add("WARNING ");
+          }
+          var messages = '';
+          for(assertation in fix.iterator()) {
+            switch(assertation) {
+              case Success(_):
+                buf.add('.');
+              case Failure(msg, pos):
+                buf.add('F');
+                messages += indents(2)+"line: " + pos.lineNumber + ", " + msg + newline;
+              case Error(e, s):
+                buf.add('E');
+                messages += indents(2)+ Std.string(e) + dumpStack(s) + newline ;
+              case SetupError(e, s):
+                buf.add('S');
+                messages += indents(2)+ Std.string(e) + dumpStack(s) + newline;
+              case TeardownError(e, s):
+                buf.add('T');
+                messages += indents(2)+ Std.string(e) + dumpStack(s) + newline;
+              case TimeoutError(missedAsyncs, s):
+                buf.add('O');
+                messages += indents(2)+ "missed async calls: " + missedAsyncs + dumpStack(s) + newline;
+              case AsyncError(e, s):
+                buf.add('A');
+                messages += indents(2)+ Std.string(e) + dumpStack(s) + newline;
+              case Warning(msg):
+                buf.add('W');
+                messages += indents(2)+ msg + newline;
+            }
+          }
+          buf.add(newline);
+          buf.add(messages);
+        }
+      }
+    }
+    return buf.toString();
+  }
+
+
   public function getHeader() : String {
     var buf = new StringBuf();
     if (!this.hasHeader(result.stats))
@@ -361,6 +435,12 @@ class HtmlReport implements IReport < HtmlReport > {
     this.result = result;
     handler(this);
     restoreTrace();
+    if(untyped __js__("'undefined' != typeof window")) {
+      untyped __js__("window").utest_result = {
+        isOk : result.stats.isOk,
+        message : getTextResults()
+      };
+    }
   }
 
   function formatTime(t : Float)
