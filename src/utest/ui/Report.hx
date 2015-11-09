@@ -19,13 +19,13 @@ class Report {
     if (!Web.isModNeko)
       report = new utest.ui.text.PrintReport(runner);
     else
-    report = new utest.ui.text.HtmlReport(runner, true);
+      report = new utest.ui.text.HtmlReport(runner, true);
 #elseif nodejs
     report = new utest.ui.text.PrintReport(runner);
 #elseif js
-    if(untyped __js__("typeof window != 'undefined'"))
+    if(untyped __js__("typeof window != 'undefined'")) {
       report = new utest.ui.text.HtmlReport(runner, true);
-    else
+    } else
       report = new utest.ui.text.PrintReport(runner);
 #elseif flash
     if(flash.external.ExternalInterface.available)
