@@ -239,7 +239,7 @@ unless you know what you are doing.
 #### `allows<T>(possibilities : Array<T>, value : T, ?msg : String , ?pos : PosInfos)`
 Checks that the test value matches at least one of the possibilities.
 
-`possibility` An array of mossible matches
+`possibility` An array of possible matches
 
 `value` The value to test
 
