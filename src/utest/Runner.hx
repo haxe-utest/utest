@@ -37,6 +37,16 @@ custom asynchronouse behavior in order for certain tests to pass.
   public var onPrecheck(default, null) : Dispatcher<TestHandler<TestFixture>>;
 
 /**
+Event object that notifies when a handler is about to start executing.
+*/
+  public var onTestStart(default, null) : Dispatcher<TestHandler<TestFixture>>;
+
+/**
+Event object that notifies when a handler has completed executing.
+*/
+  public var onTestComplete(default, null) : Dispatcher<TestHandler<TestFixture>>;
+
+/**
 The number of fixtures registered.
 */
   public var length(default, null)      : Int;
@@ -50,6 +60,8 @@ Instantiates a Runner onject.
     onStart    = new Dispatcher();
     onComplete = new Dispatcher();
     onPrecheck = new Dispatcher();
+    onTestStart = new Dispatcher();
+    onTestComplete = new Dispatcher();
     length = 0;
   }
 
@@ -106,6 +118,7 @@ Adds a new test case.
     for (i in 0...fixtures.length)
     {
       var h = runFixture(fixtures[i]);
+      onTestComplete.dispatch(h);
       onProgress.dispatch({ result : TestResult.ofHandler(h), done : i+1, totals : length });
     }
     onComplete.dispatch(this);
@@ -113,9 +126,8 @@ Adds a new test case.
 
   function runFixture(fixture : TestFixture) {
     var handler = new TestHandler(fixture);
-    handler.onPrecheck.add(function(x){
-      this.onPrecheck.dispatch(x);
-    });
+    handler.onPrecheck.add(this.onPrecheck.dispatch);
+    onTestStart.dispatch(handler);
     handler.execute();
     return handler;
   }
@@ -139,10 +151,12 @@ Adds a new test case.
     var handler = new TestHandler(cast fixture);
     handler.onComplete.add(testComplete);
     handler.onPrecheck.add(this.onPrecheck.dispatch);
+    onTestStart.dispatch(handler);
     handler.execute();
   }
 
   function testComplete(h : TestHandler<TestFixture>) {
+    onTestComplete.dispatch(h);
     onProgress.dispatch({ result : TestResult.ofHandler(h), done : pos, totals : length });
     runNext();
   }
