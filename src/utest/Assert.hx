@@ -192,7 +192,7 @@ unless you know what you are doing.
     return Reflect.isFunction(Reflect.field(v, "next")) && Reflect.isFunction(Reflect.field(v, "hasNext"));
   }
 
-  static function sameAs(expected : Dynamic, value : Dynamic, status : LikeStatus) {
+  static function sameAs(expected : Dynamic, value : Dynamic, status : LikeStatus, approx : Float) {
     var texpected = getTypeName(expected);
     var tvalue = getTypeName(value);
 
@@ -203,7 +203,7 @@ unless you know what you are doing.
     switch(Type.typeof(expected))
     {
       case TFloat:
-        if (!_floatEquals(expected, value))
+        if (!_floatEquals(expected, value, approx))
         {
           status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
           return false;
@@ -248,7 +248,7 @@ unless you know what you are doing.
             var path = status.path;
             for(i in 0...expected.length) {
               status.path = path == '' ? 'array['+i+']' : path + '['+i+']';
-              if (!sameAs(expected[i], value[i], status))
+              if (!sameAs(expected[i], value[i], status, approx))
               {
                 status.error = "expected " + q(expected[i]) + " but it is " + q(value[i]) + (status.path == '' ? '' : ' for field '+status.path);
                 return false;
@@ -298,7 +298,7 @@ unless you know what you are doing.
             var path = status.path;
             for(key in keys) {
               status.path = path == '' ? 'hash['+key+']' : path + '['+key+']';
-              if (!sameAs(map.get(key), vmap.get(key), status))
+              if (!sameAs(map.get(key), vmap.get(key), status, approx))
               {
                 status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
                 return false;
@@ -320,7 +320,7 @@ unless you know what you are doing.
             var path = status.path;
             for(i in 0...evalues.length) {
               status.path = path == '' ? 'iterator['+i+']' : path + '['+i+']';
-              if (!sameAs(evalues[i], vvalues[i], status))
+              if (!sameAs(evalues[i], vvalues[i], status, approx))
               {
                 status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
                 return false;
@@ -342,7 +342,7 @@ unless you know what you are doing.
             var path = status.path;
             for(i in 0...evalues.length) {
               status.path = path == '' ? 'iterable['+i+']' : path + '['+i+']';
-              if(!sameAs(evalues[i], vvalues[i], status))
+              if(!sameAs(evalues[i], vvalues[i], status, approx))
                 return false;
             }
           }
@@ -358,7 +358,7 @@ unless you know what you are doing.
             var e = Reflect.field(expected, field);
             if(Reflect.isFunction(e)) continue;
             var v = Reflect.field(value, field);
-            if(!sameAs(e, v, status))
+            if(!sameAs(e, v, status, approx))
               return false;
           }
         }
@@ -385,7 +385,7 @@ unless you know what you are doing.
           for (i in 0...eparams.length)
           {
             status.path = path == '' ? 'enum[' + i + ']' : path + '[' + i + ']';
-            if (!sameAs(eparams[i], vparams[i], status))
+            if (!sameAs(eparams[i], vparams[i], status, approx))
             {
               status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field ' + status.path);
               return false;
@@ -410,7 +410,7 @@ unless you know what you are doing.
             if(Reflect.isFunction(e))
               continue;
             var v = Reflect.field(value, field);
-            if(!sameAs(e, v, status))
+            if(!sameAs(e, v, status, approx))
               return false;
           }
           if(tfields.length > 0)
@@ -436,7 +436,7 @@ unless you know what you are doing.
             var path = status.path;
             for(i in 0...evalues.length) {
               status.path = path == '' ? 'iterator['+i+']' : path + '['+i+']';
-              if (!sameAs(evalues[i], vvalues[i], status))
+              if (!sameAs(evalues[i], vvalues[i], status, approx))
               {
                 status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
                 return false;
@@ -462,7 +462,7 @@ unless you know what you are doing.
             var path = status.path;
             for(i in 0...evalues.length) {
               status.path = path == '' ? 'iterable['+i+']' : path + '['+i+']';
-              if(!sameAs(evalues[i], vvalues[i], status))
+              if(!sameAs(evalues[i], vvalues[i], status, approx))
                 return false;
             }
           }
@@ -497,9 +497,11 @@ Defaults to true
 @param pos: Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 */
-  public static function same(expected : Dynamic, value : Dynamic, ?recursive : Bool, ?msg : String, ?pos : PosInfos) {
-    var status = { recursive : null == recursive ? true : recursive, path : '', error : null };
-    if(sameAs(expected, value, status)) {
+  public static function same(expected : Dynamic, value : Dynamic, ?recursive : Bool, ?msg : String, ?approx : Float,  ?pos : PosInfos) {
+	if (null == approx)
+      approx = 1e-5;
+	var status = { recursive : null == recursive ? true : recursive, path : '', error : null };
+    if(sameAs(expected, value, status, approx)) {
       pass(msg, pos);
     } else {
       fail(msg == null ? status.error : msg, pos);
