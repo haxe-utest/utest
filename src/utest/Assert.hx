@@ -494,6 +494,7 @@ Assert.same({ name : "utest"}, ob);
 @param recursive: States whether or not the test will apply also to sub-objects.
 Defaults to true
 @param msg: An optional error message. If not passed a default one will be used
+@param approx: The approximation tollerance. Default is 1e-5
 @param pos: Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 */
