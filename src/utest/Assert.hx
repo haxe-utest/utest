@@ -196,20 +196,21 @@ unless you know what you are doing.
     var texpected = getTypeName(expected);
     var tvalue = getTypeName(value);
 
-    if(texpected != tvalue) {
+    if(texpected != tvalue && !((texpected == "Int" && tvalue == "Float") || (texpected == "Float" && tvalue == "Int"))) { //Int and Float are treated as same so that an int and float comaparison will use floatEquals
+
       status.error = "expected type " + texpected + " but it is " + tvalue + (status.path == '' ? '' : ' for field ' + status.path);
       return false;
     }
     switch(Type.typeof(expected))
     {
-      case TFloat:
+      case TFloat, TInt:
         if (!_floatEquals(expected, value, approx))
         {
           status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
           return false;
         }
         return true;
-      case TNull, TInt, TBool:
+      case TNull, TBool:
         if(expected != value) {
           status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
           return false;
