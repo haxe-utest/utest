@@ -5,6 +5,7 @@ import utest.TestResult;
 
 class TestAll {
   public static function addTests(runner : Runner) {
+    //runner.globalPattern = ~/testBooleans/;
     runner.addCase(new utest.TestAssert());
     runner.addCase(new utest.TestDispatcher());
   }
