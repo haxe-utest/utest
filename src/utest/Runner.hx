@@ -52,6 +52,11 @@ The number of fixtures registered.
   public var length(default, null)      : Int;
 
 /**
+Global pattern to override the test pattern specified with `addCase`
+*/
+  public var globalPattern(default, default) : Null<EReg> = null;
+
+/**
 Instantiates a Runner onject.
 */
   public function new() {
@@ -81,13 +86,14 @@ Adds a new test case.
     if(!isMethod(test, teardown))
       teardown = null;
     var fields = Type.getInstanceFields(Type.getClass(test));
-    if(pattern == null) {
+    if(globalPattern == null && pattern == null) {
       for(field in fields) {
         if(!StringTools.startsWith(field, prefix)) continue;
         if(!isMethod(test, field)) continue;
         addFixture(new TestFixture(test, field, setup, teardown));
       }
     } else {
+      pattern = globalPattern != null ? globalPattern : pattern;
       for(field in fields) {
         if(!pattern.match(field)) continue;
         if(!isMethod(test, field)) continue;
