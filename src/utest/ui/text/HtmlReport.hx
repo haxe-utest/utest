@@ -435,12 +435,14 @@ class HtmlReport implements IReport<HtmlReport> {
     this.result = result;
     handler(this);
     restoreTrace();
+#if js
     if(untyped __js__("'undefined' != typeof window")) {
       untyped __js__("window").utest_result = {
         isOk : result.stats.isOk,
         message : getTextResults()
       };
     }
+#end
   }
 
   function formatTime(t : Float)
