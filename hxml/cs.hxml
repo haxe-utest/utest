@@ -1,6 +1,0 @@
--cp src
--cp test
--cs bin/cs
--main TestAll
--D utest
--lib hxcs

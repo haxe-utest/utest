@@ -1,7 +1,0 @@
--cp src
--cp test
--swf bin/flash.swf
--main TestAll
--D utest
--debug
--D fdb

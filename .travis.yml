@@ -1,35 +1,31 @@
-language: c
+sudo: required
+dist: trusty
 
-env:
-  global:
-    - TARGET_DIR=bin
-      # SAUCE_ACCESS_KEY
-    - secure: "WbXN8/t2AHItzgbqvx3BVSght2CiMhk7P6NBVKFdkHfU2SjeJ7txOXoZ5QZaby8CvW2xTC06PyFzHCYJ1kOHLSKWoh7U5seMK/UGun/5du9fvar2W6h43AoSJDDVly1hl3zA8Mn1ZeOW8ntCQraqfCMEDf9ANcYFUbeh26FUPvc="
-      # SAUCE_USERNAME
-    - secure: "TPIVZJAstM9/cSrHjWwdTsD3vqEaLI0J4et8c/rJg/x1lzZ6P+1lwTHFZuKGMvJOY1Ejgi8mVpI126PgqzRsqxggzp3djsxhrv61++0ZFvv1QTuo8sy084HEI5e0JoWuC858rKFXvln0ZKah2gjS6TsjVbhgxiVOrU8nAULZsDU="
-  matrix:
-    - TARGET=cpp
-    - TARGET=cs
-    - TARGET=flash
-    - TARGET=java
-    - TARGET=js TOOLCHAIN="browser"
-    - TARGET=js TOOLCHAIN="nodejs"
-    - TARGET=neko
-    - TARGET=php
-    - TARGET=python
+language: haxe
 
-matrix:
-  fast_finish: true
+os:
+  - linux
+  - osx
 
-before_install: # clone travis-hx repo
-  - travis_retry git clone --depth=50 --branch=master git://github.com/fponticelli/travis-hx.git ~/travis-hx
+haxe:
+  - "3.2.1"
+  - development
 
-install: # setup the target
-  - ~/travis-hx/setup.sh
+# matrix:
+#   allow_failures:
+#     - haxe: development
+
+install:
+  - haxelib install travix
+  - haxelib run travix install
 
 script:
-  - cd $TRAVIS_BUILD_DIR
-  # build the tests
-  - haxe hxml/$TARGET.hxml -D travis
-  # run the tests
-  - ~/travis-hx/runtests.sh $FILENAME
+  - haxelib run travix interp
+  - haxelib run travix neko
+  - haxelib run travix python
+  - haxelib run travix node
+  - haxelib run travix flash
+  - haxelib run travix java
+  - haxelib run travix cpp
+  - haxelib run travix cs
+  - haxelib run travix php

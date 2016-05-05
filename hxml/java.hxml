@@ -1,6 +1,0 @@
--cp src
--cp test
--java bin/java
--main TestAll
--D utest
--lib hxjava
