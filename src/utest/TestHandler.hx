@@ -45,14 +45,12 @@ class TestHandler<T> {
   {
     var stack = haxe.CallStack.exceptionStack();
     while (pops-- > 0)
-    {
       stack.pop();
-    }
     return stack;
   }
 
   function checkTested() {
-#if (flash || js || java)
+#if (flash || js)
     if(expireson == null || asyncStack.length == 0) {
       tested();
     } else if(haxe.Timer.stamp() > expireson) {
