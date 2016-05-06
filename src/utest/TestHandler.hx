@@ -29,14 +29,23 @@ class TestHandler<T> {
   public function execute() {
     try {
       executeMethod(fixture.setup);
-      try {
-        executeMethod(fixture.method);
-      } catch (e : Dynamic) {
-        results.add(Error(e, exceptionStack()));
-      }
+      executeAsyncMethod(fixture.setupAsync, executeAsync.bind());
     } catch(e : Dynamic) {
       results.add(SetupError(e, exceptionStack()));
+      executeFinally();
     }
+  }
+
+  function executeAsync() {
+    try {
+      executeMethod(fixture.method);
+    } catch (e : Dynamic) {
+      results.add(Error(e, exceptionStack()));
+    }
+    executeFinally();
+  }
+
+  function executeFinally() {
     onPrecheck.dispatch(this);
     checkTested();
   }
@@ -154,6 +163,12 @@ class TestHandler<T> {
     Reflect.callMethod(fixture.target, Reflect.field(fixture.target, name), []);
   }
 
+  function executeAsyncMethod(name : String, done : Void->Void) {
+    if(name == null) return done();
+    bindHandler();
+    Reflect.callMethod(fixture.target, Reflect.field(fixture.target, name), [done]);
+  }
+
   function tested() {
     if(results.length == 0)
       results.add(Warning("no assertions"));
@@ -170,9 +185,14 @@ class TestHandler<T> {
   function completed() {
     try {
       executeMethod(fixture.teardown);
+      executeAsyncMethod(fixture.teardownAsync, completedFinally.bind());
     } catch(e : Dynamic) {
       results.add(TeardownError(e, exceptionStack(2))); // TODO check the correct number of functions is popped from the stack
+      completedFinally();
     }
+  }
+
+  function completedFinally() {
     unbindHandler();
     onComplete.dispatch(this);
   }
