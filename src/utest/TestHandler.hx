@@ -54,11 +54,7 @@ class TestHandler<T> {
   function checkTested() {
 #if (flash || js || java)
     if(expireson == null || asyncStack.length == 0) {
-#if java
-      haxe.Timer.delay(tested, 50);
-#else
       tested();
-#end
     } else if(haxe.Timer.stamp() > expireson) {
       timeout();
     } else {
