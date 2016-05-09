@@ -78,26 +78,32 @@ Adds a new test case.
 @param  prefix: prefix for methods that are tests (defaults to "test")
 @param  pattern: a regular expression that discriminates the names of test
       functions; when set,  the prefix parameter is meaningless
+@param  setupAsync: string name of the asynchronous setup function (defaults to "setupAsync")
+@param  teardownAsync: string name of the asynchronous teardown function (defaults to "teardownAsync")
 */
-  public function addCase(test : Dynamic, setup = "setup", teardown = "teardown", prefix = "test", ?pattern : EReg) {
+  public function addCase(test : Dynamic, setup = "setup", teardown = "teardown", prefix = "test", ?pattern : EReg, setupAsync = "setupAsync", teardownAsync = "teardownAsync") {
     if(!Reflect.isObject(test)) throw "can't add a null object as a test case";
     if(!isMethod(test, setup))
       setup = null;
+    if(!isMethod(test, setupAsync))
+      setupAsync = null;
     if(!isMethod(test, teardown))
       teardown = null;
+    if(!isMethod(test, teardownAsync))
+      teardownAsync = null;
     var fields = Type.getInstanceFields(Type.getClass(test));
     if(globalPattern == null && pattern == null) {
       for(field in fields) {
         if(!StringTools.startsWith(field, prefix)) continue;
         if(!isMethod(test, field)) continue;
-        addFixture(new TestFixture(test, field, setup, teardown));
+        addFixture(new TestFixture(test, field, setup, teardown, setupAsync, teardownAsync));
       }
     } else {
       pattern = globalPattern != null ? globalPattern : pattern;
       for(field in fields) {
         if(!pattern.match(field)) continue;
         if(!isMethod(test, field)) continue;
-        addFixture(new TestFixture(test, field, setup, teardown));
+        addFixture(new TestFixture(test, field, setup, teardown, setupAsync, teardownAsync));
       }
     }
   }
