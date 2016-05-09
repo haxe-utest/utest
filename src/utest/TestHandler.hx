@@ -163,8 +163,11 @@ class TestHandler<T> {
     Reflect.callMethod(fixture.target, Reflect.field(fixture.target, name), []);
   }
 
-  function executeAsyncMethod(name : String, done : Void->Void) {
-    if(name == null) return done();
+  function executeAsyncMethod(name : String, done : Void->Void) : Void {
+    if(name == null) {
+      done();
+      return;
+    }
     bindHandler();
     Reflect.callMethod(fixture.target, Reflect.field(fixture.target, name), [done]);
   }
