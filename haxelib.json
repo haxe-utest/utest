@@ -4,9 +4,9 @@
   "license": "MIT",
   "tags": ["cross","unittesting"],
   "description": "Unit Testing for Haxe",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "classPath": "src",
-  "releasenote": "Initial support for phantomjs. Added handlers to catch test start/complete. Assert.same supports an optional parameter to set float precision comparison. Added `globalPattern` to filter only the desired results. Fixes.",
+  "releasenote": "Added setupAsync and teardownAsync, fixed Java and CPP issues.",
   "contributors": ["fponticelli"],
   "dependencies": { }
 }
