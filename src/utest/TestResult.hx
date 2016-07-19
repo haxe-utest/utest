@@ -7,7 +7,9 @@ class TestResult {
   public var cls           : String;
   public var method        : String;
   public var setup         : String;
+  public var setupAsync    : String;
   public var teardown      : String;
+  public var teardownAsync : String;
   public var assertations  : List<Assertation>;
 
   public function new(){}
@@ -19,7 +21,9 @@ class TestResult {
     r.pack          = path.join('.');
     r.method        = handler.fixture.method;
     r.setup         = handler.fixture.setup;
+    r.setupAsync    = handler.fixture.setupAsync;
     r.teardown      = handler.fixture.teardown;
+    r.teardownAsync = handler.fixture.teardownAsync;
     r.assertations  = handler.results;
     return r;
   }
