@@ -226,6 +226,11 @@ unless you know what you are doing.
       case TClass(c):
         var cexpected = Type.getClassName(c);
         var cvalue = Type.getClassName(Type.getClass(value));
+#if cpp
+        if (cexpected == 'cpp::Pointer') {
+          return expected == value;
+        }
+#end
         if (cexpected != cvalue)
         {
           status.error = "expected instance of " + q(cexpected) + " but it is " + q(cvalue) + (status.path == '' ? '' : ' for field '+status.path);
@@ -235,7 +240,7 @@ unless you know what you are doing.
         // string
         if (Std.is(expected, String) && expected != value)
         {
-          status.error = "expected '" + expected + "' but it is '" + value + "'";
+          status.error = "expected string '" + expected + "' but it is '" + value + "'";
           return false;
         }
 
@@ -251,7 +256,7 @@ unless you know what you are doing.
               status.path = path == '' ? 'array['+i+']' : path + '['+i+']';
               if (!sameAs(expected[i], value[i], status, approx))
               {
-                status.error = "expected " + q(expected[i]) + " but it is " + q(value[i]) + (status.path == '' ? '' : ' for field '+status.path);
+                status.error = "expected array element at ["+i+"] to be " + q(expected[i]) + " but it is " + q(value[i]) + (status.path == '' ? '' : ' for field '+status.path);
                 return false;
               }
             }
@@ -377,7 +382,7 @@ unless you know what you are doing.
         {
           if (Type.enumIndex(expected) != Type.enumIndex(value))
           {
-            status.error = 'expected ' + q(Type.enumConstructor(expected)) + ' but it is ' + q(Type.enumConstructor(value)) + (status.path == '' ? '' : ' for field '+status.path);
+            status.error = 'expected enum constructor ' + q(Type.enumConstructor(expected)) + ' but it is ' + q(Type.enumConstructor(value)) + (status.path == '' ? '' : ' for field '+status.path);
             return false;
           }
           var eparams = Type.enumParameters(expected);
@@ -388,7 +393,7 @@ unless you know what you are doing.
             status.path = path == '' ? 'enum[' + i + ']' : path + '[' + i + ']';
             if (!sameAs(eparams[i], vparams[i], status, approx))
             {
-              status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field ' + status.path);
+              status.error = "expected enum param " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field ' + status.path) + ' with ' + status.error;
               return false;
             }
           }
