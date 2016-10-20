@@ -26,7 +26,7 @@ class ClassResult {
   }
 
   public function add(result : FixtureResult) {
-    if(fixtures.exists(result.methodName)) throw "invalid duplicated fixture result";
+    if(fixtures.exists(result.methodName)) throw 'invalid duplicated fixture: ${className}.${result.methodName}';
 
     stats.wire(result.stats);
 

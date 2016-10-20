@@ -238,10 +238,13 @@ unless you know what you are doing.
         }
 
         // string
-        if (Std.is(expected, String) && expected != value)
-        {
-          status.error = "expected string '" + expected + "' but it is '" + value + "'";
-          return false;
+        if (Std.is(expected, String)) {
+          if(expected == value)
+            return true;
+          else {
+            status.error = "expected string '" + expected + "' but it is '" + value + "'";
+            return false;
+          }
         }
 
         // arrays
