@@ -17,13 +17,7 @@ import haxe.CallStack;
 
 using utest.ui.common.ReportTools;
 
-#if php
-import php.Lib;
-#elseif neko
-import neko.Lib;
-#elseif cpp
-import cpp.Lib;
-#elseif js
+#if js
 import js.Browser;
 #end
 
@@ -701,8 +695,8 @@ function utestRemoveTooltip() {
       <body>\n'+ s + '\n</body>\n</html>';
 
   function _handler(report : HtmlReport) {
-#if (php || neko || cpp || java)
-    Lib.print(report.getHtml());
+#if sys
+    Sys.print(report.getHtml());
 #elseif js
     var isDef = function(v) : Bool return untyped __js__("typeof v != 'undefined'");
     var hasProcess : Bool = untyped __js__("typeof process != 'undefined'");
