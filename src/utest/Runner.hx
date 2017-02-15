@@ -124,7 +124,7 @@ Adds a new test case.
       return false;
     }
   }
-#if (php || neko || python || java)
+#if (php || neko || python || java || lua)
   public function run() {
     onStart.dispatch(this);
     for (i in 0...fixtures.length)
