@@ -535,10 +535,9 @@ Assert.raises(function() { throw "Error!"; }, String);
 unless you know what you are doing.
 */
   public static function raises(method:Void -> Void, ?type:Class<Dynamic>, ?msgNotThrown : String , ?msgWrongType : String, ?pos : PosInfos) {
+    var name = type != null ? Type.getClassName(type) : "Dynamic";
     try {
       method();
-      var name = Type.getClassName(type);
-      if (name == null) name = "Dynamic";
       if (null == msgNotThrown)
         msgNotThrown = "exception of type " + name + " not raised";
       fail(msgNotThrown, pos);
@@ -546,7 +545,6 @@ unless you know what you are doing.
       if(null == type) {
         pass(pos);
       } else {
-        var name = Type.getClassName(type);
         if (null == msgWrongType)
           msgWrongType = "expected throw of type " + name + " but it is "  + ex;
         isTrue(Std.is(ex, type), msgWrongType, pos);
