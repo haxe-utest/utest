@@ -1,7 +1,5 @@
 package utest.ui.common;
 
-import utest.TestResult;
-
 class ClassResult {
   var fixtures : Map<String, FixtureResult>;
   public var className(default, null) : String;

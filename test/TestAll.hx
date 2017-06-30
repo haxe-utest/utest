@@ -1,6 +1,5 @@
 ﻿import utest.Runner;
 import utest.ui.Report;
-import utest.Assert;
 import utest.TestResult;
 
 class TestAll {

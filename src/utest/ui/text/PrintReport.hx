@@ -1,11 +1,6 @@
 package utest.ui.text;
 
-import haxe.PosInfos;
-
 import utest.Runner;
-import utest.TestResult;
-import utest.ui.common.ResultAggregator;
-import utest.ui.common.PackageResult;
 
 #if php
 import php.Lib;

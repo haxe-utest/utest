@@ -1,7 +1,5 @@
 package utest.ui.common;
 
-import utest.ui.common.HeaderDisplayMode;
-
 class ReportTools
 {
 	public static function hasHeader(report : IReport<Dynamic>, stats : ResultStats)

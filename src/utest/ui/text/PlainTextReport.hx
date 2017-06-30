@@ -1,11 +1,9 @@
 package utest.ui.text;
 
-import haxe.PosInfos;
 import utest.ui.common.IReport;
 import utest.ui.common.HeaderDisplayMode;
 
 import utest.Runner;
-import utest.TestResult;
 import utest.ui.common.ResultAggregator;
 using utest.ui.common.ReportTools;
 import utest.ui.common.PackageResult;

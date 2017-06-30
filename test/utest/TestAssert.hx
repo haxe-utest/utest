@@ -2,7 +2,6 @@ package utest;
 
 import utest.Assert;
 import utest.Assertation;
-import utest.Runner;
 
 class TestAssert {
   public function new(){}

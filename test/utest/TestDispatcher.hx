@@ -2,7 +2,6 @@ package utest;
 
 import utest.Assert;
 import utest.Dispatcher;
-import utest.Runner;
 
 class TestDispatcher {
   public function new(){}

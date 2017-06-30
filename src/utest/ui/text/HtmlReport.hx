@@ -8,7 +8,6 @@ import utest.ui.common.IReport;
 import utest.ui.common.HeaderDisplayMode;
 
 import utest.Runner;
-import utest.TestResult;
 import utest.ui.common.ResultAggregator;
 import utest.ui.common.PackageResult;
 import utest.ui.common.ResultStats;
