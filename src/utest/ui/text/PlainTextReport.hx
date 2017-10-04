@@ -35,9 +35,11 @@ class PlainTextReport implements IReport<PlainTextReport> {
     startTime = getTime();
   }
 
-  function getTime()
+  function getTime():Float
     #if java
     return Date.now().getTime()/1000;
+    #elseif cs
+    return cast (cs.system.DateTime.UtcNow.Ticks - new cs.system.DateTime(1970, 1, 1).Ticks) / cs.system.TimeSpan.TicksPerSecond;
     #else
     return haxe.Timer.stamp();
     #end
