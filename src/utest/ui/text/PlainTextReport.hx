@@ -151,7 +151,7 @@ class PlainTextReport implements IReport<PlainTextReport> {
 
   function complete(result : PackageResult) {
     this.result = result;
-    handler(this);
+    if (handler != null) handler(this);
 #if (php || neko || cpp || cs || java || python || lua)
     Sys.exit(result.stats.isOk ? 0 : 1);
 #elseif js
