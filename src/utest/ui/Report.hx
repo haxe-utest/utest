@@ -13,7 +13,9 @@ import neko.Web;
 class Report {
   public static function create(runner : Runner, ?displaySuccessResults : SuccessResultsDisplayMode, ?headerDisplayMode : HeaderDisplayMode) : IReport<Dynamic> {
     var report : IReport<Dynamic>;
-#if travis
+#if teamcity
+    report = new utest.ui.text.TeamcityReport(runner);
+#elseif travis
     report = new utest.ui.text.PrintReport(runner);
 #elseif (php || neko)
     if (!Web.isModNeko)
