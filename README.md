@@ -74,8 +74,6 @@ public function testAsync() {
 }
 ```
 
-Note: Asynchronous tests work correctly for JS and Flash. The support for other platforms will be added ASAP.
-
 ## Assert
 
 [Assert](src/utest/Assert.hx) contains a plethora of methods to perform your tests:
