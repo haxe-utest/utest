@@ -1,0 +1,70 @@
+##
+# Build
+##
+
+-cmd echo "[Building NEKO]"
+--next
+tests.hxml
+-neko bin/test.n
+
+-cmd echo "[Building JAVASCRIPT]"
+--next
+tests.hxml
+-js bin/test.js
+
+-cmd echo "[Building PHP]"
+--next
+tests.hxml
+-php bin/php
+
+-cmd echo "[Building PYTHON]"
+--next
+tests.hxml
+-python bin/test.py
+
+-cmd echo "[Building JAVA]"
+--next
+tests.hxml
+-java bin/java
+
+-cmd echo "[Building C#]"
+--next
+tests.hxml
+-cs bin/cs
+
+-cmd echo "[Building CPP]"
+--next
+tests.hxml
+-cpp bin/cpp
+
+##
+# Run
+##
+-cmd echo "\n"
+--next
+
+-cmd echo "\n[Running INTERP]"
+-cmd haxe tests.hxml --interp
+
+--next
+
+-cmd echo "\n[Running CPP]"
+-cmd ./bin/cpp/TestAll
+
+-cmd echo "\n[Running JAVASCRIPT]"
+-cmd nodejs ./bin/test.js
+
+-cmd echo "\n[Running JAVA]"
+-cmd java -jar ./bin/java/TestAll.jar
+
+-cmd echo "\n[Running C#]"
+-cmd mono ./bin/cs/bin/TestAll.exe
+
+-cmd echo "\n[Running PYTHON]"
+-cmd python3 ./bin/test.py
+
+-cmd echo "\n[Running NEKO]"
+-cmd neko ./bin/test.n
+
+-cmd echo "\n[Running PHP]"
+-cmd php bin/php/index.php

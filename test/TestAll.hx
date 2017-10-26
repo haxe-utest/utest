@@ -7,6 +7,7 @@ class TestAll {
     //runner.globalPattern = ~/testBooleans/;
     runner.addCase(new utest.TestAssert());
     runner.addCase(new utest.TestDispatcher());
+    runner.addCase(new utest.TestAsync());
   }
 
   public static function main() {
