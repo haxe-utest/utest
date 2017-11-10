@@ -94,9 +94,7 @@ class TeamcityReport extends PlainTextReport {
 
     trace(getResults());
 
-    if (handler != null) {
-      handler(this);
-    }
+    super.complete(result);
   }
 
   private function addSuiteStarted(buf:StringBuf, suiteName:String):Void {
