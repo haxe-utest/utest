@@ -321,7 +321,7 @@ argument (usually some event data) instead of a function with no arguments
 
 `timeout` Optional timeout value in milliseconds.
 
-### Ignoring tests
+## Ignoring tests
 
 You can easily ignore one of tests within specifying `@Ignored` meta.
 
