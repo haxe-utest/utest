@@ -46,6 +46,9 @@ class TeamcityReport extends PlainTextReport {
 
 
           if (fix.stats.isOk) {
+            if (fix.stats.hasIgnores) {
+              addTestIgnored(buf, testName, getIgnoreReason(fix));
+            }
             addTestSucceed(buf, testName);
             continue;
           }
@@ -77,6 +80,10 @@ class TeamcityReport extends PlainTextReport {
               case Assertation.Warning(msg):
                 message.add('W');
                 details += indents(2) + msg + newline;
+              case Assertation.Ignore(reason):
+                message.add('I');
+                if (reason != null && reason != "") details += indents(2) + 'With reason: ${reason}' + newline;
+
             }
           }
           addTestFailed(buf, testName, message.toString(), details);
@@ -87,6 +94,17 @@ class TeamcityReport extends PlainTextReport {
     addSuiteFinished(buf, rootSuiteName);
 
     return buf.toString();
+  }
+
+  private function getIgnoreReason(fix:FixtureResult):String {
+    for (assertation in fix.iterator()) {
+     switch(assertation) {
+       case Assertation.Ignore(reason):
+        return reason != null ? reason : "";
+       default: // Do nothing.
+     }
+    }
+    return null;
   }
 
   override function complete(result:PackageResult) {
@@ -118,6 +136,13 @@ class TeamcityReport extends PlainTextReport {
   private function addTestSucceed(buf:StringBuf, testName:String):Void {
     addTeamcityEvent(buf, "testFinished", [
       "name" => testName
+    ]);
+  }
+
+  private function addTestIgnored(buf:StringBuf, testName:String, reason:String = null):Void {
+    addTeamcityEvent(buf, "testIgnored", [
+      "name" => testName,
+      "message" => ((reason != null && reason != "") ? 'With reason: ${reason}.' : "Without specifying the reason.")
     ]);
   }
 

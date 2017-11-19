@@ -139,6 +139,11 @@ class PlainTextReport implements IReport<PlainTextReport> {
               case Warning(msg):
                 buf.add('W');
                 messages += indents(2)+ msg + newline;
+              case Ignore(reason):
+                buf.add('I');
+                if (reason != null && reason != "") {
+                  messages += indents(2) + 'With reason: ${reason}' + newline;
+                }
             }
           }
           buf.add(newline);

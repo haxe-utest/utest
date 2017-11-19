@@ -8,6 +8,7 @@ class TestAll {
     runner.addCase(new utest.TestAssert());
     runner.addCase(new utest.TestDispatcher());
     runner.addCase(new utest.TestAsync());
+    runner.addCase(new utest.TestIgnored());
   }
 
   public static function main() {

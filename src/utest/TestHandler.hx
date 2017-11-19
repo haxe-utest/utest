@@ -15,6 +15,8 @@ class TestHandler<T> {
 
   public var precheck(default, null) : Void->Void;
 
+  private var wasBound:Bool = false;
+
   public function new(fixture : TestFixture) {
     if(fixture == null) throw "fixture argument is null";
     this.fixture  = fixture;
@@ -24,9 +26,17 @@ class TestHandler<T> {
     onTimeout  = new Dispatcher();
     onComplete = new Dispatcher();
     onPrecheck = new Dispatcher();
+
+    if (fixture.isIgnored) {
+      results.add(Ignore(fixture.ignoreReason));
+    }
   }
 
   public function execute() {
+    if (fixture.isIgnored) {
+      executeFinally();
+      return;
+    }
     try {
       executeMethod(fixture.setup);
       executeAsyncMethod(fixture.setupAsync, executeAsync.bind());
@@ -59,31 +69,36 @@ class TestHandler<T> {
   }
 
   function checkTested() {
-    if(expireson == null || asyncStack.length == 0) {
+    if(expiration == null || asyncStack.length == 0) {
       tested();
-    } else if(haxe.Timer.stamp() > expireson) {
+    } else if(haxe.Timer.stamp() > expiration) {
       timeout();
     } else {
       haxe.Timer.delay(checkTested, POLLING_TIME);
     }
   }
 
-  public var expireson(default, null) : Null<Float>;
+  public var expiration(default, null) : Null<Float>;
   public function setTimeout(timeout : Int) {
     var newexpire = haxe.Timer.stamp() + timeout/1000;
-    expireson = (expireson == null) ? newexpire : (newexpire > expireson ? newexpire : expireson);
+    expiration = (expiration == null) ? newexpire : (newexpire > expiration ? newexpire : expiration);
   }
 
   function bindHandler() {
+    if (wasBound) return;
     Assert.results     = this.results;
     Assert.createAsync = this.addAsync;
     Assert.createEvent = this.addEvent;
+    wasBound = true;
+
   }
 
   function unbindHandler() {
+    if (!wasBound) return;
     Assert.results     = null;
     Assert.createAsync = function(?f, ?t){ return function(){}};
     Assert.createEvent = function(f, ?t){ return function(e){}};
+    wasBound = false;
   }
 
   /**
@@ -177,6 +192,11 @@ class TestHandler<T> {
   }
 
   function completed() {
+    if (fixture.isIgnored) {
+      completedFinally();
+      return;
+    }
+
     try {
       executeMethod(fixture.teardown);
       executeAsyncMethod(fixture.teardownAsync, completedFinally.bind());

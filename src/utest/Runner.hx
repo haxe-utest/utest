@@ -92,20 +92,19 @@ class Runner {
     if(!isMethod(test, teardownAsync))
       teardownAsync = null;
     var fields = Type.getInstanceFields(Type.getClass(test));
-    if(globalPattern == null && pattern == null) {
-      for(field in fields) {
-        if(!StringTools.startsWith(field, prefix)) continue;
-        if(!isMethod(test, field)) continue;
-        addFixture(new TestFixture(test, field, setup, teardown, setupAsync, teardownAsync));
-      }
-    } else {
-      pattern = globalPattern != null ? globalPattern : pattern;
-      for(field in fields) {
-        if(!pattern.match(field)) continue;
-        if(!isMethod(test, field)) continue;
-        addFixture(new TestFixture(test, field, setup, teardown, setupAsync, teardownAsync));
-      }
+    for (field in fields) {
+      if(!isMethod(test, field)) continue;
+      if(!isTestFixtureName(field, prefix, pattern, globalPattern)) continue;
+      addFixture(new TestFixture(test, field, setup, teardown, setupAsync, teardownAsync));
     }
+  }
+
+  private function isTestFixtureName(name:String, prefix:String, ?pattern:EReg, ?globalPattern:EReg):Bool {
+    if (pattern == null && globalPattern == null) {
+      return StringTools.startsWith(name, prefix);
+    }
+    pattern = globalPattern != null ? globalPattern : pattern;
+    return pattern.match(name);
   }
 
   public function addFixture(fixture : TestFixture) {
