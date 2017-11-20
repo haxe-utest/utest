@@ -27,13 +27,13 @@ class TestHandler<T> {
     onComplete = new Dispatcher();
     onPrecheck = new Dispatcher();
 
-    if (fixture.isIgnored) {
-      results.add(Ignore(fixture.ignoreReason));
+    if (fixture.ignoringInfo.isIgnored) {
+      results.add(Ignore(fixture.ignoringInfo.ignoreReason));
     }
   }
 
   public function execute() {
-    if (fixture.isIgnored) {
+    if (fixture.ignoringInfo.isIgnored) {
       executeFinally();
       return;
     }
@@ -192,7 +192,7 @@ class TestHandler<T> {
   }
 
   function completed() {
-    if (fixture.isIgnored) {
+    if (fixture.ignoringInfo.isIgnored) {
       completedFinally();
       return;
     }
