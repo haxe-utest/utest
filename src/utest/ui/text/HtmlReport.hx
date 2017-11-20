@@ -199,6 +199,9 @@ class HtmlReport implements IReport<HtmlReport> {
           messages.push("<strong>async error</strong>: " + getErrorDescription(e) + "\n<br/><strong>stack</strong>:" + getErrorStack(s, e));
         case Warning(msg):
           messages.push(StringTools.htmlEscape(msg));
+        case Ignore(reason):
+          messages.push(StringTools.htmlEscape(reason));
+
       }
     }
     if (messages.length > 0)
@@ -345,6 +348,11 @@ class HtmlReport implements IReport<HtmlReport> {
               case Warning(msg):
                 buf.add('W');
                 messages += indents(2)+ msg + newline;
+              case Ignore(reason):
+                buf.add('I');
+                if (reason != null && reason != "") {
+                  messages += indents(2) + 'With reason: ${reason}' + newline;
+                }
             }
           }
           buf.add(newline);
