@@ -103,7 +103,7 @@ class Runner {
     if (pattern == null && globalPattern == null) {
       return StringTools.startsWith(name, prefix);
     }
-    pattern = globalPattern != null ? globalPattern : pattern;
+    if (pattern == null) pattern = globalPattern;
     return pattern.match(name);
   }
 
