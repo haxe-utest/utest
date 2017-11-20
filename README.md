@@ -320,3 +320,20 @@ argument (usually some event data) instead of a function with no arguments
 `f` A function that contains other Assert tests
 
 `timeout` Optional timeout value in milliseconds.
+
+## Ignoring tests
+
+You can easily ignore one of tests within specifying `@Ignored` meta.
+
+```haxe
+class TestCase {
+  public function new() {}
+
+  @Ignored("Ignore this test")
+  public function testIgnoredWithReason() {}
+  
+  @Ignored
+  public function testIgnoredWithoutReason():Void {}
+}
+
+```

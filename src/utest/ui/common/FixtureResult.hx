@@ -31,26 +31,28 @@ class FixtureResult {
   public function add(assertation : Assertation) {
     list.add(assertation);
     switch(assertation) {
-      case Success(_):
+      case Assertation.Success(_):
         stats.addSuccesses(1);
-      case Failure(_, _):
+      case Assertation.Failure(_, _):
         stats.addFailures(1);
-      case Error(_, _):
+      case Assertation.Error(_, _):
         stats.addErrors(1);
-      case SetupError(_, _):
+      case Assertation.SetupError(_, _):
         stats.addErrors(1);
         hasSetupError = true;
-      case TeardownError(_, _):
+      case Assertation.TeardownError(_, _):
         stats.addErrors(1);
         hasTeardownError = true;
-      case TimeoutError(_, _):
+      case Assertation.TimeoutError(_, _):
         stats.addErrors(1);
         hasTimeoutError = true;
-      case AsyncError(_, _):
+      case Assertation.AsyncError(_, _):
         stats.addErrors(1);
         hasAsyncError = true;
-      case Warning(_):
+      case Assertation.Warning(_):
         stats.addWarnings(1);
+      case Assertation.Ignore(_):
+        stats.addIgnores(1);
     }
   }
 }
