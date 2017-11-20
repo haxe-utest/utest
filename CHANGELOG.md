@@ -1,3 +1,6 @@
+# v1.7.2
+- Fix broken compilation for js target (Caused by `@Ignored` functionality in `HtmlReport`).
+
 # v1.7.1
 - Fix exiting from tests in case TeamcityReport.
 - Add functionality of ignoring tests withing `@Ignored` meta.
