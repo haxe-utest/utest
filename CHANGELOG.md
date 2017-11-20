@@ -1,7 +1,7 @@
 # v1.7.1
 - Fix exiting from tests in case TeamcityReport.
 - Add functionality of ignoring tests withing `@Ignored` meta.
-- Force `Runner#globalPattern` overriding withing `pattern` argument from `Runner#addCase` (#42)
+- Force `Runner#globalPattern` overriding withing `pattern` argument from `Runner#addCase` (https://github.com/fponticelli/utest/issues/42)
 
 # v1.7.0
 - Fix Assert.raises for unspecified exception types
