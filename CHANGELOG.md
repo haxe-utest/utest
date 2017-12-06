@@ -1,3 +1,6 @@
+# vX.X.X
+- Added `Runner.addCases(my.pack)`, which adds all test cases located in `my.pack` package.
+
 # v1.7.2
 - Fix broken compilation for js target (Caused by `@Ignored` functionality in `HtmlReport`).
 
@@ -20,13 +23,13 @@
 # v1.5.0
 - Added async setup/teardown handling
 - Add executing of java tests synchronously
-- Add C++ pointers comparison  
+- Add C++ pointers comparison
 
 # v1.4.0
-- Initial support for phantomjs. 
-- Added handlers to catch test start/complete. 
-- Assert.same supports an optional parameter to set float precision comparison. 
-- Added `globalPattern` to filter only the desired results. 
+- Initial support for phantomjs.
+- Added handlers to catch test start/complete.
+- Assert.same supports an optional parameter to set float precision comparison.
+- Added `globalPattern` to filter only the desired results.
 - Fixes.
 
 # v1.3.10
@@ -66,7 +69,7 @@
 - added async tests to Java
 
 # v1.1.3
-- minor improvements 
+- minor improvements
 
 # v1.1.2
 - Haxe3 release

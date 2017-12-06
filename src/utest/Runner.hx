@@ -111,6 +111,7 @@ class Runner {
   /**
    *  Add all test cases located in specified package `path`.
    *  Any module found in `path` is treated as a test case.
+   *  That means each module should contain a class with a constructor and with the same name as a module name.
    *  @param path - dot-separated path as a string or as an identifier/field expression. E.g. `"my.pack"` or `my.pack`
    *  @param recursive - recursively look for test cases in sub packages.
    */
