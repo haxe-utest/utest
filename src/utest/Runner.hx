@@ -8,6 +8,7 @@ import haxe.io.Path;
 
 using sys.FileSystem;
 using StringTools;
+using haxe.macro.Tools;
 #end
 
 /**
@@ -110,17 +111,24 @@ class Runner {
   /**
    *  Add all test cases located in specified package `path`.
    *  Any module found in `path` is treated as a test case.
-   *  @param path - dot-separated path. E.g. "my.pack"
+   *  @param path - dot-separated path as a string or as an identifier/field expression. E.g. `"my.pack"` or `my.pack`
    *  @param recursive - recursively look for test cases in sub packages.
    */
-  macro public function addCases(eThis:Expr, path:String, recursive:Bool = true):Expr {
+  macro public function addCases(eThis:Expr, path:Expr, recursive:Bool = true):Expr {
     if(Context.defined('display')) {
       return macro {};
+    }
+    var path = switch(path.expr) {
+      case EConst(CString(s)): s;
+      case _: path.toString();
+    }
+    var pos = Context.currentPos();
+    if(~/[^a-zA-Z0-9_.]/.match(path)) {
+      Context.error('The first argument for utest.Runner.addCases() should be a valid package path.', pos);
     }
     var pack = path.split('.');
     var relativePath = Path.join(pack);
     var exprs = [];
-    var pos = Context.currentPos();
     function traverse(dir:String, path:String) {
       if(!dir.exists()) return;
       for(file in dir.readDirectory()) {

@@ -14,4 +14,10 @@ class TestRunner {
     runner.addCases('utest.testrunner', true);
     Assert.equals(3, runner.length);
   }
+
+  public function testAddCases_identifier() {
+    var runner = new Runner();
+    runner.addCases(utest.testrunner, true);
+    Assert.equals(3, runner.length);
+  }
 }
