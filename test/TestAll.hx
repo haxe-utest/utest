@@ -9,6 +9,7 @@ class TestAll {
     runner.addCase(new utest.TestDispatcher());
     runner.addCase(new utest.TestAsync());
     runner.addCase(new utest.TestIgnored());
+    runner.addCase(new utest.TestRunner());
   }
 
   public static function main() {

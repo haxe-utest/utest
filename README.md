@@ -37,6 +37,7 @@ class TestAll {
   * every test case method must be `public` and prefixed with `test`.
   * if the class provides public methods named `setup` and/or `teardown` they will be
     executed before and/or after each test case method.
+  * `runner.addCases(my.pack)` can be used to add all test cases from `my.pack` package. Any module found in `my.pack` is treated as a test case. That means each module should contain a class with a constructor and with the same name as a module name.
 
 ```haxe
 import utest.Assert;
@@ -331,7 +332,7 @@ class TestCase {
 
   @Ignored("Ignore this test")
   public function testIgnoredWithReason() {}
-  
+
   @Ignored
   public function testIgnoredWithoutReason():Void {}
 }

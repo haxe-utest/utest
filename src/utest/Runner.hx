@@ -1,6 +1,15 @@
 package utest;
 
 import utest.Dispatcher;
+#if macro
+import haxe.macro.Context;
+import haxe.macro.Expr;
+import haxe.io.Path;
+
+using sys.FileSystem;
+using StringTools;
+using haxe.macro.Tools;
+#end
 
 /**
  * The Runner class performs a set of tests. The tests can be added using addCase or addFixtures.
@@ -97,6 +106,53 @@ class Runner {
       if(!isTestFixtureName(field, prefix, pattern, globalPattern)) continue;
       addFixture(new TestFixture(test, field, setup, teardown, setupAsync, teardownAsync));
     }
+  }
+
+  /**
+   *  Add all test cases located in specified package `path`.
+   *  Any module found in `path` is treated as a test case.
+   *  That means each module should contain a class with a constructor and with the same name as a module name.
+   *  @param path - dot-separated path as a string or as an identifier/field expression. E.g. `"my.pack"` or `my.pack`
+   *  @param recursive - recursively look for test cases in sub packages.
+   */
+  macro public function addCases(eThis:Expr, path:Expr, recursive:Bool = true):Expr {
+    if(Context.defined('display')) {
+      return macro {};
+    }
+    var path = switch(path.expr) {
+      case EConst(CString(s)): s;
+      case _: path.toString();
+    }
+    var pos = Context.currentPos();
+    if(~/[^a-zA-Z0-9_.]/.match(path)) {
+      Context.error('The first argument for utest.Runner.addCases() should be a valid package path.', pos);
+    }
+    var pack = path.split('.');
+    var relativePath = Path.join(pack);
+    var exprs = [];
+    function traverse(dir:String, path:String) {
+      if(!dir.exists()) return;
+      for(file in dir.readDirectory()) {
+        var fullPath = Path.join([dir, file]);
+        if(fullPath.isDirectory() && recursive){
+          traverse(fullPath, '$path.$file');
+          continue;
+        }
+        if(file.substr(-3) != '.hx') {
+          continue;
+        }
+        var className = file.substr(0, file.length - 3);
+        if(className == '') {
+          continue;
+        }
+        var testCase = Context.parse('new $path.$className()', pos);
+        exprs.push(macro @:pos(pos) $eThis.addCase($testCase));
+      }
+    }
+    for(classPath in Context.getClassPath()) {
+      traverse(Path.join([classPath, relativePath]), path);
+    }
+    return macro @:pos(pos) $b{exprs};
   }
 
   private function isTestFixtureName(name:String, prefix:String, ?pattern:EReg, ?globalPattern:EReg):Bool {

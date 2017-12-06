@@ -5,3 +5,4 @@ doc/dox
 .DS_Store
 *.sublime-*
 display.hxml
+.vscode
