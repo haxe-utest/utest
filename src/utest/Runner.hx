@@ -1,6 +1,14 @@
 package utest;
 
 import utest.Dispatcher;
+#if macro
+import haxe.macro.Context;
+import haxe.macro.Expr;
+import haxe.io.Path;
+
+using sys.FileSystem;
+using StringTools;
+#end
 
 /**
  * The Runner class performs a set of tests. The tests can be added using addCase or addFixtures.
@@ -97,6 +105,45 @@ class Runner {
       if(!isTestFixtureName(field, prefix, pattern, globalPattern)) continue;
       addFixture(new TestFixture(test, field, setup, teardown, setupAsync, teardownAsync));
     }
+  }
+
+  /**
+   *  Add all test cases located in specified package `path`.
+   *  Any module found in `path` is treated as a test case.
+   *  @param path - dot-separated path. E.g. "my.pack"
+   *  @param recursive - recursively look for test cases in sub packages.
+   */
+  macro public function addCases(eThis:Expr, path:String, recursive:Bool = true):Expr {
+    if(Context.defined('display')) {
+      return macro {};
+    }
+    var pack = path.split('.');
+    var relativePath = Path.join(pack);
+    var exprs = [];
+    var pos = Context.currentPos();
+    function traverse(dir:String, path:String) {
+      if(!dir.exists()) return;
+      for(file in dir.readDirectory()) {
+        var fullPath = Path.join([dir, file]);
+        if(fullPath.isDirectory() && recursive){
+          traverse(fullPath, '$path.$file');
+          continue;
+        }
+        if(file.substr(-3) != '.hx') {
+          continue;
+        }
+        var className = file.substr(0, file.length - 3);
+        if(className == '') {
+          continue;
+        }
+        var testCase = Context.parse('new $path.$className()', pos);
+        exprs.push(macro @:pos(pos) $eThis.addCase($testCase));
+      }
+    }
+    for(classPath in Context.getClassPath()) {
+      traverse(Path.join([classPath, relativePath]), path);
+    }
+    return macro @:pos(pos) $b{exprs};
   }
 
   private function isTestFixtureName(name:String, prefix:String, ?pattern:EReg, ?globalPattern:EReg):Bool {
