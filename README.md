@@ -1,6 +1,6 @@
 # utest
 
-[![Build Status](https://travis-ci.org/fponticelli/utest.svg?branch=master)](https://travis-ci.org/fponticelli/utest)
+[![Build Status](https://travis-ci.org/haxe-utest/utest.svg?branch=master)](https://travis-ci.org/haxe-utest/utest)
 
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/fponticelli-utest.svg)](https://saucelabs.com/u/fponticelli-utest)
 
