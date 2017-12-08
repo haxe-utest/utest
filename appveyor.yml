@@ -19,5 +19,8 @@ install:
   - haxelib install hxcs
   - haxelib list
 
+build_script:
+  - haxe hxml/build-all.hxml
+
 test_script:
-  - haxe hxml/test-all-win.hxml
+  - haxe hxml/run-all-win.hxml
