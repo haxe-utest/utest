@@ -2,31 +2,31 @@
 # Run
 ##
 
--cmd cmd /c echo [Running INTERP]
+-cmd cmd \c echo [Running INTERP]
 -cmd haxe tests.hxml --interp
 
 --next
 
--cmd echo [Running CPP]
--cmd bin/cpp/TestAll.exe
-
 -cmd echo [Running JAVASCRIPT]
--cmd nodejs bin/test.js
+-cmd nodejs bin\test.js
 
 -cmd echo [Running JAVA]
--cmd java -jar bin/java/TestAll.jar
-
--cmd echo [Running C#]
--cmd bin/cs/bin/TestAll.exe
+-cmd java -jar bin\java\TestAll.jar
 
 -cmd echo [Running PYTHON]
--cmd python bin/test.py
+-cmd python bin\test.py
 
 -cmd echo [Running NEKO]
--cmd neko bin/test.n
+-cmd neko bin\test.n
 
 -cmd echo [Running PHP]
--cmd php bin/php/index.php
+-cmd php bin\php\index.php
 
 -cmd echo [Running PHP7]
--cmd php bin/php7/index.php
+-cmd php bin\php7\index.php
+
+-cmd echo [Running CPP]
+-cmd bin\cpp\TestAll.exe
+
+-cmd echo [Running C#]
+-cmd bin\cs\bin\TestAll.exe
