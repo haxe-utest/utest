@@ -8,8 +8,10 @@ install:
   - cinst haxe -y
   - cinst curl -y
   - cinst php -y
+  - cmd: mklink C:\Python34-x64\python3.exe C:\Python34-x64\python.exe
+  - set PATH=%PATH%;C:\Python34-x64
   - RefreshEnv
-  - python3 --version
+  - python --version
   - php -version
   - haxelib setup %HOME%/haxelib
   - haxelib install hxcpp
