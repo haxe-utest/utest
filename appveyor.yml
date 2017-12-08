@@ -40,11 +40,12 @@ test_script:
   - REM [Running JAVASCRIPT]
   - node bin/test.js
   - REM [Running PHP]
-  - cinst php --version=5.6.0 -y
+  - cinst php --version=5.6.32 -y
   - php -version
   - php bin/php/index.php
   - REM [Running PHP7]
-  - cinst php --version=7.2.0 -y
+  - cuninst php
+  - cinst php -y
   - php -version
   - php bin/php7/index.php
   - REM [Running PYTHON]
