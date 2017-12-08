@@ -26,7 +26,7 @@ script:
   - haxelib run travix python
   - haxelib run travix node
   # - haxelib run travix flash # Failing
-  - haxelib run travix js
+  # - haxelib run travix js #Need to check against phantomjs
   - haxelib run travix java
   - haxelib run travix cpp
   - haxelib run travix cs
