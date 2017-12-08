@@ -1,0 +1,22 @@
+version: "{build}"
+
+environment:
+    global:
+         PYTHON_VERSION: "3.x.x"
+
+install:
+  - cinst haxe -y
+  - cinst nssm -y
+  - cinst curl -y
+  - cinst php -y
+  - RefreshEnv
+  - python --version
+  - php -version
+  - haxelib setup %HOME%/haxelib
+  - haxelib install hxcpp
+  - haxelib install hxjava
+  - haxelib install hxcs
+  - haxelib list
+
+test_script:
+  - haxe test-all-win.hxml
