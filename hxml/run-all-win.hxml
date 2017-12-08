@@ -1,0 +1,34 @@
+##
+# Run
+##
+-cmd echo "\n"
+--next
+
+-cmd echo "\n[Running INTERP]"
+-cmd haxe hxml/common.hxml --interp
+
+--next
+
+-cmd echo "\n[Running CPP]"
+-cmd ./bin/cpp/TestAll
+
+-cmd echo "\n[Running JAVASCRIPT]"
+-cmd nodejs ./bin/test.js
+
+-cmd echo "\n[Running JAVA]"
+-cmd java -jar ./bin/java/TestAll.jar
+
+-cmd echo "\n[Running C#]"
+-cmd mono ./bin/cs/bin/TestAll.exe
+
+-cmd echo "\n[Running PYTHON]"
+-cmd python ./bin/test.py
+
+-cmd echo "\n[Running NEKO]"
+-cmd neko ./bin/test.n
+
+-cmd echo "\n[Running PHP]"
+-cmd php bin/php/index.php
+
+-cmd echo "\n[Running PHP7]"
+-cmd php bin/php7/index.php

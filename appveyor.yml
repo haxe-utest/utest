@@ -6,7 +6,6 @@ environment:
 
 install:
   - cinst haxe -y
-  - cinst nssm -y
   - cinst curl -y
   - cinst php -y
   - RefreshEnv
@@ -18,5 +17,8 @@ install:
   - haxelib install hxcs
   - haxelib list
 
+build_script:
+  - haxe hxml/build-all-win.hxml
+
 test_script:
-  - haxe test-all-win.hxml
+  - haxe hxml/run-all-win.hxml
