@@ -2,43 +2,43 @@
 # Build
 ##
 
--cmd echo "[Building NEKO]"
+-cmd echo [Building NEKO]
 --next
 tests.hxml
 -neko bin/test.n
 
--cmd echo "[Building JAVASCRIPT]"
+-cmd echo [Building JAVASCRIPT]
 --next
 tests.hxml
 -js bin/test.js
 
--cmd echo "[Building PHP]"
+-cmd echo [Building PHP]
 --next
 tests.hxml
 -php bin/php
 
--cmd echo "[Building PHP7]"
+-cmd echo [Building PHP7]
 --next
 -D php7
 tests.hxml
 -php bin/php7
 
--cmd echo "[Building PYTHON]"
+-cmd echo [Building PYTHON]
 --next
 tests.hxml
 -python bin/test.py
 
--cmd echo "[Building JAVA]"
+-cmd echo [Building JAVA]
 --next
 tests.hxml
 -java bin/java
 
--cmd echo "[Building C#]"
+-cmd echo [Building C#]
 --next
 tests.hxml
 -cs bin/cs
 
--cmd echo "[Building CPP]"
+-cmd echo [Building CPP]
 --next
 tests.hxml
 -cpp bin/cpp
