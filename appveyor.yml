@@ -7,7 +7,6 @@ environment:
 install:
   - cinst haxe -y
   - cinst curl -y
-  - cinst php -y
   - cmd: mklink C:\Python34-x64\python3.exe C:\Python34-x64\python.exe
   - set PATH=%PATH%;C:\Python34-x64
   - RefreshEnv
@@ -43,8 +42,10 @@ test_script:
   - REM [Running JAVASCRIPT]
   - node bin/test.js
   - REM [Running PHP]
+  - cinst php --version=5.6.0 -y
   - php bin/php/index.php
   - REM [Running PHP7]
+  - cinst php --version=7.2.0 -y
   - php bin/php7/index.php
   - REM [Running PYTHON]
   - python bin/test.py
