@@ -9,7 +9,7 @@ install:
   - cinst curl -y
   - cinst php -y
   - RefreshEnv
-  - python --version
+  - python3 --version
   - php -version
   - haxelib setup %HOME%/haxelib
   - haxelib install hxcpp
@@ -17,8 +17,5 @@ install:
   - haxelib install hxcs
   - haxelib list
 
-build_script:
-  - haxe hxml/build-all-win.hxml
-
 test_script:
-  - haxe hxml/run-all-win.hxml
+  - haxe hxml/test-all-win.hxml
