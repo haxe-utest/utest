@@ -20,37 +20,37 @@ install:
   - haxelib list
 
 build_script:
-  - echo "[Building NEKO]"
+  - REM [Building NEKO]
   - haxe tests.hxml -neko bin/test.n
-  - echo "[Building JAVASCRIPT]"
+  - REM [Building JAVASCRIPT]
   - haxe tests.hxml -js bin/test.js
-  - echo "[Building PHP]"
+  - REM [Building PHP]
   - haxe tests.hxml -php bin/php
-  - echo "[Building PHP7]"
+  - REM [Building PHP7]
   - haxe tests.hxml -D php7 -php bin/php7
-  - echo "[Building PYTHON]"
+  - REM [Building PYTHON]
   - haxe tests.hxml -python bin/test.py
-  - echo "[Building JAVA]"
+  - REM [Building JAVA]
   - haxe tests.hxml -java bin/java
-  - echo "[Building C#]"
+  - REM [Building C#]
   - haxe tests.hxml -cs bin/cs
-  - echo "[Building C++]"
+  - REM [Building C++]
   - haxe tests.hxml -cpp bin/cpp
 
 test_script:
-  - echo "[Running NEKO]"
+  - REM [Running NEKO]
   - neko bin/test.n
-  - echo "[Running JAVASCRIPT]"
-  - nodejs bin/test.js
-  - echo "[Running PHP]"
+  - REM [Running JAVASCRIPT]
+  - node bin/test.js
+  - REM [Running PHP]
   - php bin/php/index.php
-  - echo "[Running PHP7]"
+  - REM [Running PHP7]
   - php bin/php7/index.php
-  - echo "[Running PYTHON]"
+  - REM [Running PYTHON]
   - python bin/test.py
-  - echo "[Running JAVA]"
+  - REM [Running JAVA]
   - java -jar bin/java/TestAll.jar
-  - echo "[Running C#]"
+  - REM [Running C#]
   - bin/cs/bin/TestAll.exe
-  - echo "[Running C++]"
+  - REM [Running C++]
   - bin/cpp/TestAll.exe
