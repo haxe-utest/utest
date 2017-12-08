@@ -20,7 +20,37 @@ install:
   - haxelib list
 
 build_script:
-  - haxe hxml/build-all.hxml
+  - echo "[Building NEKO]"
+  - haxe tests.hxml -neko bin/test.n
+  - echo "[Building JAVASCRIPT]"
+  - haxe tests.hxml -js bin/test.js
+  - echo "[Building PHP]"
+  - haxe tests.hxml -php bin/php
+  - echo "[Building PHP7]"
+  - haxe tests.hxml -D php7 -php bin/php7
+  - echo "[Building PYTHON]"
+  - haxe tests.hxml -python bin/test.py
+  - echo "[Building JAVA]"
+  - haxe tests.hxml -java bin/java
+  - echo "[Building C#]"
+  - haxe tests.hxml -cs bin/cs
+  - echo "[Building C++]"
+  - haxe tests.hxml -cpp bin/cpp
 
 test_script:
-  - haxe hxml/run-all-win.hxml
+  - echo "[Running NEKO]"
+  - neko bin/test.n
+  - echo "[Running JAVASCRIPT]"
+  - nodejs bin/test.js
+  - echo "[Running PHP]"
+  - php bin/php/index.php
+  - echo "[Running PHP7]"
+  - php bin/php7/index.php
+  - echo "[Running PYTHON]"
+  - python bin/test.py
+  - echo "[Running JAVA]"
+  - java -jar bin/java/TestAll.jar
+  - echo "[Running C#]"
+  - bin/cs/bin/TestAll.exe
+  - echo "[Running C++]"
+  - bin/cpp/TestAll.exe
