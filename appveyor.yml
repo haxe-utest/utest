@@ -42,12 +42,12 @@ test_script:
   - REM [Running PHP]
   - cinst php --version=5.6.32 -y
   - php -version
-  - php bin/php/index.php
+  - C:\tools\php56 bin/php/index.php
   - REM [Running PHP7]
   - cuninst php
-  - cinst php -y
+  - cinst php --version=7.1.12 -y
   - php -version
-  - php bin/php7/index.php
+  - C:\tools\php56\php bin/php7/index.php
   - REM [Running PYTHON]
   - python --version
   - python bin/test.py
