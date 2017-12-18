@@ -39,15 +39,21 @@ test_script:
   - neko bin/test.n
   - REM [Running JAVASCRIPT]
   - node bin/test.js
-  - REM [Running PHP]
+  - REM [Running PHP 5.6]
   - cinst php --version=5.6.32 -y
-  - php -version
   - C:\tools\php56 bin/php/index.php
-  - REM [Running PHP7]
+  - REM [Running PHP 7.0]
   - cuninst php
+  - cinst php --version=7.0.26 -y
+  - C:\tools\php70\php bin/php7/index.php
+  - cuninst php
+  - REM [Running PHP 7.1]
   - cinst php --version=7.1.12 -y
-  - php -version
-  - C:\tools\php56\php bin/php7/index.php
+  - C:\tools\php71\php bin/php7/index.php
+  - cuninst php
+  - REM [Running PHP 7.2]
+  - cinst php --version=7.2.0 -y
+  - C:\tools\php72\php bin/php7/index.php
   - REM [Running PYTHON]
   - python --version
   - python bin/test.py
