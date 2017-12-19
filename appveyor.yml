@@ -46,9 +46,8 @@ test_script:
   - REM [Running PHP 7.2]
   - cinst php --version=7.2.0 -y
   - C:\tools\php72\php.exe bin/php7/index.php
-  - REM [Running PYTHON]
-  - python --version
-  - python bin/test.py
+  - REM [Running PYTHON 3.5]
+  - C:\Python35-x64\python3.exe bin/test.py
   - REM [Running JAVA]
   - java -jar bin/java/TestAll.jar
   - REM [Running C#]
