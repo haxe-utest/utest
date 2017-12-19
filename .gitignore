@@ -1,4 +1,5 @@
-bin
+bin/*
+!bin/index.html
 doc/pages
 doc/xml
 doc/dox
