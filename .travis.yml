@@ -9,7 +9,6 @@ os:
 
 haxe:
   - "3.4.4"
-  - "3.4.2"
   - development
 
 matrix:
@@ -26,10 +25,11 @@ script:
   - haxelib run travix python
   - haxelib run travix node
   # - haxelib run travix flash # Failing
-  # - haxelib run travix js # Failing
+  # - haxelib run travix js #Need to check against phantomjs
   - haxelib run travix java
   - haxelib run travix cpp
   - haxelib run travix cs
   - haxelib run travix php
-  - haxelib run travix lua
+  #Invalid lua setup on OSX. See https://github.com/back2dos/travix/issues/78
+  - if [ `uname` = "Linux" ]; then haxelib run travix lua; fi;
 
