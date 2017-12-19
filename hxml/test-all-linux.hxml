@@ -4,37 +4,37 @@
 
 -cmd echo "[Building NEKO]"
 --next
-tests.hxml
+hxml/common.hxml
 -neko bin/test.n
 
 -cmd echo "[Building JAVASCRIPT]"
 --next
-tests.hxml
+hxml/common.hxml
 -js bin/test.js
 
 -cmd echo "[Building PHP]"
 --next
-tests.hxml
+hxml/common.hxml
 -php bin/php
 
 -cmd echo "[Building PYTHON]"
 --next
-tests.hxml
+hxml/common.hxml
 -python bin/test.py
 
 -cmd echo "[Building JAVA]"
 --next
-tests.hxml
+hxml/common.hxml
 -java bin/java
 
 -cmd echo "[Building C#]"
 --next
-tests.hxml
+hxml/common.hxml
 -cs bin/cs
 
 -cmd echo "[Building CPP]"
 --next
-tests.hxml
+hxml/common.hxml
 -cpp bin/cpp
 
 ##
@@ -44,7 +44,7 @@ tests.hxml
 --next
 
 -cmd echo "\n[Running INTERP]"
--cmd haxe tests.hxml --interp
+-cmd haxe hxml/common.hxml --interp
 
 --next
 

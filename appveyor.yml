@@ -18,21 +18,21 @@ install:
 
 build_script:
   - REM [Building NEKO]
-  - haxe tests.hxml -neko bin/test.n
+  - haxe hxml/appveyor.hxml -neko bin/test.n
   - REM [Building JAVASCRIPT]
-  - haxe tests.hxml -js bin/test.js
+  - haxe hxml/appveyor.hxml -js bin/test.js
   - REM [Building PHP]
-  - haxe tests.hxml -php bin/php
+  - haxe hxml/appveyor.hxml -php bin/php
   - REM [Building PHP7]
-  - haxe tests.hxml -D php7 -php bin/php7
+  - haxe hxml/appveyor.hxml -D php7 -php bin/php7
   - REM [Building PYTHON]
-  - haxe tests.hxml -python bin/test.py
+  - haxe hxml/appveyor.hxml -python bin/test.py
   - REM [Building JAVA]
-  - haxe tests.hxml -java bin/java
+  - haxe hxml/appveyor.hxml -java bin/java
   - REM [Building C#]
-  - haxe tests.hxml -cs bin/cs
+  - haxe hxml/appveyor.hxml -cs bin/cs
   - REM [Building C++]
-  - haxe tests.hxml -cpp bin/cpp
+  - haxe hxml/appveyor.hxml -cpp bin/cpp
 
 test_script:
   - REM [Running NEKO]

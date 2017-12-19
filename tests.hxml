@@ -1,5 +1,1 @@
--cp src
--cp test
--main TestAll
--D utest
--D travis
+hxml/travis.hxml
