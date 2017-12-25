@@ -7,3 +7,4 @@ doc/dox
 *.sublime-*
 display.hxml
 .vscode
+utest.zip
