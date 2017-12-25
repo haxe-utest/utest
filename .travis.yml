@@ -28,9 +28,9 @@ script:
   # - haxelib run travix flash # Failing
   # - haxelib run travix js #Need to check against phantomjs
   - haxelib run travix java
-  - haxelib run travix cpp
+  - if ! [ "$TRAVIS_HAXE_VERSION" == "3.2.1" ]; then haxelib run travix cpp; fi
   - haxelib run travix cs
   - haxelib run travix php
   #Invalid lua setup on OSX. See https://github.com/back2dos/travix/issues/78
-  - if [ `uname` = "Linux" ]; then haxelib run travix lua; fi;
+  - if [ `uname` = "Linux" ] && ! [ "$TRAVIS_HAXE_VERSION" == "3.2.1" ]; then haxelib run travix lua; fi;
 
