@@ -69,6 +69,7 @@ class TestHandler<T> {
   }
 
   function checkTested() {
+#if ((haxe_ver >= "3.4.0") || flash || js)
     if(expiration == null || asyncStack.length == 0) {
       tested();
     } else if(haxe.Timer.stamp() > expiration) {
@@ -76,6 +77,12 @@ class TestHandler<T> {
     } else {
       haxe.Timer.delay(checkTested, POLLING_TIME);
     }
+#else
+    if(asyncStack.length == 0)
+      tested();
+    else
+      timeout();
+#end
   }
 
   public var expiration(default, null) : Null<Float>;

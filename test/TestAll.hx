@@ -7,7 +7,9 @@ class TestAll {
     //runner.globalPattern = ~/testBooleans/;
     runner.addCase(new utest.TestAssert());
     runner.addCase(new utest.TestDispatcher());
+    #if (haxe_ver >= "3.4.0")
     runner.addCase(new utest.TestAsync());
+    #end
     runner.addCase(new utest.TestIgnored());
     runner.addCase(new utest.TestRunner());
   }
