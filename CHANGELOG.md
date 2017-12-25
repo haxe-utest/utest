@@ -1,5 +1,6 @@
-# vX.X.X
+# v1.8.0
 - Added `Runner.addCases(my.pack)`, which adds all test cases located in `my.pack` package.
+- Reverted async tests for Haxe < 3.4.0 (https://github.com/haxe-utest/utest/pull/39#issuecomment-353660192)
 
 # v1.7.2
 - Fix broken compilation for js target (Caused by `@Ignored` functionality in `HtmlReport`).
