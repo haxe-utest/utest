@@ -37,11 +37,28 @@ class TestHandler<T> {
       executeFinally();
       return;
     }
+
+    //ugly hack to call executeFinally() only once if asynchronous code is involved
+    var isSync = true;
+    var expectingAsync = fixture.teardownAsync != null;
+    function complete() {
+      if(isSync) {
+        expectingAsync = false;
+        return;
+      }
+      executeAsync();
+    }
+
     try {
       executeMethod(fixture.setup);
-      executeAsyncMethod(fixture.setupAsync, executeAsync.bind());
+      if(expectingAsync) {
+        executeAsyncMethod(fixture.setupAsync, complete);
+      }
     } catch(e : Dynamic) {
       results.add(SetupError(e, exceptionStack()));
+    }
+    isSync = false;
+    if(!expectingAsync) {
       executeFinally();
     }
   }
@@ -204,11 +221,25 @@ class TestHandler<T> {
       return;
     }
 
+    //ugly hack to call completedFinally() only once if asynchronous code is involved
+    var isSync = true;
+    var expectingAsync = fixture.teardownAsync != null;
+    function complete() {
+      if(isSync) {
+        expectingAsync = false;
+        return;
+      }
+      completedFinally();
+    }
+
     try {
       executeMethod(fixture.teardown);
-      executeAsyncMethod(fixture.teardownAsync, completedFinally.bind());
+      executeAsyncMethod(fixture.teardownAsync, complete);
     } catch(e : Dynamic) {
       results.add(TeardownError(e, exceptionStack(2))); // TODO check the correct number of functions is popped from the stack
+    }
+    isSync = false;
+    if(!expectingAsync) {
       completedFinally();
     }
   }
