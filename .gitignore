@@ -8,3 +8,5 @@ doc/dox
 display.hxml
 .vscode
 utest.zip
+.idea
+.haxelib

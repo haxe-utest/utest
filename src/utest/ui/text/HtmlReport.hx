@@ -711,6 +711,17 @@ function utestRemoveTooltip() {
 #if (php || neko || cpp || java || lua)
     Lib.print(report.getHtml());
 #elseif js
+    if(Browser.document.readyState == 'loading') {
+      function onReadyStateChange() {
+        if(Browser.document.readyState != 'loading') {
+          Browser.document.removeEventListener('readystatechange', onReadyStateChange);
+          _handler(report);
+        }
+      }
+      Browser.document.addEventListener('readystatechange', onReadyStateChange);
+      return;
+    }
+
     var isDef = function(v) : Bool return untyped __js__("typeof v != 'undefined'");
     var hasProcess : Bool = untyped __js__("typeof process != 'undefined'");
 
