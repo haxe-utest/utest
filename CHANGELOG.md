@@ -1,3 +1,7 @@
+# v.1.8.1
+- Fixed "duplicated fixture" error caused by other utest bugs ([#52](https://github.com/haxe-utest/utest/issues/52))
+- Fixed HtmlReporter exception if a script tag is added to a head tag ([#54](https://github.com/haxe-utest/utest/issues/54))
+
 # v1.8.0
 - Added `Runner.addCases(my.pack)`, which adds all test cases located in `my.pack` package.
 - Reverted async tests for Haxe < 3.4.0 (https://github.com/haxe-utest/utest/pull/39#issuecomment-353660192)
