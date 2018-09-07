@@ -1,3 +1,6 @@
+# v.X.X.X
+- Fixed waiting for completion of asynchronous tests on php, neko, python, java, lua
+
 # v.1.8.1
 - Fixed "duplicated fixture" error caused by other utest bugs ([#52](https://github.com/haxe-utest/utest/issues/52))
 - Fixed HtmlReporter exception if a script tag is added to a head tag ([#54](https://github.com/haxe-utest/utest/issues/54))
