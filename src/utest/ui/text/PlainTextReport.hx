@@ -46,7 +46,7 @@ class PlainTextReport implements IReport<PlainTextReport> {
 
   function indents(c : Int) {
     var s = '';
-    for(_ in 0...c)
+    while(--c >= 0)
       s += indent;
     return s;
   }
@@ -160,10 +160,10 @@ class PlainTextReport implements IReport<PlainTextReport> {
 #if (php || neko || cpp || cs || java || python || lua)
     Sys.exit(result.stats.isOk ? 0 : 1);
 #elseif js
-    if(untyped __js__('typeof process != "undefined"'))
-      untyped __js__('process').exit(result.stats.isOk ? 0 : 1);
     if(untyped __js__('typeof phantom != "undefined"'))
       untyped __js__('phantom').exit(result.stats.isOk ? 0 : 1);
+    if(untyped __js__('typeof process != "undefined"'))
+      untyped __js__('process').exit(result.stats.isOk ? 0 : 1);
 #elseif (flash && exit)
       if(flash.system.Security.sandboxType == "localTrusted") {
         var delay = 5;
