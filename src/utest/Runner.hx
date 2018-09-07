@@ -179,26 +179,7 @@ class Runner {
       return false;
     }
   }
-#if (php || neko || python || java || lua)
-  public function run() {
-    onStart.dispatch(this);
-    for (i in 0...fixtures.length)
-    {
-      var h = runFixture(fixtures[i]);
-      onTestComplete.dispatch(h);
-      onProgress.dispatch({ result : TestResult.ofHandler(h), done : i+1, totals : length });
-    }
-    onComplete.dispatch(this);
-  }
 
-  function runFixture(fixture : TestFixture) {
-    var handler = new TestHandler(fixture);
-    handler.onPrecheck.add(this.onPrecheck.dispatch);
-    onTestStart.dispatch(handler);
-    handler.execute();
-    return handler;
-  }
-#else
   var pos : Int;
   public function run() {
     pos = 0;
@@ -227,5 +208,4 @@ class Runner {
     onProgress.dispatch({ result : TestResult.ofHandler(h), done : pos, totals : length });
     runNext();
   }
-#end
 }

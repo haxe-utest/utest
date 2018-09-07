@@ -1,4 +1,5 @@
 # v.X.X.X
+- Fixed waiting for completion of asynchronous tests on php, neko, python, java, lua
 - Check for phantomjs before nodejs on shutting down the tests ([#55](https://github.com/haxe-utest/utest/issues/55))
 
 # v.1.8.1
