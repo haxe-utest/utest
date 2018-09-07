@@ -1,3 +1,6 @@
+# v.X.X.X
+- Check for phantomjs before nodejs on shutting down the tests ([#55](https://github.com/haxe-utest/utest/issues/55))
+
 # v.1.8.1
 - Fixed "duplicated fixture" error caused by other utest bugs ([#52](https://github.com/haxe-utest/utest/issues/52))
 - Fixed HtmlReporter exception if a script tag is added to a head tag ([#54](https://github.com/haxe-utest/utest/issues/54))
