@@ -46,7 +46,7 @@ class PlainTextReport implements IReport<PlainTextReport> {
 
   function indents(c : Int) {
     var s = '';
-    for(_ in 0...c)
+    while(--c >= 0)
       s += indent;
     return s;
   }
