@@ -1,11 +1,13 @@
 package utest;
 
+import haxe.CallStack;
 import utest.Assertation;
 
 class TestHandler<T> {
   private static inline var POLLING_TIME = 10;
   public var results(default, null) : List<Assertation>;
   public var fixture(default, null) : TestFixture;
+  public var finished(default,null):Bool = false;
   var asyncStack : List<Dynamic>;
 
   public var onTested(default, null) : Dispatcher<TestHandler<T>>;
@@ -246,6 +248,7 @@ class TestHandler<T> {
   }
 
   function completedFinally() {
+    finished = true;
     unbindHandler();
     onComplete.dispatch(this);
   }

@@ -187,25 +187,30 @@ class Runner {
     runNext();
   }
 
-  function runNext() {
-    if(fixtures.length > pos)
-      runFixture(fixtures[pos++]);
-    else
-      onComplete.dispatch(this);
+  function runNext(?_) {
+    for(i in pos...fixtures.length) {
+      var handler = runFixture(fixtures[pos++]);
+      if(!handler.finished) {
+        handler.onComplete.add(runNext);
+        //wait till current test is finished
+        break;
+      }
+    }
+    onComplete.dispatch(this);
   }
 
-  function runFixture(fixture : TestFixture) {
+  function runFixture(fixture : TestFixture):TestHandler<TestFixture> {
     // cast is required by C#
     var handler = new TestHandler(cast fixture);
     handler.onComplete.add(testComplete);
     handler.onPrecheck.add(this.onPrecheck.dispatch);
     onTestStart.dispatch(handler);
     handler.execute();
+    return handler;
   }
 
   function testComplete(h : TestHandler<TestFixture>) {
     onTestComplete.dispatch(h);
     onProgress.dispatch({ result : TestResult.ofHandler(h), done : pos, totals : length });
-    runNext();
   }
 }

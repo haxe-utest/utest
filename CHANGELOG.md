@@ -1,3 +1,6 @@
+# v.1.8.3
+- Avoid recursion while running synchronous tests (could deplete stack on big test suites)
+
 # v.1.8.2
 - Fixed waiting for completion of asynchronous tests on php, neko, python, java, lua
 - Check for phantomjs before nodejs on shutting down the tests ([#55](https://github.com/haxe-utest/utest/issues/55))
