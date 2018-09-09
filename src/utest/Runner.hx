@@ -187,7 +187,7 @@ class Runner {
     runNext();
   }
 
-  function runNext(?_) {
+  function runNext(?handler:TestHandler<TestFixture>) {
     for(i in pos...fixtures.length) {
       var handler = runFixture(fixtures[pos++]);
       if(!handler.finished) {
