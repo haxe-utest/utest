@@ -1,6 +1,6 @@
 {
   "name": "utest",
-  "url": "https://github.com/haxe-utest/utest",
+  "url": "https://github.com/fponticelli/utest",
   "license": "MIT",
   "tags": ["cross","unittesting"],
   "description": "Unit Testing for Haxe",
