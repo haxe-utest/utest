@@ -3,6 +3,8 @@ package utest;
 import haxe.io.Bytes;
 import utest.Assertation;
 import haxe.PosInfos;
+import Map;
+import haxe.Constraints;
 
 /**
  * This class contains only static members used to perform assertations inside a test method.
@@ -298,10 +300,10 @@ class Assert {
         }
 
         // hash, inthash
-        if (Std.is(expected, #if (haxe_ver >= 3.200) haxe.Constraints.IMap #else Map.IMap #end)) {
+        if (Std.is(expected, IMap)) {
           if(status.recursive || status.path == '') {
-            var map = cast(expected, Map.IMap<Dynamic, Dynamic>);
-            var vmap = cast(value, Map.IMap<Dynamic, Dynamic>);
+            var map = cast(expected, IMap<Dynamic, Dynamic>);
+            var vmap = cast(value, IMap<Dynamic, Dynamic>);
             var keys:Array<Dynamic> = [for (k in map.keys()) k];
             var vkeys:Array<Dynamic> = [for (k in vmap.keys()) k];
 

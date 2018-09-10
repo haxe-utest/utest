@@ -193,7 +193,7 @@ class Runner {
       if(!handler.finished) {
         handler.onComplete.add(runNext);
         //wait till current test is finished
-        break;
+        return;
       }
     }
     onComplete.dispatch(this);
