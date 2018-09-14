@@ -69,6 +69,20 @@ class ResultAggregator {
   }
 
   function complete(runner : Runner) {
+    if(root.isEmpty) {
+      root.addResult(createNoTestsResult(), false);
+    }
     onComplete.dispatch(root);
+  }
+
+  function createNoTestsResult():TestResult {
+    var result = new TestResult();
+    result.pack = '';
+    result.cls = '';
+    result.method = '';
+    result.assertations = new List();
+    var pos = {fileName:'', lineNumber:1, className:'utest.Runner', methodName:'run'};
+    result.assertations.add(Failure('No tests executed.', pos));
+    return result;
   }
 }

@@ -5,6 +5,7 @@ import utest.Assertation;
 
 class PackageResult {
   public var packageName(default, null) : String;
+  public var isEmpty(default,null):Bool = true;
   var classes : Map<String, ClassResult>;
   var packages : Map<String, PackageResult>;
 
@@ -18,6 +19,7 @@ class PackageResult {
   }
 
   public function addResult(result : TestResult, flattenPackage : Bool) {
+    isEmpty = false;
     var pack = getOrCreatePackage(result.pack, flattenPackage, this);
     var cls = getOrCreateClass(pack, result.cls, result.setup, result.teardown);
     var fix = createFixture(result.method, result.assertations);
@@ -25,11 +27,13 @@ class PackageResult {
   }
 
   public function addClass(result : ClassResult) {
+    isEmpty = false;
     classes.set(result.className, result);
     stats.wire(result.stats);
   }
 
   public function addPackage(result : PackageResult) {
+    isEmpty = false;
     packages.set(result.packageName, result);
     stats.wire(result.stats);
   }

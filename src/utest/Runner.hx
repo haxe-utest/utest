@@ -77,6 +77,24 @@ class Runner {
     onTestStart = new Dispatcher();
     onTestComplete = new Dispatcher();
     length = 0;
+
+    var envPattern = getEnvSetting('UTEST_PATTERN');
+    if(envPattern != null) {
+      globalPattern = new EReg(envPattern, '');
+    }
+  }
+
+  /**
+   * Get the value for a setting provided by haxe define flag (-D name=value) or by an environment variable at compile time.
+   * If both -D and env var are provided, then the value provided by -D is used.
+   * @param name - the name of a defined value or of an environment variable.
+   */
+  macro static function getEnvSetting(name:String):ExprOf<Null<String>> {
+    var value = Context.definedValue(name);
+    if(value == null) {
+      value = Sys.getEnv(name);
+  }
+    return macro $v{value};
   }
 
   /**

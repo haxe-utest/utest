@@ -1,3 +1,7 @@
+# v.X.X.X
+- Use the compile-time environment variable or the compiler define "UTEST_PATTERN" to skip tests, which don't match its value.
+- Add a failure to the result if no tests were executed.
+
 # v.1.8.3
 - Avoid recursion while running synchronous tests (could deplete stack on big test suites)
 
