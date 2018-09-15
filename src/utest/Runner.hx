@@ -125,7 +125,7 @@ class Runner {
     }
     var tests:Array<TestData> = (testCase:Dynamic).__initializeUtest__();
     for(test in tests) {
-      if(!isTestFixtureName(test.name, 'test', pattern, globalPattern)) {
+      if(!isTestFixtureName(test.name, ['test', 'spec'], pattern, globalPattern)) {
         continue;
       }
       addFixture(TestFixture.ofData(testCase, test));
@@ -145,7 +145,7 @@ class Runner {
     var fields = Type.getInstanceFields(Type.getClass(test));
       for (field in fields) {
         if(!isMethod(test, field)) continue;
-        if(!isTestFixtureName(field, prefix, pattern, globalPattern)) continue;
+        if(!isTestFixtureName(field, [prefix], pattern, globalPattern)) continue;
         addFixture(new TestFixture(test, field, setup, teardown, setupAsync, teardownAsync));
       }
   }
@@ -197,9 +197,14 @@ class Runner {
     return macro @:pos(pos) $b{exprs};
   }
 
-  private function isTestFixtureName(name:String, prefix:String, ?pattern:EReg, ?globalPattern:EReg):Bool {
+  private function isTestFixtureName(name:String, prefixes:Array<String>, ?pattern:EReg, ?globalPattern:EReg):Bool {
     if (pattern == null && globalPattern == null) {
-      return StringTools.startsWith(name, prefix);
+      for(prefix in prefixes) {
+        if(StringTools.startsWith(name, prefix)) {
+          return true;
+        }
+      }
+      return false;
     }
     if (pattern == null) pattern = globalPattern;
     return pattern.match(name);

@@ -67,6 +67,19 @@ class TestITest extends Test {
 		);
 	}
 
+	public function specTest() {
+		Std.random(1) == 0;
+		Std.random(1) != 1;
+		Std.random(1) + 1 > 0;
+		Std.random(1) + 1 >= 1;
+		Std.random(1) + 1 <= 1;
+		Std.random(1) + 1 < 2;
+		!(Std.random(1) == 1);
+		if(Std.random(1) == 0) {
+			Std.random(1) == 0;
+		}
+	}
+
 	public function testNormal() {
 		if(setupRunning) {
 			throw 'TestITest: test run before setup() finished.';
@@ -110,23 +123,24 @@ class TestITest extends Test {
 		if(setupClassCallCount != 1) {
 			throw 'TestITest: setupClassCallCount should be called one time. Actual: $setupClassCallCount.';
 		}
-		if(setupCallCount != 2) {
-			throw 'TestITest: setupClassCallCount should be called once per test. Expected: 2, actual: $setupCallCount.';
+		var testCount = __initializeUtest__().length;
+		if(setupCallCount != testCount) {
+			throw 'TestITest: setupCallCount should be called once per test. Expected: $testCount, actual: $setupCallCount.';
 		}
-		if(teardownCallCount != 2) {
-			throw 'TestITest: teardownClassCallCount should be called once per test. Expected: 2, actual: $teardownCallCount.';
+		if(teardownCallCount != testCount) {
+			throw 'TestITest: teardownClassCallCount should be called once per test. Expected: $testCount, actual: $teardownCallCount.';
 		}
 		if(teardownClassCallCount != 1) {
 			throw 'TestITest: teardownClassCallCount should be called one time. Actual: $teardownClassCallCount.';
 		}
 
-		var async = new Async(5000);
+		var async = new Async(2000);
 		Timer.delay(
 			function() {
 				teardownClassRunning = false;
 				async.done();
 			},
-			4500);
+			1750);
 		return async;
 	}
 }
