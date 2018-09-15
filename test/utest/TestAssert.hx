@@ -315,10 +315,12 @@ class TestAssert {
     expect(0, 0, 1);
   }
 
+  #if (haxe_ver >= "3.4.0")
   public function testCreateAsync() {
     var assert = Assert.createAsync(function() Assert.pass(), 100);
     haxe.Timer.delay(assert, 50);
   }
+  #end
 
   public function expect(esuccesses : Int, efailures : Int, eothers = 0) {
     var successes = 0;
