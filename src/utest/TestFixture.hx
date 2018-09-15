@@ -13,9 +13,10 @@ class TestFixture {
   public var ignoringInfo(default, null)       : IgnoredFixture;
 
   @:allow(utest)
-  var test:Null<TestData>;
-  @:allow(utest)
   var isITest:Bool = false;
+  #if (haxe_ver >= "3.4.0")
+  @:allow(utest)
+  var test:Null<TestData>;
 
   static public function ofData(target:ITest, test:TestData):TestFixture {
     var fixture = new TestFixture(target, test.name);
@@ -23,6 +24,7 @@ class TestFixture {
     fixture.test = test;
     return fixture;
   }
+  #end
 
   public function new(target : {}, method : String, ?setup : String, ?teardown : String, ?setupAsync : String, ?teardownAsync : String) {
     this.target        = target;

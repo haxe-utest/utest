@@ -223,6 +223,7 @@ class Runner {
   public function addFixture(fixture : TestFixture) {
     fixtures.push(fixture);
     length++;
+    #if (haxe_ver >= "3.4.0")
     if(fixture.isITest) {
       var testCase:ITest = cast fixture.target;
       var fixtures = iTestFixtures.get(testCase);
@@ -232,6 +233,7 @@ class Runner {
       }
       fixtures.push(fixture);
     }
+    #end
   }
 
   public function getFixture(index : Int) {
@@ -248,8 +250,12 @@ class Runner {
 
   public function run() {
     onStart.dispatch(this);
+    #if (haxe_ver >= "3.4.0")
     var iTestRunner = new ITestRunner(this);
     iTestRunner.run();
+    #else
+    runNext();
+    #end
   }
 
   var pos:Int = 0;
