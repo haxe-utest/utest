@@ -315,6 +315,11 @@ class TestAssert {
     expect(0, 0, 1);
   }
 
+  public function testCreateAsync() {
+    var assert = Assert.createAsync(function() Assert.pass(), 100);
+    haxe.Timer.delay(assert, 50);
+  }
+
   public function expect(esuccesses : Int, efailures : Int, eothers = 0) {
     var successes = 0;
     var failures  = 0;

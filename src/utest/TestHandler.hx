@@ -107,8 +107,8 @@ class TestHandler<T> {
 
   public var expiration(default, null) : Null<Float>;
   public function setTimeout(timeout : Int) {
-    var newexpire = haxe.Timer.stamp() + timeout/1000;
-    expiration = (expiration == null) ? newexpire : (newexpire > expiration ? newexpire : expiration);
+    var newExpire = haxe.Timer.stamp() + timeout/1000;
+    expiration = (expiration == null) ? newExpire : (newExpire > expiration ? newExpire : expiration);
   }
 
   function bindHandler() {

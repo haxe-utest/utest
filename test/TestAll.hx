@@ -1,10 +1,12 @@
-﻿import utest.Runner;
+﻿import utest.TestITest;
+import utest.Runner;
 import utest.ui.Report;
 import utest.TestResult;
 
 class TestAll {
+  static var testITest:TestITest = new TestITest();
+
   public static function addTests(runner : Runner) {
-    //runner.globalPattern = ~/testBooleans/;
     runner.addCase(new utest.TestAssert());
     runner.addCase(new utest.TestDispatcher());
     #if (haxe_ver >= "3.4.0")
@@ -12,6 +14,7 @@ class TestAll {
     #end
     runner.addCase(new utest.TestIgnored());
     runner.addCase(new utest.TestRunner());
+    runner.addCase(testITest);
   }
 
   public static function main() {
@@ -24,6 +27,11 @@ class TestAll {
     // get test result to determine exit status
     var r:TestResult = null;
     runner.onProgress.add(function(o){ if (o.done == o.totals) r = o.result;});
+    runner.onComplete.add(function(runner) {
+      if(testITest.teardownClassRunning) {
+        throw 'TestITest: missed teardownClass() async completion.';
+      }
+    });
     runner.run();
   }
 
