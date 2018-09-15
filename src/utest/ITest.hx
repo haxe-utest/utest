@@ -1,5 +1,9 @@
 package utest;
 
+#if (haxe_ver < "3.4.0")
+	#error 'Haxe 3.4.0 or later is required for utest.ITest'
+#end
+
 /**
  * If a method of this interface has `Null<utest.Async>` return type and it returns `null` it is treated as synchronous.
  * If it returns an instance of `utest.Async` it is treated as asynchronous and the next action will be performed

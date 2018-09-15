@@ -1,7 +1,9 @@
-﻿import utest.TestITest;
-import utest.Runner;
+﻿import utest.Runner;
 import utest.ui.Report;
 import utest.TestResult;
+#if (haxe_ver >= "3.4.0")
+import utest.TestITest;
+#end
 
 class TestAll {
   #if (haxe_ver >= "3.4.0")

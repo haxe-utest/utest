@@ -12,7 +12,9 @@ using StringTools;
 using haxe.macro.Tools;
 #end
 
+#if (haxe_ver >= "3.4.0")
 using utest.utils.AsyncUtils;
+#end
 
 /**
  * The Runner class performs a set of tests. The tests can be added using addCase or addFixtures.
@@ -23,8 +25,10 @@ using utest.utils.AsyncUtils;
  * @todo AVOID CHAINING METHODS (long chains do not work properly on IE)
  */
 class Runner {
-  var iTestFixtures:Map<ITest,Array<TestFixture>> = new Map();
   var fixtures(default, null) : Array<TestFixture> = [];
+  #if (haxe_ver >= "3.4.0")
+  var iTestFixtures:Map<ITest,Array<TestFixture>> = new Map();
+  #end
 
   /**
    * Event object that monitors the progress of the runner.
@@ -112,13 +116,18 @@ class Runner {
    * @param  teardownAsync: string name of the asynchronous teardown function (defaults to "teardownAsync")
    */
   public function addCase(test : Dynamic, setup = "setup", teardown = "teardown", prefix = "test", ?pattern : EReg, setupAsync = "setupAsync", teardownAsync = "teardownAsync") {
+    #if (haxe_ver >= "3.4.0")
     if(Std.is(test, ITest)) {
       addITest(test, pattern);
     } else {
       addCaseOld(test, setup, teardown, prefix, pattern, setupAsync, teardownAsync);
     }
+    #else
+    addCaseOld(test, setup, teardown, prefix, pattern, setupAsync, teardownAsync);
+    #end
   }
 
+  #if (haxe_ver >= "3.4.0")
   function addITest(testCase:ITest, pattern:Null<EReg>) {
     if(iTestFixtures.exists(testCase)) {
       throw 'Cannot add the same test twice.';
@@ -131,6 +140,7 @@ class Runner {
       addFixture(TestFixture.ofData(testCase, test));
     }
   }
+  #end
 
   function addCaseOld(test:Dynamic, setup = "setup", teardown = "teardown", prefix = "test", ?pattern : EReg, setupAsync = "setupAsync", teardownAsync = "teardownAsync") {
     if(!Reflect.isObject(test)) throw "can't add a null object as a test case";
@@ -260,7 +270,11 @@ class Runner {
 
   function runFixture(fixture : TestFixture):TestHandler<TestFixture> {
     // cast is required by C#
+    #if (haxe_ver >= "3.4.0")
     var handler = (fixture.isITest ? new ITestHandler(fixture) : new TestHandler(fixture));
+    #else
+    var handler = new TestHandler(cast fixture);
+    #end
     handler.onComplete.add(testComplete);
     handler.onPrecheck.add(this.onPrecheck.dispatch);
     onTestStart.dispatch(handler);
@@ -275,7 +289,7 @@ class Runner {
   }
 }
 
-
+#if (haxe_ver >= "3.4.0")
 @:access(utest.Runner.iTestFixtures)
 @:access(utest.Runner.runNext)
 @:access(utest.Runner.runFixture)
@@ -377,3 +391,4 @@ private class ITestRunner {
     });
   }
 }
+#end
