@@ -1,5 +1,7 @@
-# v.1.8.3
+# v.1.8.4
 - Fixed exit code value for `--interp` target.
+
+# v.1.8.3
 - Avoid recursion while running synchronous tests (could deplete stack on big test suites)
 
 # v.1.8.2
