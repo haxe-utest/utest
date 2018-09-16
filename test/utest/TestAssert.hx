@@ -317,7 +317,7 @@ class TestAssert {
 
   #if (haxe_ver >= "3.4.0")
   public function testCreateAsync() {
-    var assert = Assert.createAsync(function() Assert.pass(), 100);
+    var assert = Assert.createAsync(function() Assert.pass(), 1000);
     haxe.Timer.delay(assert, 50);
   }
   #end
