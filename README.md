@@ -7,7 +7,7 @@
 
 utest is an easy to use unit testing library for Haxe. It works on all the supported platforms including nodejs.
 
-## install
+## Installation
 
 Install is as easy as:
 
@@ -15,7 +15,7 @@ Install is as easy as:
 haxelib install utest
 ```
 
-## usage
+## Usage
 
 In your main method define the minimal instances needed to run your tests.
 
@@ -25,53 +25,92 @@ import utest.ui.Report;
 
 class TestAll {
   public static function main() {
+    //the long way
     var runner = new Runner();
-    runner.addCase(new TestCase());
+    runner.addCase(new TestCase1());
+    runner.addCase(new TestCase2());
     Report.create(runner);
     runner.run();
+
+    //the short way in case you don't need to handle any specifics
+    utest.UTest.run([new TestCase1(), new TestCase2()]);
   }
 }
 ```
 
-`TestCase` doesn't need to implement anything special but needs to follow some conventions:
+`TestCase` must extend `utest.Test` or implement `utest.ITest`.
+```haxe
+interface ITest {
+	/** This method is executed once before running the first test in the current class */
+	function setupClass():Null<Async>;
+	/** This method is executed before each test. */
+	function setup():Null<Async>;
+	/** This method is executed after each test. */
+	function teardown():Null<Async>;
+	/** This method is executed once after the last test in the current class is finished. */
+	function teardownClass():Null<Async>;
+}
+```
+If a method of `utest.ITest` has return type `Null<utest.Async>` and it returns `null`, it is treated as a synchronous method. If it returns an instance of `utest.Async` it is treated as an asynchronous method and the next action will be performed only after the method `done()` of that `Async` instance is executed.
 
-  * every test case method must be `public` and prefixed with `test`.
-  * if the class provides public methods named `setup` and/or `teardown` they will be
-    executed before and/or after each test case method.
-  * `runner.addCases(my.pack)` can be used to add all test cases from `my.pack` package. Any module found in `my.pack` is treated as a test case. That means each module should contain a class with a constructor and with the same name as a module name.
+`TestCase` needs to follow some conventions:
+
+  * Every test case method name must be prefixed with `test` or `spec`;
+  * If a method is prefixed with `spec` it is treated as the specification test. Every boolean binary operation will be wrapped in `Assert.isTrue()`
+
+To add all test cases from `my.pack` package use `runner.addCases(my.pack)`. Any module found in `my.pack` is treated as a test case. That means each module should contain a class implementing `utest.ITest` and that class should have the same name as the module name.
 
 ```haxe
 import utest.Assert;
+import utest.Async;
 
-class TestCase {
+class TestCase extends utest.Test {
   var field : String;
-  public function new() {};
 
-  public function setup() {
+  override public function setup() {
     field = "some";
+    return null; //setup is synchronous
   }
 
-  public function testFieldIsSome() {
+  function testFieldIsSome() {
     Assert.equals("some", field);
   }
 
-  public function teardown() {
+  function specField() {
+    field.charAt(0) == 's';
+    field.length > 3;
+  }
+
+  public function teardown():Async {
     field = null; // not really needed
+
+    //simulate asynchronous teardown
+    var async = new Async(500); //timeout: 500ms (default - 250)
+    haxe.Timer.delay(
+      function() {
+        //resolve asynchronous action
+        async.done();
+      },
+      100
+    );
+    return async;
   }
 }
 ```
 
 ## Async tests
 
-Creating an asynchronous test is easy:
+If a test case accepts an argument, that test case is treated as an asynchronous test.
 
 ```haxe
-public function testAsync() {
-  var done = Assert.createAsync(); // optionally pass a time in ms to define a max timeout
+function testSomething(async:utest.Async) {
+  //change timeout (default: 250ms)
+  async.setTimeout(500);
+
   // do your async goodness and remember to call `done()` at the end.
   haxe.Timer.delay(function() {
     Assert.isTrue(true); // put a sensible test here
-    done();
+    async.done();
   }, 50);
 }
 ```
@@ -299,43 +338,18 @@ Creates a warning message.
 
 `pos` Code position where the Assert call has been executed. Don't fill it
 
-#### `createAsync(?f : Void -> Void, ?timeout : Int)`
-Creates an asynchronous context for test execution. Assertions should be included
-in the passed function.
-```haxe
-public function assertAsync() {
-  var async = Assert.createAsync(function() Assert.isTrue(true));
-  haxe.Timer.delay(async, 50);
-}
-```
-
-`f` A function that contains other Assert tests
-
-`timeout` Optional timeout value in milliseconds.
-
-#### `createEvent<EventArg>(f : EventArg -> Void, ?timeout : Int)`
-Creates an asynchronous context for test execution of an event like method.
-Assertions should be included in the passed function.
-It works the same way as Assert.assertAsync() but accepts a function with one
-argument (usually some event data) instead of a function with no arguments
-
-`f` A function that contains other Assert tests
-
-`timeout` Optional timeout value in milliseconds.
-
 ## Ignoring tests
 
 You can easily ignore one of tests within specifying `@Ignored` meta.
 
 ```haxe
-class TestCase {
-  public function new() {}
+class TestCase extends utes.Test {
 
   @Ignored("Ignore this test")
-  public function testIgnoredWithReason() {}
+  function testIgnoredWithReason() {}
 
   @Ignored
-  public function testIgnoredWithoutReason():Void {}
+  function testIgnoredWithoutReason():Void {}
 }
 
 ```

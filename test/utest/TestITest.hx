@@ -46,7 +46,7 @@ class TestITest extends Test {
 		return async;
 	}
 
-	public function testAsync(async:Async) {
+	function testAsync(async:Async) {
 		var tm = Timer.stamp();
 		if(setupRunning) {
 			throw 'TestITest: test run before setup() finished.';
@@ -67,7 +67,7 @@ class TestITest extends Test {
 		);
 	}
 
-	public function specTest() {
+	function specTest() {
 		Std.random(1) == 0;
 		Std.random(1) != 1;
 		Std.random(1) + 1 > 0;
@@ -80,7 +80,7 @@ class TestITest extends Test {
 		}
 	}
 
-	public function testNormal() {
+	function testNormal() {
 		if(setupRunning) {
 			throw 'TestITest: test run before setup() finished.';
 		}
