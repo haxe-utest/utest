@@ -1,4 +1,5 @@
 # v.X.X.X
+- Fixed exit code value for `--interp` target
 - Use the compile-time environment variable or the compiler define "UTEST_PATTERN" to skip tests, which don't match its value.
 - Add a failure to the result if no tests were executed.
 
