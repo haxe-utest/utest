@@ -39,24 +39,35 @@ class TestAll {
 ```
 
 `TestCase` must extend `utest.Test` or implement `utest.ITest`.
-```haxe
-interface ITest {
-	/** This method is executed once before running the first test in the current class */
-	function setupClass():Null<Async>;
-	/** This method is executed before each test. */
-	function setup():Null<Async>;
-	/** This method is executed after each test. */
-	function teardown():Null<Async>;
-	/** This method is executed once after the last test in the current class is finished. */
-	function teardownClass():Null<Async>;
-}
-```
-If a method of `utest.ITest` has return type `Null<utest.Async>` and it returns `null`, it is treated as a synchronous method. If it returns an instance of `utest.Async` it is treated as an asynchronous method and the next action will be performed only after the method `done()` of that `Async` instance is executed.
 
 `TestCase` needs to follow some conventions:
 
   * Every test case method name must be prefixed with `test` or `spec`;
   * If a method is prefixed with `spec` it is treated as the specification test. Every boolean binary operation will be wrapped in `Assert.isTrue()`
+
+To following method could be implemented to setup or teardown:
+```haxe
+/**
+ * This method is executed once before running the first test in the current class.
+ * If return type is `Void` it is treated as synchronous method.
+ */
+function setupClass():utest.Async;
+/**
+ * This method is executed before each test.
+ * If return type is `Void` it is treated as synchronous method.
+ */
+function setup():utest.Async;
+/**
+ * This method is executed after each test.
+ * If return type is `Void` it is treated as synchronous method.
+ */
+function teardown():utest.Async;
+/**
+ * This method is executed once after the last test in the current class is finished.
+ * If return type is `Void` it is treated as synchronous method.
+ */
+function teardownClass():utest.Async;
+```
 
 To add all test cases from `my.pack` package use `runner.addCases(my.pack)`. Any module found in `my.pack` is treated as a test case. That means each module should contain a class implementing `utest.ITest` and that class should have the same name as the module name.
 
@@ -67,9 +78,9 @@ import utest.Async;
 class TestCase extends utest.Test {
   var field : String;
 
-  override public function setup() {
+  //synchronous setup
+  public function setup() {
     field = "some";
-    return null; //setup is synchronous
   }
 
   function testFieldIsSome() {
@@ -81,6 +92,7 @@ class TestCase extends utest.Test {
     field.length > 3;
   }
 
+  //asynchronous teardown
   public function teardown():Async {
     field = null; // not really needed
 

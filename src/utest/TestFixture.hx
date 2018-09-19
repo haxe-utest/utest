@@ -17,11 +17,17 @@ class TestFixture {
   #if (haxe_ver >= "3.4.0")
   @:allow(utest)
   var test:Null<TestData>;
+  @:allow(utest)
+  var setupMethod:Void->Async;
+  @:allow(utest)
+  var teardownMethod:Void->Async;
 
-  static public function ofData(target:ITest, test:TestData):TestFixture {
+  static public function ofData(target:ITest, test:TestData, accessories:TestData.Accessories):TestFixture {
     var fixture = new TestFixture(target, test.name);
     fixture.isITest = true;
     fixture.test = test;
+    fixture.setupMethod = utest.utils.AccessoriesUtils.getSetup(accessories);
+    fixture.teardownMethod = utest.utils.AccessoriesUtils.getTeardown(accessories);
     return fixture;
   }
   #end

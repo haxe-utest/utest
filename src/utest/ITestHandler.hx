@@ -33,9 +33,8 @@ class ITestHandler<T> extends TestHandler<T> {
 	}
 
 	function runSetup() {
-		setupAsync = Async.getResolved();
 		try {
-			setupAsync = testCase.setup().orResolved();
+			setupAsync = fixture.setupMethod();
 		} catch(e:Dynamic) {
 			results.add(SetupError(e, CallStack.exceptionStack()));
 			completedFinally();
@@ -88,9 +87,8 @@ class ITestHandler<T> extends TestHandler<T> {
 	}
 
 	function runTeardown() {
-		teardownAsync = Async.getResolved();
 		try {
-			teardownAsync = testCase.teardown().orResolved();
+			teardownAsync = fixture.teardownMethod();
 		} catch(e:Dynamic) {
 			results.add(TeardownError(e, CallStack.exceptionStack()));
 			completedFinally();
@@ -102,7 +100,7 @@ class ITestHandler<T> extends TestHandler<T> {
 
 	function checkTeardown() {
 		if(teardownAsync.timedOut) {
-			results.add(SetupError('Teardown timeout', []));
+			results.add(TeardownError('Teardown timeout', []));
 		}
 		completedFinally();
 	}

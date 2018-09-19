@@ -27,7 +27,7 @@ using utest.utils.AsyncUtils;
 class Runner {
   var fixtures(default, null) : Array<TestFixture> = [];
   #if (haxe_ver >= "3.4.0")
-  var iTestFixtures:Map<ITest,Array<TestFixture>> = new Map();
+  var iTestFixtures:Map<ITest,{setupClass:Void->Async, fixtures:Array<TestFixture>, teardownClass:Void->Async}> = new Map();
   #end
 
   /**
@@ -132,13 +132,21 @@ class Runner {
     if(iTestFixtures.exists(testCase)) {
       throw 'Cannot add the same test twice.';
     }
-    var tests:Array<TestData> = (testCase:Dynamic).__initializeUtest__();
-    for(test in tests) {
+    var fixtures = [];
+    var init:TestData.InitializeUtest = (testCase:Dynamic).__initializeUtest__();
+    for(test in init.tests) {
       if(!isTestFixtureName(test.name, ['test', 'spec'], pattern, globalPattern)) {
         continue;
       }
-      addFixture(TestFixture.ofData(testCase, test));
+      var fixture = TestFixture.ofData(testCase, test, init.accessories);
+      addFixture(fixture);
+      fixtures.push(fixture);
     }
+    iTestFixtures.set(testCase, {
+      setupClass:utest.utils.AccessoriesUtils.getSetupClass(init.accessories),
+      fixtures:fixtures,
+      teardownClass:utest.utils.AccessoriesUtils.getTeardownClass(init.accessories)
+    });
   }
   #end
 
@@ -223,17 +231,6 @@ class Runner {
   public function addFixture(fixture : TestFixture) {
     fixtures.push(fixture);
     length++;
-    #if (haxe_ver >= "3.4.0")
-    if(fixture.isITest) {
-      var testCase:ITest = cast fixture.target;
-      var fixtures = iTestFixtures.get(testCase);
-      if(fixtures == null) {
-        fixtures = [];
-        iTestFixtures.set(testCase, fixtures);
-      }
-      fixtures.push(fixture);
-    }
-    #end
   }
 
   public function getFixture(index : Int) {
@@ -305,6 +302,7 @@ private class ITestRunner {
   var cases:Iterator<ITest>;
   var currentCase:ITest;
   var currentCaseFixtures:Array<TestFixture>;
+  var teardownClass:Void->Async;
   var setupAsync:Async;
   var teardownAsync:Async;
 
@@ -320,9 +318,11 @@ private class ITestRunner {
   function runCases() {
     while(cases.hasNext()) {
       currentCase = cases.next();
-      currentCaseFixtures = runner.iTestFixtures.get(currentCase);
+      var data = runner.iTestFixtures.get(currentCase);
+      currentCaseFixtures = data.fixtures;
+      teardownClass = data.teardownClass;
       try {
-        setupAsync = currentCase.setupClass().orResolved();
+        setupAsync = data.setupClass();
       } catch(e:Dynamic) {
         setupFailed(SetupError('setupClass failed: $e', CallStack.exceptionStack()));
         return;
@@ -368,11 +368,10 @@ private class ITestRunner {
       }
     }
     //no fixtures left in the current case
-    teardownAsync = Async.getResolved();
     try {
-      teardownAsync = currentCase.teardownClass().orResolved();
+      teardownAsync = teardownClass();
     } catch(e:Dynamic) {
-      teardownFailed(TeardownError('tearDown failed: $e', CallStack.exceptionStack()));
+      teardownFailed(TeardownError('tearDownClass failed: $e', CallStack.exceptionStack()));
     }
     //case was executed synchronously from `runCases()`
     if(teardownAsync.resolved && finishedHandler == null) {
