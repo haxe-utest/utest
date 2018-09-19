@@ -38,6 +38,8 @@ class TestBuilder {
 						processTest(field, fn, initExprs);
 					} else if(isAccessoryMethod(field.name)) {
 						processAccessory(field, fn, initExprs);
+					} else {
+						checkPossibleTypo(field);
 					}
 				case _:
 			}
@@ -194,6 +196,22 @@ class TestBuilder {
 				}
 			case _:
 				false;
+		}
+	}
+
+	static var names = [
+		AccessoryName.SETUP_CLASS_NAME,
+		AccessoryName.SETUP_NAME,
+		AccessoryName.TEARDOWN_CLASS_NAME,
+		AccessoryName.TEARDOWN_NAME
+	];
+	static function checkPossibleTypo(field:Field) {
+		var pos = Context.currentPos();
+		var lowercasedName = field.name.toLowerCase();
+		for(name in names) {
+			if(lowercasedName == name.toLowerCase()) {
+				Context.warning('Did you mean "$name"?', pos);
+			}
 		}
 	}
 }
