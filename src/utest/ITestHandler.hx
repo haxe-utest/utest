@@ -54,9 +54,8 @@ class ITestHandler<T> extends TestHandler<T> {
 	}
 
 	function runTest() {
-		testAsync = test.async.orResolved();
 		try {
-			test.execute();
+			testAsync = test.execute();
 		} catch(e:Dynamic) {
 			results.add(Error(e, CallStack.exceptionStack()));
 			runTeardown();

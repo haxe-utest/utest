@@ -78,21 +78,23 @@ class TestBuilder {
 		switch(fn.args.length) {
 			//synchronous test
 			case 0:
-				initExprs.push(macro @:pos(field.pos) init.tests.push({name:$v{test}, execute:this.$test}));
+				initExprs.push(macro @:pos(field.pos) init.tests.push({
+					name:$v{test},
+					execute:function() {
+						this.$test();
+						return @:privateAccess utest.Async.getResolved();
+					}
+				}));
 			//asynchronous test
 			case 1:
-				initExprs.push(macro @:pos(field.pos) {
-					var async = new utest.Async();
-					@:privateAccess async.timer.stop();
-					init.tests.push({
-						name:$v{test},
-						async:async,
-						execute:function() {
-							@:privateAccess async.start(250);
-							this.$test(async);
-						}
-					});
-				});
+				initExprs.push(macro @:pos(field.pos) init.tests.push({
+					name:$v{test},
+					execute:function() {
+						var async = @:privateAccess new utest.Async();
+						this.$test(async);
+						return async;
+					}
+				}));
 			//wtf test
 			case _:
 				Context.error('Wrong arguments count. The only supported argument is utest.Async for asynchronous tests.', field.pos);
@@ -108,33 +110,23 @@ class TestBuilder {
 	 */
 	static function processAccessory(field:Field, fn:Function, initExprs:Array<Expr>) {
 		var name = field.name;
-		var isAsync = switch(fn.ret) {
-			case null: isAsyncFunctionBody(fn.expr);
-			case macro:Void: false;
-			case _: isAsyncFunctionBody(fn.expr);
-		}
-		var cfgFieldName = isAsync ? 'asyncMethod' : 'method';
-		initExprs.push(macro @:pos(field.pos) init.accessories.$name = {$cfgFieldName:$i{name}});
-	}
-
-	static function isAsyncFunctionBody(expr:Expr):Bool {
-		var isAsync = Unknown;
-		function traverse(expr:Expr) {
-			if(isAsync != Unknown) return;
-			switch(expr.expr) {
-				case EReturn(null):
-					isAsync = No;
-				case EReturn(_):
-					isAsync = Yes;
-				case EFunction(_, _):
-				case _:
-					ExprTools.iter(expr, traverse);
-			}
-		}
-		traverse(expr);
-		return switch(isAsync) {
-			case No | Unknown: false;
-			case Yes: true;
+		switch(fn.args.length) {
+			//synchronous method
+			case 0:
+				initExprs.push(macro @:pos(field.pos) init.accessories.$name = function() {
+					this.$name();
+					return @:privateAccess utest.Async.getResolved();
+				});
+			//asynchronous method
+			case 1:
+				initExprs.push(macro @:pos(field.pos) init.accessories.$name = function() {
+					var async = @:privateAccess new utest.Async();
+					this.$name(async);
+					return async;
+				});
+			//wtf test
+			case _:
+				Context.error('Wrong arguments count. The only supported argument is utest.Async for asynchronous methods.', field.pos);
 		}
 	}
 

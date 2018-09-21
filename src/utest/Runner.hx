@@ -14,6 +14,7 @@ using haxe.macro.Tools;
 
 #if (haxe_ver >= "3.4.0")
 using utest.utils.AsyncUtils;
+using utest.utils.AccessoriesUtils;
 #end
 
 /**
@@ -143,9 +144,9 @@ class Runner {
       fixtures.push(fixture);
     }
     iTestFixtures.set(testCase, {
-      setupClass:utest.utils.AccessoriesUtils.getSetupClass(init.accessories),
+      setupClass:init.accessories.getSetupClass(),
       fixtures:fixtures,
-      teardownClass:utest.utils.AccessoriesUtils.getTeardownClass(init.accessories)
+      teardownClass:init.accessories.getTeardownClass()
     });
   }
   #end

@@ -12,20 +12,19 @@ class TestAsyncITest extends Test {
 	var teardownRunning:Bool = false;
 	public var teardownClassRunning(default,null):Bool = false;
 
-	function setupClass():Async {
+	function setupClass(async:Async) {
 		setupClassRunning = true;
 		setupClassCallCount++;
-		var async = new Async();
 		Timer.delay(
 			function() {
 				setupClassRunning = false;
 				async.done();
 			},
-			50);
-		return async;
+			50
+		);
 	}
 
-	function setup():Async {
+	function setup(async:Async) {
 		setupRunning = true;
 
 		if(setupClassRunning) {
@@ -36,14 +35,13 @@ class TestAsyncITest extends Test {
 		}
 
 		setupCallCount++;
-		var async = new Async();
 		Timer.delay(
 			function() {
 				setupRunning = false;
 				async.done();
 			},
-			50);
-		return async;
+			50
+		);
 	}
 
 	function testAsync(async:Async) {
@@ -79,7 +77,7 @@ class TestAsyncITest extends Test {
 		Assert.isTrue(setupCallCount > 0);
 	}
 
-	function teardown():Async {
+	function teardown(async:Async) {
 		teardownRunning = true;
 
 		if(setupRunning) {
@@ -88,17 +86,16 @@ class TestAsyncITest extends Test {
 
 		teardownCallCount++;
 		teardownRunning = false;
-		var async = new Async();
 		Timer.delay(
 			function() {
 				teardownRunning = false;
 				async.done();
 			},
-			50);
-		return async;
+			50
+		);
 	}
 
-	function teardownClass():Async {
+	function teardownClass(async:Async) {
 		teardownClassRunning = true;
 
 		if(teardownRunning) {
@@ -121,13 +118,13 @@ class TestAsyncITest extends Test {
 			throw 'TestAsyncITest: teardownClassCallCount should be called one time. Actual: $teardownClassCallCount.';
 		}
 
-		var async = new Async(2000);
+		async.setTimeout(2500);
 		Timer.delay(
 			function() {
 				teardownClassRunning = false;
 				async.done();
 			},
-			1750);
-		return async;
+			1750
+		);
 	}
 }

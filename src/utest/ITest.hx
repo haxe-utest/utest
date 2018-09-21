@@ -12,25 +12,29 @@ package utest;
 interface ITest {
 	// /**
 	//  * This method is executed once before running the first test in the current class.
-	//  * If return type is `Void` it is treated as synchronous method.
+	//  * If it accepts an argument, it is treated as an asynchronous method.
 	//  */
-	// function setupClass():Async;
+	// function setupClass():Void;
+	// function setupClass(async:Async):Void;
 
 	// /**
 	//  * This method is executed before each test.
-	//  * If return type is `Void` it is treated as synchronous method.
+	//  * If it accepts an argument, it is treated as an asynchronous method.
 	//  */
-	// function setup():Async;
+	// function setup():Void;
+	// function setup(async:Async):Void;
 
 	// /**
 	//  * This method is executed after each test.
-	//  * If return type is `Void` it is treated as synchronous method.
+	//  * If it accepts an argument, it is treated as an asynchronous method.
 	//  */
-	// function teardown():Async;
+	// function teardown():Void;
+	// function teardown(async:Async):Void;
 
 	// /**
 	//  * This method is executed once after the last test in the current class is finished.
-	//  * If return type is `Void` it is treated as synchronous method.
+	//  * If it accepts an argument, it is treated as an asynchronous method.
 	//  */
-	// function teardownClass():Async;
+	// function teardownClass():Void;
+	// function teardownClass(async:Async):Void;
 }

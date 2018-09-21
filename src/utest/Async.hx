@@ -7,6 +7,7 @@ package utest;
 import haxe.PosInfos;
 import haxe.Timer;
 
+@:allow(utest)
 class Async {
 	static var resolvedInstance:Async;
 
@@ -21,7 +22,7 @@ class Async {
 	 * Returns an instance of `Async` which is already resolved.
 	 * Any actions handling this instance will be executed synchronously.
 	 */
-	static public function getResolved():Async {
+	static function getResolved():Async {
 		if(resolvedInstance == null) {
 			resolvedInstance = new Async();
 			resolvedInstance.done();
@@ -29,13 +30,8 @@ class Async {
 		return resolvedInstance;
 	}
 
-	public function new(timeoutMs:Int = 250) {
+	function new(timeoutMs:Int = 250) {
 		startTime = Timer.stamp();
-		start(timeoutMs);
-	}
-
-	inline function start(timeoutMs:Int) {
-		if(timer != null) timer.stop();
 		timer = Timer.delay(setTimedOutState, timeoutMs);
 	}
 
@@ -52,12 +48,16 @@ class Async {
 	}
 
 	public function setTimeout(timeoutMs:Int) {
-		var passed = Math.round(1000 * (Timer.stamp() - startTime));
 		timer.stop();
-		timer = Timer.delay(setTimedOutState, timeoutMs - passed);
+		var delay = timeoutMs - Math.round(1000 * (Timer.stamp() - startTime));
+		if(delay <= 0) {
+			done();
+		} else {
+			timer = Timer.delay(setTimedOutState, delay);
+		}
 	}
 
-	public function then(cb:Void->Void) {
+	function then(cb:Void->Void) {
 		if(resolved) {
 			cb();
 		} else {

@@ -45,28 +45,32 @@ class TestAll {
   * Every test case method name must be prefixed with `test` or `spec`;
   * If a method is prefixed with `spec` it is treated as the specification test. Every boolean binary operation will be wrapped in `Assert.isTrue()`
 
-To following method could be implemented to setup or teardown:
+To following methods could be implemented to setup or teardown:
 ```haxe
 /**
  * This method is executed once before running the first test in the current class.
- * If return type is `Void` it is treated as synchronous method.
+ * If it accepts an argument, it is treated as an asynchronous method.
  */
-function setupClass():utest.Async;
+function setupClass():Void;
+function setupClass(async:Async):Void;
 /**
  * This method is executed before each test.
- * If return type is `Void` it is treated as synchronous method.
+  * If it accepts an argument, it is treated as an asynchronous method.
  */
-function setup():utest.Async;
+function setup():Void;
+function setup(async:Async):Void;
 /**
  * This method is executed after each test.
- * If return type is `Void` it is treated as synchronous method.
+  * If it accepts an argument, it is treated as an asynchronous method.
  */
-function teardown():utest.Async;
+function teardown():Void;
+function teardown(async:Async):Void;
 /**
  * This method is executed once after the last test in the current class is finished.
- * If return type is `Void` it is treated as synchronous method.
+  * If it accepts an argument, it is treated as an asynchronous method.
  */
-function teardownClass():utest.Async;
+function teardownClass():Void;
+function teardownClass(async:Async):Void;
 ```
 
 To add all test cases from `my.pack` package use `runner.addCases(my.pack)`. Any module found in `my.pack` is treated as a test case. That means each module should contain a class implementing `utest.ITest` and that class should have the same name as the module name.
@@ -93,11 +97,13 @@ class TestCase extends utest.Test {
   }
 
   //asynchronous teardown
-  public function teardown():Async {
+  public function teardown(async:Async) {
     field = null; // not really needed
 
+    //Adjust timeout if needed. Default is 250ms.
+    async.setTimeout(1000);
+
     //simulate asynchronous teardown
-    var async = new Async(500); //timeout: 500ms (default - 250)
     haxe.Timer.delay(
       function() {
         //resolve asynchronous action
@@ -105,7 +111,6 @@ class TestCase extends utest.Test {
       },
       100
     );
-    return async;
   }
 }
 ```
