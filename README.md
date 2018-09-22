@@ -45,7 +45,7 @@ class TestAll {
   * Every test case method name must be prefixed with `test` or `spec`;
   * If a method is prefixed with `spec` it is treated as the specification test. Every boolean binary operation will be wrapped in `Assert.isTrue()`
 
-To following methods could be implemented to setup or teardown:
+Following methods could be implemented to setup or teardown:
 ```haxe
 /**
  * This method is executed once before running the first test in the current class.
