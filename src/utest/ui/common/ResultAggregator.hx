@@ -47,8 +47,8 @@ class ResultAggregator {
     if(total > 0) {
       var baseMsg = 'implement utest.ITest. Non-ITest tests are deprecated. Implement utest.ITest or extend utest.Test.';
       var msg = switch(total) {
-        case 0: '$first doesn\'t $baseMsg';
-        case 1: '$first and 1 other don\'t $baseMsg';
+        case 1: '$first doesn\'t $baseMsg';
+        case 2: '$first and 1 other don\'t $baseMsg';
         case _: '$first and $total others don\'t $baseMsg';
       }
       trace(msg);
