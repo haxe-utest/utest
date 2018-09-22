@@ -1,7 +1,12 @@
-# v.X.X.X
-- Fixed exit code value for `--interp` target
+# v.1.9.0
+- Introduced `utest.ITest` and `utest.Test`. Test cases should implement or extend them. See README.md for details.
+- Implemented `.setupClass()`/`.teardownClass()` to setup once before the first test in a test case and teardown once after the last one.
+- Added a deprecation notice for test cases which don't implement `utest.ITest`.
 - Use the compile-time environment variable or the compiler define "UTEST_PATTERN" to skip tests, which don't match its value.
 - Add a failure to the result if no tests were executed.
+
+# v.1.8.4
+- Fixed exit code value for `--interp` target.
 
 # v.1.8.3
 - Avoid recursion while running synchronous tests (could deplete stack on big test suites)
