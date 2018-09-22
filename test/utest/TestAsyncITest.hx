@@ -95,6 +95,7 @@ class TestAsyncITest extends Test {
 		);
 	}
 
+	@:timeout(2500)
 	function teardownClass(async:Async) {
 		teardownClassRunning = true;
 
@@ -118,7 +119,6 @@ class TestAsyncITest extends Test {
 			throw 'TestAsyncITest: teardownClassCallCount should be called one time. Actual: $teardownClassCallCount.';
 		}
 
-		async.setTimeout(2500);
 		Timer.delay(
 			function() {
 				teardownClassRunning = false;

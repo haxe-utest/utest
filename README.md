@@ -73,6 +73,8 @@ function teardownClass():Void;
 function teardownClass(async:Async):Void;
 ```
 
+Default timeout for asynchronous methods is 250ms. You can change it by adding `@:timeout(500)` meta.
+
 To add all test cases from `my.pack` package use `runner.addCases(my.pack)`. Any module found in `my.pack` is treated as a test case. That means each module should contain a class implementing `utest.ITest` and that class should have the same name as the module name.
 
 ```haxe
@@ -97,11 +99,9 @@ class TestCase extends utest.Test {
   }
 
   //asynchronous teardown
+  @:timeout(700)
   public function teardown(async:Async) {
     field = null; // not really needed
-
-    //Adjust timeout if needed. Default is 250ms.
-    async.setTimeout(1000);
 
     //simulate asynchronous teardown
     haxe.Timer.delay(
@@ -109,7 +109,7 @@ class TestCase extends utest.Test {
         //resolve asynchronous action
         async.done();
       },
-      100
+      500
     );
   }
 }
@@ -120,10 +120,8 @@ class TestCase extends utest.Test {
 If a test case accepts an argument, that test case is treated as an asynchronous test.
 
 ```haxe
+@:timeout(500) //change timeout (default: 250ms)
 function testSomething(async:utest.Async) {
-  //change timeout (default: 250ms)
-  async.setTimeout(500);
-
   // do your async goodness and remember to call `done()` at the end.
   haxe.Timer.delay(function() {
     Assert.isTrue(true); // put a sensible test here

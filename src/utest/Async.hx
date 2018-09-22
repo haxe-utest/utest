@@ -15,7 +15,7 @@ class Async {
 	public var timedOut(default,null):Bool = false;
 
 	var callbacks:Array<Void->Void> = [];
-	var startTime:Float;
+	// var startTime:Float;
 	var timer:Timer;
 
 	/**
@@ -31,7 +31,7 @@ class Async {
 	}
 
 	function new(timeoutMs:Int = 250) {
-		startTime = Timer.stamp();
+		// startTime = Timer.stamp();
 		timer = Timer.delay(setTimedOutState, timeoutMs);
 	}
 
@@ -47,15 +47,15 @@ class Async {
 		for (cb in callbacks) cb();
 	}
 
-	public function setTimeout(timeoutMs:Int) {
-		timer.stop();
-		var delay = timeoutMs - Math.round(1000 * (Timer.stamp() - startTime));
-		if(delay <= 0) {
-			done();
-		} else {
-			timer = Timer.delay(setTimedOutState, delay);
-		}
-	}
+	// public function setTimeout(timeoutMs:Int) {
+	// 	timer.stop();
+	// 	var delay = timeoutMs - Math.round(1000 * (Timer.stamp() - startTime));
+	// 	if(delay <= 0) {
+	// 		done();
+	// 	} else {
+	// 		timer = Timer.delay(setTimedOutState, delay);
+	// 	}
+	// }
 
 	function then(cb:Void->Void) {
 		if(resolved) {

@@ -16,7 +16,9 @@ private abstract IsAsync(Int) {
 class TestBuilder {
 	static inline var TEST_PREFIX = 'test';
 	static inline var SPEC_PREFIX = 'spec';
-	static inline var META_PROCESSED = ':utestProcessed';
+	static inline var PROCESSED_META = ':utestProcessed';
+	static inline var TIMEOUT_META = ':timeout';
+
 
 	macro static public function build():Array<Field> {
 		if(Context.defined('display') #if display || true #end) {
@@ -24,9 +26,9 @@ class TestBuilder {
 		}
 
 		var cls = Context.getLocalClass().get();
-		if (cls.isInterface || cls.meta.has(META_PROCESSED)) return null;
+		if (cls.isInterface || cls.meta.has(PROCESSED_META)) return null;
 
-		cls.meta.add(META_PROCESSED, [], cls.pos);
+		cls.meta.add(PROCESSED_META, [], cls.pos);
 
 		var isOverriding = ancestorHasInitializeUtest(cls);
 		var initExprs = initialExpressions(isOverriding);
@@ -90,7 +92,7 @@ class TestBuilder {
 				initExprs.push(macro @:pos(field.pos) init.tests.push({
 					name:$v{test},
 					execute:function() {
-						var async = @:privateAccess new utest.Async();
+						var async = @:privateAccess new utest.Async(${getTimeoutExpr(field)});
 						this.$test(async);
 						return async;
 					}
@@ -120,7 +122,7 @@ class TestBuilder {
 			//asynchronous method
 			case 1:
 				initExprs.push(macro @:pos(field.pos) init.accessories.$name = function() {
-					var async = @:privateAccess new utest.Async();
+					var async = @:privateAccess new utest.Async(${getTimeoutExpr(field)});
 					this.$name(async);
 					return async;
 				});
@@ -205,5 +207,20 @@ class TestBuilder {
 				Context.warning('Did you mean "$name"?', pos);
 			}
 		}
+	}
+
+	static function getTimeoutExpr(field:Field):Expr {
+		if(field.meta != null) {
+			for(meta in field.meta) {
+				if(meta.name == TIMEOUT_META) {
+					if(meta.params == null || meta.params.length != 1) {
+						Context.error('@:timeout meta should have one argument. E.g. @:timeout(250)', meta.pos);
+					} else {
+						return meta.params[0];
+					}
+				}
+			}
+		}
+		return macro @:pos(field.pos) 250;
 	}
 }
