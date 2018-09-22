@@ -2,3 +2,5 @@
 -cp test
 -main TestAll
 -D utest
+
+extraParams.hxml

@@ -1,10 +1,19 @@
 package utest;
 
-class TestAsync {
-  public function new() {}
+class TestAsync extends Test {
+	function testResolved() {
+		var async = Async.getResolved();
+		Assert.isTrue(async.resolved);
+	}
 
-  public function testCreateAsync() {
-    var assert = Assert.createAsync(function() Assert.pass(), 1000);
-    haxe.Timer.delay(assert, 50);
-  }
+	function testDone() {
+		var async = new Async();
+		async.then(function() Assert.pass());
+		async.done();
+	}
+
+	function testDone_resolved() {
+		var async = Async.getResolved();
+		async.then(function() Assert.pass());
+	}
 }

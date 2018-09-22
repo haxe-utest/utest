@@ -10,3 +10,4 @@ display.hxml
 utest.zip
 .idea
 .haxelib
+dump/*

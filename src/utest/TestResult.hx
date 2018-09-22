@@ -28,6 +28,30 @@ class TestResult {
     return r;
   }
 
+  #if (haxe_ver >= "3.4.0")
+  public static function ofFailedSetupClass(testCase:ITest, assertation:Assertation):TestResult {
+    var r = new TestResult();
+    var path = Type.getClassName(Type.getClass(testCase)).split('.');
+    r.cls           = path.pop();
+    r.pack          = path.join('.');
+    r.method        = 'setup';
+    r.assertations  = new List();
+    r.assertations.add(assertation);
+    return r;
+  }
+
+  public static function ofFailedTeardownClass(testCase:ITest, assertation:Assertation):TestResult {
+    var r = new TestResult();
+    var path = Type.getClassName(Type.getClass(testCase)).split('.');
+    r.cls           = path.pop();
+    r.pack          = path.join('.');
+    r.method        = 'setup';
+    r.assertations  = new List();
+    r.assertations.add(assertation);
+    return r;
+  }
+  #end
+
   public function allOk():Bool{
     for(l in assertations) {
       switch (l){
