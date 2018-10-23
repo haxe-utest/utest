@@ -700,6 +700,7 @@ class Assert {
    *   var async = Assert.createAsync(function() Assert.isTrue(true));
    *   haxe.Timer.delay(async, 50);
    * }
+   * ```
    * @param f: A function that contains other Assert tests
    * @param timeout: Optional timeout value in milliseconds.
    */
@@ -710,7 +711,7 @@ class Assert {
   /**
    * Creates an asynchronous context for test execution of an event like method.
    * Assertions should be included in the passed function.
-   * It works the same way as Assert.assertAsync() but accepts a function with one
+   * It works the same way as Assert.createAsync() but accepts a function with one
    * argument (usually some event data) instead of a function with no arguments
    * @param f: A function that contains other Assert tests
    * @param timeout: Optional timeout value in milliseconds.
