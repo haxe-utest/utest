@@ -8,7 +8,9 @@ package utest;
  * Interface, which should be implemented by test cases.
  *
  */
+#if !macro
 @:autoBuild(utest.utils.TestBuilder.build())
+#end
 interface ITest {
 	// /**
 	//  * This method is executed once before running the first test in the current class.
