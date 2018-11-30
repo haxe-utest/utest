@@ -709,7 +709,7 @@ function utestRemoveTooltip() {
 
   function _handler(report : HtmlReport) {
 #if (php || neko || cpp || java || lua)
-    Lib.print(report.getHtml());
+    Sys.stdout().writeString(report.getHtml());
 #elseif js
     if(Browser.document.readyState == 'loading') {
       function onReadyStateChange() {
