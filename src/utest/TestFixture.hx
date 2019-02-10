@@ -12,6 +12,26 @@ class TestFixture {
   public var teardownAsync(default, null) : String;
   public var ignoringInfo(default, null)       : IgnoredFixture;
 
+  @:allow(utest)
+  var isITest:Bool = false;
+  #if (haxe_ver >= "3.4.0")
+  @:allow(utest)
+  var test:Null<TestData>;
+  @:allow(utest)
+  var setupMethod:Void->Async;
+  @:allow(utest)
+  var teardownMethod:Void->Async;
+
+  static public function ofData(target:ITest, test:TestData, accessories:TestData.Accessories):TestFixture {
+    var fixture = new TestFixture(target, test.name);
+    fixture.isITest = true;
+    fixture.test = test;
+    fixture.setupMethod = utest.utils.AccessoriesUtils.getSetup(accessories);
+    fixture.teardownMethod = utest.utils.AccessoriesUtils.getTeardown(accessories);
+    return fixture;
+  }
+  #end
+
   public function new(target : {}, method : String, ?setup : String, ?teardown : String, ?setupAsync : String, ?teardownAsync : String) {
     this.target        = target;
     this.method        = method;

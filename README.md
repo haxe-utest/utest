@@ -7,7 +7,7 @@
 
 utest is an easy to use unit testing library for Haxe. It works on all the supported platforms including nodejs.
 
-## install
+## Installation
 
 Install is as easy as:
 
@@ -15,7 +15,7 @@ Install is as easy as:
 haxelib install utest
 ```
 
-## usage
+## Usage
 
 In your main method define the minimal instances needed to run your tests.
 
@@ -25,53 +25,113 @@ import utest.ui.Report;
 
 class TestAll {
   public static function main() {
+    //the long way
     var runner = new Runner();
-    runner.addCase(new TestCase());
+    runner.addCase(new TestCase1());
+    runner.addCase(new TestCase2());
     Report.create(runner);
     runner.run();
+
+    //the short way in case you don't need to handle any specifics
+    utest.UTest.run([new TestCase1(), new TestCase2()]);
   }
 }
 ```
 
-`TestCase` doesn't need to implement anything special but needs to follow some conventions:
+`TestCase` must extend `utest.Test` or implement `utest.ITest`.
 
-  * every test case method must be `public` and prefixed with `test`.
-  * if the class provides public methods named `setup` and/or `teardown` they will be
-    executed before and/or after each test case method.
-  * `runner.addCases(my.pack)` can be used to add all test cases from `my.pack` package. Any module found in `my.pack` is treated as a test case. That means each module should contain a class with a constructor and with the same name as a module name.
+`TestCase` needs to follow some conventions:
+
+  * Every test case method name must be prefixed with `test` or `spec`;
+  * If a method is prefixed with `spec` it is treated as the specification test. Every boolean binary operation will be wrapped in `Assert.isTrue()`
+
+Following methods could be implemented to setup or teardown:
+```haxe
+/**
+ * This method is executed once before running the first test in the current class.
+ * If it accepts an argument, it is treated as an asynchronous method.
+ */
+function setupClass():Void;
+function setupClass(async:Async):Void;
+/**
+ * This method is executed before each test.
+  * If it accepts an argument, it is treated as an asynchronous method.
+ */
+function setup():Void;
+function setup(async:Async):Void;
+/**
+ * This method is executed after each test.
+  * If it accepts an argument, it is treated as an asynchronous method.
+ */
+function teardown():Void;
+function teardown(async:Async):Void;
+/**
+ * This method is executed once after the last test in the current class is finished.
+  * If it accepts an argument, it is treated as an asynchronous method.
+ */
+function teardownClass():Void;
+function teardownClass(async:Async):Void;
+```
+
+Default timeout for asynchronous methods is 250ms. You can change it by adding `@:timeout(500)` meta.
+
+To add all test cases from `my.pack` package use `runner.addCases(my.pack)`. Any module found in `my.pack` is treated as a test case. That means each module should contain a class implementing `utest.ITest` and that class should have the same name as the module name.
 
 ```haxe
 import utest.Assert;
+import utest.Async;
 
-class TestCase {
+class TestCase extends utest.Test {
   var field : String;
-  public function new() {};
 
+  //synchronous setup
   public function setup() {
     field = "some";
   }
 
-  public function testFieldIsSome() {
+  function testFieldIsSome() {
     Assert.equals("some", field);
   }
 
-  public function teardown() {
+  function specField() {
+    field.charAt(0) == 's';
+    field.length > 3;
+  }
+
+  //asynchronous teardown
+  @:timeout(700) //default timeout is 250ms
+  public function teardown(async:Async) {
     field = null; // not really needed
+
+    //simulate asynchronous teardown
+    haxe.Timer.delay(
+      function() {
+        //resolve asynchronous action
+        async.done();
+      },
+      500
+    );
   }
 }
 ```
 
+## Running single test from a test suite.
+
+Adding `-D UTEST_PATTERN pattern` to the compilation flags makes UTest to run only tests which have names matching the `pattern`. The pattern could be a plain string or a regular expression without delimiters.
+
+Another option is to add `UTEST_PATTERN` to the environment variables at compile time.
+
 ## Async tests
 
-Creating an asynchronous test is easy:
+If a test case accepts an argument, that test case is treated as an asynchronous test.
 
 ```haxe
-public function testAsync() {
-  var done = Assert.createAsync(); // optionally pass a time in ms to define a max timeout
+@:timeout(500) //change timeout (default: 250ms)
+function testSomething(async:utest.Async) {
   // do your async goodness and remember to call `done()` at the end.
   haxe.Timer.delay(function() {
     Assert.isTrue(true); // put a sensible test here
-    done();
+    async.done();
   }, 50);
 }
 ```
@@ -299,43 +359,18 @@ Creates a warning message.
 
 `pos` Code position where the Assert call has been executed. Don't fill it
 
-#### `createAsync(?f : Void -> Void, ?timeout : Int)`
-Creates an asynchronous context for test execution. Assertions should be included
-in the passed function.
-```haxe
-public function assertAsync() {
-  var async = Assert.createAsync(function() Assert.isTrue(true));
-  haxe.Timer.delay(async, 50);
-}
-```
-
-`f` A function that contains other Assert tests
-
-`timeout` Optional timeout value in milliseconds.
-
-#### `createEvent<EventArg>(f : EventArg -> Void, ?timeout : Int)`
-Creates an asynchronous context for test execution of an event like method.
-Assertions should be included in the passed function.
-It works the same way as Assert.assertAsync() but accepts a function with one
-argument (usually some event data) instead of a function with no arguments
-
-`f` A function that contains other Assert tests
-
-`timeout` Optional timeout value in milliseconds.
-
 ## Ignoring tests
 
 You can easily ignore one of tests within specifying `@Ignored` meta.
 
 ```haxe
-class TestCase {
-  public function new() {}
+class TestCase extends utes.Test {
 
   @Ignored("Ignore this test")
-  public function testIgnoredWithReason() {}
+  function testIgnoredWithReason() {}
 
   @Ignored
-  public function testIgnoredWithoutReason():Void {}
+  function testIgnoredWithoutReason():Void {}
 }
 
 ```

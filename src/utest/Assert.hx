@@ -3,6 +3,8 @@ package utest;
 import haxe.io.Bytes;
 import utest.Assertation;
 import haxe.PosInfos;
+import Map;
+import haxe.Constraints;
 
 /**
  * This class contains only static members used to perform assertations inside a test method.
@@ -298,7 +300,7 @@ class Assert {
         }
 
         // hash, inthash
-        if (Std.is(expected, #if (haxe_ver >= 3.200) haxe.Constraints.IMap #else Map.IMap #end)) {
+        if (Std.is(expected, IMap)) {
           if(status.recursive || status.path == '') {
             var map = cast(expected, Map<Dynamic, Dynamic>);
             var vmap = cast(value, Map<Dynamic, Dynamic>);
@@ -698,6 +700,7 @@ class Assert {
    *   var async = Assert.createAsync(function() Assert.isTrue(true));
    *   haxe.Timer.delay(async, 50);
    * }
+   * ```
    * @param f: A function that contains other Assert tests
    * @param timeout: Optional timeout value in milliseconds.
    */
@@ -708,7 +711,7 @@ class Assert {
   /**
    * Creates an asynchronous context for test execution of an event like method.
    * Assertions should be included in the passed function.
-   * It works the same way as Assert.assertAsync() but accepts a function with one
+   * It works the same way as Assert.createAsync() but accepts a function with one
    * argument (usually some event data) instead of a function with no arguments
    * @param f: A function that contains other Assert tests
    * @param timeout: Optional timeout value in milliseconds.

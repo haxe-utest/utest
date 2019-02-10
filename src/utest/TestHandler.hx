@@ -1,11 +1,13 @@
 package utest;
 
+import haxe.CallStack;
 import utest.Assertation;
 
 class TestHandler<T> {
   private static inline var POLLING_TIME = 10;
   public var results(default, null) : List<Assertation>;
   public var fixture(default, null) : TestFixture;
+  public var finished(default,null):Bool = false;
   var asyncStack : List<Dynamic>;
 
   public var onTested(default, null) : Dispatcher<TestHandler<T>>;
@@ -37,22 +39,40 @@ class TestHandler<T> {
       executeFinally();
       return;
     }
+
+    //ugly hack to call executeFinally() only once if asynchronous code is involved
+    var isSync = true;
+    var expectingAsync = true;
+    function run() {
+      if(isSync) {
+        expectingAsync = false;
+        return;
+      }
+      executeFixtureMethod();
+      executeFinally();
+    }
+
     try {
       executeMethod(fixture.setup);
-      executeAsyncMethod(fixture.setupAsync, executeAsync.bind());
+      executeAsyncMethod(fixture.setupAsync, run);
+      if(!expectingAsync) {
+        executeFixtureMethod();
+      }
     } catch(e : Dynamic) {
       results.add(SetupError(e, exceptionStack()));
+    }
+    isSync = false;
+    if(!expectingAsync) {
       executeFinally();
     }
   }
 
-  function executeAsync() {
+  function executeFixtureMethod() {
     try {
       executeMethod(fixture.method);
     } catch (e : Dynamic) {
       results.add(Error(e, exceptionStack()));
     }
-    executeFinally();
   }
 
   function executeFinally() {
@@ -87,8 +107,8 @@ class TestHandler<T> {
 
   public var expiration(default, null) : Null<Float>;
   public function setTimeout(timeout : Int) {
-    var newexpire = haxe.Timer.stamp() + timeout/1000;
-    expiration = (expiration == null) ? newexpire : (newexpire > expiration ? newexpire : expiration);
+    var newExpire = haxe.Timer.stamp() + timeout/1000;
+    expiration = (expiration == null) ? newExpire : (newExpire > expiration ? newExpire : expiration);
   }
 
   function bindHandler() {
@@ -204,16 +224,31 @@ class TestHandler<T> {
       return;
     }
 
+    //ugly hack to call completedFinally() only once if asynchronous code is involved
+    var isSync = true;
+    var expectingAsync = true;
+    function complete() {
+      if(isSync) {
+        expectingAsync = false;
+        return;
+      }
+      completedFinally();
+    }
+
     try {
       executeMethod(fixture.teardown);
-      executeAsyncMethod(fixture.teardownAsync, completedFinally.bind());
+      executeAsyncMethod(fixture.teardownAsync, complete);
     } catch(e : Dynamic) {
       results.add(TeardownError(e, exceptionStack(2))); // TODO check the correct number of functions is popped from the stack
+    }
+    isSync = false;
+    if(!expectingAsync) {
       completedFinally();
     }
   }
 
   function completedFinally() {
+    finished = true;
     unbindHandler();
     onComplete.dispatch(this);
   }

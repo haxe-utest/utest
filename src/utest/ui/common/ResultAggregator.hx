@@ -27,8 +27,32 @@ class ResultAggregator {
   }
 
   function start(runner : Runner) {
+    checkNonITest();
     root = new PackageResult(null);
     onStart.dispatch();
+  }
+
+  function checkNonITest() {
+    var first = null;
+    var total = 0;
+    for(i in 0...runner.length) {
+      var fixture = runner.getFixture(i);
+      if(!fixture.isITest) {
+        total++;
+        if(first == null) {
+          first = Type.getClassName(Type.getClass(fixture.target));
+        }
+      }
+    }
+    if(total > 0) {
+      var baseMsg = 'implement utest.ITest. Non-ITest tests are deprecated. Implement utest.ITest or extend utest.Test.';
+      var msg = switch(total) {
+        case 1: '$first doesn\'t $baseMsg';
+        case 2: '$first and 1 other don\'t $baseMsg';
+        case _: '$first and $total others don\'t $baseMsg';
+      }
+      trace(msg);
+    }
   }
 
   function getOrCreatePackage(pack : String, flat : Bool, ?ref : PackageResult) {
@@ -69,6 +93,20 @@ class ResultAggregator {
   }
 
   function complete(runner : Runner) {
+    if(root.isEmpty) {
+      root.addResult(createNoTestsResult(), false);
+    }
     onComplete.dispatch(root);
+  }
+
+  function createNoTestsResult():TestResult {
+    var result = new TestResult();
+    result.pack = '';
+    result.cls = '';
+    result.method = '';
+    result.assertations = new List();
+    var pos = {fileName:'', lineNumber:1, className:'utest.Runner', methodName:'run'};
+    result.assertations.add(Failure('No tests executed.', pos));
+    return result;
   }
 }
