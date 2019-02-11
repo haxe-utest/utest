@@ -1,5 +1,6 @@
 package utest;
 
+@:keep
 class TestRunner {
   public function new(){}
 

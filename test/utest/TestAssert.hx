@@ -3,6 +3,7 @@ package utest;
 import utest.Assert;
 import utest.Assertation;
 
+@:keep
 class TestAssert {
   public function new(){}
 

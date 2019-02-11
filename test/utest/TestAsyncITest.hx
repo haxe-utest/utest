@@ -2,6 +2,9 @@ package utest;
 
 import haxe.Timer;
 
+/**
+ * Test asynchronous flow of ITest
+ */
 class TestAsyncITest extends Test {
 	var setupClassCallCount = 0;
 	var setupCallCount = 0;

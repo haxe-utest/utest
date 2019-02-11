@@ -3,6 +3,7 @@ package utest;
 import utest.TestHandler;
 import utest.TestFixture;
 
+@:keep
 class TestIgnored {
   public function new() {
   }
@@ -66,6 +67,7 @@ class TestIgnored {
   }
 }
 
+@:keep
 class TestCaseWithIgnoredCaseWithoutReason {
   public function new() {}
 
@@ -75,6 +77,7 @@ class TestCaseWithIgnoredCaseWithoutReason {
   }
 }
 
+@:keep
 class TestCaseWithIgnoredCaseWithReason {
   public function new() {}
 

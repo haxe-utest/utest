@@ -1,5 +1,8 @@
 package utest;
 
+/**
+ * Test synchronous synchronous of ITest
+ */
 class TestSyncITest extends Test {
 	var setupClassCallCount = 0;
 	var setupCallCount = 0;

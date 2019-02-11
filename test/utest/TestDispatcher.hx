@@ -3,6 +3,7 @@ package utest;
 import utest.Assert;
 import utest.Dispatcher;
 
+@:keep
 class TestDispatcher {
   public function new(){}
 
