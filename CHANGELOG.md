@@ -1,3 +1,6 @@
+# v.1.9.1
+- Fixed compatibility with `-dce full` flag ([#62](https://github.com/haxe-utest/utest/pull/62))
+
 # v.1.9.0
 - Introduced `utest.ITest` and `utest.Test`. Test cases should implement or extend them. See README.md for details.
 - Implemented `.setupClass()`/`.teardownClass()` to setup once before the first test in a test case and teardown once after the last one.
