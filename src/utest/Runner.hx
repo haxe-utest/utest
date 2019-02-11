@@ -95,7 +95,7 @@ class Runner {
   /**
    * Get the value for a setting provided by haxe define flag (-D name=value) or by an environment variable at compile time.
    * If both -D and env var are provided, then the value provided by -D is used.
-   * @param name - the name of a defined value or of an environment variable.
+   * @param name the name of a defined value or of an environment variable.
    */
   macro static function getEnvSetting(name:String):ExprOf<Null<String>> {
     var value = Context.definedValue(name);
@@ -107,14 +107,14 @@ class Runner {
 
   /**
    * Adds a new test case.
-   * @param  test: must be a not null object
-   * @param  setup: string name of the setup function (defaults to "setup")
-   * @param  teardown: string name of the teardown function (defaults to "teardown")
-   * @param  prefix: prefix for methods that are tests (defaults to "test")
-   * @param  pattern: a regular expression that discriminates the names of test
+   * @param test must be a not null object
+   * @param setup string name of the setup function (defaults to "setup")
+   * @param teardown string name of the teardown function (defaults to "teardown")
+   * @param prefix prefix for methods that are tests (defaults to "test")
+   * @param pattern a regular expression that discriminates the names of test
    *       functions; when set,  the prefix parameter is meaningless
-   * @param  setupAsync: string name of the asynchronous setup function (defaults to "setupAsync")
-   * @param  teardownAsync: string name of the asynchronous teardown function (defaults to "teardownAsync")
+   * @param setupAsync string name of the asynchronous setup function (defaults to "setupAsync")
+   * @param teardownAsync string name of the asynchronous teardown function (defaults to "teardownAsync")
    */
   public function addCase(test : Dynamic, setup = "setup", teardown = "teardown", prefix = "test", ?pattern : EReg, setupAsync = "setupAsync", teardownAsync = "teardownAsync") {
     #if (haxe_ver >= "3.4.0")
@@ -134,7 +134,7 @@ class Runner {
       throw 'Cannot add the same test twice.';
     }
     var fixtures = [];
-    var init:TestData.InitializeUtest = (testCase:Dynamic).__initializeUtest__();
+    var init:TestData.InitializeUtest = testCase.__initializeUtest__();
     for(test in init.tests) {
       if(!isTestFixtureName(test.name, ['test', 'spec'], pattern, globalPattern)) {
         continue;
@@ -170,11 +170,11 @@ class Runner {
   }
 
   /**
-   *  Add all test cases located in specified package `path`.
-   *  Any module found in `path` is treated as a test case.
-   *  That means each module should contain a class with a constructor and with the same name as a module name.
-   *  @param path - dot-separated path as a string or as an identifier/field expression. E.g. `"my.pack"` or `my.pack`
-   *  @param recursive - recursively look for test cases in sub packages.
+   * Add all test cases located in specified package `path`.
+   * Any module found in `path` is treated as a test case.
+   * That means each module should contain a class with a constructor and with the same name as a module name.
+   * @param path dot-separated path as a string or as an identifier/field expression. E.g. `"my.pack"` or `my.pack`
+   * @param recursive recursively look for test cases in sub packages.
    */
   macro public function addCases(eThis:Expr, path:Expr, recursive:Bool = true):Expr {
     if(Context.defined('display')) {

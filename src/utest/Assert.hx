@@ -26,9 +26,9 @@ class Assert {
 
   /**
    * Asserts successfully when the condition is true.
-   * @param cond: The condition to test
-   * @param msg: An optional error message. If not passed a default one will be used
-   * @param pos: Code position where the Assert call has been executed. Don't fill it
+   * @param cond The condition to test
+   * @param msg An optional error message. If not passed a default one will be used
+   * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
   public static function isTrue(cond : Bool, ?msg : String, ?pos : PosInfos) {
@@ -43,9 +43,9 @@ class Assert {
 
   /**
    * Asserts successfully when the condition is false.
-   * @param cond: The condition to test
-   * @param msg: An optional error message. If not passed a default one will be used
-   * @param pos: Code position where the Assert call has been executed. Don't fill it
+   * @param cond The condition to test
+   * @param msg An optional error message. If not passed a default one will be used
+   * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
   public static function isFalse(value : Bool, ?msg : String, ?pos : PosInfos) {
@@ -56,9 +56,9 @@ class Assert {
 
   /**
    * Asserts successfully when the value is null.
-   * @param value: The value to test
-   * @param msg: An optional error message. If not passed a default one will be used
-   * @param pos: Code position where the Assert call has been executed. Don't fill it
+   * @param value The value to test
+   * @param msg An optional error message. If not passed a default one will be used
+   * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
   public static function isNull(value : Dynamic, ?msg : String, ?pos : PosInfos) {
@@ -69,9 +69,9 @@ class Assert {
 
   /**
    * Asserts successfully when the value is not null.
-   * @param value: The value to test
-   * @param msg: An optional error message. If not passed a default one will be used
-   * @param pos: Code position where the Assert call has been executed. Don't fill it
+   * @param value The value to test
+   * @param msg An optional error message. If not passed a default one will be used
+   * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
   public static function notNull(value : Dynamic, ?msg : String, ?pos : PosInfos) {
@@ -82,10 +82,10 @@ class Assert {
 
   /**
    * Asserts successfully when the 'value' parameter is of the of the passed type 'type'.
-   * @param value: The value to test
-   * @param type: The type to test against
-   * @param msg: An optional error message. If not passed a default one will be used
-   * @param pos: Code position where the Assert call has been executed. Don't fill it
+   * @param value The value to test
+   * @param type The type to test against
+   * @param msg An optional error message. If not passed a default one will be used
+   * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
   public static function is(value : Dynamic, type : Dynamic, ?msg : String , ?pos : PosInfos) {
@@ -98,10 +98,10 @@ class Assert {
    * ```haxe
    * Assert.notEquals(10, age);
    * ```
-   * @param expected: The expected value to check against
-   * @param value: The value to test
-   * @param msg: An optional error message. If not passed a default one will be used
-   * @param pos: Code position where the Assert call has been executed. Don't fill it
+   * @param expected The expected value to check against
+   * @param value The value to test
+   * @param msg An optional error message. If not passed a default one will be used
+   * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
   public static function notEquals(expected : Dynamic, value : Dynamic, ?msg : String , ?pos : PosInfos) {
@@ -114,10 +114,10 @@ class Assert {
    * ```haxe
    * Assert.equals(10, age);
    * ```
-   * @param expected: The expected value to check against
-   * @param value: The value to test
-   * @param msg: An optional error message. If not passed a default one will be used
-   * @param pos: Code position where the Assert call has been executed. Don't fill it
+   * @param expected The expected value to check against
+   * @param value The value to test
+   * @param msg An optional error message. If not passed a default one will be used
+   * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
   public static function equals(expected : Dynamic, value : Dynamic, ?msg : String , ?pos : PosInfos) {
@@ -130,10 +130,10 @@ class Assert {
    * ```haxe
    * Assert.match(~/x/i, "haXe");
    * ```
-   * @param pattern: The pattern to match against
-   * @param value: The value to test
-   * @param msg: An optional error message. If not passed a default one will be used
-   * @param pos: Code position where the Assert call has been executed. Don't fill it
+   * @param pattern The pattern to match against
+   * @param value The value to test
+   * @param msg An optional error message. If not passed a default one will be used
+   * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
   public static function match(pattern : EReg, value : Dynamic, ?msg : String , ?pos : PosInfos) {
@@ -146,11 +146,11 @@ class Assert {
    * ```haxe
    * Assert.floatEquals(Math.PI, value);
    * ```
-   * @param expected: The expected value to check against
-   * @param value: The value to test
-   * @param approx: The approximation tollerance. Default is 1e-5
-   * @param msg: An optional error message. If not passed a default one will be used
-   * @param pos: Code position where the Assert call has been executed. Don't fill it
+   * @param expected The expected value to check against
+   * @param value The value to test
+   * @param approx The approximation tollerance. Default is 1e-5
+   * @param msg An optional error message. If not passed a default one will be used
+   * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    * @todo test the approximation argument
    */
@@ -302,8 +302,8 @@ class Assert {
         // hash, inthash
         if (Std.is(expected, IMap)) {
           if(status.recursive || status.path == '') {
-            var map = cast(expected, IMap<Dynamic, Dynamic>);
-            var vmap = cast(value, IMap<Dynamic, Dynamic>);
+            var map = cast(expected, Map<Dynamic, Dynamic>);
+            var vmap = cast(value, Map<Dynamic, Dynamic>);
             var keys:Array<Dynamic> = [for (k in map.keys()) k];
             var vkeys:Array<Dynamic> = [for (k in vmap.keys()) k];
 
@@ -505,13 +505,13 @@ class Assert {
    * ```haxe
    * Assert.same({ name : "utest"}, ob);
    * ```
-   * @param expected: The expected value to check against
-   * @param value: The value to test
-   * @param recursive: States whether or not the test will apply also to sub-objects.
+   * @param expected The expected value to check against
+   * @param value The value to test
+   * @param recursive States whether or not the test will apply also to sub-objects.
    * Defaults to true
-   * @param msg: An optional error message. If not passed a default one will be used
-   * @param approx: The approximation tollerance. Default is 1e-5
-   * @param pos: Code position where the Assert call has been executed. Don't fill it
+   * @param msg An optional error message. If not passed a default one will be used
+   * @param approx The approximation tollerance. Default is 1e-5
+   * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
   public static function same(expected : Dynamic, value : Dynamic, ?recursive : Bool, ?msg : String, ?approx : Float,  ?pos : PosInfos) {
@@ -532,13 +532,13 @@ class Assert {
    * ```haxe
    * Assert.raises(function() { throw "Error!"; }, String);
    * ```
-   * @param method: A method that generates the exception.
-   * @param type: The type of the expected error. Defaults to Dynamic (catch all).
-   * @param msgNotThrown: An optional error message used when the function fails to raise the expected
+   * @param method A method that generates the exception.
+   * @param type The type of the expected error. Defaults to Dynamic (catch all).
+   * @param msgNotThrown An optional error message used when the function fails to raise the expected
    *      exception. If not passed a default one will be used
-   * @param msgWrongType: An optional error message used when the function raises the exception but it is
+   * @param msgWrongType An optional error message used when the function raises the exception but it is
    *      of a different type than the one expected. If not passed a default one will be used
-   * @param pos: Code position where the Assert call has been executed. Don't fill it
+   * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
   public static function raises(method:Void -> Void, ?type:Class<Dynamic>, ?msgNotThrown : String , ?msgWrongType : String, ?pos : PosInfos) {
@@ -561,10 +561,10 @@ class Assert {
 
   /**
    * Checks that the test value matches at least one of the possibilities.
-   * @param possibility: An array of possible matches
-   * @param value: The value to test
-   * @param msg: An optional error message. If not passed a default one will be used
-   * @param pos: Code position where the Assert call has been executed. Don't fill it
+   * @param possibility An array of possible matches
+   * @param value The value to test
+   * @param msg An optional error message. If not passed a default one will be used
+   * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
   public static function allows<T>(possibilities : Array<T>, value : T, ?msg : String , ?pos : PosInfos) {
@@ -577,10 +577,10 @@ class Assert {
 
   /**
    * Checks that the test array contains the match parameter.
-   * @param match: The element that must be included in the tested array
-   * @param values: The values to test
-   * @param msg: An optional error message. If not passed a default one will be used
-   * @param pos: Code position where the Assert call has been executed. Don't fill it
+   * @param match The element that must be included in the tested array
+   * @param values The values to test
+   * @param msg An optional error message. If not passed a default one will be used
+   * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
   public static function contains<T>(match : T, values : Array<T>, ?msg : String , ?pos : PosInfos) {
@@ -593,10 +593,10 @@ class Assert {
 
   /**
    * Checks that the test array does not contain the match parameter.
-   * @param match: The element that must NOT be included in the tested array
-   * @param values: The values to test
-   * @param msg: An optional error message. If not passed a default one will be used
-   * @param pos: Code position where the Assert call has been executed. Don't fill it
+   * @param match The element that must NOT be included in the tested array
+   * @param values The values to test
+   * @param msg An optional error message. If not passed a default one will be used
+   * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
   public static function notContains<T>(match : T, values : Array<T>, ?msg : String , ?pos : PosInfos) {
@@ -609,10 +609,10 @@ class Assert {
 
   /**
    * Checks that the expected values is contained in value.
-   * @param match: the string value that must be contained in value
-   * @param value: the value to test
-   * @param msg: An optional error message. If not passed a default one will be used
-   * @param pos: Code position where the Assert call has been executed.
+   * @param match the string value that must be contained in value
+   * @param value the value to test
+   * @param msg An optional error message. If not passed a default one will be used
+   * @param pos Code position where the Assert call has been executed.
    */
   public static function stringContains(match : String, value : String, ?msg : String , ?pos : PosInfos) {
     if (value != null && value.indexOf(match) >= 0) {
@@ -625,10 +625,10 @@ class Assert {
   /**
    * Checks that the test string contains all the values in `sequence` in the order
    * they are defined.
-   * @param sequence: the values to match in the string
-   * @param value: the value to test
-   * @param msg: An optional error message. If not passed a default one is be used
-   * @param pos: Code position where the Assert call has been executed.
+   * @param sequence the values to match in the string
+   * @param value the value to test
+   * @param msg An optional error message. If not passed a default one is be used
+   * @param pos Code position where the Assert call has been executed.
    */
   public static function stringSequence(sequence : Array<String>, value : String, ?msg : String , ?pos : PosInfos) {
     if (null == value)
@@ -664,8 +664,8 @@ class Assert {
 
   /**
    * Adds a successful assertion for cases where there are no values to assert.
-   * @param msg: An optional success message. If not passed a default one will be used
-   * @param pos: Code position where the Assert call has been executed. Don't fill it
+   * @param msg An optional success message. If not passed a default one will be used
+   * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
   public static function pass(msg = "pass expected", ?pos : PosInfos) {
@@ -674,8 +674,8 @@ class Assert {
 
   /**
    * Forces a failure.
-   * @param msg: An optional error message. If not passed a default one will be used
-   * @param pos: Code position where the Assert call has been executed. Don't fill it
+   * @param msg An optional error message. If not passed a default one will be used
+   * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
   public static function fail(msg = "failure expected", ?pos : PosInfos) {
@@ -684,8 +684,8 @@ class Assert {
 
   /**
    * Creates a warning message.
-   * @param msg: A mandatory message that justifies the warning.
-   * @param pos: Code position where the Assert call has been executed. Don't fill it
+   * @param msg A mandatory message that justifies the warning.
+   * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
   public static function warn(msg) {
@@ -701,8 +701,8 @@ class Assert {
    *   haxe.Timer.delay(async, 50);
    * }
    * ```
-   * @param f: A function that contains other Assert tests
-   * @param timeout: Optional timeout value in milliseconds.
+   * @param f A function that contains other Assert tests
+   * @param timeout Optional timeout value in milliseconds.
    */
   public static dynamic function createAsync(?f : Void -> Void, ?timeout : Int) {
     return function(){};
@@ -713,8 +713,8 @@ class Assert {
    * Assertions should be included in the passed function.
    * It works the same way as Assert.createAsync() but accepts a function with one
    * argument (usually some event data) instead of a function with no arguments
-   * @param f: A function that contains other Assert tests
-   * @param timeout: Optional timeout value in milliseconds.
+   * @param f A function that contains other Assert tests
+   * @param timeout Optional timeout value in milliseconds.
    */
   public static dynamic function createEvent<EventArg>(f : EventArg -> Void, ?timeout : Int) {
     return function(e){};

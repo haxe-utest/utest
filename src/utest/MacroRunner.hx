@@ -32,7 +32,7 @@ Run the unit tests from a macro, displaying errors and a summary in the macro Co
 
 /**
 Displays stub code for using MacroRunner.
-@param n: String of test class to use, "package.ClassName" for example.
+@param n String of test class to use, "package.ClassName" for example.
 @todo Parse real package/class references instead of just a string.
 */
   macro public static function generateMainCode(n : Expr) {
