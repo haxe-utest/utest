@@ -49,7 +49,7 @@ class TestBuilder {
 		initExprs.push(macro return init);
 
 		var initialize = (macro class Dummy {
-			@:noCompletion public function __initializeUtest__():utest.TestData.InitializeUtest
+			@:noCompletion @:keep public function __initializeUtest__():utest.TestData.InitializeUtest
 				$b{initExprs}
 		}).fields[0];
 		if(isOverriding) {

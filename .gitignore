@@ -11,3 +11,4 @@ utest.zip
 .idea
 .haxelib
 dump/*
+.unittest

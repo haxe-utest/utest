@@ -134,7 +134,7 @@ class Runner {
       throw 'Cannot add the same test twice.';
     }
     var fixtures = [];
-    var init:TestData.InitializeUtest = testCase.__initializeUtest__();
+    var init:TestData.InitializeUtest = (cast testCase:TestData.Initializer).__initializeUtest__();
     for(test in init.tests) {
       if(!isTestFixtureName(test.name, ['test', 'spec'], pattern, globalPattern)) {
         continue;

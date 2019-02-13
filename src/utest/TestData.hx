@@ -23,6 +23,10 @@ typedef InitializeUtest = {
 	tests:Array<TestData>
 }
 
+typedef Initializer = {
+	function __initializeUtest__():InitializeUtest;
+}
+
 class AccessoryName {
 	/**
 	 * This method is executed once before running the first test in the current class

@@ -39,10 +39,4 @@ interface ITest {
 	//  */
 	// function teardownClass():Void;
 	// function teardownClass(async:Async):Void;
-
-	/**
-	 * This method is executed when adding the test case.
-	 * It is automatically generated and should not be overridden.
-	 */
-	@:noCompletion function __initializeUtest__():utest.TestData.InitializeUtest;
 }

@@ -17,6 +17,7 @@ class TestAll {
     runner.addCase(new utest.TestAsync());
     runner.addCase(new utest.TestSyncITest());
     runner.addCase(new utest.TestSpec());
+    runner.addCase(new utest.TestWithMacro());
     runner.addCase(testAsyncITest);
     #end
     runner.addCase(new utest.TestIgnored());
