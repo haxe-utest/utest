@@ -30,7 +30,8 @@ script:
   - haxelib run travix java
   - if ! [ "$TRAVIS_HAXE_VERSION" == "3.2.1" ]; then haxelib run travix cpp; fi
   - haxelib run travix cs
-  - haxelib run travix php
+  #Fails to install php on OSX
+  - if [ `uname` = "Linux" ]; then haxelib run travix php; fi;
   #Invalid lua setup on OSX. See https://github.com/back2dos/travix/issues/78
-  - if [ `uname` = "Linux" ] && ! [ "$TRAVIS_HAXE_VERSION" == "3.2.1" ]; then haxelib run travix lua; fi;
+  # - if [ `uname` = "Linux" ] && ! [ "$TRAVIS_HAXE_VERSION" == "3.2.1" ]; then haxelib run travix lua; fi;
 
