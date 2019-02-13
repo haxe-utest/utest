@@ -1,3 +1,6 @@
+# v.1.9.2
+- Fixed `ITest requires __initializeUtest__` error for test cases with macros
+
 # v.1.9.1
 - Fixed compatibility with `-dce full` flag ([#62](https://github.com/haxe-utest/utest/pull/62))
 
