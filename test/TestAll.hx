@@ -15,6 +15,7 @@ class TestAll {
     runner.addCase(new utest.TestDispatcher());
     #if (haxe_ver >= "3.4.0")
     runner.addCase(new utest.TestAsync());
+    // runner.addCase(new utest.TestAsync.TestClassTimeout());
     runner.addCase(new utest.TestSyncITest());
     runner.addCase(new utest.TestSpec());
     runner.addCase(new utest.TestWithMacro());

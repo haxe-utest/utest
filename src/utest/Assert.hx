@@ -32,7 +32,9 @@ class Assert {
    * unless you know what you are doing.
    */
   public static function isTrue(cond : Bool, ?msg : String, ?pos : PosInfos) {
-    if (results == null) throw "Assert.results is not currently bound to any assert context";
+    if (results == null) {
+      throw 'Assert at ${pos.fileName}:${pos.lineNumber} out of context. Most likely you are trying to assert after a test timeout.';
+    }
     if (null == msg)
       msg = "expected true";
     if(cond)
