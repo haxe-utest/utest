@@ -37,9 +37,9 @@ class TestBuilder {
 			switch (field.kind) {
 				case FFun(fn):
 					if(isTestName(field.name)) {
-						processTest(field, fn, initExprs);
+						processTest(cls, field, fn, initExprs);
 					} else if(isAccessoryMethod(field.name)) {
-						processAccessory(field, fn, initExprs);
+						processAccessory(cls, field, fn, initExprs);
 					} else {
 						checkPossibleTypo(field);
 					}
@@ -72,7 +72,7 @@ class TestBuilder {
 		return initExprs;
 	}
 
-	static function processTest(field:Field, fn:Function, initExprs:Array<Expr>) {
+	static function processTest(cls:ClassType, field:Field, fn:Function, initExprs:Array<Expr>) {
 		var test = field.name;
 		switch(fn.args.length) {
 			//synchronous test
@@ -89,7 +89,7 @@ class TestBuilder {
 				initExprs.push(macro @:pos(field.pos) init.tests.push({
 					name:$v{test},
 					execute:function() {
-						var async = @:privateAccess new utest.Async(${getTimeoutExpr(field)});
+						var async = @:privateAccess new utest.Async(${getTimeoutExpr(cls, field)});
 						this.$test(async);
 						return async;
 					}
@@ -107,7 +107,7 @@ class TestBuilder {
 	/**
 	 * setup, setupClass, teardown, teardownClass
 	 */
-	static function processAccessory(field:Field, fn:Function, initExprs:Array<Expr>) {
+	static function processAccessory(cls:ClassType, field:Field, fn:Function, initExprs:Array<Expr>) {
 		var name = field.name;
 		switch(fn.args.length) {
 			//synchronous method
@@ -119,7 +119,7 @@ class TestBuilder {
 			//asynchronous method
 			case 1:
 				initExprs.push(macro @:pos(field.pos) init.accessories.$name = function() {
-					var async = @:privateAccess new utest.Async(${getTimeoutExpr(field)});
+					var async = @:privateAccess new utest.Async(${getTimeoutExpr(cls, field)});
 					this.$name(async);
 					return async;
 				});
@@ -206,18 +206,28 @@ class TestBuilder {
 		}
 	}
 
-	static function getTimeoutExpr(field:Field):Expr {
+	static function getTimeoutExpr(cls:ClassType, field:Field):Expr {
+		function getValue(meta:MetadataEntry):Expr {
+			if(meta.params == null || meta.params.length != 1) {
+				Context.error('@:timeout meta should have one argument. E.g. @:timeout(250)', meta.pos);
+				return macro 250;
+			} else {
+				return meta.params[0];
+			}
+		}
+
 		if(field.meta != null) {
 			for(meta in field.meta) {
 				if(meta.name == TIMEOUT_META) {
-					if(meta.params == null || meta.params.length != 1) {
-						Context.error('@:timeout meta should have one argument. E.g. @:timeout(250)', meta.pos);
-					} else {
-						return meta.params[0];
-					}
+					return getValue(meta);
 				}
 			}
 		}
+
+		if(cls.meta.has(TIMEOUT_META)) {
+			return getValue(cls.meta.extract(TIMEOUT_META)[0]);
+		}
+
 		return macro @:pos(field.pos) 250;
 	}
 }

@@ -42,15 +42,15 @@ class TestAsync extends Test {
 	}
 }
 
-// @:timeout(1000)
-// class TestClassTimeout extends Test {
-// 	function testClassTimeout(async:Async) {
-// 		Timer.delay(
-// 			function() {
-// 				Assert.pass();
-// 				async.done();
-// 			},
-// 			300 //more than default timeout (250)
-// 		);
-// 	}
-// }
+@:timeout(1000)
+class TestClassTimeout extends Test {
+	function testClassTimeout(async:Async) {
+		Timer.delay(
+			function() {
+				Assert.pass();
+				async.done();
+			},
+			300 //more than default timeout (250)
+		);
+	}
+}
