@@ -1,3 +1,7 @@
+# v.1.9.3
+- Added `utest.Async.setTimeout(ms)` to change async test timeout from within the test code ([#67](https://github.com/haxe-utest/utest/pull/67))
+- Added `@:timeout(999)` support at class level to change default timeout for all tests in a class ([#67](https://github.com/haxe-utest/utest/pull/67))
+
 # v.1.9.2
 - Fixed `ITest requires __initializeUtest__` error for test cases with macros
 
