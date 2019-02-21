@@ -75,7 +75,7 @@ function teardownClass(async:Async):Void;
 
 Default timeout for asynchronous methods is 250ms. You can change it by adding `@:timeout(500)` meta.
 
-To add all test cases from `my.pack` package use `runner.addCases(my.pack)`. Any module found in `my.pack` is treated as a test case. That means each module should contain a class implementing `utest.ITest` and that class should have the same name as the module name.
+To add all test cases from `my.pack` package use `runner.addCases("my.pack")`. Any module found in `my.pack` is treated as a test case. That means each module should contain a class implementing `utest.ITest` and that class should have the same name as the module name.
 
 ```haxe
 import utest.Assert;
