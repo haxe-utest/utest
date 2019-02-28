@@ -17,6 +17,10 @@ class TestSyncITest extends Test {
 		setupCallCount++;
 	}
 
+	static function testStaticMethodsShouldNotBeTested() {
+		Assert.fail();
+	}
+
 	function testSync1() {
 		Assert.equals(1, setupClassCallCount);
 		Assert.isTrue(setupCallCount > 0);
