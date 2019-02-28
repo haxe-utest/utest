@@ -6,6 +6,8 @@ import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.ExprTools;
 
+using Lambda;
+
 @:enum
 private abstract IsAsync(Int) {
 	var Yes = 1;
@@ -36,7 +38,8 @@ class TestBuilder {
 		for (field in fields) {
 			switch (field.kind) {
 				case FFun(fn):
-					if(isTestName(field.name)) {
+					var isStatic = field.access == null ? false : field.access.has(AStatic);
+					if(!isStatic && isTestName(field.name)) {
 						processTest(cls, field, fn, initExprs);
 					} else if(isAccessoryMethod(field.name)) {
 						processAccessory(cls, field, fn, initExprs);
