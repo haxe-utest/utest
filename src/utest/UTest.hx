@@ -4,7 +4,7 @@ package utest;
  * Helper class to quickly generate test cases.
  */
 @:final class UTest {
-  public static function run(cases : Array<{}>, ?callback : Void->Void) {
+  public static function run<T:{}>(cases : Array<T>, ?callback : Void->Void) {
     var runner = new Runner();
     for(eachCase in cases)
       runner.addCase(eachCase);
