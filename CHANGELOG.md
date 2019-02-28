@@ -1,3 +1,6 @@
+# v.1.9.5
+- Fixed UTest trying to execute static method whose name starts with 'test' ([#71](https://github.com/haxe-utest/utest/issues/71))
+
 # v.1.9.4
 - Fixed signature of UTest.run(), which led to variance problems when the array isn't declared directly against the call argument. ([#70](https://github.com/haxe-utest/utest/pull/70))
 
