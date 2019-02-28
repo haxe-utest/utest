@@ -1,3 +1,6 @@
+# v.1.9.4
+- Fixed signature of UTest.run(), which led to variance problems when the array isn't declared directly against the call argument. ([#70](https://github.com/haxe-utest/utest/pull/70))
+
 # v.1.9.3
 - Added `utest.Async.setTimeout(ms)` to change async test timeout from within the test code ([#67](https://github.com/haxe-utest/utest/pull/67))
 - Added `@:timeout(999)` support at class level to change default timeout for all tests in a class ([#67](https://github.com/haxe-utest/utest/pull/67))
