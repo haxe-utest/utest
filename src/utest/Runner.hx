@@ -134,7 +134,13 @@ class Runner {
       throw 'Cannot add the same test twice.';
     }
     var fixtures = [];
+	#if as3
+	// AS3 can't handle the ECheckType cast. Let's dodge the issue.
+	var tmp:TestData.Initializer = cast testCase;
+	var init:TestData.InitializeUtest = tmp.__initializeUtest__();
+	#else
     var init:TestData.InitializeUtest = (cast testCase:TestData.Initializer).__initializeUtest__();
+	#end
     for(test in init.tests) {
       if(!isTestFixtureName(test.name, ['test', 'spec'], pattern, globalPattern)) {
         continue;
