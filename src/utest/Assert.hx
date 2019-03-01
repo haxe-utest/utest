@@ -13,7 +13,7 @@ import haxe.Constraints;
  * public function testObvious() {
  *   Assert.equals(1, 0); // fails
  *   Assert.isFalse(1 == 1, "guess what?"); // fails and returns the passed message
- *   Assert.isTrue(true); // successfull
+ *   Assert.isTrue(true); // successful
  * }
  * ```
  */
@@ -24,6 +24,16 @@ class Assert {
    */
   public static var results : List<Assertation>;
 
+  static inline function processResult(cond : Bool, getMessage : Void -> String, ?pos : PosInfos) {
+    if (results == null) {
+      throw 'Assert at ${pos.fileName}:${pos.lineNumber} out of context. Most likely you are trying to assert after a test timeout.';
+    }
+    if(cond)
+      results.add(Success(pos));
+    else
+      results.add(Failure(getMessage(), pos));
+  }
+
   /**
    * Asserts successfully when the condition is true.
    * @param cond The condition to test
@@ -32,15 +42,7 @@ class Assert {
    * unless you know what you are doing.
    */
   public static function isTrue(cond : Bool, ?msg : String, ?pos : PosInfos) {
-    if (results == null) {
-      throw 'Assert at ${pos.fileName}:${pos.lineNumber} out of context. Most likely you are trying to assert after a test timeout.';
-    }
-    if (null == msg)
-      msg = "expected true";
-    if(cond)
-      results.add(Success(pos));
-    else
-      results.add(Failure(msg, pos));
+    processResult(cond, function() return msg != null ? msg : "expected true", pos);
   }
 
   /**
@@ -51,9 +53,7 @@ class Assert {
    * unless you know what you are doing.
    */
   public static function isFalse(value : Bool, ?msg : String, ?pos : PosInfos) {
-    if (null == msg)
-      msg = "expected false";
-    isTrue(value == false, msg, pos);
+    processResult(value == false, function() return msg != null ? msg : "expected false", pos);
   }
 
   /**
@@ -64,9 +64,7 @@ class Assert {
    * unless you know what you are doing.
    */
   public static function isNull(value : Dynamic, ?msg : String, ?pos : PosInfos) {
-    if (msg == null)
-      msg = "expected null but it is " + q(value);
-    isTrue(value == null, msg, pos);
+    processResult(value == null, function() return msg != null ? msg : "expected null but it is " + q(value), pos);
   }
 
   /**
@@ -77,9 +75,7 @@ class Assert {
    * unless you know what you are doing.
    */
   public static function notNull(value : Dynamic, ?msg : String, ?pos : PosInfos) {
-    if (null == msg)
-      msg = "expected not null";
-    isTrue(value != null, msg, pos);
+    processResult(value != null, function() return msg != null ? msg : "expected not null", pos);
   }
 
   /**
@@ -91,8 +87,7 @@ class Assert {
    * unless you know what you are doing.
    */
   public static function is(value : Dynamic, type : Dynamic, ?msg : String , ?pos : PosInfos) {
-    if (msg == null) msg = "expected type " + typeToString(type) + " but it is " + typeToString(value);
-    isTrue(Std.is(value, type), msg, pos);
+    processResult(Std.is(value, type), function() return msg != null ? msg : "expected type " + typeToString(type) + " but it is " + typeToString(value), pos);
   }
 
   /**
@@ -107,8 +102,7 @@ class Assert {
    * unless you know what you are doing.
    */
   public static function notEquals(expected : Dynamic, value : Dynamic, ?msg : String , ?pos : PosInfos) {
-    if(msg == null) msg = "expected " + q(expected) + " and test value " + q(value) + " should be different";
-    isFalse(expected == value, msg, pos);
+    processResult(expected != value, function() return msg != null ? msg : "expected " + q(expected) + " and test value " + q(value) + " should be different", pos);
   }
 
   /**
@@ -123,8 +117,7 @@ class Assert {
    * unless you know what you are doing.
    */
   public static function equals(expected : Dynamic, value : Dynamic, ?msg : String , ?pos : PosInfos) {
-    if(msg == null) msg = "expected " + q(expected) + " but it is " + q(value);
-    isTrue(expected == value, msg, pos);
+    processResult(expected == value, function() return msg != null ? msg : "expected " + q(expected) + " but it is " + q(value), pos);
   }
 
   /**
@@ -139,8 +132,7 @@ class Assert {
    * unless you know what you are doing.
    */
   public static function match(pattern : EReg, value : Dynamic, ?msg : String , ?pos : PosInfos) {
-    if(msg == null) msg = "the value " + q(value) + " does not match the provided pattern";
-    isTrue(pattern.match(value), msg, pos);
+    processResult(pattern.match(value), function() return msg != null ? msg : "the value " + q(value) + " does not match the provided pattern", pos);
   }
 
   /**
@@ -157,8 +149,7 @@ class Assert {
    * @todo test the approximation argument
    */
   public static function floatEquals(expected : Float, value : Float, ?approx : Float, ?msg : String , ?pos : PosInfos) : Void {
-    if (msg == null) msg = "expected " + q(expected) + " but it is " + q(value);
-    return isTrue(_floatEquals(expected, value, approx), msg, pos);
+    processResult(_floatEquals(expected, value, approx), function() return msg != null ? msg : "expected " + q(expected) + " but it is " + q(value), pos);
   }
 
   static function _floatEquals(expected : Float, value : Float, ?approx : Float)
