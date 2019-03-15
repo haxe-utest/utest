@@ -77,7 +77,20 @@ class TestBuilder {
 
 	static function processTest(cls:ClassType, field:Field, fn:Function, initExprs:Array<Expr>) {
 		var test = field.name;
-		switch(fn.args.length) {
+		var posInfos = 0;
+
+		if (fn.args.length >= 1) {
+			switch (fn.args[fn.args.length - 1].type) {
+				case TPath(p):
+					if (p.pack.length == 0 && p.name == "PosInfos") {
+						posInfos = 1;
+					}
+
+				default:
+			}
+		}
+
+		switch(fn.args.length - posInfos) {
 			//synchronous test
 			case 0:
 				initExprs.push(macro @:pos(field.pos) init.tests.push({
