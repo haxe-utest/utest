@@ -744,6 +744,6 @@ private typedef LikeStatus = {
   recursive : Bool,
   path : String,
   error : String,
-  expectedValue:Any,
-  actualValue:Any
+  expectedValue:Dynamic,
+  actualValue:Dynamic
 };
