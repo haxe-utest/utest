@@ -195,6 +195,8 @@ class Assert {
   static function sameAs(expected : Dynamic, value : Dynamic, status : LikeStatus, approx : Float) {
     var texpected = getTypeName(expected);
     var tvalue = getTypeName(value);
+    status.expectedValue = expected;
+    status.actualValue = value;
 
     if(texpected != tvalue && !((texpected == "Int" && tvalue == "Float") || (texpected == "Float" && tvalue == "Int"))) { //Int and Float are treated as same so that an int and float comaparison will use floatEquals
 
@@ -259,7 +261,7 @@ class Assert {
               status.path = path == '' ? 'array['+i+']' : path + '['+i+']';
               if (!sameAs(expected[i], value[i], status, approx))
               {
-                status.error = "expected array element at ["+i+"] to be " + q(expected[i]) + " but it is " + q(value[i]) + (status.path == '' ? '' : ' for field '+status.path);
+                status.error = "expected array element at ["+i+"] to have " + q(status.expectedValue) + " but it is " + q(status.actualValue) + (status.path == '' ? '' : ' for field '+status.path);
                 return false;
               }
             }
@@ -309,7 +311,7 @@ class Assert {
               status.path = path == '' ? 'hash['+key+']' : path + '['+key+']';
               if (!sameAs(map.get(key), vmap.get(key), status, approx))
               {
-                status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
+                status.error = "expected " + q(status.expectedValue) + " but it is " + q(status.actualValue) + (status.path == '' ? '' : ' for field '+status.path);
                 return false;
               }
             }
@@ -331,7 +333,7 @@ class Assert {
               status.path = path == '' ? 'iterator['+i+']' : path + '['+i+']';
               if (!sameAs(evalues[i], vvalues[i], status, approx))
               {
-                status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
+                status.error = "expected " + q(status.expectedValue) + " but it is " + q(status.actualValue) + (status.path == '' ? '' : ' for field '+status.path);
                 return false;
               }
             }
@@ -447,7 +449,7 @@ class Assert {
               status.path = path == '' ? 'iterator['+i+']' : path + '['+i+']';
               if (!sameAs(evalues[i], vvalues[i], status, approx))
               {
-                status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
+                status.error = "expected " + q(status.expectedValue) + " but it is " + q(status.actualValue) + (status.path == '' ? '' : ' for field '+status.path);
                 return false;
               }
             }
@@ -510,7 +512,13 @@ class Assert {
   public static function same(expected : Dynamic, value : Dynamic, ?recursive : Bool, ?msg : String, ?approx : Float,  ?pos : PosInfos) {
     if (null == approx)
       approx = 1e-5;
-    var status = { recursive : null == recursive ? true : recursive, path : '', error : null };
+    var status = {
+      recursive : null == recursive ? true : recursive,
+      path : '',
+      error : null,
+      expectedValue : expected,
+      actualValue : value
+    };
     if(sameAs(expected, value, status, approx)) {
       pass(msg, pos);
     } else {
@@ -735,5 +743,7 @@ class Assert {
 private typedef LikeStatus = {
   recursive : Bool,
   path : String,
-  error : String
+  error : String,
+  expectedValue:Any,
+  actualValue:Any
 };
