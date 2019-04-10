@@ -1,3 +1,8 @@
+# v.1.9.6
+- Beter failure messages for collections ([#81](https://github.com/haxe-utest/utest/issues/81))
+- Fixed for as3 target ([#78](https://github.com/haxe-utest/utest/pull/78))
+- Fixed test app shutdown before all tests are finished in some rare case on Java (see https://github.com/HaxeFoundation/haxe/issues/8131)
+
 # v.1.9.5
 - Fixed UTest trying to execute static method whose name starts with 'test' ([#71](https://github.com/haxe-utest/utest/issues/71))
 

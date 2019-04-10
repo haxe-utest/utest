@@ -274,9 +274,11 @@ class Runner {
    * Can't reproduce it on a separated sample.
    */
   function waitForCompletion() {
+    #if (haxe_ver >= "3.4.0")
     while(!complete) {
-      haxe.Timer.delay(() -> {}, 100);
+      haxe.Timer.delay(function() {}, 100);
     }
+    #end
   }
 
   var pos:Int = 0;
