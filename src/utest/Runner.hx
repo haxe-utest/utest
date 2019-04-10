@@ -275,8 +275,8 @@ class Runner {
    */
   function waitForCompletion() {
     #if (haxe_ver >= "3.4.0")
-    while(!complete) {
-      haxe.Timer.delay(function() {}, 100);
+    if(!complete) {
+      haxe.Timer.delay(waitForCompletion, 100);
     }
     #end
   }
