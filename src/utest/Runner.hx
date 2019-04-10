@@ -75,6 +75,11 @@ class Runner {
   public var globalPattern(default, default) : Null<EReg> = null;
 
   /**
+   * Indicates if all tests are finished.
+   */
+  var complete:Bool = false;
+
+  /**
    * Instantiates a Runner onject.
    */
   public function new() {
@@ -260,6 +265,18 @@ class Runner {
     #else
     runNext();
     #end
+    waitForCompletion();
+  }
+
+  /**
+   * Don't let the app to shutdown until all tests are finished.
+   * @see https://github.com/HaxeFoundation/haxe/issues/8131
+   * Can't reproduce it on a separated sample.
+   */
+  function waitForCompletion() {
+    while(!complete) {
+      haxe.Timer.delay(() -> {}, 100);
+    }
   }
 
   var pos:Int = 0;
@@ -275,6 +292,7 @@ class Runner {
         return;
       }
     }
+    complete = true;
     onComplete.dispatch(this);
   }
 
