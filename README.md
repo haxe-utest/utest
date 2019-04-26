@@ -364,7 +364,7 @@ Creates a warning message.
 You can easily ignore one of tests within specifying `@Ignored` meta.
 
 ```haxe
-class TestCase extends utes.Test {
+class TestCase extends utest.Test {
 
   @Ignored("Ignore this test")
   function testIgnoredWithReason() {}
