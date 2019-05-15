@@ -398,7 +398,8 @@ private class ITestRunner {
     try {
       teardownAsync = teardownClass();
     } catch(e:Dynamic) {
-      teardownFailed(TeardownError('tearDownClass failed: $e', CallStack.exceptionStack()));
+      teardownFailed(TeardownError('teardownClass failed: $e', CallStack.exceptionStack()));
+      return true;
     }
     //case was executed synchronously from `runCases()`
     if(teardownAsync.resolved && finishedHandler == null) {
