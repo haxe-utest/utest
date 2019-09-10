@@ -164,10 +164,13 @@ class TestBuilder {
 			case EBlock(exprs):
 				var newExprs = [];
 				for(expr in exprs) {
-					if(isSpecOp(expr)) {
-						newExprs.push(macro @:pos(expr.pos) utest.Assert.isTrue($expr));
-					} else {
-						newExprs.push(ExprTools.map(expr, prepareSpec));
+					switch(expr.expr) {
+						case EBinop(op, left, right):
+							newExprs.push(parseSpecBinop(expr, op, left, right));
+						case EUnop(op, prefix, subj):
+							newExprs.push(parseSpecUnop(expr, op, prefix, subj));
+						case _:
+							newExprs.push(ExprTools.map(expr, prepareSpec));
 					}
 				}
 				{expr:EBlock(newExprs), pos:expr.pos};
@@ -176,20 +179,45 @@ class TestBuilder {
 		}
 	}
 
-	static function isSpecOp(expr:Expr):Bool {
-		return switch(expr.expr) {
-			case EBinop(op,	_, _):
-				switch(op) {
-					case OpEq | OpNotEq | OpGt | OpGte | OpLt | OpLte: true;
-					case _: false;
+	static function parseSpecBinop(expr:Expr, op:Binop, left:Expr, right:Expr):Expr {
+		switch op {
+			case OpEq | OpNotEq | OpGt | OpGte | OpLt | OpLte:
+				var leftStr = ExprTools.toString(left);
+				var rightStr = ExprTools.toString(right);
+				var opStr = strBinop(op);
+				var binop = {
+					expr:EBinop(op, macro @:pos(left.pos) _utest_left, macro @:pos(right.pos) _utest_right),
+					pos:expr.pos
 				}
-			case EUnop(op, false, _):
-				switch (op) {
-					case OpNot: true;
-					case _: false;
+				return macro @:pos(expr.pos) {
+					var _utest_left = $left;
+					var _utest_right = $right;
+					var _utest_msg = "Failed: " + $v{leftStr} + " " + $v{opStr} + " " + $v{rightStr} + ". "
+								+ "Values: " + _utest_left + " " + $v{opStr} + " " + _utest_right;
+					utest.Assert.isTrue($binop, _utest_msg);
 				}
 			case _:
-				false;
+				return ExprTools.map(expr, prepareSpec);
+		}
+	}
+
+	static function parseSpecUnop(expr:Expr, op:Unop, prefix:Bool, subj:Expr):Expr {
+		switch op {
+			case OpNot if(!prefix):
+				var subjStr = ExprTools.toString(subj);
+				var opStr = strUnop(op);
+				var unop = {
+					expr: EUnop(op, prefix, macro @:pos(subj.pos) _utest_subj),
+					pos: expr.pos
+				}
+				return macro @:pos(expr.pos) {
+					var _utest_subj = $subj;
+					var _utest_msg = "Failed: " + $v{opStr} + $v{subjStr} + ". "
+									+ "Values: " + $v{opStr} + _utest_subj;
+					utest.Assert.isTrue($unop, _utest_msg);
+				}
+			case _:
+				return ExprTools.map(expr, prepareSpec);
 		}
 	}
 
@@ -232,5 +260,44 @@ class TestBuilder {
 		}
 
 		return macro @:pos(field.pos) 250;
+	}
+
+	static function strBinop(op:Binop) {
+		return switch op {
+			case OpAdd: '+';
+			case OpMult: '*';
+			case OpDiv: '/';
+			case OpSub: '-';
+			case OpAssign: '=';
+			case OpEq: '==';
+			case OpNotEq: '!=';
+			case OpGt: '>';
+			case OpGte: '>=';
+			case OpLt: '<';
+			case OpLte: '<=';
+			case OpAnd: '&';
+			case OpOr: '|';
+			case OpXor: '^';
+			case OpBoolAnd: '&&';
+			case OpBoolOr: '||';
+			case OpShl: '<<';
+			case OpShr: '>>';
+			case OpUShr: '>>>';
+			case OpMod: '%';
+			case OpInterval: '...';
+			case OpArrow: '=>';
+			case OpIn: 'in';
+			case OpAssignOp(op): strBinop(op) + '=';
+		}
+	}
+
+	static function strUnop(op:Unop) {
+		return switch op {
+			case OpIncrement: '++';
+			case OpDecrement: '--';
+			case OpNot: '!';
+			case OpNeg: '-';
+			case OpNegBits: '~';
+		}
 	}
 }
