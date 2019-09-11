@@ -117,7 +117,7 @@ class TestCase extends utest.Test {
 
 ## Running single test from a test suite.
 
-Adding `-D UTEST_PATTERN pattern` to the compilation flags makes UTest to run only tests which have names matching the `pattern`. The pattern could be a plain string or a regular expression without delimiters.
+Adding `-D UTEST_PATTERN=pattern` to the compilation flags makes UTest to run only tests which have names matching the `pattern`. The pattern could be a plain string or a regular expression without delimiters.
 
 Another option is to add `UTEST_PATTERN` to the environment variables at compile time.
 
