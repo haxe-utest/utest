@@ -97,7 +97,7 @@ class Async {
 					done();
 				}
 			},
-			0
+			1
 		);
 	}
 
