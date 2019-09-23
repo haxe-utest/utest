@@ -1,3 +1,6 @@
+# v.X.X.X
+- `UTEST_PATTERN` and `Runner.globalPattern` also check test class name now ([#93](https://github.com/haxe-utest/utest/issues/93))
+
 # v.1.9.6
 - Beter failure messages for collections ([#81](https://github.com/haxe-utest/utest/issues/81))
 - Fixed for as3 target ([#78](https://github.com/haxe-utest/utest/pull/78))
