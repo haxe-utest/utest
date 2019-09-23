@@ -58,9 +58,12 @@ class TestHandler<T> {
       if(!expectingAsync) {
         executeFixtureMethod();
       }
-    } catch(e : Dynamic) {
+    }
+    #if !UTEST_FAILURE_THROW
+    catch(e : Dynamic) {
       results.add(SetupError(e, exceptionStack()));
     }
+    #end
     isSync = false;
     if(!expectingAsync) {
       executeFinally();
@@ -70,9 +73,12 @@ class TestHandler<T> {
   function executeFixtureMethod() {
     try {
       executeMethod(fixture.method);
-    } catch (e : Dynamic) {
+    }
+    #if !UTEST_FAILURE_THROW
+    catch (e : Dynamic) {
       results.add(Error(e, exceptionStack()));
     }
+    #end
   }
 
   function executeFinally() {
@@ -166,9 +172,12 @@ class TestHandler<T> {
       try {
         handler.bindHandler();
         f();
-      } catch(e : Dynamic) {
+      }
+      #if !UTEST_FAILURE_THROW
+      catch(e : Dynamic) {
         handler.results.add(AsyncError(e, exceptionStack(0))); // TODO check the correct number of functions is popped from the stack
       }
+      #end
     };
   }
 
@@ -184,9 +193,12 @@ class TestHandler<T> {
       try {
         handler.bindHandler();
         f(e);
-      } catch(e : Dynamic) {
+      }
+      #if !UTEST_FAILURE_THROW
+      catch(e : Dynamic) {
         handler.results.add(AsyncError(e, exceptionStack(0))); // TODO check the correct number of functions is popped from the stack
       }
+      #end
     };
   }
 
@@ -238,9 +250,12 @@ class TestHandler<T> {
     try {
       executeMethod(fixture.teardown);
       executeAsyncMethod(fixture.teardownAsync, complete);
-    } catch(e : Dynamic) {
+    }
+    #if !UTEST_FAILURE_THROW
+    catch(e : Dynamic) {
       results.add(TeardownError(e, exceptionStack(2))); // TODO check the correct number of functions is popped from the stack
     }
+    #end
     isSync = false;
     if(!expectingAsync) {
       completedFinally();

@@ -139,13 +139,13 @@ class Runner {
       throw 'Cannot add the same test twice.';
     }
     var fixtures = [];
-	#if as3
-	// AS3 can't handle the ECheckType cast. Let's dodge the issue.
-	var tmp:TestData.Initializer = cast testCase;
-	var init:TestData.InitializeUtest = tmp.__initializeUtest__();
-	#else
+  #if as3
+  // AS3 can't handle the ECheckType cast. Let's dodge the issue.
+  var tmp:TestData.Initializer = cast testCase;
+  var init:TestData.InitializeUtest = tmp.__initializeUtest__();
+  #else
     var init:TestData.InitializeUtest = (cast testCase:TestData.Initializer).__initializeUtest__();
-	#end
+  #end
     for(test in init.tests) {
       if(!isTestFixtureName(test.name, ['test', 'spec'], pattern, globalPattern)) {
         continue;
@@ -350,10 +350,13 @@ private class ITestRunner {
       teardownClass = data.teardownClass;
       try {
         setupAsync = data.setupClass();
-      } catch(e:Dynamic) {
+      }
+      #if !UTEST_FAILURE_THROW
+      catch(e:Dynamic) {
         setupFailed(SetupError('setupClass failed: $e', CallStack.exceptionStack()));
         return;
       }
+      #end
       if(setupAsync.resolved) {
         if(!runFixtures()) return;
       } else {
@@ -397,10 +400,13 @@ private class ITestRunner {
     //no fixtures left in the current case
     try {
       teardownAsync = teardownClass();
-    } catch(e:Dynamic) {
+    }
+    #if !UTEST_FAILURE_THROW
+    catch(e:Dynamic) {
       teardownFailed(TeardownError('teardownClass failed: $e', CallStack.exceptionStack()));
       return true;
     }
+    #end
     //case was executed synchronously from `runCases()`
     if(teardownAsync.resolved && finishedHandler == null) {
       return true;

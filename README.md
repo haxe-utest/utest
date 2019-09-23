@@ -136,6 +136,16 @@ function testSomething(async:utest.Async) {
 }
 ```
 
+## Convert failures into exceptions
+
+It is possible to make UTest throw an unhandled exception instead of adding a failure to the report.
+
+Enable this behavior with `-D UTEST_FAILURE_THROW`.
+
+In this case any exception or failure in test or setup methods will lead to a crash.
+Instead of a test report you will see an unhandled exception message with the exception
+stack trace (depending on a target platform).
+
 ## Assert
 
 [Assert](src/utest/Assert.hx) contains a plethora of methods to perform your tests:
