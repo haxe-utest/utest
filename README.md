@@ -125,6 +125,37 @@ Another option is to add `UTEST_PATTERN` to the environment variables at compile
 
 If a test case accepts an argument, that test case is treated as an asynchronous test.
 
+```haxe
+@:timeout(500) //change timeout (default: 250ms)
+function testSomething(async:utest.Async) {
+  // do your async goodness and remember to call `done()` at the end.
+  haxe.Timer.delay(function() {
+    Assert.isTrue(true); // put a sensible test here
+    async.done();
+  }, 50);
+}
+```
+
+It's also possible to "branch" asynchronous tests. In this case a test will be considered completed when all branches are finished.
+
+```haxe
+function testSomething(async:utest.Async) {
+  var branch = async.branch();
+  haxe.Timer.delay(function() {
+    Assert.isTrue(true); // put a sensible test here
+    branch.done();
+  }, 50);
+
+  // or create an asynchronous branch with a callback
+  async.branch(function(branch) {
+    haxe.Timer.delay(function() {
+      Assert.isTrue(true); // put a sensible test here
+      branch.done();
+    }, 50);
+  });
+}
+```
+
 ## Print test names being executed
 
 `-D UTEST_PRINT_TESTS` makes UTest print test names in the process of tests execution.
@@ -138,17 +169,6 @@ Running my.tests.TestAnother...
     testThat
 ```
 And after finishing all the tests UTest will print usual report.
-
-```haxe
-@:timeout(500) //change timeout (default: 250ms)
-function testSomething(async:utest.Async) {
-  // do your async goodness and remember to call `done()` at the end.
-  haxe.Timer.delay(function() {
-    Assert.isTrue(true); // put a sensible test here
-    async.done();
-  }, 50);
-}
-```
 
 ## Assert
 

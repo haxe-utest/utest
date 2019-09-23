@@ -15,8 +15,10 @@ class Async {
 	public var timedOut(default,null):Bool = false;
 
 	var callbacks:Array<Void->Void> = [];
+	var timeoutMs:Int;
 	var startTime:Float;
 	var timer:Timer;
+	var branches:Array<Async> = [];
 
 	/**
 	 * Returns an instance of `Async` which is already resolved.
@@ -31,6 +33,7 @@ class Async {
 	}
 
 	function new(timeoutMs:Int = 250) {
+		this.timeoutMs = timeoutMs;
 		startTime = Timer.stamp();
 		timer = Timer.delay(setTimedOutState, timeoutMs);
 	}
@@ -44,6 +47,7 @@ class Async {
 			}
 		}
 		resolved = true;
+		timer.stop();
 		for (cb in callbacks) cb();
 	}
 
@@ -60,8 +64,41 @@ class Async {
 
 		timer.stop();
 
+		this.timeoutMs = timeoutMs;
 		var delay = timeoutMs - Math.round(1000 * (Timer.stamp() - startTime));
 		timer = Timer.delay(setTimedOutState, delay);
+	}
+
+	/**
+		Create a sub-async. Current `Async` instance will be resolved automatically once all sub-asyncs are resolved.
+	**/
+	public function branch(?fn:Async->Void):Async {
+		var branch = new Async(timeoutMs);
+		branches.push(branch);
+		branch.then(checkBranches);
+		if(fn != null) fn(branch);
+		return branch;
+	}
+
+	function checkBranches() {
+		if(resolved) return;
+		for(branch in branches) {
+			if(!branch.resolved) return;
+			if(branch.timedOut) {
+				setTimedOutState();
+				return;
+			}
+		}
+		//wait, maybe other branches are about to be created
+		var branchCount = branches.length;
+		Timer.delay(
+			function() {
+				if(branchCount == branches.length) { // no new branches have been spawned
+					done();
+				}
+			},
+			0
+		);
 	}
 
 	function then(cb:Void->Void) {

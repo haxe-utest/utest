@@ -2,6 +2,19 @@ package utest;
 
 import haxe.Timer;
 
+@:timeout(1000)
+class TestClassTimeout extends Test {
+	function testClassTimeout(async:Async) {
+		Timer.delay(
+			function() {
+				Assert.pass();
+				async.done();
+			},
+			300 //more than default timeout (250)
+		);
+	}
+}
+
 class TestAsync extends Test {
 	function testResolved() {
 		var async = Async.getResolved();
@@ -40,17 +53,46 @@ class TestAsync extends Test {
 			300 //more than default timeout (250)
 		);
 	}
-}
 
-@:timeout(1000)
-class TestClassTimeout extends Test {
-	function testClassTimeout(async:Async) {
+	function testBranch_allBranchesDone(async:Async) {
+		var cnt = 0;
+		async.branch(function(sub) {
+			Timer.delay(
+				function() {
+					Assert.equals(0, cnt);
+					cnt++;
+					sub.done();
+				},
+				50
+			);
+		});
+		var sub = async.branch();
 		Timer.delay(
 			function() {
-				Assert.pass();
-				async.done();
+				Assert.equals(1, cnt);
+				sub.done();
 			},
-			300 //more than default timeout (250)
+			100
 		);
+	}
+
+	function testBranch_rootDone(async:Async) {
+		var sub = async.branch();
+		Timer.delay(function() sub.done(), 50); //more than default timeout (250)
+		Assert.pass();
+		async.done();
+	}
+
+	function testBranch_firstBranchDoneImmediately(async:Async) {
+		async.branch(function(sub) sub.done());
+		async.branch(function(sub) {
+			Timer.delay(
+				function() {
+					Assert.pass();
+					sub.done();
+				},
+				50
+			);
+		});
 	}
 }
