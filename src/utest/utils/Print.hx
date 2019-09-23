@@ -7,7 +7,7 @@ class Print {
 		#elseif js
 			untyped __js__('console.log({0})', msg);
 		#else
-			trace(msg)
+			trace(msg);
 		#end
 	}
 
