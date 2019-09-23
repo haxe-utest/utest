@@ -1,5 +1,6 @@
 package utest;
 
+import utest.utils.Print;
 import haxe.CallStack;
 import utest.Dispatcher;
 #if macro
@@ -288,9 +289,14 @@ class Runner {
   var pos:Int = 0;
   var executedFixtures:Int = 0;
   function runNext(?finishedHandler:TestHandler<TestFixture>) {
+    var currentCase = null;
     for(i in pos...fixtures.length) {
       var fixture = fixtures[pos++];
       if(fixture.isITest) continue;
+      if(currentCase != fixture.target) {
+        currentCase = fixture.target;
+        Print.startCase(Type.getClassName(Type.getClass(currentCase)));
+      }
       var handler = runFixture(fixture);
       if(!handler.finished) {
         handler.onComplete.add(runNext);
@@ -311,6 +317,7 @@ class Runner {
     #end
     handler.onComplete.add(testComplete);
     handler.onPrecheck.add(this.onPrecheck.dispatch);
+    Print.startTest(fixture.method);
     onTestStart.dispatch(handler);
     handler.execute();
     return handler;
@@ -349,6 +356,7 @@ private class ITestRunner {
   function runCases() {
     while(cases.hasNext()) {
       currentCase = cases.next();
+      Print.startCase(Type.getClassName(Type.getClass(currentCase)));
       var data = runner.iTestFixtures.get(currentCase);
       currentCaseFixtures = data.fixtures;
       teardownClass = data.teardownClass;

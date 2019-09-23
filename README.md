@@ -125,6 +125,20 @@ Another option is to add `UTEST_PATTERN` to the environment variables at compile
 
 If a test case accepts an argument, that test case is treated as an asynchronous test.
 
+## Print test names being executed
+
+`-D UTEST_PRINT_TESTS` makes UTest print test names in the process of tests execution.
+The output will look like this:
+```
+Running my.tests.TestAsync...
+    testSetTimeout
+    testTimeout
+Running my.tests.TestAnother...
+    testThis
+    testThat
+```
+And after finishing all the tests UTest will print usual report.
+
 ```haxe
 @:timeout(500) //change timeout (default: 250ms)
 function testSomething(async:utest.Async) {

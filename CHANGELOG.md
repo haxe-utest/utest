@@ -1,5 +1,6 @@
 # v.X.X.X
 - `UTEST_PATTERN` and `Runner.globalPattern` also check test class name now ([#93](https://github.com/haxe-utest/utest/issues/93))
+- `-D UTEST_PRINT_TEST` to print test names in the process of execution ([#95](https://github.com/haxe-utest/utest/issues/95))
 
 # v.1.9.6
 - Beter failure messages for collections ([#81](https://github.com/haxe-utest/utest/issues/81))
