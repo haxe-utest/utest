@@ -30,8 +30,13 @@ class Assert {
     }
     if(cond)
       results.add(Success(pos));
-    else
+    else {
+      #if UTEST_FAILURE_THROW
+      throw '${pos.fileName}:${pos.lineNumber}: ${getMessage()}';
+      #else
       results.add(Failure(getMessage(), pos));
+      #end
+    }
   }
 
   /**
@@ -546,9 +551,6 @@ class Assert {
     var name = type != null ? Type.getClassName(type) : "Dynamic";
     try {
       method();
-      if (null == msgNotThrown)
-        msgNotThrown = "exception of type " + name + " not raised";
-      fail(msgNotThrown, pos);
     } catch (ex : Dynamic) {
       if(null == type) {
         pass(pos);
@@ -557,7 +559,11 @@ class Assert {
           msgWrongType = "expected throw of type " + name + " but it is "  + ex;
         isTrue(Std.is(ex, type), msgWrongType, pos);
       }
+      return;
     }
+    if (null == msgNotThrown)
+      msgNotThrown = "exception of type " + name + " not raised";
+    fail(msgNotThrown, pos);
   }
 
   /**

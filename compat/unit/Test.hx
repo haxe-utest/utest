@@ -24,10 +24,11 @@ class Test {
   function exc(f : Void -> Void, ?pos) {
     try {
       f();
-      Assert.fail("No exception occured",pos);
     } catch(e : Dynamic) {
       Assert.isTrue(true, pos);
+      return;
     }
+    Assert.fail("No exception occured",pos);
   }
 
   function unspec(f : Void -> Void, ?pos) {
