@@ -22,12 +22,12 @@ script:
   - haxelib run travix python
   - haxelib run travix node
   # - haxelib run travix flash # Failing
-  # - haxelib run travix js #Need to check against phantomjs
+  - haxelib run travix js
+  - haxelib run travix node
   - haxelib run travix java
   - if ! [ "$TRAVIS_HAXE_VERSION" == "3.2.1" ]; then haxelib run travix cpp; fi
   - haxelib run travix cs
-  #Fails to install php on OSX
-  - if [ `uname` = "Linux" ]; then haxelib run travix php; fi;
-  #Invalid lua setup on OSX. See https://github.com/back2dos/travix/issues/78
-  # - if [ `uname` = "Linux" ] && ! [ "$TRAVIS_HAXE_VERSION" == "3.2.1" ]; then haxelib run travix lua; fi;
+  #Fails to install php on both Linux & OSX: https://github.com/back2dos/travix/issues/114
+  # - haxelib run travix php
+  - if [ `uname` = "Linux" ] && ! [ "$TRAVIS_HAXE_VERSION" == "3.2.1" ]; then haxelib run travix lua; fi;
 
