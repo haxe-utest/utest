@@ -22,8 +22,7 @@ script:
   - haxelib run travix python
   - haxelib run travix node
   # - haxelib run travix flash # Failing
-  - haxelib run travix js
-  - haxelib run travix node
+  # - haxelib run travix js
   - haxelib run travix java
   - if ! [ "$TRAVIS_HAXE_VERSION" == "3.2.1" ]; then haxelib run travix cpp; fi
   - haxelib run travix cs
