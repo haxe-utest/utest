@@ -8,7 +8,7 @@ class TestIgnored {
   public function new() {
   }
 
-  public function testIngoredWithoutReason():Void {
+  public function testIgnoredWithoutReason():Void {
     var async = Assert.createAsync();
 
     var runner:Runner = new Runner();
@@ -37,7 +37,7 @@ class TestIgnored {
     runner.run();
   }
 
-  public function testIngoredWithReason():Void {
+  public function testIgnoredWithReason():Void {
     var async = Assert.createAsync();
 
     var runner:Runner = new Runner();

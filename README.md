@@ -136,6 +136,40 @@ function testSomething(async:utest.Async) {
 }
 ```
 
+It's also possible to "branch" asynchronous tests. In this case a test will be considered completed when all branches are finished.
+
+```haxe
+function testSomething(async:utest.Async) {
+  var branch = async.branch();
+  haxe.Timer.delay(function() {
+    Assert.isTrue(true); // put a sensible test here
+    branch.done();
+  }, 50);
+
+  // or create an asynchronous branch with a callback
+  async.branch(function(branch) {
+    haxe.Timer.delay(function() {
+      Assert.isTrue(true); // put a sensible test here
+      branch.done();
+    }, 50);
+  });
+}
+```
+
+## Print test names being executed
+
+`-D UTEST_PRINT_TESTS` makes UTest print test names in the process of tests execution.
+The output will look like this:
+```
+Running my.tests.TestAsync...
+    testSetTimeout
+    testTimeout
+Running my.tests.TestAnother...
+    testThis
+    testThat
+```
+And after finishing all the tests UTest will print usual report.
+
 ## Convert failures into exceptions
 
 It is possible to make UTest throw an unhandled exception instead of adding a failure to the report.

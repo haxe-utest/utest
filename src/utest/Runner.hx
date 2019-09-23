@@ -1,5 +1,6 @@
 package utest;
 
+import utest.utils.Print;
 import haxe.CallStack;
 import utest.Dispatcher;
 #if macro
@@ -146,19 +147,22 @@ class Runner {
   #else
     var init:TestData.InitializeUtest = (cast testCase:TestData.Initializer).__initializeUtest__();
   #end
+    var className = Type.getClassName(Type.getClass(testCase));
     for(test in init.tests) {
-      if(!isTestFixtureName(test.name, ['test', 'spec'], pattern, globalPattern)) {
+      if(!isTestFixtureName(className, test.name, ['test', 'spec'], pattern, globalPattern)) {
         continue;
       }
       var fixture = TestFixture.ofData(testCase, test, init.accessories);
       addFixture(fixture);
       fixtures.push(fixture);
     }
-    iTestFixtures.set(testCase, {
-      setupClass:init.accessories.getSetupClass(),
-      fixtures:fixtures,
-      teardownClass:init.accessories.getTeardownClass()
-    });
+    if(fixtures.length > 0) {
+      iTestFixtures.set(testCase, {
+        setupClass:init.accessories.getSetupClass(),
+        fixtures:fixtures,
+        teardownClass:init.accessories.getTeardownClass()
+      });
+    }
   }
   #end
 
@@ -173,9 +177,10 @@ class Runner {
     if(!isMethod(test, teardownAsync))
       teardownAsync = null;
     var fields = Type.getInstanceFields(Type.getClass(test));
+    var className = Type.getClassName(Type.getClass(test));
       for (field in fields) {
         if(!isMethod(test, field)) continue;
-        if(!isTestFixtureName(field, [prefix], pattern, globalPattern)) continue;
+        if(!isTestFixtureName(className, field, [prefix], pattern, globalPattern)) continue;
         addFixture(new TestFixture(test, field, setup, teardown, setupAsync, teardownAsync));
       }
   }
@@ -227,17 +232,17 @@ class Runner {
     return macro @:pos(pos) $b{exprs};
   }
 
-  private function isTestFixtureName(name:String, prefixes:Array<String>, ?pattern:EReg, ?globalPattern:EReg):Bool {
+  private function isTestFixtureName(caseName:String, testName:String, prefixes:Array<String>, ?pattern:EReg, ?globalPattern:EReg):Bool {
     if (pattern == null && globalPattern == null) {
       for(prefix in prefixes) {
-        if(StringTools.startsWith(name, prefix)) {
+        if(StringTools.startsWith(testName, prefix)) {
           return true;
         }
       }
       return false;
     }
     if (pattern == null) pattern = globalPattern;
-    return pattern.match(name);
+    return pattern.match('$caseName.$testName');
   }
 
   public function addFixture(fixture : TestFixture) {
@@ -284,9 +289,14 @@ class Runner {
   var pos:Int = 0;
   var executedFixtures:Int = 0;
   function runNext(?finishedHandler:TestHandler<TestFixture>) {
+    var currentCase = null;
     for(i in pos...fixtures.length) {
       var fixture = fixtures[pos++];
       if(fixture.isITest) continue;
+      if(currentCase != fixture.target) {
+        currentCase = fixture.target;
+        Print.startCase(Type.getClassName(Type.getClass(currentCase)));
+      }
       var handler = runFixture(fixture);
       if(!handler.finished) {
         handler.onComplete.add(runNext);
@@ -307,6 +317,7 @@ class Runner {
     #end
     handler.onComplete.add(testComplete);
     handler.onPrecheck.add(this.onPrecheck.dispatch);
+    Print.startTest(fixture.method);
     onTestStart.dispatch(handler);
     handler.execute();
     return handler;
@@ -345,6 +356,7 @@ private class ITestRunner {
   function runCases() {
     while(cases.hasNext()) {
       currentCase = cases.next();
+      Print.startCase(Type.getClassName(Type.getClass(currentCase)));
       var data = runner.iTestFixtures.get(currentCase);
       currentCaseFixtures = data.fixtures;
       teardownClass = data.teardownClass;

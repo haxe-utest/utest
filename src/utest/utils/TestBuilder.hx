@@ -62,7 +62,7 @@ class TestBuilder {
 		fields.push(initialize);
 		return fields;
 	}
-
+#if macro
 	static function initialExpressions(isOverriding:Bool):Array<Expr> {
 		var initExprs = [];
 
@@ -286,8 +286,8 @@ class TestBuilder {
 			case OpMod: '%';
 			case OpInterval: '...';
 			case OpArrow: '=>';
-			case OpIn: 'in';
 			case OpAssignOp(op): strBinop(op) + '=';
+			case _: 'in';
 		}
 	}
 
@@ -300,4 +300,5 @@ class TestBuilder {
 			case OpNegBits: '~';
 		}
 	}
+#end
 }

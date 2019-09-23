@@ -1,5 +1,11 @@
+# v.X.X.X
+- `async.branch()` to create multiple branches of asynchronous tests ([#94](https://github.com/haxe-utest/utest/issues/94))
+- `UTEST_PATTERN` and `Runner.globalPattern` also check test class name now ([#93](https://github.com/haxe-utest/utest/issues/93))
+- `-D UTEST_PRINT_TEST` to print test names in the process of execution ([#95](https://github.com/haxe-utest/utest/issues/95))
+- Fixed compatibility with Haxe 3 (was broken since 1.9.6)
+
 # v.1.9.6
-- Beter failure messages for collections ([#81](https://github.com/haxe-utest/utest/issues/81))
+- Better failure messages for collections ([#81](https://github.com/haxe-utest/utest/issues/81))
 - Fixed for as3 target ([#78](https://github.com/haxe-utest/utest/pull/78))
 - Fixed test app shutdown before all tests are finished in some rare case on Java (see https://github.com/HaxeFoundation/haxe/issues/8131)
 
