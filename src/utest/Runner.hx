@@ -207,8 +207,10 @@ class Runner {
     var pack = path.split('.');
     var relativePath = Path.join(pack);
     var exprs = [];
+    var packageExists = false;
     function traverse(dir:String, path:String) {
       if(!dir.exists()) return;
+      packageExists = true;
       for(file in dir.readDirectory()) {
         var fullPath = Path.join([dir, file]);
         if(fullPath.isDirectory() && recursive){
@@ -228,6 +230,9 @@ class Runner {
     }
     for(classPath in Context.getClassPath()) {
       traverse(Path.join([classPath, relativePath]), path);
+    }
+    if(!packageExists) {
+      Context.error('Package $path does not exist', pos);
     }
     return macro @:pos(pos) $b{exprs};
   }
