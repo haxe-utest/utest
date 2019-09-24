@@ -1,3 +1,6 @@
+# v.1.10.1
+- java: make `async.branch(a -> ...)` more stable for immediate `a.done()`
+
 # v.1.10.0
 - `async.branch()` to create multiple branches of asynchronous tests ([#94](https://github.com/haxe-utest/utest/issues/94))
 - `UTEST_PATTERN` and `Runner.globalPattern` also check test class name now ([#93](https://github.com/haxe-utest/utest/issues/93))
