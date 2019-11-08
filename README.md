@@ -119,7 +119,7 @@ class TestCase extends utest.Test {
 
 Adding `-D UTEST_PATTERN=pattern` to the compilation flags makes UTest to run only tests which have names matching the `pattern`. The pattern could be a plain string or a regular expression without delimiters.
 
-Another option is to add `UTEST_PATTERN` to the environment variables at compile time.
+Another option is to pass a `UTEST_PATTERN` environment variable at compile time.
 
 ## Async tests
 
@@ -170,11 +170,13 @@ Running my.tests.TestAnother...
 ```
 And after finishing all the tests UTest will print usual report.
 
+Another option is to pass a non-empty `UTEST_PRINT_TESTS` environment variable at compile time.
+
 ## Convert failures into exceptions
 
 It is possible to make UTest throw an unhandled exception instead of adding a failure to the report.
 
-Enable this behavior with `-D UTEST_FAILURE_THROW`.
+Enable this behavior with `-D UTEST_FAILURE_THROW`, or by passing a non-empty `UTEST_FAILURE_THROW` environment variable at compile time.
 
 In this case any exception or failure in test or setup methods will lead to a crash.
 Instead of a test report you will see an unhandled exception message with the exception
