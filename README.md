@@ -170,11 +170,13 @@ Running my.tests.TestAnother...
 ```
 And after finishing all the tests UTest will print usual report.
 
+Another option is to add `UTEST_PRINT_TESTS` to the environment variables at compile time.
+
 ## Convert failures into exceptions
 
 It is possible to make UTest throw an unhandled exception instead of adding a failure to the report.
 
-Enable this behavior with `-D UTEST_FAILURE_THROW`.
+Enable this behavior with `-D UTEST_FAILURE_THROW`, or by adding `UTEST_FAILURE_THROW` to the environment variables at compile time.
 
 In this case any exception or failure in test or setup methods will lead to a crash.
 Instead of a test report you will see an unhandled exception message with the exception
