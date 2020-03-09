@@ -449,8 +449,8 @@ class HtmlReport implements IReport<HtmlReport> {
     };
 
     #if js
-    if(untyped __js__("'undefined' != typeof window")) {
-      untyped __js__("window").utest_result = exposedResult;
+    if(js.Syntax.code("'undefined' != typeof window")) {
+      js.Syntax.code("window").utest_result = exposedResult;
     }
     #elseif flash
       flash.external.ExternalInterface.call('(function(result){ window.utest_result = result; })', exposedResult );
@@ -722,11 +722,11 @@ function utestRemoveTooltip() {
       return;
     }
 
-    var isDef = function(v) : Bool return untyped __js__("typeof v != 'undefined'");
-    var hasProcess : Bool = untyped __js__("typeof process != 'undefined'");
+    var isDef = function(v) : Bool return js.Syntax.code("typeof v != 'undefined'");
+    var hasProcess : Bool = js.Syntax.code("typeof process != 'undefined'");
 
     if(hasProcess) {
-      untyped __js__("process.stdout.write")(report.getHtml());
+      js.Syntax.code("process.stdout.write")(report.getHtml());
       return;
     }
 

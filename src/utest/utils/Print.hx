@@ -5,7 +5,7 @@ class Print {
 		#if sys
 			Sys.print(msg);
 		#elseif js
-			untyped __js__('console.log({0})', msg);
+			js.Syntax.code('console.log({0})', msg);
 		#else
 			trace(msg);
 		#end

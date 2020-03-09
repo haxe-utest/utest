@@ -25,7 +25,7 @@ class Report {
 #elseif nodejs
     report = new utest.ui.text.PrintReport(runner);
 #elseif js
-    if(untyped __js__("typeof window != 'undefined'")) {
+    if(js.Syntax.code("typeof window != 'undefined'")) {
       report = new utest.ui.text.HtmlReport(runner, true);
     } else
       report = new utest.ui.text.PrintReport(runner);
