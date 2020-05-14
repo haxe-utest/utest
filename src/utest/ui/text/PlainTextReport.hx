@@ -160,10 +160,10 @@ class PlainTextReport implements IReport<PlainTextReport> {
 #if (php || neko || cpp || cs || java || python || lua || eval || hl)
     Sys.exit(result.stats.isOk ? 0 : 1);
 #elseif js
-    if(js.Syntax.code('typeof phantom != "undefined"'))
-      js.Syntax.code('phantom').exit(result.stats.isOk ? 0 : 1);
-    if(js.Syntax.code('typeof process != "undefined"'))
-      js.Syntax.code('process').exit(result.stats.isOk ? 0 : 1);
+    if(#if (haxe_ver >= 4.0) js.Syntax.code #else untyped __js__ #end('typeof phantom != "undefined"'))
+      #if (haxe_ver >= 4.0) js.Syntax.code #else untyped __js__ #end('phantom').exit(result.stats.isOk ? 0 : 1);
+    if(#if (haxe_ver >= 4.0) js.Syntax.code #else untyped __js__ #end('typeof process != "undefined"'))
+      #if (haxe_ver >= 4.0) js.Syntax.code #else untyped __js__ #end('process').exit(result.stats.isOk ? 0 : 1);
 #elseif (flash && exit)
       if(flash.system.Security.sandboxType == "localTrusted") {
         var delay = 5;
