@@ -4,9 +4,9 @@
   "license": "MIT",
   "tags": ["cross","unittesting"],
   "description": "Unit Testing for Haxe",
-  "version": "1.10.1",
+  "version": "1.10.2",
   "classPath": "src",
-  "releasenote": "Make `async.branch(a -> ...)` more stable for immediate `a.done()` on java",
+  "releasenote": "Update for Haxe 4.1.0. Accept `UTEST_PRINT_TESTS` and `UTEST_FAILURE_THROW` via env vars at compile time.",
   "contributors": ["fponticelli", "romanmikhailov", "RealyUniqueName"],
   "dependencies": { }
 }
