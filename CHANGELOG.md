@@ -1,3 +1,6 @@
+# v1.10.3
+- Fixed compatibility with Haxe 3.4
+
 # v1.10.2
 - Get rid of deprecation messages about `untyped __js__` with Haxe 4.1.0
 - Accept `UTEST_PRINT_TESTS` and `UTEST_FAILURE_THROW` via env vars at compile time ([#97](https://github.com/haxe-utest/utest/issues/97))
