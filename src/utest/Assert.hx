@@ -302,8 +302,8 @@ class Assert {
         // hash, inthash
         if (Std.is(expected, IMap)) {
           if(status.recursive || status.path == '') {
-            var map = cast(expected, Map<Dynamic, Dynamic>);
-            var vmap = cast(value, Map<Dynamic, Dynamic>);
+            var map = cast(expected, IMap<Dynamic, Dynamic>);
+            var vmap = cast(value, IMap<Dynamic, Dynamic>);
             var keys:Array<Dynamic> = [for (k in map.keys()) k];
             var vkeys:Array<Dynamic> = [for (k in vmap.keys()) k];
 
