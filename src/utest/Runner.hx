@@ -1,5 +1,6 @@
 package utest;
 
+import utest.utils.Misc;
 import utest.utils.Print;
 import haxe.CallStack;
 import haxe.macro.Compiler;
@@ -112,7 +113,7 @@ class Runner {
    */
   public function addCase(test : Dynamic, setup = "setup", teardown = "teardown", prefix = "test", ?pattern : EReg, setupAsync = "setupAsync", teardownAsync = "teardownAsync") {
     #if (haxe_ver >= "3.4.0")
-    if(Std.is(test, ITest)) {
+    if(Misc.isOfType(test, ITest)) {
       addITest(test, pattern);
     } else {
       addCaseOld(test, setup, teardown, prefix, pattern, setupAsync, teardownAsync);

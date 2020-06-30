@@ -6,7 +6,7 @@ import utest.ui.common.ClassResult;
 import utest.ui.common.FixtureResult;
 import utest.ui.common.IReport;
 import utest.ui.common.HeaderDisplayMode;
-
+import utest.utils.Misc;
 import utest.Runner;
 import utest.ui.common.ResultAggregator;
 import utest.ui.common.PackageResult;
@@ -216,7 +216,7 @@ class HtmlReport implements IReport<HtmlReport> {
 
   function getErrorDescription(e : Dynamic) {
 #if flash9
-    if (Std.is(e, flash.errors.Error)) {
+    if (Misc.isOfType(e, flash.errors.Error)) {
       var err = cast(e, flash.errors.Error);
       return err.name + ": " + err.message;
     } else {
@@ -229,7 +229,7 @@ class HtmlReport implements IReport<HtmlReport> {
 
   function getErrorStack(s : Array<StackItem>, e : Dynamic) {
 #if flash9
-    if (Std.is(e, flash.errors.Error)) {
+    if (Misc.isOfType(e, flash.errors.Error)) {
       var stack = cast(e, flash.errors.Error).getStackTrace();
       if (null != stack) {
         var parts = stack.split("\n");

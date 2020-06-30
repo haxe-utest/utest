@@ -1,5 +1,6 @@
 package utest;
 
+import utest.utils.Misc;
 import haxe.io.Bytes;
 import utest.Assertation;
 import haxe.PosInfos;
@@ -92,7 +93,7 @@ class Assert {
    * unless you know what you are doing.
    */
   public static function is(value : Dynamic, type : Dynamic, ?msg : String , ?pos : PosInfos) {
-    processResult(Std.is(value, type), function() return msg != null ? msg : "expected type " + typeToString(type) + " but it is " + typeToString(value), pos);
+    processResult(Misc.isOfType(value, type), function() return msg != null ? msg : "expected type " + typeToString(type) + " but it is " + typeToString(value), pos);
   }
 
   /**
@@ -245,7 +246,7 @@ class Assert {
         }
 
         // string
-        if (Std.is(expected, String)) {
+        if (Misc.isOfType(expected, String)) {
           if(expected == value)
             return true;
           else {
@@ -255,7 +256,7 @@ class Assert {
         }
 
         // arrays
-        if(Std.is(expected, Array)) {
+        if(Misc.isOfType(expected, Array)) {
           if(status.recursive || status.path == '') {
             if(expected.length != value.length) {
               status.error = "expected "+expected.length+" elements but they are "+value.length + (status.path == '' ? '' : ' for field '+status.path);
@@ -275,7 +276,7 @@ class Assert {
         }
 
         // date
-        if(Std.is(expected, Date)) {
+        if(Misc.isOfType(expected, Date)) {
           if(expected.getTime() != value.getTime()) {
             status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
             return false;
@@ -284,7 +285,7 @@ class Assert {
         }
 
         // bytes
-        if(Std.is(expected, Bytes)) {
+        if(Misc.isOfType(expected, Bytes)) {
           if(status.recursive || status.path == '') {
             var ebytes : Bytes = expected;
             var vbytes : Bytes = value;
@@ -300,7 +301,7 @@ class Assert {
         }
 
         // hash, inthash
-        if (Std.is(expected, IMap)) {
+        if (Misc.isOfType(expected, IMap)) {
           if(status.recursive || status.path == '') {
             var map = cast(expected, IMap<Dynamic, Dynamic>);
             var vmap = cast(value, IMap<Dynamic, Dynamic>);
@@ -493,7 +494,7 @@ class Assert {
 
   static function q(v : Dynamic)
   {
-    if (Std.is(v, String))
+    if (Misc.isOfType(v, String))
       return '"' + StringTools.replace(v, '"', '\\"') + '"';
     else
       return Std.string(v);
@@ -557,7 +558,7 @@ class Assert {
       } else {
         if (null == msgWrongType)
           msgWrongType = "expected throw of type " + name + " but it is "  + ex;
-        isTrue(Std.is(ex, type), msgWrongType, pos);
+        isTrue(Misc.isOfType(ex, type), msgWrongType, pos);
       }
       return;
     }
