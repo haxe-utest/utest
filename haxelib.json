@@ -4,9 +4,9 @@
   "license": "MIT",
   "tags": ["cross","unittesting"],
   "description": "Unit Testing for Haxe",
-  "version": "1.10.3",
+  "version": "1.10.4",
   "classPath": "src",
-  "releasenote": "Update for Haxe 4.1.0. Accept `UTEST_PRINT_TESTS` and `UTEST_FAILURE_THROW` via env vars at compile time.",
+  "releasenote": "Fixed `callback` argument of `UTest.run` calls. Fixed compatibility with the latest development Haxe",
   "contributors": ["fponticelli", "romanmikhailov", "RealyUniqueName"],
   "dependencies": { }
 }
