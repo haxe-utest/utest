@@ -87,7 +87,7 @@ class TestAssert {
     for(value in values)
       for(type in types) {
         i++;
-        Assert.is(value, type);
+        Assert.isOfType(value, type);
       }
     restore();
     expect(expectedsuccess, i-expectedsuccess);

@@ -92,7 +92,20 @@ class Assert {
    * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
+  @:deprecated("utest.Assert.is is deprecated. Use utest.Assert.isOfType instead.")
   public static function is(value : Dynamic, type : Dynamic, ?msg : String , ?pos : PosInfos) {
+    isOfType(value, type, msg, pos);
+  }
+
+  /**
+   * Asserts successfully when the 'value' parameter is of the of the passed type 'type'.
+   * @param value The value to test
+   * @param type The type to test against
+   * @param msg An optional error message. If not passed a default one will be used
+   * @param pos Code position where the Assert call has been executed. Don't fill it
+   * unless you know what you are doing.
+   */
+  public static function isOfType(value : Dynamic, type : Dynamic, ?msg : String , ?pos : PosInfos) {
     processResult(Misc.isOfType(value, type), function() return msg != null ? msg : "expected type " + typeToString(type) + " but it is " + typeToString(value), pos);
   }
 
