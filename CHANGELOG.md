@@ -1,3 +1,6 @@
+# v1.10.5
+- `utest.Assert.is` is deprecated. `Use utest.Assert.isOfType` instead.
+
 # v1.10.4
 - Fixed execution of `callback` parameter in `UTest.run(cases, calback)` ([#97](https://github.com/haxe-utest/utest/issues/100)
 - Use `Std.isOfType` instead of deprecated `Std.is` when compiled with Haxe 4.1+
