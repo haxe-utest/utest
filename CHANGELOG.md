@@ -1,3 +1,6 @@
+# v1.11.0
+- `utest.Assert` methods return true on success and false on fail.
+-
 # v1.10.5
 - `utest.Assert.is` is deprecated. `Use utest.Assert.isOfType` instead.
 
