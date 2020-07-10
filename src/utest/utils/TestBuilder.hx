@@ -228,11 +228,10 @@ class TestBuilder {
 		AccessoryName.TEARDOWN_NAME
 	];
 	static function checkPossibleTypo(field:Field) {
-		var pos = Context.currentPos();
 		var lowercasedName = field.name.toLowerCase();
 		for(name in names) {
 			if(lowercasedName == name.toLowerCase()) {
-				Context.warning('Did you mean "$name"?', pos);
+				Context.warning('UTest: did you mean "$name"?', field.pos);
 			}
 		}
 	}
