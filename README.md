@@ -7,6 +7,17 @@
 
 utest is an easy to use unit testing library for Haxe. It works on all the supported platforms including nodejs.
 
+- [utest](#utest)
+	- [Installation](#installation)
+	- [Basic usage](#basic-usage)
+	- [Inter-test dependencies](#inter-test-dependencies)
+	- [Running single test from a test suite.](#running-single-test-from-a-test-suite)
+	- [Async tests](#async-tests)
+	- [Print test names being executed](#print-test-names-being-executed)
+	- [Convert failures into exceptions](#convert-failures-into-exceptions)
+	- [Assert](#assert)
+	- [Ignoring tests](#ignoring-tests)
+
 ## Installation
 
 Install is as easy as:
@@ -15,7 +26,7 @@ Install is as easy as:
 haxelib install utest
 ```
 
-## Usage
+## Basic usage
 
 In your main method define the minimal instances needed to run your tests.
 
@@ -209,7 +220,8 @@ stack trace (depending on a target platform).
 
 [Assert](src/utest/Assert.hx) contains a plethora of methods to perform your tests:
 
-#### `isTrue(cond : Bool, ?msg : String, ?pos : PosInfos)`
+*`isTrue(cond : Bool, ?msg : String, ?pos : PosInfos)`*
+
 Asserts successfully when the condition is true.
 
 `cond` The condition to test
@@ -219,7 +231,8 @@ Asserts successfully when the condition is true.
 `pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 
-#### `isFalse(value : Bool, ?msg : String, ?pos : PosInfos)`
+*`isFalse(value : Bool, ?msg : String, ?pos : PosInfos)`*
+
 Asserts successfully when the condition is false.
 
 `cond` The condition to test
@@ -229,7 +242,8 @@ Asserts successfully when the condition is false.
 `pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 
-#### `isNull(value : Dynamic, ?msg : String, ?pos : PosInfos)`
+*`isNull(value : Dynamic, ?msg : String, ?pos : PosInfos)`*
+
 Asserts successfully when the value is null.
 
 `value` The value to test
@@ -239,7 +253,8 @@ Asserts successfully when the value is null.
 `pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 
-#### `notNull(value : Dynamic, ?msg : String, ?pos : PosInfos)`
+*`notNull(value : Dynamic, ?msg : String, ?pos : PosInfos)`*
+
 Asserts successfully when the value is not null.
 
 `value` The value to test
@@ -249,7 +264,8 @@ Asserts successfully when the value is not null.
 `pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 
-#### `is(value : Dynamic, type : Dynamic, ?msg : String , ?pos : PosInfos)`
+*`is(value : Dynamic, type : Dynamic, ?msg : String , ?pos : PosInfos)*
+`
 Asserts successfully when the 'value' parameter is of the of the passed type 'type'.
 
 `value` The value to test
@@ -261,7 +277,8 @@ Asserts successfully when the 'value' parameter is of the of the passed type 'ty
 `pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 
-#### `notEquals(expected : Dynamic, value : Dynamic, ?msg : String , ?pos : PosInfos)`
+*`notEquals(expected : Dynamic, value : Dynamic, ?msg : String , ?pos *
+: PosInfos)`
 Asserts successfully when the value parameter is not the same as the expected one.
 ```haxe
 Assert.notEquals(10, age);
@@ -276,7 +293,8 @@ Assert.notEquals(10, age);
 `pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 
-#### `equals(expected : Dynamic, value : Dynamic, ?msg : String , ?pos : PosInfos)`
+*`equals(expected : Dynamic, value : Dynamic, ?msg : String , ?pos : *
+PosInfos)`
 Asserts successfully when the value parameter is equal to the expected one.
 ```haxe
 Assert.equals(10, age);
@@ -292,7 +310,8 @@ Assert.equals(10, age);
 unless you know what you are doing.
 
 
-#### `match(pattern : EReg, value : Dynamic, ?msg : String , ?pos : PosInfos)`
+*`match(pattern : EReg, value : Dynamic, ?msg : String , ?pos : *
+PosInfos)`
 Asserts successfully when the value parameter does match against the passed EReg instance.
 ```haxe
 Assert.match(~/x/i, "Haxe");
@@ -307,7 +326,8 @@ Assert.match(~/x/i, "Haxe");
 `pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 
-#### `floatEquals(expected : Float, value : Float, ?approx : Float, ?msg : String , ?pos : PosInfos)`
+*`floatEquals(expected : Float, value : Float, ?approx : Float, ?msg *
+: String , ?pos : PosInfos)`
 Same as Assert.equals but considering an approximation error.
 ```haxe
 Assert.floatEquals(Math.PI, value);
@@ -324,7 +344,8 @@ Assert.floatEquals(Math.PI, value);
 `pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 
-#### `same(expected : Dynamic, value : Dynamic, ?recursive : Bool, ?msg : String, ?pos : PosInfos)`
+*`same(expected : Dynamic, value : Dynamic, ?recursive : Bool, ?msg : *
+String, ?pos : PosInfos)`
 Check that value is an object with the same fields and values found in expected.
 The default behavior is to check nested objects in fields recursively.
 ```haxe
@@ -343,7 +364,8 @@ Defaults to true
 `pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 
-#### `raises(method:Void -> Void, ?type:Class<Dynamic>, ?msgNotThrown : String , ?msgWrongType : String, ?pos : PosInfos)`
+*`raises(method:Void -> Void, ?type:Class<Dynamic>, ?msgNotThrown : *
+String , ?msgWrongType : String, ?pos : PosInfos)`
 It is used to test an application that under certain circumstances must
 react throwing an error. This assert guarantees that the error is of the
 correct type (or Dynamic if non is specified).
@@ -365,7 +387,8 @@ Assert.raises(function() { throw "Error!"; }, String);
 unless you know what you are doing.
 @todo test the optional type parameter
 
-#### `allows<T>(possibilities : Array<T>, value : T, ?msg : String , ?pos : PosInfos)`
+*`allows<T>(possibilities : Array<T>, value : T, ?msg : String , ?pos *
+: PosInfos)`
 Checks that the test value matches at least one of the possibilities.
 
 `possibility` An array of possible matches
@@ -377,7 +400,8 @@ Checks that the test value matches at least one of the possibilities.
 `pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 
-#### `contains<T>(match : T, values : Array<T>, ?msg : String , ?pos : PosInfos)`
+*`contains<T>(match : T, values : Array<T>, ?msg : String , ?pos : *
+PosInfos)`
 Checks that the test array contains the match parameter.
 
 `match` The element that must be included in the tested array
@@ -389,7 +413,8 @@ Checks that the test array contains the match parameter.
 `pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 
-#### `notContains<T>(match : T, values : Array<T>, ?msg : String , ?pos : PosInfos)`
+*`notContains<T>(match : T, values : Array<T>, ?msg : String , ?pos : *
+PosInfos)`
 Checks that the test array does not contain the match parameter.
 
 `match` The element that must NOT be included in the tested array
@@ -401,7 +426,8 @@ Checks that the test array does not contain the match parameter.
 `pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
 
-#### `stringContains(match : String, value : String, ?msg : String , ?pos : PosInfos)`
+*`stringContains(match : String, value : String, ?msg : String , ?pos *
+: PosInfos)`
 Checks that the expected values is contained in value.
 
 `match` the string value that must be contained in value
@@ -412,7 +438,8 @@ Checks that the expected values is contained in value.
 
 `pos` Code position where the Assert call has been executed. Don't fill it
 
-#### `fail(msg = "failure expected", ?pos : PosInfos)`
+*`fail(msg = "failure expected", ?pos : PosInfos)`*
+
 Forces a failure.
 
 `msg` An optional error message. If not passed a default one will be used
@@ -421,7 +448,8 @@ Forces a failure.
 unless you know what you are doing.
 
 
-#### `warn(msg)`
+*`warn(msg)`*
+
 Creates a warning message.
 
 `msg` A mandatory message that justifies the warning.
