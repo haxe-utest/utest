@@ -5,6 +5,7 @@ package utest;
  */
 typedef TestData = {
 	var name(default,null):String;
+	var dependencies(default,null):Array<String>;
 	var execute(default,null):Void->Async;
 }
 

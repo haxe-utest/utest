@@ -1,3 +1,6 @@
+# v*.*.*
+- added support for `@:depends(testName1, testName2)` to define test dependencies ([#25](https://github.com/haxe-utest/utest/issues/25)
+
 # v1.11.0
 - `utest.Assert` methods return true on success and false on fail.
 -
@@ -5,7 +8,7 @@
 - `utest.Assert.is` is deprecated. `Use utest.Assert.isOfType` instead.
 
 # v1.10.4
-- Fixed execution of `callback` parameter in `UTest.run(cases, calback)` ([#97](https://github.com/haxe-utest/utest/issues/100)
+- Fixed execution of `callback` parameter in `UTest.run(cases, calback)` ([#100](https://github.com/haxe-utest/utest/issues/100)
 - Use `Std.isOfType` instead of deprecated `Std.is` when compiled with Haxe 4.1+
 
 # v1.10.3

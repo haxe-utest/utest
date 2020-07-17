@@ -20,7 +20,7 @@ class TestBuilder {
 	static inline var SPEC_PREFIX = 'spec';
 	static inline var PROCESSED_META = ':utestProcessed';
 	static inline var TIMEOUT_META = ':timeout';
-
+	static inline var DEPENDS_META = ':depends';
 
 	macro static public function build():Array<Field> {
 		if(Context.defined('display') #if display || true #end) {
@@ -35,17 +35,24 @@ class TestBuilder {
 		var isOverriding = ancestorHasInitializeUtest(cls);
 		var initExprs = initialExpressions(isOverriding);
 		var fields = Context.getBuildFields();
+		var tests = new Map<String,Field>();
 		for (field in fields) {
 			switch (field.kind) {
 				case FFun(fn):
 					var isStatic = field.access == null ? false : field.access.has(AStatic);
 					if(!isStatic && isTestName(field.name)) {
-						processTest(cls, field, fn, initExprs);
+						tests.set(field.name, field);
 					} else if(isAccessoryMethod(field.name)) {
 						processAccessory(cls, field, fn, initExprs);
 					} else {
 						checkPossibleTypo(field);
 					}
+				case _:
+			}
+		}
+		for(test in orderByDependencies(tests)) {
+			switch test.field.kind {
+				case FFun(fn): processTest(cls, test.field, fn, test.dependencies, initExprs);
 				case _:
 			}
 		}
@@ -62,7 +69,13 @@ class TestBuilder {
 		fields.push(initialize);
 		return fields;
 	}
+
 #if macro
+
+	static function error(msg:String, pos:Position) {
+		Context.error('UTest: $msg', pos);
+	}
+
 	static function initialExpressions(isOverriding:Bool):Array<Expr> {
 		var initExprs = [];
 
@@ -75,13 +88,73 @@ class TestBuilder {
 		return initExprs;
 	}
 
-	static function processTest(cls:ClassType, field:Field, fn:Function, initExprs:Array<Expr>) {
+	static function orderByDependencies(tests:Map<String,Field>):Array<{field:Field, dependencies:Array<String>}> {
+		var result = [];
+		var added = new Map();
+		function addTest(field:Field, stack:Array<String>) {
+			if(added.exists(field.name))
+				return;
+			if(stack.contains(field.name)) {
+				error('Circular dependencies detected: ' + stack.join('->'), field.pos);
+				return;
+			}
+			stack.push(field.name);
+			var dependencies = getDependencies(field, tests);
+			for(dependency in dependencies) {
+				switch tests.get(dependency) {
+					case null:
+						error('Dependency $dependency not found.', field.pos);
+					case depTest:
+						addTest(depTest, stack);
+				}
+			}
+			result.push({field:field, dependencies:dependencies});
+			added.set(field.name, true);
+		}
+		for(field in tests) {
+			addTest(field, []);
+		}
+		return result;
+	}
+
+	static function getDependencies(field:Field, tests:Map<String,Field>):Array<String> {
+		var deps = [];
+		switch field.meta {
+			case null:
+			case meta:
+				for(m in meta) {
+					if(m.name == DEPENDS_META) {
+						switch m.params {
+							case null | []:
+							case exprs:
+								for(e in exprs) {
+									switch e {
+										case macro $i{dependency}:
+											if(!tests.exists(dependency)) {
+												error('Dependency $dependency not found.', e.pos);
+											}
+											if(!deps.contains(dependency)) {
+												deps.push(dependency);
+											}
+										case _:
+											error('Invalid expression for dependency. Identifier expected.', e.pos);
+									}
+								}
+						}
+					}
+				}
+		}
+		return deps;
+	}
+
+	static function processTest(cls:ClassType, field:Field, fn:Function, dependencies:Array<String>, initExprs:Array<Expr>) {
 		var test = field.name;
 		switch(fn.args.length) {
 			//synchronous test
 			case 0:
 				initExprs.push(macro @:pos(field.pos) init.tests.push({
 					name:$v{test},
+					dependencies: $v{dependencies},
 					execute:function() {
 						this.$test();
 						return @:privateAccess utest.Async.getResolved();
@@ -91,6 +164,7 @@ class TestBuilder {
 			case 1:
 				initExprs.push(macro @:pos(field.pos) init.tests.push({
 					name:$v{test},
+					dependencies: $v{dependencies},
 					execute:function() {
 						var async = @:privateAccess new utest.Async(${getTimeoutExpr(cls, field)});
 						this.$test(async);
@@ -99,7 +173,7 @@ class TestBuilder {
 				}));
 			//wtf test
 			case _:
-				Context.error('Wrong arguments count. The only supported argument is utest.Async for asynchronous tests.', field.pos);
+				error('Wrong arguments count. The only supported argument is utest.Async for asynchronous tests.', field.pos);
 		}
 		//specification test
 		if(field.name.indexOf(SPEC_PREFIX) == 0 && fn.expr != null) {
@@ -128,7 +202,7 @@ class TestBuilder {
 				});
 			//wtf test
 			case _:
-				Context.error('Wrong arguments count. The only supported argument is utest.Async for asynchronous methods.', field.pos);
+				error('Wrong arguments count. The only supported argument is utest.Async for asynchronous methods.', field.pos);
 		}
 	}
 
@@ -231,7 +305,7 @@ class TestBuilder {
 		var lowercasedName = field.name.toLowerCase();
 		for(name in names) {
 			if(lowercasedName == name.toLowerCase()) {
-				Context.warning('UTest: did you mean "$name"?', field.pos);
+				Context.warning('Did you mean "$name"?', field.pos);
 			}
 		}
 	}
@@ -239,7 +313,7 @@ class TestBuilder {
 	static function getTimeoutExpr(cls:ClassType, field:Field):Expr {
 		function getValue(meta:MetadataEntry):Expr {
 			if(meta.params == null || meta.params.length != 1) {
-				Context.error('@:timeout meta should have one argument. E.g. @:timeout(250)', meta.pos);
+				error('@:timeout meta should have one argument. E.g. @:timeout(250)', meta.pos);
 				return macro 250;
 			} else {
 				return meta.params[0];

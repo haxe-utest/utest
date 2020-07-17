@@ -337,9 +337,18 @@ private class ITestRunner {
   var teardownClass:Void->Async;
   var setupAsync:Async;
   var teardownAsync:Async;
+  var failedTestsInCurrentCase:Array<String> = [];
 
   public function new(runner:Runner) {
     this.runner = runner;
+    runner.onTestComplete.add(handler -> {
+      for (result in handler.results) {
+        switch result {
+          case Success(_):
+          case _: failedTestsInCurrentCase.push(handler.fixture.method);
+        }
+      }
+    });
   }
 
   public function run() {
@@ -350,6 +359,7 @@ private class ITestRunner {
   function runCases() {
     while(cases.hasNext()) {
       currentCase = cases.next();
+      failedTestsInCurrentCase = [];
       Print.startCase(Type.getClassName(Type.getClass(currentCase)));
       var data = runner.iTestFixtures.get(currentCase);
       currentCaseFixtures = data.fixtures;
@@ -397,7 +407,14 @@ private class ITestRunner {
    */
   function runFixtures(?finishedHandler:TestHandler<TestFixture>):Bool {
     while(currentCaseFixtures.length > 0) {
-      var handler = runner.runFixture(currentCaseFixtures.pop());
+      var fixture = currentCaseFixtures.shift();
+      for (dep in fixture.test.dependencies) {
+        if(failedTestsInCurrentCase.contains(dep)) {
+          @:privateAccess fixture.ignoringInfo = IgnoredFixture.Ignored('Failed dependencies');
+          break;
+        }
+      }
+      var handler = runner.runFixture(fixture);
       if(!handler.finished) {
         handler.onComplete.add(runFixtures);
         return false;
