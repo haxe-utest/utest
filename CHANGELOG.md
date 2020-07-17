@@ -1,4 +1,4 @@
-# v*.*.*
+# v1.12.0
 - added support for `@:depends(testName1, testName2)` to define test dependencies ([#25](https://github.com/haxe-utest/utest/issues/25)
 
 # v1.11.0

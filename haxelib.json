@@ -4,9 +4,9 @@
   "license": "MIT",
   "tags": ["cross","unittesting"],
   "description": "Unit Testing for Haxe",
-  "version": "1.11.0",
+  "version": "1.12.0",
   "classPath": "src",
-  "releasenote": "`utest.Assert` methods return true on success and false on fail.",
+  "releasenote": "Added support for `@:depends(testName1, testName2)` to define test dependencies (see README.md).",
   "contributors": ["fponticelli", "romanmikhailov", "RealyUniqueName"],
   "dependencies": { }
 }
