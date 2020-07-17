@@ -115,6 +115,29 @@ class TestCase extends utest.Test {
 }
 ```
 
+## Inter-test dependencies
+
+It is possible to define how tests depend on each other with `@:depends` meta:
+```haxe
+class TestCase extends utest.Test {
+
+	function testBasicThing1() {
+		//...
+	}
+
+	function testBasicThing2() {
+		//...
+	}
+
+
+	@:depends(testBasicThing, testBasicThing2)
+	function testComplexThing() {
+		//...
+	}
+}
+```
+In this example `testComplexThing` will be executed only if `testBasicThing1` and `testBasicThing2` pass.
+
 ## Running single test from a test suite.
 
 Adding `-D UTEST_PATTERN=pattern` to the compilation flags makes UTest to run only tests which have names matching the `pattern`. The pattern could be a plain string or a regular expression without delimiters.
