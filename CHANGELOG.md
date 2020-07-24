@@ -1,3 +1,6 @@
+# v1.12.1
+- fixed compatibility with Haxe 3.4 and 4.0 ([#104](https://github.com/haxe-utest/utest/issues/104)
+
 # v1.12.0
 - added support for `@:depends(testName1, testName2)` to define test dependencies ([#25](https://github.com/haxe-utest/utest/issues/25)
 
