@@ -94,7 +94,7 @@ class TestBuilder {
 		function addTest(field:Field, stack:Array<String>) {
 			if(added.exists(field.name))
 				return;
-			if(stack.contains(field.name)) {
+			if(stack.indexOf(field.name) >= 0) {
 				error('Circular dependencies detected: ' + stack.join('->'), field.pos);
 				return;
 			}
@@ -133,7 +133,7 @@ class TestBuilder {
 											if(!tests.exists(dependency)) {
 												error('Dependency $dependency not found.', e.pos);
 											}
-											if(!deps.contains(dependency)) {
+											if(deps.indexOf(dependency) < 0) {
 												deps.push(dependency);
 											}
 										case _:

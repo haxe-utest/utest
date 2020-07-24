@@ -341,7 +341,7 @@ private class ITestRunner {
 
   public function new(runner:Runner) {
     this.runner = runner;
-    runner.onTestComplete.add(handler -> {
+    runner.onTestComplete.add(function(handler) {
       for (result in handler.results) {
         switch result {
           case Success(_):
@@ -409,7 +409,7 @@ private class ITestRunner {
     while(currentCaseFixtures.length > 0) {
       var fixture = currentCaseFixtures.shift();
       for (dep in fixture.test.dependencies) {
-        if(failedTestsInCurrentCase.contains(dep)) {
+        if(failedTestsInCurrentCase.indexOf(dep) >= 0) {
           @:privateAccess fixture.ignoringInfo = IgnoredFixture.Ignored('Failed dependencies');
           break;
         }
