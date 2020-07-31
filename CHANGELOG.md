@@ -1,3 +1,6 @@
+# v1.13.0
+- added support for `@:depends(some.pack.AnotherTestCase)` to define dependencies among test cases
+-
 # v1.12.1
 - fixed compatibility with Haxe 3.4 and 4.0 ([#104](https://github.com/haxe-utest/utest/issues/104)
 
