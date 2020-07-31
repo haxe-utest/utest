@@ -21,6 +21,7 @@ typedef Accessories = {
 
 typedef InitializeUtest = {
 	accessories:Accessories,
+	dependencies:Array<String>,
 	tests:Array<TestData>
 }
 

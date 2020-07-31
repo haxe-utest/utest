@@ -12,6 +12,7 @@ utest is an easy to use unit testing library for Haxe. It works on all the suppo
 - [Installation](#installation)
 - [Basic usage](#basic-usage)
 - [Inter-test dependencies](#inter-test-dependencies)
+- [Dependencies between test classes](#dependencies-between-test-classes)
 - [Running single test from a test suite.](#running-single-test-from-a-test-suite)
 - [Async tests](#async-tests)
 - [Print test names being executed](#print-test-names-being-executed)
@@ -149,6 +150,27 @@ class TestCase extends utest.Test {
 }
 ```
 In this example `testComplexThing` will be executed only if `testBasicThing1` and `testBasicThing2` pass.
+
+## Dependencies between test classes
+
+`@:depends` meta could also be used to define dependencies of one class with tests on other classes with tests.
+```haxe
+package some.pack;
+
+class TestCase1 extends utest.Test {
+	function test1() {
+		//...
+	}
+}
+
+@:depends(some.pack.TestCase2)
+class TestCase2 extends utest.Test {
+	function test2() {
+		//...
+	}
+}
+```
+In this example tests from `some.pack.TestCase2` will be executed only if there were no failures in `some.pack.TestCase1`.
 
 ## Running single test from a test suite.
 

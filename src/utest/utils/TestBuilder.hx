@@ -1,5 +1,6 @@
 package utest.utils;
 
+import haxe.macro.Type.MetaAccess;
 import utest.TestData.AccessoryName;
 import haxe.macro.Type.ClassType;
 import haxe.macro.Context;
@@ -34,6 +35,11 @@ class TestBuilder {
 
 		var isOverriding = ancestorHasInitializeUtest(cls);
 		var initExprs = initialExpressions(isOverriding);
+
+		for(dependency in classDependencies(cls.meta)) {
+			initExprs.push(macro init.dependencies.push($v{dependency}));
+		}
+
 		var fields = Context.getBuildFields();
 		var tests = new Map<String,Field>();
 		for (field in fields) {
@@ -50,7 +56,7 @@ class TestBuilder {
 				case _:
 			}
 		}
-		for(test in orderByDependencies(tests)) {
+		for(test in orderTestsByDependencies(tests)) {
 			switch test.field.kind {
 				case FFun(fn): processTest(cls, test.field, fn, test.dependencies, initExprs);
 				case _:
@@ -82,13 +88,47 @@ class TestBuilder {
 		if(isOverriding) {
 			initExprs.push(macro var init = super.__initializeUtest__());
 		} else {
-			initExprs.push(macro var init:utest.TestData.InitializeUtest = {tests:[], accessories:{}});
+			initExprs.push(macro var init:utest.TestData.InitializeUtest = {tests:[], dependencies:[], accessories:{}});
 		}
 
 		return initExprs;
 	}
 
-	static function orderByDependencies(tests:Map<String,Field>):Array<{field:Field, dependencies:Array<String>}> {
+	static function classDependencies(meta:MetaAccess):Array<String> {
+		var deps = [];
+		function stringify(e:Expr):Null<String> {
+			return switch e.expr {
+				case EConst(CIdent(s)): s;
+				case EField(e, field):
+					switch stringify(e) {
+						case null: null;
+						case s: '$s.$field';
+					}
+				case _: null;
+			}
+		}
+		for(m in meta.extract(':depends')) {
+			if(m.name == DEPENDS_META) {
+				switch m.params {
+					case null | []:
+					case exprs:
+						for(e in exprs) {
+							switch stringify(e) {
+								case null:
+									error('Invalid expression for dependency. Fully qualified class path expected.', e.pos);
+								case dependency:
+									if(deps.indexOf(dependency) < 0) {
+										deps.push(dependency);
+									}
+							}
+						}
+				}
+			}
+		}
+		return deps;
+	}
+
+	static function orderTestsByDependencies(tests:Map<String,Field>):Array<{field:Field, dependencies:Array<String>}> {
 		var result = [];
 		var added = new Map();
 		function addTest(field:Field, stack:Array<String>) {
@@ -99,7 +139,7 @@ class TestBuilder {
 				return;
 			}
 			stack.push(field.name);
-			var dependencies = getDependencies(field, tests);
+			var dependencies = getTestDependencies(field, tests);
 			for(dependency in dependencies) {
 				switch tests.get(dependency) {
 					case null:
@@ -117,7 +157,7 @@ class TestBuilder {
 		return result;
 	}
 
-	static function getDependencies(field:Field, tests:Map<String,Field>):Array<String> {
+	static function getTestDependencies(field:Field, tests:Map<String,Field>):Array<String> {
 		var deps = [];
 		switch field.meta {
 			case null:

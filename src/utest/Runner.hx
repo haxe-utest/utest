@@ -31,7 +31,7 @@ using utest.utils.AccessoriesUtils;
 class Runner {
   var fixtures(default, null) : Array<TestFixture> = [];
   #if (haxe_ver >= "3.4.0")
-  var iTestFixtures:Map<ITest,{setupClass:Void->Async, fixtures:Array<TestFixture>, teardownClass:Void->Async}> = new Map();
+  var iTestFixtures:Map<String,{caseInstance:ITest, setupClass:Void->Async, dependencies:Array<String>, fixtures:Array<TestFixture>, teardownClass:Void->Async}> = new Map();
   #end
 
   /**
@@ -125,7 +125,8 @@ class Runner {
 
   #if (haxe_ver >= "3.4.0")
   function addITest(testCase:ITest, pattern:Null<EReg>) {
-    if(iTestFixtures.exists(testCase)) {
+    var className = Type.getClassName(Type.getClass(testCase));
+    if(iTestFixtures.exists(className)) {
       throw 'Cannot add the same test twice.';
     }
     var fixtures = [];
@@ -136,7 +137,6 @@ class Runner {
   #else
     var init:TestData.InitializeUtest = (cast testCase:TestData.Initializer).__initializeUtest__();
   #end
-    var className = Type.getClassName(Type.getClass(testCase));
     for(test in init.tests) {
       if(!isTestFixtureName(className, test.name, ['test', 'spec'], pattern, globalPattern)) {
         continue;
@@ -146,8 +146,10 @@ class Runner {
       fixtures.push(fixture);
     }
     if(fixtures.length > 0) {
-      iTestFixtures.set(testCase, {
+      iTestFixtures.set(className, {
+        caseInstance:testCase,
         setupClass:init.accessories.getSetupClass(),
+        dependencies:init.dependencies,
         fixtures:fixtures,
         teardownClass:init.accessories.getTeardownClass()
       });
@@ -331,13 +333,15 @@ class Runner {
 @:access(utest.Runner.executedFixtures)
 private class ITestRunner {
   var runner:Runner;
-  var cases:Iterator<ITest>;
+  var cases:Iterator<String>;
+  var currentCaseName:String;
   var currentCase:ITest;
   var currentCaseFixtures:Array<TestFixture>;
   var teardownClass:Void->Async;
   var setupAsync:Async;
   var teardownAsync:Async;
   var failedTestsInCurrentCase:Array<String> = [];
+  var failedCases:Array<String> = [];
 
   public function new(runner:Runner) {
     this.runner = runner;
@@ -345,23 +349,68 @@ private class ITestRunner {
       for (result in handler.results) {
         switch result {
           case Success(_):
-          case _: failedTestsInCurrentCase.push(handler.fixture.method);
+          case _:
+            failedTestsInCurrentCase.push(handler.fixture.method);
+            failedCases.push(Type.getClassName(Type.getClass(handler.fixture.target)));
         }
       }
     });
   }
 
   public function run() {
-    cases = runner.iTestFixtures.keys();
+    cases = orderClassesByDependencies();
     runCases();
+  }
+
+  function orderClassesByDependencies():Iterator<String> {
+    var result = [];
+    function error(msg:String) {
+        throw 'not implemented';
+    }
+    var added = new Map();
+    function addClass(cls:String, stack:Array<String>) {
+        if(added.exists(cls))
+            return;
+        if(stack.indexOf(cls) >= 0) {
+            error('Circular dependencies among test classes detected: ' + stack.join('->'));
+            return;
+        }
+        stack.push(cls);
+        var dependencies = runner.iTestFixtures.get(cls).dependencies;
+        for(dependency in dependencies) {
+            if(runner.iTestFixtures.exists(dependency)) {
+              addClass(dependency, stack);
+            } else {
+              error('$cls depends on $dependency, but it cannot be found. Was it added to test runner?');
+            }
+        }
+        result.push(cls);
+        added.set(cls, true);
+    }
+    for(cls in runner.iTestFixtures.keys()) {
+        addClass(cls, []);
+    }
+    return result.iterator();
+  }
+
+  function failedDependencies(data:{dependencies:Array<String>}):Bool {
+      for(dependency in data.dependencies) {
+          if(failedCases.indexOf(dependency) >= 0)
+            return true;
+      }
+      return false;
   }
 
   function runCases() {
     while(cases.hasNext()) {
-      currentCase = cases.next();
+      currentCaseName = cases.next();
+      var data = runner.iTestFixtures.get(currentCaseName);
+      currentCase = data.caseInstance;
       failedTestsInCurrentCase = [];
-      Print.startCase(Type.getClassName(Type.getClass(currentCase)));
-      var data = runner.iTestFixtures.get(currentCase);
+      if(failedDependencies(data)) {
+        continue;
+      }
+      Print.startCase(currentCaseName);
       currentCaseFixtures = data.fixtures;
       teardownClass = data.teardownClass;
       try {
