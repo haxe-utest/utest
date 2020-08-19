@@ -135,7 +135,7 @@ class TestBuilder {
 			if(added.exists(field.name))
 				return;
 			if(stack.indexOf(field.name) >= 0) {
-				error('Circular dependencies detected: ' + stack.join('->'), field.pos);
+				error('Circular dependencies detected: ' + stack.join(' -> '), field.pos);
 				return;
 			}
 			stack.push(field.name);

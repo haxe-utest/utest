@@ -364,24 +364,30 @@ private class ITestRunner {
 
   function orderClassesByDependencies():Iterator<String> {
     var result = [];
-    function error(msg:String) {
-        throw 'not implemented';
+    function error(testCase:ITest, msg:String) {
+        runner.onProgress.dispatch({
+            totals: runner.length,
+            result: TestResult.ofFailedSetupClass(testCase, SetupError(msg, [])),
+            done: runner.executedFixtures
+        });
     }
     var added = new Map();
     function addClass(cls:String, stack:Array<String>) {
         if(added.exists(cls))
             return;
+        var data = runner.iTestFixtures.get(cls);
         if(stack.indexOf(cls) >= 0) {
-            error('Circular dependencies among test classes detected: ' + stack.join('->'));
+            error(data.caseInstance, 'Circular dependencies among test classes detected: ' + stack.join(' -> '));
             return;
         }
         stack.push(cls);
-        var dependencies = runner.iTestFixtures.get(cls).dependencies;
+        var dependencies = data.dependencies;
         for(dependency in dependencies) {
             if(runner.iTestFixtures.exists(dependency)) {
               addClass(dependency, stack);
             } else {
-              error('$cls depends on $dependency, but it cannot be found. Was it added to test runner?');
+              error(data.caseInstance, 'This class depends on $dependency, but it cannot be found. Was it added to test runner?');
+              return;
             }
         }
         result.push(cls);
@@ -408,6 +414,7 @@ private class ITestRunner {
       currentCase = data.caseInstance;
       failedTestsInCurrentCase = [];
       if(failedDependencies(data)) {
+        failedCases.push(currentCaseName);
         continue;
       }
       Print.startCase(currentCaseName);
