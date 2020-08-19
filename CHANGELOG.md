@@ -1,5 +1,7 @@
-# vX.X.X
+# v1.13.1
 - improved failure messages for `haxe.io.Bytes` checks
+- don't run test classes if their dependencies were not run because of their own dependencies failures
+- fixed error reporting upon inter-class dependency resolution failures
 
 # v1.13.0
 - added support for `@:depends(some.pack.AnotherTestCase)` to define dependencies among test cases
