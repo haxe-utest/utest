@@ -304,11 +304,14 @@ class Assert {
           if(status.recursive || status.path == '') {
             var ebytes : Bytes = expected;
             var vbytes : Bytes = value;
-            if (ebytes.length != vbytes.length) return false;
+            if (ebytes.length != vbytes.length) {
+              status.error = "expected " + ebytes.length + " bytes length but it is " + vbytes.length;
+              return false;
+            }
             for (i in 0...ebytes.length)
               if (ebytes.get(i) != vbytes.get(i))
               {
-                status.error = "expected byte " + ebytes.get(i) + " but it is " + vbytes.get(i) + (status.path == '' ? '' : ' for field '+status.path);
+                status.error = "expected byte #" + i + " to be " + ebytes.get(i) + " but it is " + vbytes.get(i) + (status.path == '' ? '' : ' for field '+status.path);
                 return false;
               }
           }
