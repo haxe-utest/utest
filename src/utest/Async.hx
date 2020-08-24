@@ -72,15 +72,15 @@ class Async {
 	/**
 		Create a sub-async. Current `Async` instance will be resolved automatically once all sub-asyncs are resolved.
 	**/
-	public function branch(?fn:Async->Void):Async {
+	public function branch(?fn:Async->Void, ?pos:PosInfos):Async {
 		var branch = new Async(timeoutMs);
 		branches.push(branch);
-		branch.then(checkBranches);
+		branch.then(checkBranches.bind(pos));
 		if(fn != null) fn(branch);
 		return branch;
 	}
 
-	function checkBranches() {
+	function checkBranches(pos:PosInfos) {
 		if(resolved) return;
 		for(branch in branches) {
 			if(!branch.resolved) return;
@@ -94,7 +94,7 @@ class Async {
 		Timer.delay(
 			function() {
 				if(branchCount == branches.length) { // no new branches have been spawned
-					done();
+					done(pos);
 				}
 			},
 			5
