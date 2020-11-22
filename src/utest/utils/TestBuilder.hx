@@ -411,6 +411,7 @@ class TestBuilder {
 			case OpNot: '!';
 			case OpNeg: '-';
 			case OpNegBits: '~';
+			case _: '...'; //OpSpread since Haxe 4.2.0
 		}
 	}
 #end
