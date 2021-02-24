@@ -1,3 +1,9 @@
+# v1.13.2
+- Haxe 4.2.0 compatibility
+- Diagnostics reporter to show clickable messages in VSCode ([#106](https://github.com/haxe-utest/utest/issues/106)
+- Better position reporting upon `async.done()` calls for branched async methods
+- Exit code for Adobe AIR application in PlainTextReport ([#108](https://github.com/haxe-utest/utest/issues/108)
+
 # v1.13.1
 - improved failure messages for `haxe.io.Bytes` checks
 - don't run test classes if their dependencies were not run because of their own dependencies failures
