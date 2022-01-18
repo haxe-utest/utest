@@ -6,7 +6,7 @@ import utest.ui.common.PackageResult;
 
 using utest.ui.common.ReportTools;
 
-#if sys
+#if (sys || nodejs)
 class DiagnosticsReport extends PlainTextReport {
   public function new(runner:Runner) {
     super(runner, handleResults);
