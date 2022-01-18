@@ -11,6 +11,7 @@ class TestResult {
   public var teardown      : String;
   public var teardownAsync : String;
   public var assertations  : List<Assertation>;
+  public var executionTime : Float;
 
   public function new(){}
 
@@ -25,6 +26,7 @@ class TestResult {
     r.teardown      = handler.fixture.teardown;
     r.teardownAsync = handler.fixture.teardownAsync;
     r.assertations  = handler.results;
+    r.executionTime = handler.executionTime;
     return r;
   }
 
