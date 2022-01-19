@@ -9,12 +9,14 @@ class FixtureResult {
   public var hasTeardownError(default, null) : Bool;
   public var hasTimeoutError(default, null) : Bool;
   public var hasAsyncError(default, null) : Bool;
+  public var executionTime(default, null) : Float;
 
   public var stats(default, null) : ResultStats;
 
   var list(default, null) : List<Assertation>;
-  public function new(methodName : String) {
+  public function new(methodName : String, executionTime:Float) {
     this.methodName = methodName;
+    this.executionTime = executionTime;
     this.list = new List();
     hasTestError = false;
     hasSetupError = false;

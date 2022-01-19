@@ -81,7 +81,7 @@ class ResultAggregator {
   }
 
   function createFixture(result : TestResult) {
-    var f = new FixtureResult(result.method);
+    var f = new FixtureResult(result.method, result.executionTime);
     for(assertation in result.assertations)
       f.add(assertation);
     return f;

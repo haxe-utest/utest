@@ -1,7 +1,7 @@
 package utest;
 
 import haxe.CallStack;
-
+import haxe.Timer;
 using utest.utils.AsyncUtils;
 
 class ITestHandler<T> extends TestHandler<T> {
@@ -24,6 +24,7 @@ class ITestHandler<T> extends TestHandler<T> {
 	}
 
 	override public function execute() {
+    startTime = Timer.stamp();
 		if (fixture.ignoringInfo.isIgnored) {
 			executeFinally();
 			return;

@@ -1,14 +1,17 @@
 package utest;
 
 import haxe.CallStack;
+import haxe.Timer;
 import utest.Assertation;
 
 class TestHandler<T> {
   private static inline var POLLING_TIME = 10;
   public var results(default, null) : List<Assertation>;
   public var fixture(default, null) : TestFixture;
-  public var finished(default,null):Bool = false;
+  public var finished(default, null) : Bool = false;
+  public var executionTime(default, null) : Float = 0;
   var asyncStack : List<Dynamic>;
+  var startTime:Float = 0;
 
   public var onTested(default, null) : Dispatcher<TestHandler<T>>;
   public var onTimeout(default, null) : Dispatcher<TestHandler<T>>;
@@ -35,6 +38,7 @@ class TestHandler<T> {
   }
 
   public function execute() {
+    startTime = Timer.stamp();
     if (fixture.ignoringInfo.isIgnored) {
       executeFinally();
       return;
@@ -265,6 +269,7 @@ class TestHandler<T> {
   function completedFinally() {
     finished = true;
     unbindHandler();
+    executionTime = (Timer.stamp() - startTime) * 1000;
     onComplete.dispatch(this);
   }
 }
