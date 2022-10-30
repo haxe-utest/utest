@@ -208,7 +208,7 @@ class Runner {
           traverse(fullPath, '$path.$file');
           continue;
         }
-        if(file.substr(-3) != '.hx') {
+        if(file.substr(-3) != '.hx' || file == "import.hx") {
           continue;
         }
         var className = file.substr(0, file.length - 3);
