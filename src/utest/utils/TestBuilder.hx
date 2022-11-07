@@ -215,6 +215,9 @@ class TestBuilder {
 			case _:
 				error('Wrong arguments count. The only supported argument is utest.Async for asynchronous tests.', field.pos);
 		}
+		if(field.name.indexOf(TEST_PREFIX) == 0 && fn.expr != null) {
+			fn.expr = prepareTest(fn.expr);
+		}
 		//specification test
 		if(field.name.indexOf(SPEC_PREFIX) == 0 && fn.expr != null) {
 			fn.expr = prepareSpec(fn.expr);
@@ -271,6 +274,23 @@ class TestBuilder {
 			}
 		}
 		return ancestorHasInitializeUtest(superClass);
+	}
+
+	static function prepareTest(expr:Expr) {
+		return switch(expr.expr) {
+			case ECall({ expr: EField({ expr: EConst(CIdent("Assert")) | EField(_, "Assert") }, "isTrue") }, [condition]):
+				switch(condition.expr) {
+					case EBinop(op, left, right)
+						if(op.match(OpEq | OpNotEq | OpGt | OpGte | OpLt | OpLte)):
+						parseSpecBinop(condition, op, left, right);
+					case EUnop(OpNot, prefix, subj):
+						parseSpecUnop(condition, OpNot, prefix, subj);
+					default:
+						expr;
+				}
+			case _:
+				ExprTools.map(expr, prepareTest);
+		}
 	}
 
 	static function prepareSpec(expr:Expr) {
