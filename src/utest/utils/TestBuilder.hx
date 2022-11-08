@@ -275,19 +275,10 @@ class TestBuilder {
 
 	static function prepareSpec(expr:Expr) {
 		return switch(expr.expr) {
-			case EBlock(exprs):
-				var newExprs = [];
-				for(expr in exprs) {
-					switch(expr.expr) {
-						case EBinop(op, left, right):
-							newExprs.push(parseSpecBinop(expr, op, left, right));
-						case EUnop(op, prefix, subj):
-							newExprs.push(parseSpecUnop(expr, op, prefix, subj));
-						case _:
-							newExprs.push(ExprTools.map(expr, prepareSpec));
-					}
-				}
-				{expr:EBlock(newExprs), pos:expr.pos};
+			case EBinop(op, left, right):
+				parseSpecBinop(expr, op, left, right);
+			case EUnop(op, prefix, subj):
+				parseSpecUnop(expr, op, prefix, subj);
 			case _:
 				ExprTools.map(expr, prepareSpec);
 		}
