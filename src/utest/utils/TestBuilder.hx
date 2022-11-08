@@ -278,13 +278,12 @@ class TestBuilder {
 
 	static function prepareTest(expr:Expr) {
 		return switch(expr.expr) {
-			case ECall({ expr: EField({ expr: EConst(CIdent("Assert")) | EField(_, "Assert") }, "isTrue") }, [condition]):
+			case ECall({expr: EField({expr: EConst(CIdent("Assert")) | EField(_, "Assert")}, assertion = "isTrue" | "isFalse")}, [condition]):
 				switch(condition.expr) {
-					case EBinop(op, left, right)
-						if(op.match(OpEq | OpNotEq | OpGt | OpGte | OpLt | OpLte)):
-						parseSpecBinop(condition, op, left, right);
-					case EUnop(OpNot, prefix, subj):
-						parseSpecUnop(condition, OpNot, prefix, subj);
+					case EBinop(op = OpEq | OpNotEq | OpGt | OpGte | OpLt | OpLte, left, right):
+						parseSpecBinop(condition, op, left, right, assertion);
+					case EUnop(op = OpNot, prefix, subj):
+						parseSpecUnop(condition, op, prefix, subj, assertion);
 					default:
 						expr;
 				}
@@ -313,7 +312,7 @@ class TestBuilder {
 		}
 	}
 
-	static function parseSpecBinop(expr:Expr, op:Binop, left:Expr, right:Expr):Expr {
+	static function parseSpecBinop(expr:Expr, op:Binop, left:Expr, right:Expr, ?assertion:String = "isTrue"):Expr {
 		switch op {
 			case OpEq | OpNotEq | OpGt | OpGte | OpLt | OpLte:
 				var leftStr = ExprTools.toString(left);
@@ -328,14 +327,14 @@ class TestBuilder {
 					var _utest_right = $right;
 					var _utest_msg = "Failed: " + $v{leftStr} + " " + $v{opStr} + " " + $v{rightStr} + ". "
 								+ "Values: " + _utest_left + " " + $v{opStr} + " " + _utest_right;
-					utest.Assert.isTrue($binop, _utest_msg);
+					utest.Assert.$assertion($binop, _utest_msg);
 				}
 			case _:
 				return ExprTools.map(expr, prepareSpec);
 		}
 	}
 
-	static function parseSpecUnop(expr:Expr, op:Unop, prefix:Bool, subj:Expr):Expr {
+	static function parseSpecUnop(expr:Expr, op:Unop, prefix:Bool, subj:Expr, ?assertion:String = "isTrue"):Expr {
 		switch op {
 			case OpNot if(!prefix):
 				var subjStr = ExprTools.toString(subj);
@@ -348,7 +347,7 @@ class TestBuilder {
 					var _utest_subj = $subj;
 					var _utest_msg = "Failed: " + $v{opStr} + $v{subjStr} + ". "
 									+ "Values: " + $v{opStr} + _utest_subj;
-					utest.Assert.isTrue($unop, _utest_msg);
+					utest.Assert.$assertion($unop, _utest_msg);
 				}
 			case _:
 				return ExprTools.map(expr, prepareSpec);
