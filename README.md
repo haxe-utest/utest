@@ -163,7 +163,7 @@ class TestCase1 extends utest.Test {
 	}
 }
 
-@:depends(some.pack.TestCase2)
+@:depends(some.pack.TestCase1)
 class TestCase2 extends utest.Test {
 	function test2() {
 		//...
