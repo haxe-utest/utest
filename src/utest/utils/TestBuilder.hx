@@ -284,11 +284,60 @@ class TestBuilder {
 						parseSpecBinop(condition, op, left, right, assertion);
 					case EUnop(op = OpNot, prefix, subj):
 						parseSpecUnop(condition, op, prefix, subj, assertion);
+					case ECall(func, args):
+						parseTestCall(condition, func, args, assertion);
 					default:
 						expr;
 				}
 			case _:
 				ExprTools.map(expr, prepareTest);
+		}
+	}
+	
+	static function parseTestCall(expr:Expr, func:Expr, args:Array<Expr>, ?assertion:String = "isTrue"):Expr {
+		var funcStr = ExprTools.toString(func);
+		var funcValue = macro $v{funcStr};
+		var argsStr:String = [for(arg in args) ExprTools.toString(arg)].join(", ");
+
+		var vars:Array<Var> = [];
+		switch(func.expr) {
+			case EField(thisValue, funcName) if(!isCapitalized(thisValue)):
+				vars.push({name: "_utest_this", expr: thisValue});
+				func = {expr: EField(macro _utest_this, funcName), pos: func.pos};
+				funcValue = macro _utest_this + "." + $v{funcName};
+			default:
+		}
+
+		var varValues:Array<Expr> = [];
+		var argValues:Array<Expr> = [];
+		for(i => arg in args) {
+			if(isCapitalized(arg)) {
+				varValues.push(arg);
+				argValues.push(macro $v{ExprTools.toString(arg)});
+			} else {
+				var varName = "_utest_arg_" + i;
+				vars.push({name: varName, expr: arg});
+				varValues.push(macro $i{varName});
+				argValues.push(macro Std.string($i{varName}));
+			}
+		}
+		var varsExpr = {expr: EVars(vars), pos: expr.pos};
+
+		var expected = assertion == "isFalse" ? " should be false" : "";
+		return macro @:pos(expr.pos) {
+			$varsExpr;
+			var _utest_msg = "Failed: " + $v{funcStr} + "(" + $v{argsStr} + ")" + $v{expected} + ". "
+						+ "Values: " + $funcValue + "(" + $a{argValues}.join(", ") + ")";
+			utest.Assert.$assertion($func($a{varValues}), _utest_msg);
+		}
+	}
+
+	static function isCapitalized(expr:Expr) {
+		return switch(expr.expr) {
+			case EConst(CIdent(ident)), EField(_, ident):
+				~/^[A-Z]/.match(ident);
+			default:
+				false;
 		}
 	}
 

@@ -481,23 +481,29 @@ Creates a warning message.
 
 ## Reducing message detail
 
-When `Assert.isTrue` or `Assert.isFalse` uses a comparison operator and no error message is passed, utest runs a macro to generate a detailed message.
+When `Assert.isTrue` or `Assert.isFalse` uses a comparison operator or function call, and no failure message is passed, utest runs a macro to generate one.
 
 ```haxe
   function testSum() {
     var x = 3;
     Assert.isTrue(2 + 2 == x + x); // Failed: 2 + 2 == x + x. Values: 4 == 6
     Assert.isTrue(2 + 3 >= x + x); // Failed: 2 + 3 >= x + x. Values: 5 >= 6
+
+	var array = [1, 2, 4, 8];
+	Assert.isTrue(array.contains(x)); // Failed: array.contains(x). Values: [1,2,4,8].contains(3)
   }
 ```
 
-This macro can be disabled using `-D UTEST_FAILURE_REDUCE_DETAIL`, or by adding `UTEST_FAILURE_REDUCE_DETAIL` to the environment variables at compile time.
+This macro can be disabled using `-D UTEST_FAILURE_REDUCE_DETAIL`, or by adding `UTEST_FAILURE_REDUCE_DETAIL` to the environment variables at compile time. Without the macro, utest falls back to a generic failure message.
 
 ```haxe
   function testSum() {
     var x = 3;
-    Assert.isTrue(2 + 2 == x + x); // Expected true
-    Assert.isTrue(2 + 3 >= x + x); // Expected true
+    Assert.isTrue(2 + 2 == x + x); // expected true
+    Assert.isTrue(2 + 3 >= x + x); // expected true
+
+	var array = [1, 2, 4, 8];
+	Assert.isTrue(array.contains(x)); // expected true
   }
 ```
 
