@@ -215,7 +215,7 @@ class TestBuilder {
 			case _:
 				error('Wrong arguments count. The only supported argument is utest.Async for asynchronous tests.', field.pos);
 		}
-		if(field.name.indexOf(TEST_PREFIX) == 0 && fn.expr != null) {
+		if(field.name.indexOf(TEST_PREFIX) == 0 && fn.expr != null && !Context.defined("UTEST_FAILURE_REDUCE_DETAIL")) {
 			fn.expr = prepareTest(fn.expr);
 		}
 		//specification test
