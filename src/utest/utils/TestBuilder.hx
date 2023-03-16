@@ -322,10 +322,11 @@ class TestBuilder {
 					expr:EBinop(op, macro @:pos(left.pos) _utest_left, macro @:pos(right.pos) _utest_right),
 					pos:expr.pos
 				}
+				var expected = assertion == "isFalse" ? " should be false" : "";
 				return macro @:pos(expr.pos) {
 					var _utest_left = $left;
 					var _utest_right = $right;
-					var _utest_msg = "Failed: " + $v{leftStr} + " " + $v{opStr} + " " + $v{rightStr} + ". "
+					var _utest_msg = "Failed: " + $v{leftStr} + " " + $v{opStr} + " " + $v{rightStr} + $v{expected} + ". "
 								+ "Values: " + _utest_left + " " + $v{opStr} + " " + _utest_right;
 					utest.Assert.$assertion($binop, _utest_msg);
 				}
@@ -343,9 +344,10 @@ class TestBuilder {
 					expr: EUnop(op, prefix, macro @:pos(subj.pos) _utest_subj),
 					pos: expr.pos
 				}
+				var expected = assertion == "isFalse" ? " should be false" : "";
 				return macro @:pos(expr.pos) {
 					var _utest_subj = $subj;
-					var _utest_msg = "Failed: " + $v{opStr} + $v{subjStr} + ". "
+					var _utest_msg = "Failed: " + $v{opStr} + $v{subjStr} + $v{expected} + ". "
 									+ "Values: " + $v{opStr} + _utest_subj;
 					utest.Assert.$assertion($unop, _utest_msg);
 				}
