@@ -585,6 +585,34 @@ class Assert {
   }
 
   /**
+   * It is used to test an application that under certain circumstances must
+   * react throwing an error. This assert guarantees that the error matches
+   * the correct string.
+   * ```haxe
+   * Assert.raisesMessage(function() { throw "Error!"; }, "Error!");
+   * ```
+   * @param method A method that generates the exception.
+   * @param message The string expected to be thrown. If the error is not a string, it will be
+   *      converted to one before comparing.
+   * @param msgNotThrown An optional error message used when the function fails to raise the expected
+   *      exception. If not passed a default one will be used
+   * @param msgWrong An optional error message used when the function raises the exception but it does
+   *      not match the expected string. If not passed a default one will be used
+   * @param pos Code position where the Assert call has been executed. Don't fill it
+   * unless you know what you are doing.
+   */
+  public static function raisesMessage(method:Void -> Void, message:String, ?msgNotThrown : String , ?msgWrong : String, ?pos : PosInfos) : Bool {
+    try {
+      method();
+    } catch (ex : Dynamic) {
+      return equals(message, Std.string(ex), msgWrong, pos);
+    }
+    if (null == msgNotThrown)
+      msgNotThrown = "exception \"" + message + "\" not raised";
+    return fail(msgNotThrown, pos);
+  }
+
+  /**
    * Checks that the test value matches at least one of the possibilities.
    * @param possibility An array of possible matches
    * @param value The value to test
