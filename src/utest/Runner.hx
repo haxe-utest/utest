@@ -100,6 +100,7 @@ class Runner {
     }
   }
 
+  #if (haxe_ver < "3.4.0" || utest_legacy)
   /**
    * Adds a new test case.
    * @param test must be a not null object
@@ -123,6 +124,35 @@ class Runner {
     #end
   }
 
+  function addCaseOld(test:Dynamic, setup = "setup", teardown = "teardown", prefix = "test", ?pattern : EReg, setupAsync = "setupAsync", teardownAsync = "teardownAsync") {
+    if(!Reflect.isObject(test)) throw "can't add a null object as a test case";
+    if(!isMethod(test, setup))
+      setup = null;
+    if(!isMethod(test, setupAsync))
+      setupAsync = null;
+    if(!isMethod(test, teardown))
+      teardown = null;
+    if(!isMethod(test, teardownAsync))
+      teardownAsync = null;
+    var fields = Type.getInstanceFields(Type.getClass(test));
+    var className = Type.getClassName(Type.getClass(test));
+      for (field in fields) {
+        if(!isMethod(test, field)) continue;
+        if(!isTestFixtureName(className, field, [prefix], pattern, globalPattern)) continue;
+        addFixture(new TestFixture(test, field, setup, teardown, setupAsync, teardownAsync));
+      }
+  }
+  #else
+  /**
+   * Adds a new test case. Set `-D utest_legacy` to re-enable deprecated arguments.
+   * @param test must be a not null object
+   * @param pattern a regular expression that discriminates the names of test functions
+   */
+  public inline function addCase(test : ITest, ?pattern : EReg) {
+    addITest(test, pattern);
+  }
+  #end
+
   #if (haxe_ver >= "3.4.0")
   function addITest(testCase:ITest, pattern:Null<EReg>) {
     var className = Type.getClassName(Type.getClass(testCase));
@@ -130,13 +160,9 @@ class Runner {
       throw 'Cannot add the same test twice.';
     }
     var fixtures = [];
-  #if as3
-  // AS3 can't handle the ECheckType cast. Let's dodge the issue.
-  var tmp:TestData.Initializer = cast testCase;
-  var init:TestData.InitializeUtest = tmp.__initializeUtest__();
-  #else
-    var init:TestData.InitializeUtest = (cast testCase:TestData.Initializer).__initializeUtest__();
-  #end
+    // AS3 can't handle the ECheckType cast. Let's dodge the issue.
+    var initializer:TestData.Initializer = cast testCase;
+    var init:TestData.InitializeUtest = initializer.__initializeUtest__();
     for(test in init.tests) {
       if(!isTestFixtureName(className, test.name, ['test', 'spec'], pattern, globalPattern)) {
         continue;
@@ -156,25 +182,6 @@ class Runner {
     }
   }
   #end
-
-  function addCaseOld(test:Dynamic, setup = "setup", teardown = "teardown", prefix = "test", ?pattern : EReg, setupAsync = "setupAsync", teardownAsync = "teardownAsync") {
-    if(!Reflect.isObject(test)) throw "can't add a null object as a test case";
-    if(!isMethod(test, setup))
-      setup = null;
-    if(!isMethod(test, setupAsync))
-      setupAsync = null;
-    if(!isMethod(test, teardown))
-      teardown = null;
-    if(!isMethod(test, teardownAsync))
-      teardownAsync = null;
-    var fields = Type.getInstanceFields(Type.getClass(test));
-    var className = Type.getClassName(Type.getClass(test));
-      for (field in fields) {
-        if(!isMethod(test, field)) continue;
-        if(!isTestFixtureName(className, field, [prefix], pattern, globalPattern)) continue;
-        addFixture(new TestFixture(test, field, setup, teardown, setupAsync, teardownAsync));
-      }
-  }
 
   /**
    * Add all test cases located in specified package `path`.
