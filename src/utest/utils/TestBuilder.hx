@@ -9,8 +9,8 @@ import haxe.macro.ExprTools;
 
 using Lambda;
 
-@:enum
-private abstract IsAsync(Int) {
+#if !haxe4 @:enum #end
+private #if haxe4 enum #end abstract IsAsync(Int) {
 	var Yes = 1;
 	var No = 0;
 	var Unknown = -1;
