@@ -5,7 +5,7 @@ class Print {
 		#if sys
 			Sys.print(msg);
 		#elseif js
-			#if (haxe_ver >= 4.0) js.Syntax.code #else untyped __js__ #end('console.log({0})', msg);
+			js.Syntax.code('console.log({0})', msg);
 		#else
 			trace(msg);
 		#end

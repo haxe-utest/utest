@@ -30,7 +30,6 @@ class TestResult {
     return r;
   }
 
-  #if (haxe_ver >= "3.4.0")
   public static function ofFailedSetupClass(testCase:ITest, assertation:Assertation):TestResult {
     var r = new TestResult();
     var path = Type.getClassName(Type.getClass(testCase)).split('.');
@@ -52,7 +51,6 @@ class TestResult {
     r.assertations.add(assertation);
     return r;
   }
-  #end
 
 //   public function allOk():Bool{
 //     for(l in assertations) {

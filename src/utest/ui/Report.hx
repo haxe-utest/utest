@@ -25,7 +25,7 @@ class Report {
 #elseif nodejs
     report = new utest.ui.text.PrintReport(runner);
 #elseif js
-    if(#if (haxe_ver >= 4.0) js.Syntax.code #else untyped __js__ #end("typeof window != 'undefined'")) {
+    if(js.Syntax.code("typeof window != 'undefined'")) {
       report = new utest.ui.text.HtmlReport(runner, true);
     } else
       report = new utest.ui.text.PrintReport(runner);

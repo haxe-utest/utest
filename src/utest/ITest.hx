@@ -1,9 +1,5 @@
 package utest;
 
-#if (haxe_ver < "3.4.0")
-	#error 'Haxe 3.4.0 or later is required for utest.ITest'
-#end
-
 /**
  * Interface, which should be implemented by test cases.
  *

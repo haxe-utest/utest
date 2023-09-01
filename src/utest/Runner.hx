@@ -1,5 +1,9 @@
 package utest;
 
+#if (haxe_ver < "4.1.0")
+	#error 'Haxe 4.1.0 or later is required to run UTest'
+#end
+
 import utest.utils.Misc;
 import utest.utils.Print;
 import haxe.CallStack;
@@ -15,10 +19,8 @@ using StringTools;
 using haxe.macro.Tools;
 #end
 
-#if (haxe_ver >= "3.4.0")
 using utest.utils.AsyncUtils;
 using utest.utils.AccessoriesUtils;
-#end
 
 /**
  * The Runner class performs a set of tests. The tests can be added using addCase or addFixtures.
@@ -30,9 +32,7 @@ using utest.utils.AccessoriesUtils;
  */
 class Runner {
   var fixtures(default, null) : Array<TestFixture> = [];
-  #if (haxe_ver >= "3.4.0")
   var iTestFixtures:Map<String,{caseInstance:ITest, setupClass:Void->Async, dependencies:Array<String>, fixtures:Array<TestFixture>, teardownClass:Void->Async}> = new Map();
-  #end
 
   /**
    * Event object that monitors the progress of the runner.
@@ -112,31 +112,20 @@ class Runner {
    * @param teardownAsync string name of the asynchronous teardown function (defaults to "teardownAsync")
    */
   public function addCase(test : Dynamic, setup = "setup", teardown = "teardown", prefix = "test", ?pattern : EReg, setupAsync = "setupAsync", teardownAsync = "teardownAsync") {
-    #if (haxe_ver >= "3.4.0")
     if(Misc.isOfType(test, ITest)) {
       addITest(test, pattern);
     } else {
       addCaseOld(test, setup, teardown, prefix, pattern, setupAsync, teardownAsync);
     }
-    #else
-    addCaseOld(test, setup, teardown, prefix, pattern, setupAsync, teardownAsync);
-    #end
   }
 
-  #if (haxe_ver >= "3.4.0")
   function addITest(testCase:ITest, pattern:Null<EReg>) {
     var className = Type.getClassName(Type.getClass(testCase));
     if(iTestFixtures.exists(className)) {
       throw 'Cannot add the same test twice.';
     }
     var fixtures = [];
-  #if as3
-  // AS3 can't handle the ECheckType cast. Let's dodge the issue.
-  var tmp:TestData.Initializer = cast testCase;
-  var init:TestData.InitializeUtest = tmp.__initializeUtest__();
-  #else
     var init:TestData.InitializeUtest = (cast testCase:TestData.Initializer).__initializeUtest__();
-  #end
     for(test in init.tests) {
       if(!isTestFixtureName(className, test.name, ['test', 'spec'], pattern, globalPattern)) {
         continue;
@@ -155,7 +144,6 @@ class Runner {
       });
     }
   }
-  #end
 
   function addCaseOld(test:Dynamic, setup = "setup", teardown = "teardown", prefix = "test", ?pattern : EReg, setupAsync = "setupAsync", teardownAsync = "teardownAsync") {
     if(!Reflect.isObject(test)) throw "can't add a null object as a test case";
@@ -260,12 +248,8 @@ class Runner {
 
   public function run() {
     onStart.dispatch(this);
-    #if (haxe_ver >= "3.4.0")
     var iTestRunner = new ITestRunner(this);
     iTestRunner.run();
-    #else
-    runNext();
-    #end
     waitForCompletion();
   }
 
@@ -275,11 +259,9 @@ class Runner {
    * Can't reproduce it on a separated sample.
    */
   function waitForCompletion() {
-    #if (haxe_ver >= "3.4.0")
     if(!complete) {
       haxe.Timer.delay(waitForCompletion, 100);
     }
-    #end
   }
 
   var pos:Int = 0;
@@ -306,11 +288,7 @@ class Runner {
 
   function runFixture(fixture : TestFixture):TestHandler<TestFixture> {
     // cast is required by C#
-    #if (haxe_ver >= "3.4.0")
     var handler = (fixture.isITest ? new ITestHandler(fixture) : new TestHandler(fixture));
-    #else
-    var handler = new TestHandler(cast fixture);
-    #end
     handler.onComplete.add(testComplete);
     handler.onPrecheck.add(this.onPrecheck.dispatch);
     Print.startTest(fixture.method);
@@ -326,7 +304,6 @@ class Runner {
   }
 }
 
-#if (haxe_ver >= "3.4.0")
 @:access(utest.Runner.iTestFixtures)
 @:access(utest.Runner.runNext)
 @:access(utest.Runner.runFixture)
@@ -509,4 +486,3 @@ private class ITestRunner {
     });
   }
 }
-#end

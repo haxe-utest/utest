@@ -4,9 +4,9 @@
   "license": "MIT",
   "tags": ["cross","unittesting"],
   "description": "Unit Testing for Haxe",
-  "version": "1.13.2",
+  "version": "2.0.0",
   "classPath": "src",
-  "releasenote": "Haxe 4.2 compatibility; diagnostics reporter to show clickable messages in VSCode; exit code for Adobe AIR application in PlainTextReport; better position reporting on async.done() calls",
+  "releasenote": "Dropped support for Haxe < 4.1",
   "contributors": ["fponticelli", "romanmikhailov", "RealyUniqueName"],
   "dependencies": { }
 }

@@ -14,7 +14,6 @@ class TestFixture {
 
   @:allow(utest)
   var isITest:Bool = false;
-  #if (haxe_ver >= "3.4.0")
   @:allow(utest)
   var test:Null<TestData>;
   @:allow(utest)
@@ -30,7 +29,6 @@ class TestFixture {
     fixture.teardownMethod = utest.utils.AccessoriesUtils.getTeardown(accessories);
     return fixture;
   }
-  #end
 
   public function new(target : {}, method : String, ?setup : String, ?teardown : String, ?setupAsync : String, ?teardownAsync : String) {
     this.target        = target;
