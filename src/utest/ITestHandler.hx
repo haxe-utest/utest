@@ -2,6 +2,8 @@ package utest;
 
 import haxe.CallStack;
 import haxe.Timer;
+import utest.exceptions.UTestException;
+
 using utest.utils.AsyncUtils;
 
 class ITestHandler<T> extends TestHandler<T> {
@@ -118,8 +120,8 @@ class ITestHandler<T> extends TestHandler<T> {
 		if (wasBound) return;
 		Assert.results = this.results;
 		var msg = ' is not allowed in tests extending utest.ITest. Add `async:utest.Async` argument to the test method instead.';
-		Assert.createAsync = function(?f, ?t) throw 'Assert.createAsync() $msg';
-		Assert.createEvent = function(f, ?t) throw 'Assert.createEvent() $msg';
+		Assert.createAsync = function(?f, ?t) throw new UTestException('Assert.createAsync() $msg');
+		Assert.createEvent = function(f, ?t) throw new UTestException('Assert.createEvent() $msg');
 		wasBound = true;
 	}
 

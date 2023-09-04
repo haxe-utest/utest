@@ -1,9 +1,6 @@
 package utest;
 
-#if (haxe_ver < "4.1.0")
-	#error 'Haxe 4.1.0 or later is required to run UTest'
-#end
-
+import utest.exceptions.UTestException;
 import utest.utils.Misc;
 import utest.utils.Print;
 import haxe.CallStack;
@@ -21,6 +18,10 @@ using haxe.macro.Tools;
 
 using utest.utils.AsyncUtils;
 using utest.utils.AccessoriesUtils;
+
+#if (haxe_ver < "4.1.0")
+	#error 'Haxe 4.1.0 or later is required to run UTest'
+#end
 
 /**
  * The Runner class performs a set of tests. The tests can be added using addCase or addFixtures.
@@ -102,27 +103,14 @@ class Runner {
 
   /**
    * Adds a new test case.
-   * @param test must be a not null object
-   * @param setup string name of the setup function (defaults to "setup")
-   * @param teardown string name of the teardown function (defaults to "teardown")
-   * @param prefix prefix for methods that are tests (defaults to "test")
+   * @param testCase must be a not null object
    * @param pattern a regular expression that discriminates the names of test
    *       functions; when set,  the prefix parameter is meaningless
-   * @param setupAsync string name of the asynchronous setup function (defaults to "setupAsync")
-   * @param teardownAsync string name of the asynchronous teardown function (defaults to "teardownAsync")
    */
-  public function addCase(test : Dynamic, setup = "setup", teardown = "teardown", prefix = "test", ?pattern : EReg, setupAsync = "setupAsync", teardownAsync = "teardownAsync") {
-    if(Misc.isOfType(test, ITest)) {
-      addITest(test, pattern);
-    } else {
-      addCaseOld(test, setup, teardown, prefix, pattern, setupAsync, teardownAsync);
-    }
-  }
-
-  function addITest(testCase:ITest, pattern:Null<EReg>) {
+  public function addCase(testCase : ITest, ?pattern : EReg) {
     var className = Type.getClassName(Type.getClass(testCase));
     if(iTestFixtures.exists(className)) {
-      throw 'Cannot add the same test twice.';
+      throw new UTestException('Cannot add the same test twice.');
     }
     var fixtures = [];
     var init:TestData.InitializeUtest = (cast testCase:TestData.Initializer).__initializeUtest__();

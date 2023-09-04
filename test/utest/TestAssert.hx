@@ -4,8 +4,7 @@ import utest.Assert;
 import utest.Assertation;
 
 @:keep
-class TestAssert {
-  public function new(){}
+class TestAssert extends Test {
 
   var resultsbypass : List<Assertation>;
   var results : List<Assertation>;
@@ -283,17 +282,10 @@ class TestAssert {
     Assert.same(Some("a"), None);
     Assert.same(Rec(Rec(Some("a"))), Rec(Rec(Some("a"))));
     Assert.same(Rec(Rec(Some("a"))), Rec(None), true);
-// TODO: something goes wrong here with flash6, haXe/Flash6 bug?
-#if !flash6
     Assert.same(Rec(Rec(Some("a"))), Rec(Rec(None)), false);
-#end
 
     restore();
-#if flash6
-    expect(3, 4);
-#else
     expect(4, 4);
-#end
   }
 
   public function testEquals() {
@@ -345,11 +337,6 @@ class TestAssert {
     Assert.warn("");
     restore();
     expect(0, 0, 1);
-  }
-
-  public function testCreateAsync() {
-    var assert = Assert.createAsync(function() Assert.pass(), 1000);
-    haxe.Timer.delay(assert, 50);
   }
 
   public function expect(esuccesses : Int, efailures : Int, eothers = 0) {

@@ -1,8 +1,7 @@
 package utest;
 
 @:keep
-class TestRunner {
-  public function new(){}
+class TestRunner extends Test {
 
   public function testAddCases_notRecursive() {
     var runner = new Runner();

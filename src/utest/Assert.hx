@@ -1,5 +1,6 @@
 package utest;
 
+import utest.exceptions.AssertFailureException;
 import utest.utils.Misc;
 import haxe.io.Bytes;
 import utest.Assertation;
@@ -34,7 +35,8 @@ class Assert {
       results.add(Success(pos));
     else {
       #if UTEST_FAILURE_THROW
-      throw '${pos.fileName}:${pos.lineNumber}: ${getMessage()}';
+      throw new AssertFailureException('${pos.fileName}:${pos.lineNumber}: ${getMessage()}');
+      );
       #else
       results.add(Failure(getMessage(), pos));
       #end
