@@ -24,7 +24,7 @@ using utest.utils.AccessoriesUtils;
 #end
 
 /**
- * The Runner class performs a set of tests. The tests can be added using addCase or addFixtures.
+ * The Runner class performs a set of tests. The tests can be added using addCase.
  * Once all the tests are register they are axecuted on the run() call.
  * Note that Runner does not provide any visual output. To visualize the test results use one of
  * the classes in the utest.ui package.
@@ -32,8 +32,7 @@ using utest.utils.AccessoriesUtils;
  * @todo AVOID CHAINING METHODS (long chains do not work properly on IE)
  */
 class Runner {
-  var fixtures(default, null) : Array<TestFixture> = [];
-  var iTestFixtures:Map<String,{caseInstance:ITest, setupClass:Void->Async, dependencies:Array<String>, fixtures:Array<TestFixture>, teardownClass:Void->Async}> = new Map();
+  var fixtures:Map<String,{caseInstance:ITest, setupClass:Void->Async, dependencies:Array<String>, fixtures:Array<TestFixture>, teardownClass:Void->Async}> = new Map();
 
   /**
    * Event object that monitors the progress of the runner.
@@ -109,47 +108,27 @@ class Runner {
    */
   public function addCase(testCase : ITest, ?pattern : EReg) {
     var className = Type.getClassName(Type.getClass(testCase));
-    if(iTestFixtures.exists(className)) {
+    if(fixtures.exists(className)) {
       throw new UTestException('Cannot add the same test twice.');
     }
-    var fixtures = [];
+    var newFixtures = [];
     var init:TestData.InitializeUtest = (cast testCase:TestData.Initializer).__initializeUtest__();
     for(test in init.tests) {
       if(!isTestFixtureName(className, test.name, ['test', 'spec'], pattern, globalPattern)) {
         continue;
       }
-      var fixture = TestFixture.ofData(testCase, test, init.accessories);
-      addFixture(fixture);
-      fixtures.push(fixture);
+      newFixtures.push(TestFixture.ofData(testCase, test, init.accessories));
     }
-    if(fixtures.length > 0) {
-      iTestFixtures.set(className, {
+    if(newFixtures.length > 0) {
+      fixtures.set(className, {
         caseInstance:testCase,
         setupClass:init.accessories.getSetupClass(),
         dependencies:init.dependencies,
-        fixtures:fixtures,
+        fixtures:newFixtures,
         teardownClass:init.accessories.getTeardownClass()
       });
+      length += newFixtures.length;
     }
-  }
-
-  function addCaseOld(test:Dynamic, setup = "setup", teardown = "teardown", prefix = "test", ?pattern : EReg, setupAsync = "setupAsync", teardownAsync = "teardownAsync") {
-    if(!Reflect.isObject(test)) throw "can't add a null object as a test case";
-    if(!isMethod(test, setup))
-      setup = null;
-    if(!isMethod(test, setupAsync))
-      setupAsync = null;
-    if(!isMethod(test, teardown))
-      teardown = null;
-    if(!isMethod(test, teardownAsync))
-      teardownAsync = null;
-    var fields = Type.getInstanceFields(Type.getClass(test));
-    var className = Type.getClassName(Type.getClass(test));
-      for (field in fields) {
-        if(!isMethod(test, field)) continue;
-        if(!isTestFixtureName(className, field, [prefix], pattern, globalPattern)) continue;
-        addFixture(new TestFixture(test, field, setup, teardown, setupAsync, teardownAsync));
-      }
   }
 
   /**
@@ -217,15 +196,6 @@ class Runner {
     return pattern.match('$caseName.$testName');
   }
 
-  public function addFixture(fixture : TestFixture) {
-    fixtures.push(fixture);
-    length++;
-  }
-
-  public function getFixture(index : Int) {
-    return fixtures[index];
-  }
-
   function isMethod(test : Dynamic, name : String) {
     try {
       return Reflect.isFunction(Reflect.field(test, name));
@@ -252,31 +222,8 @@ class Runner {
     }
   }
 
-  var pos:Int = 0;
-  var executedFixtures:Int = 0;
-  function runNext(?finishedHandler:TestHandler<TestFixture>) {
-    var currentCase = null;
-    for(i in pos...fixtures.length) {
-      var fixture = fixtures[pos++];
-      if(fixture.isITest) continue;
-      if(currentCase != fixture.target) {
-        currentCase = fixture.target;
-        Print.startCase(Type.getClassName(Type.getClass(currentCase)));
-      }
-      var handler = runFixture(fixture);
-      if(!handler.finished) {
-        handler.onComplete.add(runNext);
-        //wait till current test is finished
-        return;
-      }
-    }
-    complete = true;
-    onComplete.dispatch(this);
-  }
-
   function runFixture(fixture : TestFixture):TestHandler<TestFixture> {
-    // cast is required by C#
-    var handler = (fixture.isITest ? new ITestHandler(fixture) : new TestHandler(fixture));
+    var handler = new TestHandler(fixture);
     handler.onComplete.add(testComplete);
     handler.onPrecheck.add(this.onPrecheck.dispatch);
     Print.startTest(fixture.method);
@@ -284,7 +231,8 @@ class Runner {
     handler.execute();
     return handler;
   }
-
+  
+  var executedFixtures:Int = 0;
   function testComplete(h : TestHandler<TestFixture>) {
     ++executedFixtures;
     onTestComplete.dispatch(h);
@@ -292,10 +240,11 @@ class Runner {
   }
 }
 
-@:access(utest.Runner.iTestFixtures)
+@:access(utest.Runner.fixtures)
 @:access(utest.Runner.runNext)
 @:access(utest.Runner.runFixture)
 @:access(utest.Runner.executedFixtures)
+@:access(utest.Runner.complete)
 private class ITestRunner {
   var runner:Runner;
   var cases:Iterator<String>;
@@ -340,7 +289,7 @@ private class ITestRunner {
     function addClass(cls:String, stack:Array<String>) {
         if(added.exists(cls))
             return;
-        var data = runner.iTestFixtures.get(cls);
+        var data = runner.fixtures.get(cls);
         if(stack.indexOf(cls) >= 0) {
             error(data.caseInstance, 'Circular dependencies among test classes detected: ' + stack.join(' -> '));
             return;
@@ -348,7 +297,7 @@ private class ITestRunner {
         stack.push(cls);
         var dependencies = data.dependencies;
         for(dependency in dependencies) {
-            if(runner.iTestFixtures.exists(dependency)) {
+            if(runner.fixtures.exists(dependency)) {
               addClass(dependency, stack);
             } else {
               error(data.caseInstance, 'This class depends on $dependency, but it cannot be found. Was it added to test runner?');
@@ -358,7 +307,7 @@ private class ITestRunner {
         result.push(cls);
         added.set(cls, true);
     }
-    for(cls in runner.iTestFixtures.keys()) {
+    for(cls in runner.fixtures.keys()) {
         addClass(cls, []);
     }
     return result.iterator();
@@ -375,7 +324,7 @@ private class ITestRunner {
   function runCases() {
     while(cases.hasNext()) {
       currentCaseName = cases.next();
-      var data = runner.iTestFixtures.get(currentCaseName);
+      var data = runner.fixtures.get(currentCaseName);
       currentCase = data.caseInstance;
       failedTestsInCurrentCase = [];
       if(failedDependencies(data)) {
@@ -401,8 +350,8 @@ private class ITestRunner {
         return;
       }
     }
-    //run old-fashioned tests
-    runner.runNext();
+    runner.complete = true;
+    runner.onComplete.dispatch(runner);
   }
 
   function checkSetup() {

@@ -1,5 +1,6 @@
 package utest;
 
+import utest.exceptions.UTestException;
 import utest.exceptions.AssertFailureException;
 import utest.utils.Misc;
 import haxe.io.Bytes;
@@ -717,32 +718,17 @@ class Assert {
     results.add(Warning(msg));
   }
 
-  /**
-   * Creates an asynchronous context for test execution. Assertions should be included
-   * in the passed function.
-   * ```haxe
-   * public function assertAsync() {
-   *   var async = Assert.createAsync(function() Assert.isTrue(true));
-   *   haxe.Timer.delay(async, 50);
-   * }
-   * ```
-   * @param f A function that contains other Assert tests
-   * @param timeout Optional timeout value in milliseconds.
-   */
-  public static dynamic function createAsync(?f : Void -> Void, ?timeout : Int) {
-    return function(){};
+  @:noCompletion
+  @:deprecated('Assert.createAsync is not supported since UTest 2.0. Add `async:utest.Async` argument to the test method instead.')
+  public static dynamic function createAsync(?f : Void -> Void, ?timeout : Int):()->Void {
+    throw new UTestException('Assert.createAsync() is not supported since UTest 2.0. Add `async:utest.Async` argument to the test method instead.');
   }
 
-  /**
-   * Creates an asynchronous context for test execution of an event like method.
-   * Assertions should be included in the passed function.
-   * It works the same way as Assert.createAsync() but accepts a function with one
-   * argument (usually some event data) instead of a function with no arguments
-   * @param f A function that contains other Assert tests
-   * @param timeout Optional timeout value in milliseconds.
-   */
-  public static dynamic function createEvent<EventArg>(f : EventArg -> Void, ?timeout : Int) {
-    return function(e){};
+  
+  @:noCompletion
+  @:deprecated('Assert.createEvent is not supported since UTest 2.0. Add `async:utest.Async` argument to the test method instead.')
+  public static dynamic function createEvent<EventArg>(f : EventArg -> Void, ?timeout : Int):(Dynamic)->Void {
+    throw new UTestException('Assert.createEvent() is not supported since UTest 2.0. Add `async:utest.Async` argument to the test method instead.');
   }
 
   static function typeToString(t : Dynamic) {

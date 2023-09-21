@@ -4,7 +4,7 @@ import haxe.rtti.Meta;
 import utest.IgnoredFixture;
 
 class TestFixture {
-  public var target(default, null)        : {};
+  public var target(default, null)        : ITest;
   public var method(default, null)        : String;
   public var setup(default, null)         : String;
   public var setupAsync(default, null)    : String;
@@ -12,8 +12,6 @@ class TestFixture {
   public var teardownAsync(default, null) : String;
   public var ignoringInfo(default, null)       : IgnoredFixture;
 
-  @:allow(utest)
-  var isITest:Bool = false;
   @:allow(utest)
   var test:Null<TestData>;
   @:allow(utest)
@@ -23,14 +21,13 @@ class TestFixture {
 
   static public function ofData(target:ITest, test:TestData, accessories:TestData.Accessories):TestFixture {
     var fixture = new TestFixture(target, test.name);
-    fixture.isITest = true;
     fixture.test = test;
     fixture.setupMethod = utest.utils.AccessoriesUtils.getSetup(accessories);
     fixture.teardownMethod = utest.utils.AccessoriesUtils.getTeardown(accessories);
     return fixture;
   }
 
-  public function new(target : {}, method : String, ?setup : String, ?teardown : String, ?setupAsync : String, ?teardownAsync : String) {
+  function new(target : ITest, method : String, ?setup : String, ?teardown : String, ?setupAsync : String, ?teardownAsync : String) {
     this.target        = target;
     this.method        = method;
     this.setup         = setup;
