@@ -61,9 +61,9 @@ jobs:
       with:
         python-version: 3.8
 
-    - name: Configure Python 3
-      if: runner.os == 'Windows'
-      shell: cmd
+    # - name: Configure Python 3
+    #   if: runner.os == 'Windows'
+    #   shell: cmd
       # workaround for https://github.com/actions/setup-python/issues/123
       # run: mklink "%pythonLocation%\python3.exe" "%pythonLocation%\python.exe"
 
