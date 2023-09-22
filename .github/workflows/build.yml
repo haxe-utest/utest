@@ -65,7 +65,7 @@ jobs:
       if: runner.os == 'Windows'
       shell: cmd
       # workaround for https://github.com/actions/setup-python/issues/123
-      run: mklink "%pythonLocation%\python3.exe" "%pythonLocation%\python.exe"
+      # run: mklink "%pythonLocation%\python3.exe" "%pythonLocation%\python.exe"
 
     - name: Install Haxe ${{ matrix.haxe }}
       uses: krdlab/setup-haxe@v1 # https://github.com/krdlab/setup-haxe
