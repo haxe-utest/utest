@@ -162,8 +162,8 @@ class PlainTextReport implements IReport<PlainTextReport> {
 #elseif js
     if(js.Syntax.code('typeof phantom != "undefined"'))
       js.Syntax.code('phantom').exit(result.stats.isOk ? 0 : 1);
-    if(js.Syntax.code('typeof process != "undefined"'))
-      js.Syntax.code('process').exit(result.stats.isOk ? 0 : 1);
+    if(js.Syntax.code('typeof process != "undefined"') && !result.stats.isOk)
+      js.Syntax.code('process').exitCode = 1;
 #elseif air
     flash.desktop.NativeApplication.nativeApplication.exit(result.stats.isOk ? 0 : 1);		
 #elseif (flash && exit)
