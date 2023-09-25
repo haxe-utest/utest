@@ -74,6 +74,7 @@ jobs:
 
     - name: Install haxe libs
       shell: bash
+      id: prerequisites
       run: |
         haxelib install travix
         # to always use the latest version of travix comment out the previous line and uncomment the next
@@ -85,26 +86,38 @@ jobs:
     # Tests
     ##################################################
     - name: Test [interp ]
+      if: ${{ steps.prerequisites.conclusion == 'success' }}
       run: haxelib run travix interp
     - name: Test [neko ]
+      if: ${{ steps.prerequisites.conclusion == 'success' }}
       run: haxelib run travix neko
     - name: Test [python ]
+      if: ${{ steps.prerequisites.conclusion == 'success' }}
       run: haxelib run travix python
     - name: Test [node ]
+      if: ${{ steps.prerequisites.conclusion == 'success' }}
       run: haxelib run travix node
     - name: Test [js ]
+     if: ${{ steps.prerequisites.conclusion == 'success' }}
       run: haxelib run travix js
     - name: Test [flash ]
+      if: ${{ steps.prerequisites.conclusion == 'success' }}
       run: haxelib run travix flash
     - name: Test [java ]
+      if: ${{ steps.prerequisites.conclusion == 'success' }}
       run: haxelib run travix java
     - name: Test [cpp ]
+      if: ${{ steps.prerequisites.conclusion == 'success' }}
       run: haxelib run travix cpp
     - name: Test [cs ]
+      if: ${{ steps.prerequisites.conclusion == 'success' }}
       run: haxelib run travix cs
     - name: Test [php ]
+      if: ${{ steps.prerequisites.conclusion == 'success' }}
       run: haxelib run travix php
     - name: Test [php7 ]
+      if: ${{ steps.prerequisites.conclusion == 'success' }}
       run: haxelib run travix php7
     - name: Test [lua ]
+      if: ${{ steps.prerequisites.conclusion == 'success' }}
       run: haxelib run travix lua
