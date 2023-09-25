@@ -158,9 +158,7 @@ class PlainTextReport implements IReport<PlainTextReport> {
     this.result = result;
     if (handler != null) handler(this);
     var exitCode = result.stats.isOk ? 0 : 1;
-#if travix
-    travix.Logger.exit(exitCode);
-#elseif (php || neko || cpp || cs || java || python || lua || eval || hl)
+#if (php || neko || cpp || cs || java || python || lua || eval || hl)
     Sys.exit(exitCode);
 #elseif js
     if(js.Syntax.code('typeof phantom != "undefined"'))
