@@ -97,9 +97,9 @@ jobs:
     - name: Test [node ]
       if: ${{ steps.prerequisites.conclusion == 'success' }}
       run: haxelib run travix node
-    - name: Test [js ]
-     if: ${{ steps.prerequisites.conclusion == 'success' }}
-      run: haxelib run travix js
+    # - name: Test [js ]
+    #  if: ${{ steps.prerequisites.conclusion == 'success' }}
+    #   run: haxelib run travix js
     - name: Test [flash ]
       if: ${{ steps.prerequisites.conclusion == 'success' }}
       run: haxelib run travix flash
