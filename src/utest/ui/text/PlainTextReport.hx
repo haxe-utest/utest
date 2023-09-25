@@ -157,21 +157,24 @@ class PlainTextReport implements IReport<PlainTextReport> {
   function complete(result : PackageResult) {
     this.result = result;
     if (handler != null) handler(this);
-#if (php || neko || cpp || cs || java || python || lua || eval || hl)
-    Sys.exit(result.stats.isOk ? 0 : 1);
+    var exitCode = result.stats.isOk ? 0 : 1;
+#if travix
+    travix.Logger.exit(exitCode);
+#elseif (php || neko || cpp || cs || java || python || lua || eval || hl)
+    Sys.exit(exitCode);
 #elseif js
     if(js.Syntax.code('typeof phantom != "undefined"'))
-      js.Syntax.code('phantom').exit(result.stats.isOk ? 0 : 1);
+      js.Syntax.code('phantom').exit(exitCode);
     if(js.Syntax.code('typeof process != "undefined"'))
-      js.Syntax.code('process').exit(result.stats.isOk ? 0 : 1);
+      js.Syntax.code('process').exit(exitCode);
 #elseif air
-    flash.desktop.NativeApplication.nativeApplication.exit(result.stats.isOk ? 0 : 1);		
+    flash.desktop.NativeApplication.nativeApplication.exit(exitCode);
 #elseif (flash && exit)
       if(flash.system.Security.sandboxType == "localTrusted") {
         var delay = 5;
         trace('all done, exiting in $delay seconds');
         haxe.Timer.delay(function() try {
-            flash.system.System.exit(result.stats.isOk ? 0 : 1);
+            flash.system.System.exit(exitCode);
           } catch(e : Dynamic) {
             // do nothing
           }, delay * 1000);
