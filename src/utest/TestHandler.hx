@@ -1,5 +1,7 @@
 package utest;
 
+import haxe.Exception;
+import haxe.ValueException;
 import utest.exceptions.UTestException;
 import haxe.CallStack;
 import haxe.Timer;
@@ -61,13 +63,19 @@ class TestHandler<T> {
   }
 
   function runSetup() {
+    inline function handleCatch(e:Any, stack:CallStack) {
+      results.add(SetupError(e, stack));
+      completedFinally();
+    }
     try {
       setupAsync = fixture.setupMethod();
     }
     #if !UTEST_FAILURE_THROW
-    catch(e:Dynamic) {
-      results.add(SetupError(e, CallStack.exceptionStack()));
-      completedFinally();
+    catch(e:ValueException) {
+      handleCatch(e.value, e.stack);
+      return;
+    } catch(e) {
+      handleCatch(e, e.stack);
       return;
     }
     #end
@@ -85,13 +93,19 @@ class TestHandler<T> {
   }
 
   function runTest() {
+    inline function handleCatch(e:Any, stack:CallStack) {
+      results.add(Error(e, stack));
+      runTeardown();
+    }
     try {
       testAsync = test.execute();
     }
     #if !UTEST_FAILURE_THROW
-    catch(e:Dynamic) {
-      results.add(Error(e, CallStack.exceptionStack()));
-      runTeardown();
+    catch(e:ValueException) {
+      handleCatch(e.value, e.stack);
+      return;
+    } catch(e) {
+      handleCatch(e, e.stack);
       return;
     }
     #end
@@ -120,13 +134,19 @@ class TestHandler<T> {
   }
 
   function runTeardown() {
+    inline function handleCatch(e:Any, stack:CallStack) {
+      results.add(TeardownError(e, CallStack.exceptionStack()));
+      completedFinally();
+    }
     try {
       teardownAsync = fixture.teardownMethod();
     }
     #if !UTEST_FAILURE_THROW
-    catch(e:Dynamic) {
-      results.add(TeardownError(e, CallStack.exceptionStack()));
-      completedFinally();
+    catch(e:ValueException) {
+      handleCatch(e.value, e.stack);
+      return;
+    } catch(e) {
+      handleCatch(e, e.stack);
       return;
     }
     #end
@@ -146,12 +166,9 @@ class TestHandler<T> {
     checkTested();
   }
 
-  static function exceptionStack(pops = 2)
+  static function exceptionStack(e:Exception, pops = 2)
   {
-    var stack = haxe.CallStack.exceptionStack();
-    while (pops-- > 0)
-      stack.pop();
-    return stack;
+    return [for(i in 0...e.stack.length - pops) e.stack[i]];
   }
 
   function checkTested() {
@@ -232,8 +249,10 @@ class TestHandler<T> {
       executeAsyncMethod(fixture.teardownAsync, complete);
     }
     #if !UTEST_FAILURE_THROW
-    catch(e : Dynamic) {
-      results.add(TeardownError(e, exceptionStack(2))); // TODO check the correct number of functions is popped from the stack
+    catch(e : ValueException) {
+      results.add(TeardownError(e.value, exceptionStack(e, 2))); // TODO check the correct number of functions is popped from the stack
+    } catch(e : Exception) {
+      results.add(TeardownError(e, exceptionStack(e, 2))); // TODO check the correct number of functions is popped from the stack
     }
     #end
     isSync = false;

@@ -51,7 +51,7 @@ class PlainTextReport implements IReport<PlainTextReport> {
     return s;
   }
 
-  function dumpStack(stack : Array<StackItem>) {
+  function dumpStack(stack : CallStack) {
     if (stack.length == 0)
       return "";
     var parts = CallStack.toString(stack).split("\n"),
@@ -173,7 +173,7 @@ class PlainTextReport implements IReport<PlainTextReport> {
         trace('all done, exiting in $delay seconds');
         haxe.Timer.delay(function() try {
             flash.system.System.exit(exitCode);
-          } catch(e : Dynamic) {
+          } catch(_) {
             // do nothing
           }, delay * 1000);
       }

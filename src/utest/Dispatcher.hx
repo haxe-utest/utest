@@ -1,7 +1,11 @@
 package utest;
 
-private enum EventException {
-  StopPropagation;
+import haxe.Exception;
+
+private class StopPropagationException extends Exception {
+  public function new() {
+    super('');
+  }
 }
 
 class Dispatcher<T> {
@@ -33,7 +37,7 @@ class Dispatcher<T> {
       for( l in list )
         l(e);
       return true;
-    } catch( exc : EventException ) {
+    } catch( _ : StopPropagationException ) {
       return false;
     }
   }
@@ -42,7 +46,7 @@ class Dispatcher<T> {
     return handlers.length > 0;
 
   public static function stop()
-    throw StopPropagation;
+    throw new StopPropagationException();
 }
 
 class Notifier {
@@ -74,7 +78,7 @@ class Notifier {
       for( l in list )
         l();
       return true;
-    } catch( exc : EventException ) {
+    } catch( _ : StopPropagationException ) {
       return false;
     }
   }
@@ -83,5 +87,5 @@ class Notifier {
     return handlers.length > 0;
 
   public static function stop()
-    throw StopPropagation;
+    throw new StopPropagationException();
 }

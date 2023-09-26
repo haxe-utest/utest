@@ -736,16 +736,16 @@ class Assert {
       var _t = Type.getClass(t);
       if (_t != null)
         t = _t;
-    } catch(e : Dynamic) { }
-    try return Type.getClassName(t) catch (e : Dynamic) { }
+    } catch(_) { }
+    try return Type.getClassName(t) catch (_) { }
     try {
       var _t = Type.getEnum(t);
       if (_t != null)
         t = _t;
-    } catch(e : Dynamic) { }
-    try return Type.getEnumName(t) catch(e : Dynamic) {}
-    try return Std.string(Type.typeof(t)) catch (e : Dynamic) { }
-    try return Std.string(t) catch (e : Dynamic) { }
+    } catch(_) { }
+    try return Type.getEnumName(t) catch(_) {}
+    try return Std.string(Type.typeof(t)) catch (_) { }
+    try return Std.string(t) catch (_) { }
     return '<unable to retrieve type name>';
   }
 }

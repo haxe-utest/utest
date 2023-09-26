@@ -199,7 +199,7 @@ class Runner {
   function isMethod(test : Dynamic, name : String) {
     try {
       return Reflect.isFunction(Reflect.field(test, name));
-    } catch(e : Dynamic) {
+    } catch(_) {
       return false;
     }
   }
@@ -338,8 +338,8 @@ private class ITestRunner {
         setupAsync = data.setupClass();
       }
       #if !UTEST_FAILURE_THROW
-      catch(e:Dynamic) {
-        setupFailed(SetupError('setupClass failed: $e', CallStack.exceptionStack()));
+      catch(e) {
+        setupFailed(SetupError('setupClass failed: ${e.message}', e.stack));
         return;
       }
       #end
@@ -395,8 +395,8 @@ private class ITestRunner {
       teardownAsync = teardownClass();
     }
     #if !UTEST_FAILURE_THROW
-    catch(e:Dynamic) {
-      teardownFailed(TeardownError('teardownClass failed: $e', CallStack.exceptionStack()));
+    catch(e) {
+      teardownFailed(TeardownError('teardownClass failed: ${e.message}', e.stack));
       return true;
     }
     #end
