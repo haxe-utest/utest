@@ -19,7 +19,7 @@ class MacroRunner {
 Run the unit tests from a macro, displaying errors and a summary in the macro Context.
 @param  testClass Class where the tests are located.
 */
-  public static function run(testClass : Dynamic) {
+  public static function run(testClass : Any) {
     var runner = new Runner();
     addClass(runner, testClass);
 
@@ -55,7 +55,7 @@ Displays stub code for using MacroRunner.
     return { expr: EConst(CType("Void")), pos: Context.currentPos() };
   }
 
-  static function addClass(runner : Runner, testClass : Class<Dynamic>) {
+  static function addClass(runner : Runner, testClass : Class<Any>) {
     runner.addCase(testClass);
 
     var addTests = Reflect.field(testClass, "addTests");

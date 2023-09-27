@@ -1,5 +1,6 @@
 package utest;
 
+import haxe.ValueException;
 import utest.exceptions.UTestException;
 import utest.exceptions.AssertFailureException;
 import utest.utils.Misc;
@@ -74,7 +75,7 @@ class Assert {
    * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
-  public static function isNull(value : Dynamic, ?msg : String, ?pos : PosInfos) : Bool {
+  public static function isNull<T>(value : Null<T>, ?msg : String, ?pos : PosInfos) : Bool {
     return processResult(value == null, function() return msg != null ? msg : "expected null but it is " + q(value), pos);
   }
 
@@ -85,7 +86,7 @@ class Assert {
    * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
-  public static function notNull(value : Dynamic, ?msg : String, ?pos : PosInfos) : Bool {
+  public static function notNull(value : Null<Any>, ?msg : String, ?pos : PosInfos) : Bool {
     return processResult(value != null, function() return msg != null ? msg : "expected not null", pos);
   }
 
@@ -98,7 +99,7 @@ class Assert {
    * unless you know what you are doing.
    */
   @:deprecated("utest.Assert.is is deprecated. Use utest.Assert.isOfType instead.")
-  public static function is(value : Dynamic, type : Dynamic, ?msg : String , ?pos : PosInfos) : Bool {
+  public static function is(value : Null<Any>, type : Any, ?msg : String , ?pos : PosInfos) : Bool {
     return isOfType(value, type, msg, pos);
   }
 
@@ -110,7 +111,7 @@ class Assert {
    * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
-  public static function isOfType(value : Dynamic, type : Dynamic, ?msg : String , ?pos : PosInfos) : Bool {
+  public static function isOfType(value : Null<Any>, type : Any, ?msg : String , ?pos : PosInfos) : Bool {
     return processResult(Misc.isOfType(value, type), function() return msg != null ? msg : "expected type " + typeToString(type) + " but it is " + typeToString(value), pos);
   }
 
@@ -125,7 +126,7 @@ class Assert {
    * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
-  public static function notEquals(expected : Dynamic, value : Dynamic, ?msg : String , ?pos : PosInfos) : Bool {
+  public static function notEquals<T>(expected : Null<T>, value : Null<T>, ?msg : String , ?pos : PosInfos) : Bool {
     return processResult(expected != value, function() return msg != null ? msg : "expected " + q(expected) + " and test value " + q(value) + " should be different", pos);
   }
 
@@ -140,7 +141,7 @@ class Assert {
    * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
-  public static function equals(expected : Dynamic, value : Dynamic, ?msg : String , ?pos : PosInfos) : Bool {
+  public static function equals<T>(expected : Null<T>, value : Null<T>, ?msg : String , ?pos : PosInfos) : Bool {
     return processResult(expected == value, function() return msg != null ? msg : "expected " + q(expected) + " but it is " + q(value), pos);
   }
 
@@ -155,7 +156,7 @@ class Assert {
    * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
-  public static function match(pattern : EReg, value : Dynamic, ?msg : String , ?pos : PosInfos) : Bool {
+  public static function match(pattern : EReg, value : String, ?msg : String , ?pos : PosInfos) : Bool {
     return processResult(pattern.match(value), function() return msg != null ? msg : "the value " + q(value) + " does not match the provided pattern", pos);
   }
 
@@ -189,7 +190,7 @@ class Assert {
     return Math.abs(value-expected) <= approx;
   }
 
-  static function getTypeName(v : Dynamic) {
+  static function getTypeName(v : Any) {
     switch(Type.typeof(v))
     {
       case TNull    : return "`null`";
@@ -204,19 +205,19 @@ class Assert {
     }
   }
 
-  static function isIterable(v : Dynamic, isAnonym : Bool) {
+  static function isIterable(v : Any, isAnonym : Bool) {
     var fields = isAnonym ? Reflect.fields(v) : Type.getInstanceFields(Type.getClass(v));
     if(!Lambda.has(fields, "iterator")) return false;
     return Reflect.isFunction(Reflect.field(v, "iterator"));
   }
 
-  static function isIterator(v : Dynamic, isAnonym : Bool) {
+  static function isIterator(v : Any, isAnonym : Bool) {
     var fields = isAnonym ? Reflect.fields(v) : Type.getInstanceFields(Type.getClass(v));
     if(!Lambda.has(fields, "next") || !Lambda.has(fields, "hasNext")) return false;
     return Reflect.isFunction(Reflect.field(v, "next")) && Reflect.isFunction(Reflect.field(v, "hasNext"));
   }
 
-  static function sameAs(expected : Dynamic, value : Dynamic, status : LikeStatus, approx : Float) {
+  static function sameAs(expected : Any, value : Any, status : LikeStatus, approx : Float) {
     var texpected = getTypeName(expected);
     var tvalue = getTypeName(value);
     status.expectedValue = expected;
@@ -276,6 +277,8 @@ class Assert {
         // arrays
         if(Misc.isOfType(expected, Array)) {
           if(status.recursive || status.path == '') {
+            var expected = (expected:Array<Any>);
+            var value = (value:Array<Any>);
             if(expected.length != value.length) {
               status.error = "expected "+expected.length+" elements but they are "+value.length + (status.path == '' ? '' : ' for field '+status.path);
               return false;
@@ -295,13 +298,15 @@ class Assert {
 
         // date
         if(Misc.isOfType(expected, Date)) {
+          var expected = (expected:Date);
+          var value = (value:Date);
           if(expected.getTime() != value.getTime()) {
             status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
             return false;
           }
           return true;
         }
-
+        
         // bytes
         if(Misc.isOfType(expected, Bytes)) {
           if(status.recursive || status.path == '') {
@@ -326,8 +331,8 @@ class Assert {
           if(status.recursive || status.path == '') {
             var map = cast(expected, IMap<Dynamic, Dynamic>);
             var vmap = cast(value, IMap<Dynamic, Dynamic>);
-            var keys:Array<Dynamic> = [for (k in map.keys()) k];
-            var vkeys:Array<Dynamic> = [for (k in vmap.keys()) k];
+            var keys:Array<Any> = [for (k in map.keys()) k];
+            var vkeys:Array<Any> = [for (k in vmap.keys()) k];
 
             if(keys.length != vkeys.length) {
               status.error = "expected "+keys.length+" keys but they are "+vkeys.length + (status.path == '' ? '' : ' for field '+status.path);
@@ -513,7 +518,7 @@ class Assert {
     return throw "Unable to compare values: " + q(expected) + " and " + q(value);
   }
 
-  static function q(v : Dynamic)
+  static function q(v : Any)
   {
     if (Misc.isOfType(v, String))
       return '"' + StringTools.replace(v, '"', '\\"') + '"';
@@ -522,8 +527,11 @@ class Assert {
   }
 
   /**
-   * Check that value is an object with the same fields and values found in expected.
-   * The default behavior is to check nested objects in fields recursively.
+   * Check the values are identical.
+   * Scalar values are checked for equality.
+   * Arrays are checked to have the same sets of values.
+   * If `value` is an object it is checked to have the same fields and values found in `expected`.
+   * The default behavior is to check nested arrays and objects in items and fields recursively.
    * ```haxe
    * Assert.same({ name : "utest"}, ob);
    * ```
@@ -536,7 +544,7 @@ class Assert {
    * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
-  public static function same(expected : Dynamic, value : Dynamic, ?recursive : Bool, ?msg : String, ?approx : Float,  ?pos : PosInfos) : Bool {
+  public static function same(expected : Null<Any>, value : Null<Any>, ?recursive : Bool, ?msg : String, ?approx : Float,  ?pos : PosInfos) : Bool {
     if (null == approx)
       approx = 1e-5;
     var status = {
@@ -556,12 +564,12 @@ class Assert {
   /**
    * It is used to test an application that under certain circumstances must
    * react throwing an error. This assert guarantees that the error is of the
-   * correct type (or Dynamic if non is specified).
+   * correct type (or any type if non is specified).
    * ```haxe
    * Assert.raises(function() { throw "Error!"; }, String);
    * ```
    * @param method A method that generates the exception.
-   * @param type The type of the expected error. Defaults to Dynamic (catch all).
+   * @param type The type of the expected error. Defaults to any type (catch all).
    * @param msgNotThrown An optional error message used when the function fails to raise the expected
    *      exception. If not passed a default one will be used
    * @param msgWrongType An optional error message used when the function raises the exception but it is
@@ -569,21 +577,26 @@ class Assert {
    * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
-  public static function raises(method:Void -> Void, ?type:Class<Dynamic>, ?msgNotThrown : String , ?msgWrongType : String, ?pos : PosInfos) : Bool {
-    var name = type != null ? Type.getClassName(type) : "Dynamic";
-    try {
-      method();
-    } catch (ex : Dynamic) {
+  public static function raises(method:Void -> Void, ?type:Class<Any>, ?msgNotThrown : String , ?msgWrongType : String, ?pos : PosInfos) : Bool {
+    var typeDescr = type == null ? "" : "of type " + Type.getClassName(type);
+    inline function handleCatch(ex:Any):Bool {
       return if(null == type) {
         pass(pos);
       } else {
         if (null == msgWrongType)
-          msgWrongType = "expected throw of type " + name + " but it is "  + ex;
+          msgWrongType = "expected throw " + typeDescr + " but it is "  + ex;
         isTrue(Misc.isOfType(ex, type), msgWrongType, pos);
       }
     }
+    try {
+      method();
+    } catch(ex:ValueException) {
+      return handleCatch(ex.value);
+    } catch (ex) {
+      return handleCatch(ex);
+    }
     if (null == msgNotThrown)
-      msgNotThrown = "exception of type " + name + " not raised";
+      msgNotThrown = "exception " + typeDescr + " not raised";
     return fail(msgNotThrown, pos);
   }
 
@@ -612,11 +625,7 @@ class Assert {
    * unless you know what you are doing.
    */
   public static function contains<T>(match : T, values : Array<T>, ?msg : String , ?pos : PosInfos) : Bool {
-    return if(Lambda.has(values, match)) {
-      isTrue(true, msg, pos);
-    } else {
-      fail(msg == null ? "values " + q(values) + " do not contain "+match: msg, pos);
-    }
+    return isTrue(values.contains(match), msg == null ? "values " + q(values) + " do not contain "+match: msg, pos);
   }
 
   /**
@@ -628,11 +637,7 @@ class Assert {
    * unless you know what you are doing.
    */
   public static function notContains<T>(match : T, values : Array<T>, ?msg : String , ?pos : PosInfos) : Bool {
-    return if(!Lambda.has(values, match)) {
-      isTrue(true, msg, pos);
-    } else {
-      fail(msg == null ? "values " + q(values) + " do contain "+match: msg, pos);
-    }
+    return isFalse(values.contains(match), msg == null ? "values " + q(values) + " do contain "+match: msg, pos);
   }
 
   /**
@@ -642,7 +647,7 @@ class Assert {
    * @param msg An optional error message. If not passed a default one will be used
    * @param pos Code position where the Assert call has been executed.
    */
-  public static function stringContains(match : String, value : String, ?msg : String , ?pos : PosInfos) : Bool {
+  public static function stringContains(match : String, value : Null<String>, ?msg : String , ?pos : PosInfos) : Bool {
     return if (value != null && value.indexOf(match) >= 0) {
       isTrue(true, msg, pos);
     } else {
@@ -658,7 +663,7 @@ class Assert {
    * @param msg An optional error message. If not passed a default one is be used
    * @param pos Code position where the Assert call has been executed.
    */
-  public static function stringSequence(sequence : Array<String>, value : String, ?msg : String , ?pos : PosInfos) : Bool {
+  public static function stringSequence(sequence : Array<String>, value : Null<String>, ?msg : String , ?pos : PosInfos) : Bool {
     if (null == value)
     {
       return fail(msg == null ? "null argument value" : msg, pos);
@@ -731,7 +736,7 @@ class Assert {
     throw new UTestException('Assert.createEvent() is not supported since UTest 2.0. Add `async:utest.Async` argument to the test method instead.');
   }
 
-  static function typeToString(t : Dynamic) {
+  static function typeToString(t : Any) {
     try {
       var _t = Type.getClass(t);
       if (_t != null)
@@ -754,6 +759,6 @@ private typedef LikeStatus = {
   recursive : Bool,
   path : String,
   error : String,
-  expectedValue:Dynamic,
-  actualValue:Dynamic
+  expectedValue:Any,
+  actualValue:Any
 };

@@ -13,7 +13,7 @@ class TestHandler<T> {
   public var fixture(default, null) : TestFixture;
   public var finished(default, null) : Bool = false;
   public var executionTime(default, null) : Float = 0;
-  var asyncStack : List<Dynamic>;
+  var asyncStack : List<Any>;
   var startTime:Float = 0;
 
   public var onTested(default, null) : Dispatcher<TestHandler<T>>;

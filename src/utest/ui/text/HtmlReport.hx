@@ -35,7 +35,7 @@ class HtmlReport implements IReport<HtmlReport> {
   public var handler : HtmlReport -> Void;
 
   var aggregator : ResultAggregator;
-  var oldTrace : Dynamic;
+  var oldTrace : Any;
   var _traces : Array<{ msg : String, infos : PosInfos, time : Float, delta : Float, stack : Array<StackItem> }>;
 
   public function new(runner : Runner, ?outputHandler : HtmlReport -> Void, traceRedirected = true) {
@@ -70,7 +70,7 @@ class HtmlReport implements IReport<HtmlReport> {
   }
 
   var _traceTime : Null<Float>;
-  function _trace(v : Dynamic, ?infos : PosInfos) {
+  function _trace(v : Any, ?infos : PosInfos) {
     var time = Timer.stamp();
     var delta = _traceTime == null ? 0 : time - _traceTime;
     _traces.push({
@@ -214,7 +214,7 @@ class HtmlReport implements IReport<HtmlReport> {
     buf.add('</div></li>\n');
   }
 
-  function getErrorDescription(e : Dynamic) {
+  function getErrorDescription(e : Any) {
 #if flash9
     if (Misc.isOfType(e, flash.errors.Error)) {
       var err = cast(e, flash.errors.Error);
@@ -227,7 +227,7 @@ class HtmlReport implements IReport<HtmlReport> {
 #end
   }
 
-  function getErrorStack(s : Array<StackItem>, e : Dynamic) {
+  function getErrorStack(s : Array<StackItem>, e : Any) {
 #if flash9
     if (Misc.isOfType(e, flash.errors.Error)) {
       var stack = cast(e, flash.errors.Error).getStackTrace();

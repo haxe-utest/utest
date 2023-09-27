@@ -11,13 +11,13 @@ class Print {
 		#end
 	}
 
-	static public function startCase(caseName:Dynamic) {
+	static public function startCase(caseName:String) {
 		#if UTEST_PRINT_TESTS
 			immediately('Running $caseName...\n');
 		#end
 	}
 
-	static public function startTest(name) {
+	static public function startTest(name:String) {
 		#if UTEST_PRINT_TESTS
 			immediately('    $name\n');
 		#end

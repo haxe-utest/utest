@@ -44,14 +44,13 @@ class TestFixture {
   }
 
   function getIgnored():IgnoredFixture {
-    var metas:Dynamic<Dynamic<Array<Dynamic>>> = Meta.getFields(Type.getClass(target));
-    var metasForTestMetas = Reflect.getProperty(metas, method);
+    var metasForTestMetas = Reflect.getProperty(Meta.getFields(Type.getClass(target)), method);
 
     if (metasForTestMetas == null || !Reflect.hasField(metasForTestMetas, "Ignored")) {
       return IgnoredFixture.NotIgnored();
     }
 
-    var ignoredArgs:Array<Dynamic> = cast Reflect.getProperty(metasForTestMetas, "Ignored");
+    var ignoredArgs:Array<Any> = cast Reflect.getProperty(metasForTestMetas, "Ignored");
     if (ignoredArgs == null || ignoredArgs.length == 0 || ignoredArgs[0] == null) {
       return IgnoredFixture.Ignored();
     }

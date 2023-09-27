@@ -64,8 +64,8 @@ class TestAssert extends Test {
 
   public function testRaises() {
     bypass();
-    var errors : Array<Dynamic> = ["e",    1,   0.1,   new TestAssert(), {},      [1]];
-    var types  : Array<Dynamic> = [String, Int, Float, TestAssert,       Dynamic, Array];
+    var errors : Array<Any> = ["e",    1,   0.1,   new TestAssert(), {},      [1]];
+    var types  : Array<Any> = [String, Int, Float, TestAssert,       Dynamic, Array];
     var i = 0;
     var expectedsuccess = 12;
     for(error in errors)
@@ -79,8 +79,8 @@ class TestAssert extends Test {
 
   public function testIs() {
     bypass();
-    var values : Array<Dynamic> = ["e",    1,   0.1,   new TestAssert(), {},      [1]];
-    var types  : Array<Dynamic> = [String, Int, Float, TestAssert,       Dynamic, Array];
+    var values : Array<Any> = ["e",    1,   0.1,   new TestAssert(), {},      [1]];
+    var types  : Array<Any> = [String, Int, Float, TestAssert,       Dynamic, Array];
     var i = 0;
     var expectedsuccess = 12;
     for(value in values)
@@ -132,9 +132,9 @@ class TestAssert extends Test {
     Assert.same([1,2,3], [1,2,3]);
     Assert.same([1,2,3], [1,2]);
     Assert.same([1,2],   [1,2,3]);
-    Assert.same([1,[1,2]], [1,[1,2]]);
-    Assert.same([1,[1,2]], [1,[]], false);
-    Assert.same([1,[1,2]], [1,[]], true);
+    Assert.same(([1,[1,2]]:Array<Any>), ([1,[1,2]]:Array<Any>));
+    Assert.same(([1,[1,2]]:Array<Any>), ([1,[]]:Array<Any>), false);
+    Assert.same(([1,[1,2]]:Array<Any>), ([1,[]]:Array<Any>), true);
 
     restore();
     expect(4, 4);
@@ -199,17 +199,17 @@ class TestAssert extends Test {
   }
 
   public function testSameIterable() {
-    var list1 = new List<Dynamic>();
+    var list1 = new List<Any>();
     list1.add("a");
     list1.add(1);
     var s1 = new List();
     s1.add(2);
     list1.add(s1);
-    var list2 = new List<Dynamic>();
+    var list2 = new List<Any>();
     list2.add("a");
     list2.add(1);
     list2.add(s1);
-    var list3 = new List<Dynamic>();
+    var list3 = new List<Any>();
     list3.add("a");
     list3.add(1);
     list3.add(new List());
@@ -290,8 +290,8 @@ class TestAssert extends Test {
 
   public function testEquals() {
     bypass();
-    var values    : Array<Dynamic> = ["e", 1, 0.1, {}];
-    var expecteds : Array<Dynamic> = ["e", 1, 0.1, {}];
+    var values    : Array<Any> = ["e", 1, 0.1, {}];
+    var expecteds : Array<Any> = ["e", 1, 0.1, {}];
     var i = 0;
     var expectedsuccess = 3;
     for(expected in expecteds)

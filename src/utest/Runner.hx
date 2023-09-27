@@ -196,7 +196,7 @@ class Runner {
     return pattern.match('$caseName.$testName');
   }
 
-  function isMethod(test : Dynamic, name : String) {
+  function isMethod(test : Any, name : String) {
     try {
       return Reflect.isFunction(Reflect.field(test, name));
     } catch(_) {

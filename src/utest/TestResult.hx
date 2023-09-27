@@ -15,7 +15,7 @@ class TestResult {
 
   public function new(){}
 
-  public static function ofHandler(handler : TestHandler<Dynamic>) {
+  public static function ofHandler(handler : TestHandler<Any>) {
     var r = new TestResult();
     var path = Type.getClassName(Type.getClass(handler.fixture.target)).split('.');
     r.cls           = path.pop();
