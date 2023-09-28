@@ -1,5 +1,6 @@
 package utest;
 
+import haxe.Exception;
 import utest.Assert;
 import utest.Assertation;
 
@@ -64,10 +65,10 @@ class TestAssert extends Test {
 
   public function testRaises() {
     bypass();
-    var errors : Array<Any> = ["e",    1,   0.1,   new TestAssert(), {},      [1]];
-    var types  : Array<Any> = [String, Int, Float, TestAssert,       Dynamic, Array];
+    var errors : Array<Any> = ["e",    1,   0.1,   new TestAssert(), {},      [1],    new SampleException('sample exception')];
+    var types  : Array<Any> = [String, Int, Float, TestAssert,       Dynamic, Array,  SampleException];
     var i = 0;
-    var expectedsuccess = 12;
+    var expectedsuccess = 14;
     for(error in errors)
       for(type in types) {
         i++;
@@ -365,3 +366,5 @@ private enum Sample {
   Some(s : String);
   Rec(s : Sample);
 }
+
+private class SampleException extends Exception {}

@@ -30,7 +30,7 @@ class Dispatcher<T> {
   public function clear()
     handlers = new Array();
 
-  public function dispatch(e) {
+  public function dispatch(e:T) {
     try {
       // prevents problems with self removing events
       var list = handlers.copy();

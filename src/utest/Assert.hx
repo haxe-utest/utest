@@ -590,9 +590,13 @@ class Assert {
     }
     try {
       method();
-    } catch(ex:ValueException) {
-      return handleCatch(ex.value);
+    // Broken on eval since Haxe 4.3.2: https://github.com/HaxeFoundation/haxe/issues/11321
+    // } catch(ex:ValueException) {
+    //   return handleCatch(ex.value);
     } catch (ex) {
+      if(Std.isOfType(ex, ValueException)) {
+        return handleCatch((cast ex:ValueException).message);
+      }
       return handleCatch(ex);
     }
     if (null == msgNotThrown)

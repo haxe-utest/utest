@@ -11,8 +11,8 @@ import neko.Web;
 #end
 
 class Report {
-  public static function create(runner : Runner, ?displaySuccessResults : SuccessResultsDisplayMode, ?headerDisplayMode : HeaderDisplayMode) : IReport<Any> {
-    var report : IReport<Any>;
+  public static function create(runner : Runner, ?displaySuccessResults : SuccessResultsDisplayMode, ?headerDisplayMode : HeaderDisplayMode) : IReport<Dynamic> {
+    var report;
 #if teamcity
     report = new utest.ui.text.TeamcityReport(runner);
 #elseif travis
