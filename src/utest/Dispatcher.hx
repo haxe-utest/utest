@@ -10,17 +10,17 @@ private class StopPropagationException extends Exception {
 
 class Dispatcher<T> {
 
-  private var handlers : Array<T -> Void>;
+  private var handlers : Array<(T) -> Void>;
 
   public function new()
     handlers = new Array();
 
-  public function add(h : T -> Void) : T -> Void {
+  public function add(h : (T) -> Void) : (T) -> Void {
     handlers.push(h);
     return h;
   }
 
-  public function remove(h : T -> Void) : T -> Void {
+  public function remove(h : (T) -> Void) : (T) -> Void {
     for(i in 0...handlers.length)
       if(Reflect.compareMethods(handlers[i], h))
         return handlers.splice(i, 1)[0];
@@ -51,17 +51,17 @@ class Dispatcher<T> {
 
 class Notifier {
 
-  private var handlers : Array<Void -> Void>;
+  private var handlers : Array<() -> Void>;
 
   public function new()
     handlers = new Array();
 
-  public function add(h : Void -> Void) : Void -> Void {
+  public function add(h : () -> Void) : () -> Void {
     handlers.push(h);
     return h;
   }
 
-  public function remove(h : Void -> Void) : Void -> Void {
+  public function remove(h : () -> Void) : () -> Void {
     for(i in 0...handlers.length)
       if(Reflect.compareMethods(handlers[i], h))
         return handlers.splice(i, 1)[0];

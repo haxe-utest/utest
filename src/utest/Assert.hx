@@ -29,7 +29,7 @@ class Assert {
    */
   public static var results : List<Assertation>;
 
-  static inline function processResult(cond : Bool, getMessage : Void -> String, ?pos : PosInfos) : Bool {
+  static inline function processResult(cond : Bool, getMessage : () -> String, ?pos : PosInfos) : Bool {
     if (results == null) {
       throw 'Assert at ${pos.fileName}:${pos.lineNumber} out of context. Most likely you are trying to assert after a test timeout.';
     }
@@ -577,7 +577,7 @@ class Assert {
    * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
-  public static function raises(method:Void -> Void, ?type:Class<Any>, ?msgNotThrown : String , ?msgWrongType : String, ?pos : PosInfos) : Bool {
+  public static function raises(method:() -> Void, ?type:Class<Any>, ?msgNotThrown : String , ?msgWrongType : String, ?pos : PosInfos) : Bool {
     var typeDescr = type == null ? "" : "of type " + Type.getClassName(type);
     inline function handleCatch(ex:Any):Bool {
       return if(null == type) {
@@ -729,14 +729,14 @@ class Assert {
 
   @:noCompletion
   @:deprecated('Assert.createAsync is not supported since UTest 2.0. Add `async:utest.Async` argument to the test method instead.')
-  public static dynamic function createAsync(?f : Void -> Void, ?timeout : Int):()->Void {
+  public static dynamic function createAsync(?f : () -> Void, ?timeout : Int):()->Void {
     throw new UTestException('Assert.createAsync() is not supported since UTest 2.0. Add `async:utest.Async` argument to the test method instead.');
   }
 
   
   @:noCompletion
   @:deprecated('Assert.createEvent is not supported since UTest 2.0. Add `async:utest.Async` argument to the test method instead.')
-  public static dynamic function createEvent<EventArg>(f : EventArg -> Void, ?timeout : Int):(Dynamic)->Void {
+  public static dynamic function createEvent<EventArg>(f : (EventArg) -> Void, ?timeout : Int):(Dynamic) -> Void {
     throw new UTestException('Assert.createEvent() is not supported since UTest 2.0. Add `async:utest.Async` argument to the test method instead.');
   }
 

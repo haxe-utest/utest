@@ -12,12 +12,12 @@ import haxe.CallStack;
 class PlainTextReport implements IReport<PlainTextReport> {
   public var displaySuccessResults : SuccessResultsDisplayMode;
   public var displayHeader : HeaderDisplayMode;
-  public var handler : PlainTextReport -> Void;
+  public var handler : (PlainTextReport) -> Void;
 
   var aggregator : ResultAggregator;
   var newline : String;
   var indent : String;
-  public function new(runner : Runner, ?outputHandler : PlainTextReport -> Void) {
+  public function new(runner : Runner, ?outputHandler : (PlainTextReport) -> Void) {
     aggregator = new ResultAggregator(runner, true);
     runner.onStart.add(start);
     aggregator.onComplete.add(complete);
@@ -27,7 +27,7 @@ class PlainTextReport implements IReport<PlainTextReport> {
     displayHeader = AlwaysShowHeader;
   }
 
-  public function setHandler(handler : PlainTextReport -> Void) : Void
+  public function setHandler(handler : (PlainTextReport) -> Void) : Void
     this.handler = handler;
 
   var startTime : Float;

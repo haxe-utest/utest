@@ -6,17 +6,17 @@ package utest;
 typedef TestData = {
 	var name(default,null):String;
 	var dependencies(default,null):Array<String>;
-	var execute(default,null):Void->Async;
+	var execute(default,null):()->Async;
 }
 
 /**
  * The data of accessory methods: setup, setupClass, teardown, teardownClass
  */
 typedef Accessories = {
-	?setup:Void->Async,
-	?setupClass:Void->Async,
-	?teardown:Void->Async,
-	?teardownClass:Void->Async,
+	?setup:()->Async,
+	?setupClass:()->Async,
+	?teardown:()->Async,
+	?teardownClass:()->Async,
 }
 
 typedef InitializeUtest = {

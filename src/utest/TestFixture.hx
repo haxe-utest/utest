@@ -15,9 +15,9 @@ class TestFixture {
   @:allow(utest)
   var test:Null<TestData>;
   @:allow(utest)
-  var setupMethod:Void->Async;
+  var setupMethod:()->Async;
   @:allow(utest)
-  var teardownMethod:Void->Async;
+  var teardownMethod:()->Async;
 
   static public function ofData(target:ITest, test:TestData, accessories:TestData.Accessories):TestFixture {
     var fixture = new TestFixture(target, test.name);

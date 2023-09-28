@@ -32,7 +32,7 @@ using utest.utils.AccessoriesUtils;
  * @todo AVOID CHAINING METHODS (long chains do not work properly on IE)
  */
 class Runner {
-  var fixtures:Map<String,{caseInstance:ITest, setupClass:Void->Async, dependencies:Array<String>, fixtures:Array<TestFixture>, teardownClass:Void->Async}> = new Map();
+  var fixtures:Map<String,{caseInstance:ITest, setupClass:()->Async, dependencies:Array<String>, fixtures:Array<TestFixture>, teardownClass:()->Async}> = new Map();
 
   /**
    * Event object that monitors the progress of the runner.
@@ -251,7 +251,7 @@ private class ITestRunner {
   var currentCaseName:String;
   var currentCase:ITest;
   var currentCaseFixtures:Array<TestFixture>;
-  var teardownClass:Void->Async;
+  var teardownClass:()->Async;
   var setupAsync:Async;
   var teardownAsync:Async;
   var failedTestsInCurrentCase:Array<String> = [];

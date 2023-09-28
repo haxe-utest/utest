@@ -32,13 +32,13 @@ class HtmlReport implements IReport<HtmlReport> {
   public var traceRedirected(default, null) : Bool;
   public var displaySuccessResults : SuccessResultsDisplayMode;
   public var displayHeader : HeaderDisplayMode;
-  public var handler : HtmlReport -> Void;
+  public var handler : (HtmlReport) -> Void;
 
   var aggregator : ResultAggregator;
   var oldTrace : Any;
   var _traces : Array<{ msg : String, infos : PosInfos, time : Float, delta : Float, stack : Array<StackItem> }>;
 
-  public function new(runner : Runner, ?outputHandler : HtmlReport -> Void, traceRedirected = true) {
+  public function new(runner : Runner, ?outputHandler : (HtmlReport) -> Void, traceRedirected = true) {
     aggregator = new ResultAggregator(runner, true);
     runner.onStart.add(start);
     aggregator.onComplete.add(complete);
@@ -52,7 +52,7 @@ class HtmlReport implements IReport<HtmlReport> {
     displayHeader = AlwaysShowHeader;
   }
 
-  public function setHandler(handler : HtmlReport -> Void) : Void
+  public function setHandler(handler : (HtmlReport) -> Void) : Void
     this.handler = handler;
 
   public function redirectTrace() {

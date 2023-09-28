@@ -21,7 +21,7 @@ class TestHandler<T> {
   public var onComplete(default, null) : Dispatcher<TestHandler<T>>;
   public var onPrecheck(default, null) : Dispatcher<TestHandler<T>>;
 
-  public var precheck(default, null) : Void->Void;
+  public var precheck(default, null) : ()->Void;
 
   private var wasBound:Bool = false;
 
@@ -205,7 +205,7 @@ class TestHandler<T> {
     Reflect.callMethod(fixture.target, Reflect.field(fixture.target, name), []);
   }
 
-  function executeAsyncMethod(name : String, done : Void->Void) : Void {
+  function executeAsyncMethod(name : String, done : ()->Void) : Void {
     if(name == null) {
       done();
       return;

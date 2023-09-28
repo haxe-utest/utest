@@ -21,7 +21,7 @@ import utest.ui.common.PackageResult;
  * Otherwise `"Target: {TARGET_NAME}"` will be used.
  */
 class TeamcityReport extends PlainTextReport {
-  public function new(runner:Runner, ?outputHandler:PlainTextReport -> Void) {
+  public function new(runner:Runner, ?outputHandler:(PlainTextReport) -> Void) {
     super(runner, outputHandler);
     newline = "\n";
     indent = "  ";

@@ -10,7 +10,7 @@ class Async {
 	public var resolved(default,null):Bool = false;
 	public var timedOut(default,null):Bool = false;
 
-	var callbacks:Array<Void->Void> = [];
+	var callbacks:Array<() ->Void> = [];
 	var timeoutMs:Int;
 	var startTime:Float;
 	var timer:Timer;
@@ -68,7 +68,7 @@ class Async {
 	/**
 		Create a sub-async. Current `Async` instance will be resolved automatically once all sub-asyncs are resolved.
 	**/
-	public function branch(?fn:Async->Void, ?pos:PosInfos):Async {
+	public function branch(?fn:(Async)->Void, ?pos:PosInfos):Async {
 		var branch = new Async(timeoutMs);
 		branches.push(branch);
 		branch.then(checkBranches.bind(pos));
@@ -97,7 +97,7 @@ class Async {
 		);
 	}
 
-	function then(cb:Void->Void) {
+	function then(cb:()->Void) {
 		if(resolved) {
 			cb();
 		} else {
