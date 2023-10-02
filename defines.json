@@ -1,0 +1,15 @@
+[
+    {
+        "define": "UTEST_PATTERN",
+        "doc": "Only run tests which have names matching the `UTEST_PATTERN` value. The pattern could be a plain string or a regular expression without delimiters.",
+        "params": ["pattern"]
+    },
+    {
+        "define": "UTEST_PRINT_TESTS",
+        "doc": "Print test names in the process of tests execution."
+    },
+    {
+        "define": "UTEST_FAILURE_THROW",
+        "doc": "Throw an unhandled exception instead of adding a failure to the report."
+    }
+]

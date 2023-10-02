@@ -8,5 +8,9 @@
   "classPath": "src",
   "releasenote": "Dropped support for Haxe < 4.1",
   "contributors": ["fponticelli", "romanmikhailov", "RealyUniqueName"],
-  "dependencies": { }
+  "dependencies": { },
+  "documentation": {
+    "metadata": "meta.json",
+    "defines": "defines.json"
+  }
 }
