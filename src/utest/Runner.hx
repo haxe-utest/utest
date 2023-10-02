@@ -137,8 +137,10 @@ class Runner {
    * That means each module should contain a class with a constructor and with the same name as a module name.
    * @param path dot-separated path as a string or as an identifier/field expression. E.g. `"my.pack"` or `my.pack`
    * @param recursive recursively look for test cases in sub packages.
+   * @param nameFilterRegExp regular expression to check modules names against. If the module name does not 
+   *              match this argument, the module will not be added.
    */
-  macro public function addCases(eThis:Expr, path:Expr, recursive:Bool = true):Expr {
+  macro public function addCases(eThis:Expr, path:Expr, recursive:Bool = true, nameFilterRegExp:String = '.*'):Expr {
     if(Context.defined('display')) {
       return macro {};
     }
@@ -150,6 +152,7 @@ class Runner {
     if(~/[^a-zA-Z0-9_.]/.match(path)) {
       Context.error('The first argument for utest.Runner.addCases() should be a valid package path.', pos);
     }
+    var nameFilter = new EReg(nameFilterRegExp, '');
     var pack = path.split('.');
     var relativePath = Path.join(pack);
     var exprs = [];
@@ -167,7 +170,7 @@ class Runner {
           continue;
         }
         var className = file.substr(0, file.length - 3);
-        if(className == '') {
+        if(className == '' || !nameFilter.match(className)) {
           continue;
         }
         var testCase = Context.parse('new $path.$className()', pos);
