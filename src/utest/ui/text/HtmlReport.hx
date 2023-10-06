@@ -36,7 +36,7 @@ class HtmlReport implements IReport<HtmlReport> {
 
   var aggregator : ResultAggregator;
   var oldTrace : Any;
-  var _traces : Array<{ msg : String, infos : PosInfos, time : Float, delta : Float, stack : Array<StackItem> }>;
+  var _traces : Array<{ msg : String, infos : PosInfos, time : Float, delta : Float, stack : CallStack }>;
 
   public function new(runner : Runner, ?outputHandler : (HtmlReport) -> Void, traceRedirected = true) {
     aggregator = new ResultAggregator(runner, true);
@@ -137,7 +137,7 @@ class HtmlReport implements IReport<HtmlReport> {
     buf.add('</div>');
   }
 
-  function formatStack(stack : Array<StackItem>, addNL = true) {
+  function formatStack(stack : CallStack, addNL = true) {
     var parts = [];
     var nl = addNL ? '\n' : '';
     var last = null;
@@ -227,7 +227,7 @@ class HtmlReport implements IReport<HtmlReport> {
 #end
   }
 
-  function getErrorStack(s : Array<StackItem>, e : Any) {
+  function getErrorStack(s : CallStack, e : Any) {
 #if flash9
     if (Misc.isOfType(e, flash.errors.Error)) {
       var stack = cast(e, flash.errors.Error).getStackTrace();
@@ -290,7 +290,7 @@ class HtmlReport implements IReport<HtmlReport> {
     function indents(count : Int) {
       return [for(i in 0...count) "  "].join("");
     }
-    function dumpStack(stack : Array<StackItem>) {
+    function dumpStack(stack : CallStack) {
       if (stack.length == 0)
         return "";
       var parts = CallStack.toString(stack).split("\n"),

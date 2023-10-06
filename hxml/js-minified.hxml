@@ -1,0 +1,6 @@
+hxml/common.hxml
+-lib closure
+-D closure_advanced
+-D closure_overwrite
+-D closure_warning_level=QUIET
+--macro includeFile('test/js-minified-header.js')

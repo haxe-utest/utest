@@ -1,13 +1,8 @@
 package utest;
 
-import haxe.rtti.Meta;
-import haxe.unit.TestRunner;
-
 #if macro
-import neko.io.File;
 import haxe.macro.Expr;
 import haxe.macro.Context;
-import neko.Lib;
 #end
 
 import utest.ui.macro.MacroReport;

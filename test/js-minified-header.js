@@ -1,0 +1,2 @@
+/** @suppress {duplicate} */
+var global;

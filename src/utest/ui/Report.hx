@@ -12,7 +12,7 @@ import neko.Web;
 
 class Report {
   public static function create(runner : Runner, ?displaySuccessResults : SuccessResultsDisplayMode, ?headerDisplayMode : HeaderDisplayMode) : IReport<Dynamic> {
-    var report;
+    var report:IReport<Dynamic>;
 #if teamcity
     report = new utest.ui.text.TeamcityReport(runner);
 #elseif travis

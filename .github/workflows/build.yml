@@ -15,11 +15,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: 
+        os:
           - ubuntu-latest
           - macos-latest
           - windows-latest
-        haxe: 
+        haxe:
           # - development
           - 4.3.2
           - 4.2.5
@@ -97,6 +97,12 @@ jobs:
     - name: Test [node ]
       if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
       run: haxelib run travix node
+    - name: Test [node advanced minification ]
+      if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
+      run: |
+        haxelib install closure
+        haxe hxml/js-minified.hxml --js bin/test.js
+        node bin/test.js
     # - name: Test [js ]
     #  if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
     #   run: haxelib run travix js
