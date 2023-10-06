@@ -100,7 +100,7 @@ jobs:
     - name: Test [node advanced minification ]
       if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
       run: |
-        haxelib install closure
+        haxelib install closure --quit
         haxe hxml/js-minified.hxml --js bin/test.js
         node bin/test.js
     # - name: Test [js ]
