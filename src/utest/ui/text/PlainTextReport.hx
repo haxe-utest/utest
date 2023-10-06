@@ -18,17 +18,6 @@ class PlainTextReport implements IReport<PlainTextReport> {
   var newline : String;
   var indent : String;
 
-  static function __init__() {
-    #if js
-    js.Syntax.code('
-      /** @suppress {duplicate} */
-      var phantom;
-      /** @suppress {duplicate} */
-      var process;
-    ');
-    #end
-  }
-
   public function new(runner : Runner, ?outputHandler : (PlainTextReport) -> Void) {
     aggregator = new ResultAggregator(runner, true);
     runner.onStart.add(start);
