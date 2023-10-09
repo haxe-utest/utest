@@ -61,12 +61,6 @@ jobs:
       with:
         python-version: 3.8
 
-    # - name: Configure Python 3
-    #   if: runner.os == 'Windows'
-    #   shell: cmd
-      # workaround for https://github.com/actions/setup-python/issues/123
-      # run: mklink "%pythonLocation%\python3.exe" "%pythonLocation%\python.exe"
-
     - name: Install Haxe ${{ matrix.haxe }}
       uses: krdlab/setup-haxe@v1 # https://github.com/krdlab/setup-haxe
       with:
@@ -77,8 +71,6 @@ jobs:
       id: prerequisites
       run: |
         haxelib install travix
-        # to always use the latest version of travix comment out the previous line and uncomment the next
-        # haxelib git travix https://github.com/back2dos/travix && pushd . && cd $(haxelib config)travix/git && haxe build-neko.hxml -lib hx3compat && popd
         haxelib run travix install
 
 

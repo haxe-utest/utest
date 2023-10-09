@@ -3,7 +3,6 @@ package utest;
 import haxe.ValueException;
 import utest.exceptions.UTestException;
 import utest.exceptions.AssertFailureException;
-import utest.utils.Misc;
 import haxe.io.Bytes;
 import utest.Assertation;
 import haxe.PosInfos;
@@ -112,7 +111,7 @@ class Assert {
    * unless you know what you are doing.
    */
   public static function isOfType(value : Null<Any>, type : Any, ?msg : String , ?pos : PosInfos) : Bool {
-    return processResult(Misc.isOfType(value, type), function() return msg != null ? msg : "expected type " + typeToString(type) + " but it is " + typeToString(value), pos);
+    return processResult(Std.isOfType(value, type), function() return msg != null ? msg : "expected type " + typeToString(type) + " but it is " + typeToString(value), pos);
   }
 
   /**
@@ -265,7 +264,7 @@ class Assert {
         }
 
         // string
-        if (Misc.isOfType(expected, String)) {
+        if (Std.isOfType(expected, String)) {
           if(expected == value)
             return true;
           else {
@@ -275,7 +274,7 @@ class Assert {
         }
 
         // arrays
-        if(Misc.isOfType(expected, Array)) {
+        if(Std.isOfType(expected, Array)) {
           if(status.recursive || status.path == '') {
             var expected = (expected:Array<Any>);
             var value = (value:Array<Any>);
@@ -297,7 +296,7 @@ class Assert {
         }
 
         // date
-        if(Misc.isOfType(expected, Date)) {
+        if(Std.isOfType(expected, Date)) {
           var expected = (expected:Date);
           var value = (value:Date);
           if(expected.getTime() != value.getTime()) {
@@ -306,9 +305,9 @@ class Assert {
           }
           return true;
         }
-        
+
         // bytes
-        if(Misc.isOfType(expected, Bytes)) {
+        if(Std.isOfType(expected, Bytes)) {
           if(status.recursive || status.path == '') {
             var ebytes : Bytes = expected;
             var vbytes : Bytes = value;
@@ -327,7 +326,7 @@ class Assert {
         }
 
         // hash, inthash
-        if (Misc.isOfType(expected, IMap)) {
+        if (Std.isOfType(expected, IMap)) {
           if(status.recursive || status.path == '') {
             var map = cast(expected, IMap<Dynamic, Dynamic>);
             var vmap = cast(value, IMap<Dynamic, Dynamic>);
@@ -520,7 +519,7 @@ class Assert {
 
   static function q(v : Any)
   {
-    if (Misc.isOfType(v, String))
+    if (Std.isOfType(v, String))
       return '"' + StringTools.replace(v, '"', '\\"') + '"';
     else
       return Std.string(v);
@@ -585,7 +584,7 @@ class Assert {
       } else {
         if (null == msgWrongType)
           msgWrongType = "expected throw " + typeDescr + " but it is "  + ex;
-        isTrue(Misc.isOfType(ex, type), msgWrongType, pos);
+        isTrue(Std.isOfType(ex, type), msgWrongType, pos);
       }
     }
     try {
@@ -733,7 +732,7 @@ class Assert {
     throw new UTestException('Assert.createAsync() is not supported since UTest 2.0. Add `async:utest.Async` argument to the test method instead.');
   }
 
-  
+
   @:noCompletion
   @:deprecated('Assert.createEvent is not supported since UTest 2.0. Add `async:utest.Async` argument to the test method instead.')
   public static dynamic function createEvent<EventArg>(f : (EventArg) -> Void, ?timeout : Int):(Dynamic) -> Void {

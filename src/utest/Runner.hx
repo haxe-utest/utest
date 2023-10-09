@@ -1,7 +1,6 @@
 package utest;
 
 import utest.exceptions.UTestException;
-import utest.utils.Misc;
 import utest.utils.Print;
 import haxe.CallStack;
 import haxe.macro.Compiler;
@@ -137,7 +136,7 @@ class Runner {
    * That means each module should contain a class with a constructor and with the same name as a module name.
    * @param path dot-separated path as a string or as an identifier/field expression. E.g. `"my.pack"` or `my.pack`
    * @param recursive recursively look for test cases in sub packages.
-   * @param nameFilterRegExp regular expression to check modules names against. If the module name does not 
+   * @param nameFilterRegExp regular expression to check modules names against. If the module name does not
    *              match this argument, the module will not be added.
    */
   macro public function addCases(eThis:Expr, path:Expr, recursive:Bool = true, nameFilterRegExp:String = '.*'):Expr {
@@ -234,7 +233,7 @@ class Runner {
     handler.execute();
     return handler;
   }
-  
+
   var executedFixtures:Int = 0;
   function testComplete(h : TestHandler<TestFixture>) {
     ++executedFixtures;

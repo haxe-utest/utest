@@ -29,11 +29,9 @@ class TestAll {
 
     addTests(runner);
 
-    // get test result to determine exit status
-    var r:TestResult = null;
-    runner.onProgress.add(function(o){ if (o.done == o.totals) r = o.result;});
+    #if !UTEST_PATTERN
+    //Check test case dependencies
     runner.onComplete.add(function(runner) {
-      //check test case dependencies
       var expected = ['Case1', 'Case3', 'Case2', 'Case4'];
       for(i in 0...expected.length) {
         if(utest.TestCaseDependencies.caseExecutionOrder[i] != expected[i]) {
@@ -45,6 +43,7 @@ class TestAll {
         throw 'TestAsyncITest: missed teardownClass() async completion.';
       }
     });
+    #end
 
     Report.create(runner);
     runner.run();
