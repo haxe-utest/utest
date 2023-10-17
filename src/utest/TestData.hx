@@ -1,5 +1,7 @@
 package utest;
 
+import haxe.ds.Option;
+
 /**
  * The data of a test as collected by utest.utils.TestBuilder at compile time.
  */
@@ -7,7 +9,14 @@ typedef TestData = {
 	var name(default,null):String;
 	var dependencies(default,null):Array<String>;
 	var execute(default,null):()->Async;
+	var ignore:Option<IgnoreReason>;
 }
+
+/**
+ * Describes the reason of a test being ignored.
+ * `null` means no reason provided with `@:ignore` meta.
+ */
+typedef IgnoreReason = Null<String>;
 
 /**
  * The data of accessory methods: setup, setupClass, teardown, teardownClass

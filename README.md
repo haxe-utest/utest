@@ -128,6 +128,31 @@ class TestCase extends utest.Test {
 }
 ```
 
+## Ignore a test
+
+To skip certain test or test case one can annotate them with `@:ignore` meta. The meta accpets an optional string argument to indicate the reason ignoring the test.
+```haxe
+class TestCase1 extends utest.Test {
+  @:ignore
+  function testSomethingNotReadyYet() {
+    //this test will not be executed
+  }
+}
+
+@:ignore('The functionality under test is not ready yet')
+class TestCase2 extends utest.Test {
+  function testSomething {
+    //this test will not be executed
+  }
+
+  function testOtherThing {
+    //this test will not be executed
+  }
+}
+```
+
+
+
 ## Inter-test dependencies
 
 It is possible to define how tests depend on each other with `@:depends` meta:

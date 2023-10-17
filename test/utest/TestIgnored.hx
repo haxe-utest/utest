@@ -64,7 +64,7 @@ class TestIgnored extends Test {
 
 @:keep
 class TestCaseWithIgnoredCaseWithoutReason extends Test {
-  @Ignored
+  @:ignore
   public function testIgnoredWithoutReason():Void {
     Assert.fail();
   }
@@ -73,7 +73,7 @@ class TestCaseWithIgnoredCaseWithoutReason extends Test {
 @:keep
 class TestCaseWithIgnoredCaseWithReason extends Test {
 
-  @Ignored("REASON")
+  @:ignore("REASON")
   public function testIgnoredWithReason():Void {
     Assert.fail();
   }
