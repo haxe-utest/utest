@@ -21,10 +21,6 @@ class TestResult {
     r.cls           = path.pop();
     r.pack          = path.join('.');
     r.method        = handler.fixture.method;
-    r.setup         = handler.fixture.setup;
-    r.setupAsync    = handler.fixture.setupAsync;
-    r.teardown      = handler.fixture.teardown;
-    r.teardownAsync = handler.fixture.teardownAsync;
     r.assertations  = handler.results;
     r.executionTime = handler.executionTime;
     return r;

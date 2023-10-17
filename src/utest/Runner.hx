@@ -116,7 +116,7 @@ class Runner {
       if(!isTestFixtureName(className, test.name, ['test', 'spec'], pattern, globalPattern)) {
         continue;
       }
-      newFixtures.push(TestFixture.ofData(testCase, test, init.accessories));
+      newFixtures.push(new TestFixture(testCase, test, init.accessories));
     }
     if(newFixtures.length > 0) {
       fixtures.set(className, {
@@ -196,14 +196,6 @@ class Runner {
     }
     if (pattern == null) pattern = globalPattern;
     return pattern.match('$caseName.$testName');
-  }
-
-  function isMethod(test : Any, name : String) {
-    try {
-      return Reflect.isFunction(Reflect.field(test, name));
-    } catch(_) {
-      return false;
-    }
   }
 
   public function run() {

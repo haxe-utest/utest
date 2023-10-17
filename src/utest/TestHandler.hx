@@ -163,28 +163,7 @@ class TestHandler<T> {
 
   function executeFinally() {
     onPrecheck.dispatch(this);
-    checkTested();
-  }
-
-  static function exceptionStack(e:Exception, pops = 2)
-  {
-    return [for(i in 0...e.stack.length - pops) e.stack[i]];
-  }
-
-  function checkTested() {
-    if(expiration == null || asyncStack.length == 0) {
-      tested();
-    } else if(haxe.Timer.stamp() > expiration) {
-      timeout();
-    } else {
-      haxe.Timer.delay(checkTested, POLLING_TIME);
-    }
-  }
-
-  public var expiration(default, null) : Null<Float>;
-  public function setTimeout(timeout : Int) {
-    var newExpire = haxe.Timer.stamp() + timeout/1000;
-    expiration = (expiration == null) ? newExpire : (newExpire > expiration ? newExpire : expiration);
+    tested();
   }
 
   function bindHandler() {
@@ -199,66 +178,17 @@ class TestHandler<T> {
     wasBound = false;
   }
 
-  function executeMethod(name : String) {
-    if(name == null) return;
-    bindHandler();
-    Reflect.callMethod(fixture.target, Reflect.field(fixture.target, name), []);
-  }
-
-  function executeAsyncMethod(name : String, done : ()->Void) : Void {
-    if(name == null) {
-      done();
-      return;
-    }
-    bindHandler();
-    Reflect.callMethod(fixture.target, Reflect.field(fixture.target, name), [done]);
-  }
-
   function tested() {
     if(results.length == 0)
       results.add(Warning("no assertions"));
     onTested.dispatch(this);
-    completed();
+    completedFinally();
   }
 
   function timeout() {
     results.add(TimeoutError(asyncStack.length, []));
     onTimeout.dispatch(this);
-    completed();
-  }
-
-  function completed() {
-    if (fixture.ignoringInfo.isIgnored) {
-      completedFinally();
-      return;
-    }
-
-    //ugly hack to call completedFinally() only once if asynchronous code is involved
-    var isSync = true;
-    var expectingAsync = true;
-    function complete() {
-      if(isSync) {
-        expectingAsync = false;
-        return;
-      }
-      completedFinally();
-    }
-
-    try {
-      executeMethod(fixture.teardown);
-      executeAsyncMethod(fixture.teardownAsync, complete);
-    }
-    #if !UTEST_FAILURE_THROW
-    catch(e : ValueException) {
-      results.add(TeardownError(e.value, exceptionStack(e, 2))); // TODO check the correct number of functions is popped from the stack
-    } catch(e : Exception) {
-      results.add(TeardownError(e, exceptionStack(e, 2))); // TODO check the correct number of functions is popped from the stack
-    }
-    #end
-    isSync = false;
-    if(!expectingAsync) {
-      completedFinally();
-    }
+    completedFinally();
   }
 
   function completedFinally() {
