@@ -1,4 +1,8 @@
 hxml/common.hxml
+
+#Because of this (untile the fix is released): https://github.com/HaxeFoundation/haxe/issues/11327
+-D js-enums-as-arrays
+
 -lib closure
 -D closure_advanced
 -D closure_overwrite

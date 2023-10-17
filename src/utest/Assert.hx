@@ -6,7 +6,6 @@ import utest.exceptions.AssertFailureException;
 import haxe.io.Bytes;
 import utest.Assertation;
 import haxe.PosInfos;
-import Map;
 import haxe.Constraints;
 
 /**
@@ -37,7 +36,6 @@ class Assert {
     else {
       #if UTEST_FAILURE_THROW
       throw new AssertFailureException('${pos.fileName}:${pos.lineNumber}: ${getMessage()}');
-      );
       #else
       results.add(Failure(getMessage(), pos));
       #end

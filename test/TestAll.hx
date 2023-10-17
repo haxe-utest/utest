@@ -45,7 +45,9 @@ class TestAll {
     });
     #end
 
-    Report.create(runner);
+    var report = Report.create(runner);
+    report.displayHeader = AlwaysShowHeader;
+    report.displaySuccessResults = NeverShowSuccessResults;
     runner.run();
   }
 

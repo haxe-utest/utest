@@ -143,7 +143,9 @@ class TestAssert extends Test {
 
   public function testSameArray_message() {
     bypass();
-    Assert.same([{field:{sub:1}}], [{field:{sub:2}}]);
+    //Use quoted fields names to avoid js minificator to cripple them because
+    //we rely on the fields names being intact in this test.
+    Assert.same([{"field":{"sub":1}}], [{"field":{"sub":2}}]);
     restore();
 
     Assert.equals(1, results.length);
@@ -228,10 +230,12 @@ class TestAssert extends Test {
   }
 
   public function testSameIterable_message() {
+    //Use quoted fields names to avoid js minificator to cripple them because
+    //we rely on the fields names being intact in this test.
     var list1 = new List();
-    list1.add({field:{sub:1}});
+    list1.add({"field":{"sub":1}});
     var list2 = new List();
-    list2.add({field:{sub:2}});
+    list2.add({"field":{"sub":2}});
 
     bypass();
     Assert.same(list1, list2);
@@ -278,11 +282,11 @@ class TestAssert extends Test {
 
     Assert.same(None, None);
     Assert.same(Some("a"), Some("a"));
-    Assert.same(Some("a"), Some("b"), true);
-    Assert.same(Some("a"), Some("b"), false);
-    Assert.same(Some("a"), None);
+    Assert.same(Some("a"), Some("b"), true); //expected to fail
+    Assert.same(Some("a"), Some("b"), false); //expected to fail
+    Assert.same(Some("a"), None); //expected to fail
     Assert.same(Rec(Rec(Some("a"))), Rec(Rec(Some("a"))));
-    Assert.same(Rec(Rec(Some("a"))), Rec(None), true);
+    Assert.same(Rec(Rec(Some("a"))), Rec(None), true); //expected to fail
     Assert.same(Rec(Rec(Some("a"))), Rec(Rec(None)), false);
 
     restore();

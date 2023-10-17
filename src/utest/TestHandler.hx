@@ -195,7 +195,7 @@ class TestHandler<T> {
 
   function unbindHandler() {
     if (!wasBound) return;
-    Assert.results     = null;
+    Assert.results = null;
     wasBound = false;
   }
 
