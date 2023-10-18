@@ -20,7 +20,7 @@ class TestResult {
     var path = Type.getClassName(Type.getClass(handler.fixture.target)).split('.');
     r.cls           = path.pop();
     r.pack          = path.join('.');
-    r.method        = handler.fixture.method;
+    r.method        = handler.fixture.name;
     r.assertations  = handler.results;
     r.executionTime = handler.executionTime;
     return r;

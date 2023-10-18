@@ -103,7 +103,7 @@ class Runner {
    * Adds a new test case.
    * @param testCase must be a not null object
    * @param pattern a regular expression that discriminates the names of test
-   *       functions; when set,  the prefix parameter is meaningless
+   *       functions
    */
   public function addCase(testCase : ITest, ?pattern : EReg) {
     var className = Type.getClassName(Type.getClass(testCase));
@@ -122,7 +122,7 @@ class Runner {
       fixtures.set(className, {
         caseInstance:testCase,
         setupClass:init.accessories.getSetupClass(),
-        dependencies:init.dependencies,
+        dependencies:#if UTEST_IGNORE_DEPENDS [] #else init.dependencies #end,
         fixtures:newFixtures,
         teardownClass:init.accessories.getTeardownClass()
       });
@@ -220,7 +220,7 @@ class Runner {
     var handler = new TestHandler(fixture);
     handler.onComplete.add(testComplete);
     handler.onPrecheck.add(this.onPrecheck.dispatch);
-    Print.startTest(fixture.method);
+    Print.startTest(fixture.name);
     onTestStart.dispatch(handler);
     handler.execute();
     return handler;
@@ -249,6 +249,7 @@ private class ITestRunner {
   var setupAsync:Async;
   var teardownAsync:Async;
   var failedTestsInCurrentCase:Array<String> = [];
+  var executedTestsInCurrentCase:Array<String> = [];
   var failedCases:Array<String> = [];
 
   public function new(runner:Runner) {
@@ -258,10 +259,11 @@ private class ITestRunner {
         switch result {
           case Success(_):
           case _:
-            failedTestsInCurrentCase.push(handler.fixture.method);
+            failedTestsInCurrentCase.push(handler.fixture.name);
             failedCases.push(Type.getClassName(Type.getClass(handler.fixture.target)));
         }
       }
+      executedTestsInCurrentCase.push(handler.fixture.name);
     });
   }
 
@@ -321,6 +323,7 @@ private class ITestRunner {
       var data = runner.fixtures.get(currentCaseName);
       currentCase = data.caseInstance;
       failedTestsInCurrentCase = [];
+      executedTestsInCurrentCase = [];
       if(failedDependencies(data)) {
         failedCases.push(currentCaseName);
         continue;
@@ -372,12 +375,7 @@ private class ITestRunner {
   function runFixtures(?finishedHandler:TestHandler<TestFixture>):Bool {
     while(currentCaseFixtures.length > 0) {
       var fixture = currentCaseFixtures.shift();
-      for (dep in fixture.test.dependencies) {
-        if(failedTestsInCurrentCase.indexOf(dep) >= 0) {
-          @:privateAccess fixture.ignoringInfo = IgnoredFixture.Ignored('Failed dependencies');
-          break;
-        }
-      }
+      checkFixtureDependencies(fixture);
       var handler = runner.runFixture(fixture);
       if(!handler.finished) {
         handler.onComplete.add(runFixtures);
@@ -400,6 +398,35 @@ private class ITestRunner {
     }
     teardownAsync.then(checkTeardown);
     return false;
+  }
+
+  function checkFixtureDependencies(fixture:TestFixture) {
+    if(!fixture.ignoringInfo.isIgnored) {
+      #if !UTEST_IGNORE_DEPENDS
+      if(fixture.test.dependencies.length > 0) {
+        var failedDeps = [];
+        var ignoredDeps = [];
+        for (dep in fixture.test.dependencies) {
+          if(failedTestsInCurrentCase.contains(dep)) {
+            failedDeps.push(dep);
+          }
+          if(!executedTestsInCurrentCase.contains(dep)) {
+            ignoredDeps.push(dep);
+          }
+        }
+        var failedDepsMsg = failedDeps.length == 0 ? null : IgnoredFixture.Ignored('Failed dependencies: ${failedDeps.join(', ')}');
+        var ignoredDepsMsg = ignoredDeps.length == 0 ? null : IgnoredFixture.Ignored('Skipped dependencies: ${ignoredDeps.join(', ')}');
+        var ignoringInfo = switch [failedDepsMsg, ignoredDepsMsg] {
+          case [null, null]: IgnoredFixture.NotIgnored();
+          case [_, null]: IgnoredFixture.Ignored(failedDepsMsg);
+          case [null, _]: IgnoredFixture.Ignored(ignoredDepsMsg);
+          case [_, _]: IgnoredFixture.Ignored('$failedDepsMsg. $ignoredDepsMsg');
+        }
+        trace(ignoringInfo);
+        fixture.setIgnoringInfo(ignoringInfo);
+      }
+      #end
+    }
   }
 
   function checkTeardown() {

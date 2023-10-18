@@ -197,6 +197,10 @@ class TestCase2 extends utest.Test {
 ```
 In this example tests from `some.pack.TestCase2` will be executed only if there were no failures in `some.pack.TestCase1`.
 
+## Ignore dependencies
+
+If for some reason you want to run a test regardless the outcome of the tests it depends on, you can use `-D UTEST_IGNORE_DEPENDS` define or set an environment variable with the same name.
+
 ## Running single test from a test suite.
 
 Adding `-D UTEST_PATTERN=pattern` to the compilation flags makes UTest to run only tests which have names matching the `pattern`. The pattern could be a plain string or a regular expression without delimiters.

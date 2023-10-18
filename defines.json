@@ -11,5 +11,9 @@
     {
         "define": "UTEST_FAILURE_THROW",
         "doc": "Throw an unhandled exception instead of adding a failure to the report."
+    },
+    {
+        "define": "UTEST_IGNORE_DEPENDS",
+        "doc": "Ignore @:depends meta and run annotated test regardless the outcome of the tests it depends on."
     }
 ]

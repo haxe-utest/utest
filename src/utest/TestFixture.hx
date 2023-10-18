@@ -7,8 +7,10 @@ using utest.utils.AccessoriesUtils;
 
 class TestFixture {
   public var target(default, null) : ITest;
-  public var method(default, null) : String;
   public var ignoringInfo(default, null) : IgnoredFixture;
+
+  public var name(get, never) : String;
+  function get_name():String return test.name;
 
   @:allow(utest)
   final test:TestData;
@@ -23,11 +25,13 @@ class TestFixture {
     this.setupMethod = accessories.getSetup();
     this.teardownMethod = accessories.getTeardown();
 
-    method = test.name;
-
     ignoringInfo = switch test.ignore {
       case None: IgnoredFixture.NotIgnored();
       case Some(reason): IgnoredFixture.Ignored(reason);
     }
+  }
+
+  public function setIgnoringInfo(info:IgnoredFixture) {
+    ignoringInfo = info;
   }
 }

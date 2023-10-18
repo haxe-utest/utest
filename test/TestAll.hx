@@ -47,7 +47,7 @@ class TestAll {
 
     var report = Report.create(runner);
     report.displayHeader = AlwaysShowHeader;
-    report.displaySuccessResults = NeverShowSuccessResults;
+    report.displaySuccessResults = AlwaysShowSuccessResults;
     runner.run();
   }
 
