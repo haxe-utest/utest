@@ -422,7 +422,6 @@ private class ITestRunner {
           case [null, _]: IgnoredFixture.Ignored(ignoredDepsMsg);
           case [_, _]: IgnoredFixture.Ignored('$failedDepsMsg. $ignoredDepsMsg');
         }
-        trace(ignoringInfo);
         fixture.setIgnoringInfo(ignoringInfo);
       }
       #end

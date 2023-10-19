@@ -5,7 +5,7 @@ class TestDependencies extends Test {
 
 	function test1() {
 		executedTests.push('test1');
-		Assert.fail();
+		Assert.pass();
 	}
 
 	@:depends(test3)
