@@ -63,7 +63,8 @@ class TestAll {
     //this is the simplest workaround I could invent.
     runner.onComplete.add(_ -> {
       if(failed) {
-        throw new Exception('Failed. See UTest report above.');
+        //delay to make sure the report is fully printed first.
+        haxe.Timer.delay(() -> throw new Exception('Failed. See UTest report above.'), 10);
       }
     });
     #end
