@@ -1,6 +1,6 @@
-﻿import utest.Runner;
+﻿import haxe.Exception;
+import utest.Runner;
 import utest.ui.Report;
-import utest.TestResult;
 import utest.TestAsyncITest;
 
 class TestAll {
@@ -31,7 +31,7 @@ class TestAll {
 
     #if !UTEST_PATTERN
     //Check test case dependencies
-    runner.onComplete.add(function(runner) {
+    runner.onComplete.add(_ -> {
       var expected = ['Case1', 'Case3', 'Case2', 'Case4'];
       for(i in 0...expected.length) {
         if(utest.TestCaseDependencies.caseExecutionOrder[i] != expected[i]) {
@@ -48,7 +48,25 @@ class TestAll {
     var report = Report.create(runner);
     report.displayHeader = AlwaysShowHeader;
     report.displaySuccessResults = NeverShowSuccessResults;
+
+    var failed = false;
+    runner.onProgress.add(r -> {
+      if(!r.result.allOk()) {
+        failed = true;
+      }
+    });
+
     runner.run();
+
+    #if closure
+    //Node's `process.exit` is not available in minified js because every attempt to access to it gets mangled.
+    //this is the simplest workaround I could invent.
+    runner.onComplete.add(_ -> {
+      if(failed) {
+        throw new Exception('Failed. See UTest report above.');
+      }
+    });
+    #end
   }
 
   public function new(){}

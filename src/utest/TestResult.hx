@@ -48,13 +48,13 @@ class TestResult {
     return r;
   }
 
-//   public function allOk():Bool{
-//     for(l in assertations) {
-//       switch (l){
-//         case Success(_): break;
-//         default: return false;
-//       }
-//     }
-//     return true;
-//   }
+  public function allOk():Bool{
+    for(l in assertations) {
+      switch l{
+        case Success(_):
+        default: return false;
+      }
+    }
+    return true;
+  }
 }
