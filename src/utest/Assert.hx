@@ -248,16 +248,14 @@ class Assert {
         }
         return true;
       case TClass(c):
-        var cexpected = Type.getClassName(c);
-        var cvalue = Type.getClassName(Type.getClass(value));
 #if cpp
-        if (cexpected == 'cpp::Pointer') {
+        if (texpected == 'cpp::Pointer') {
           return expected == value;
         }
 #end
-        if (cexpected != cvalue)
+        if (texpected != tvalue)
         {
-          status.error = "expected instance of " + q(cexpected) + " but it is " + q(cvalue) + (status.path == '' ? '' : ' for field '+status.path);
+          status.error = "expected instance of " + q(texpected) + " but it is " + q(tvalue) + (status.path == '' ? '' : ' for field '+status.path);
           return false;
         }
 
