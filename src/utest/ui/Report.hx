@@ -4,12 +4,6 @@ import utest.Runner;
 import utest.ui.common.IReport;
 import utest.ui.common.HeaderDisplayMode;
 
-#if php
-import php.Web;
-#elseif neko
-import neko.Web;
-#end
-
 class Report {
   public static function create(runner : Runner, ?displaySuccessResults : SuccessResultsDisplayMode, ?headerDisplayMode : HeaderDisplayMode) : IReport<Dynamic> {
     var report : IReport<Dynamic>;
@@ -17,11 +11,6 @@ class Report {
     report = new utest.ui.text.TeamcityReport(runner);
 #elseif travis
     report = new utest.ui.text.PrintReport(runner);
-#elseif (php || neko)
-    if (!Web.isModNeko)
-      report = new utest.ui.text.PrintReport(runner);
-    else
-      report = new utest.ui.text.HtmlReport(runner, true);
 #elseif nodejs
     report = new utest.ui.text.PrintReport(runner);
 #elseif js
