@@ -110,12 +110,12 @@ jobs:
     - name: Test [cs ]
       if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
       run: haxelib run travix cs
-    # - name: Test [php ]
-    #   if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
-    #   run: haxelib run travix php
-    # - name: Test [php7 ]
-    #   if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
-    #   run: haxelib run travix php7
+    - name: Test [php ]
+      if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
+      run: |
+        # haxelib run travix php
+        haxe tests.hxml --php bin/php
+        php bin/php/index.php
     # - name: Test [lua ]
     #   if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
     #   run: haxelib run travix lua
