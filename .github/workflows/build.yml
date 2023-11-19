@@ -111,7 +111,8 @@ jobs:
       if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
       run: haxelib run travix cs
     - name: Test [php ]
-      if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
+      if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' && matrix.haxe != '4.1.5' }}
+      #disabled php tests for Haxe 4.1 because it's not fully compatible with php 8
       run: |
         # haxelib run travix php
         haxe tests.hxml --php bin/php
