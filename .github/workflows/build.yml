@@ -123,3 +123,6 @@ jobs:
     - name: Test [hashlink ]
       if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
       run: haxelib run travix hl
+    - name: Test [python ]
+      if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
+      run: haxelib run travix python
