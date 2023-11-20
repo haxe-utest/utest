@@ -117,6 +117,6 @@ jobs:
         # haxelib run travix php
         haxe tests.hxml --php bin/php
         php bin/php/index.php
-    # - name: Test [lua ]
-    #   if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
-    #   run: haxelib run travix lua
+    - name: Test [lua ]
+      if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
+      run: haxelib run travix lua
