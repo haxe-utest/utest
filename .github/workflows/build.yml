@@ -118,7 +118,8 @@ jobs:
         haxe tests.hxml --php bin/php
         php bin/php/index.php
     - name: Test [lua]
-      if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
+      #see https://github.com/back2dos/travix/pull/146
+      if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' && matrix.haxe != '4.3.3' }}
       run: haxelib run travix lua
     # - name: Test [hashlink]
     #   if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
