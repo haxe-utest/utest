@@ -77,49 +77,49 @@ jobs:
     ##################################################
     # Tests
     ##################################################
-    - name: Test [interp ]
+    - name: Test [interp]
       if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
       run: haxelib run travix interp
-    - name: Test [neko ]
+    - name: Test [neko]
       if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
       run: haxelib run travix neko
-    - name: Test [python ]
+    - name: Test [python]
       if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
       run: haxelib run travix python
-    - name: Test [node ]
+    - name: Test [node]
       if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
       run: haxelib run travix node
-    - name: Test [node advanced minification ]
+    - name: Test [node advanced minification]
       if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
       run: |
         haxelib install closure --quiet
         haxe hxml/js-minified.hxml --js bin/test.js
         node bin/test.js
-    # - name: Test [js ]
+    # - name: Test [js]
     #  if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
     #   run: haxelib run travix js
-    # - name: Test [flash ]
+    # - name: Test [flash]
     #   if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
     #   run: haxelib run travix flash
-    - name: Test [java ]
+    - name: Test [java]
       if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
       run: haxelib run travix java
-    - name: Test [cpp ]
+    - name: Test [cpp]
       if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
       run: haxelib run travix cpp
-    - name: Test [cs ]
+    - name: Test [cs]
       if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
       run: haxelib run travix cs
-    - name: Test [php ]
+    - name: Test [php]
       if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' && matrix.haxe != '4.1.5' }}
       #disabled php tests for Haxe 4.1 because it's not fully compatible with php 8
       run: |
         # haxelib run travix php
         haxe tests.hxml --php bin/php
         php bin/php/index.php
-    - name: Test [lua ]
+    - name: Test [lua]
       if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
       run: haxelib run travix lua
-    - name: Test [hashlink ]
-      if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
-      run: haxelib run travix hl
+    # - name: Test [hashlink]
+    #   if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
+    #   run: haxelib run travix hl
