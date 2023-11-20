@@ -17,8 +17,8 @@ class Report {
     report = new utest.ui.text.TeamcityReport(runner);
 #elseif travis
     report = new utest.ui.text.PrintReport(runner);
-#elseif (php || neko)
-    if (#if php php.Lib.isCli() #else !Web.isModNeko #end)
+#elseif php
+    if (php.Lib.isCli())
       report = new utest.ui.text.PrintReport(runner);
     else
       report = new utest.ui.text.HtmlReport(runner, true);
