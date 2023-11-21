@@ -20,7 +20,7 @@ jobs:
           - macos-latest
           - windows-latest
         haxe:
-          # - development
+          - latest
           - 4.3.3
           - 4.2.5
           - 4.1.5
