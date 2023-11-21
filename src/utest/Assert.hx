@@ -1,6 +1,5 @@
 package utest;
 
-import haxe.exceptions.PosException;
 import haxe.ValueException;
 import utest.exceptions.UTestException;
 import utest.exceptions.AssertFailureException;
@@ -8,6 +7,8 @@ import haxe.io.Bytes;
 import utest.Assertation;
 import haxe.PosInfos;
 import haxe.Constraints;
+
+typedef PosException = #if (haxe >= version("4.2.0")) haxe.exceptions.PosException #else haxe.Exception #end;
 
 /**
  * This class contains only static members used to perform assertations inside a test method.
