@@ -1,5 +1,6 @@
 package utest;
 
+import haxe.exceptions.PosException;
 import haxe.ValueException;
 import utest.exceptions.UTestException;
 import utest.exceptions.AssertFailureException;
@@ -214,7 +215,7 @@ class Assert {
     return Reflect.isFunction(Reflect.field(v, "next")) && Reflect.isFunction(Reflect.field(v, "hasNext"));
   }
 
-  static function sameAs(expected : Any, value : Any, status : LikeStatus, approx : Float) {
+  static function sameAs(expected : Any, value : Any, status : LikeStatus, approx : Float, allowExtraFields:Bool) {
     var texpected = getTypeName(expected);
     var tvalue = getTypeName(value);
     status.expectedValue = expected;
@@ -253,7 +254,7 @@ class Assert {
           return expected == value;
         }
 #end
-        if (texpected != tvalue)
+        if (!allowExtraFields && texpected != tvalue)
         {
           status.error = "expected instance of " + q(texpected) + " but it is " + q(tvalue) + (status.path == '' ? '' : ' for field '+status.path);
           return false;
@@ -274,14 +275,14 @@ class Assert {
           if(status.recursive || status.path == '') {
             var expected = (expected:Array<Any>);
             var value = (value:Array<Any>);
-            if(expected.length != value.length) {
+            if(!allowExtraFields && expected.length != value.length) {
               status.error = "expected "+expected.length+" elements but they are "+value.length + (status.path == '' ? '' : ' for field '+status.path);
               return false;
             }
             var path = status.path;
             for(i in 0...expected.length) {
               status.path = path == '' ? 'array['+i+']' : path + '['+i+']';
-              if (!sameAs(expected[i], value[i], status, approx))
+              if (!sameAs(expected[i], value[i], status, approx, allowExtraFields))
               {
                 status.error = "expected array element at ["+i+"] to have " + q(status.expectedValue) + " but it is " + q(status.actualValue) + (status.path == '' ? '' : ' for field '+status.path);
                 return false;
@@ -329,14 +330,14 @@ class Assert {
             var keys:Array<Any> = [for (k in map.keys()) k];
             var vkeys:Array<Any> = [for (k in vmap.keys()) k];
 
-            if(keys.length != vkeys.length) {
+            if(!allowExtraFields && keys.length != vkeys.length) {
               status.error = "expected "+keys.length+" keys but they are "+vkeys.length + (status.path == '' ? '' : ' for field '+status.path);
               return false;
             }
             var path = status.path;
             for(key in keys) {
               status.path = path == '' ? 'hash['+key+']' : path + '['+key+']';
-              if (!sameAs(map.get(key), vmap.get(key), status, approx))
+              if (!sameAs(map.get(key), vmap.get(key), status, approx, allowExtraFields))
               {
                 status.error = "expected " + q(status.expectedValue) + " but it is " + q(status.actualValue) + (status.path == '' ? '' : ' for field '+status.path);
                 return false;
@@ -351,14 +352,14 @@ class Assert {
           if(status.recursive || status.path == '') {
             var evalues = Lambda.array({ iterator : function() return expected });
             var vvalues = Lambda.array({ iterator : function() return value });
-            if(evalues.length != vvalues.length) {
+            if(!allowExtraFields && evalues.length != vvalues.length) {
               status.error = "expected "+evalues.length+" values in Iterator but they are "+vvalues.length + (status.path == '' ? '' : ' for field '+status.path);
               return false;
             }
             var path = status.path;
             for(i in 0...evalues.length) {
               status.path = path == '' ? 'iterator['+i+']' : path + '['+i+']';
-              if (!sameAs(evalues[i], vvalues[i], status, approx))
+              if (!sameAs(evalues[i], vvalues[i], status, approx, allowExtraFields))
               {
                 status.error = "expected " + q(status.expectedValue) + " but it is " + q(status.actualValue) + (status.path == '' ? '' : ' for field '+status.path);
                 return false;
@@ -373,14 +374,14 @@ class Assert {
           if(status.recursive || status.path == '') {
             var evalues = Lambda.array(expected);
             var vvalues = Lambda.array(value);
-            if(evalues.length != vvalues.length) {
+            if(!allowExtraFields && evalues.length != vvalues.length) {
               status.error = "expected "+evalues.length+" values in Iterable but they are "+vvalues.length + (status.path == '' ? '' : ' for field '+status.path);
               return false;
             }
             var path = status.path;
             for(i in 0...evalues.length) {
               status.path = path == '' ? 'iterable['+i+']' : path + '['+i+']';
-              if(!sameAs(evalues[i], vvalues[i], status, approx))
+              if(!sameAs(evalues[i], vvalues[i], status, approx, allowExtraFields))
                 return false;
             }
           }
@@ -393,10 +394,10 @@ class Assert {
           var path = status.path;
           for(field in fields) {
             status.path = path == '' ? field : path+'.'+field;
-            var e = Reflect.field(expected, field);
+            var e = Reflect.getProperty(expected, field);
             if(Reflect.isFunction(e)) continue;
-            var v = Reflect.field(value, field);
-            if(!sameAs(e, v, status, approx))
+            var v = Reflect.getProperty(value, field);
+            if(!sameAs(e, v, status, approx, allowExtraFields))
               return false;
           }
         }
@@ -423,7 +424,7 @@ class Assert {
           for (i in 0...eparams.length)
           {
             status.path = path == '' ? 'enum[' + i + ']' : path + '[' + i + ']';
-            if (!sameAs(eparams[i], vparams[i], status, approx))
+            if (!sameAs(eparams[i], vparams[i], status, approx, allowExtraFields))
             {
               status.error = "expected enum param " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field ' + status.path) + ' with ' + status.error;
               return false;
@@ -434,24 +435,28 @@ class Assert {
       case TObject  :
         // anonymous object
         if(status.recursive || status.path == '') {
-          var tfields = Reflect.fields(value);
+          var tfields = switch Type.typeof(value) {
+            case TClass(cls): Type.getInstanceFields(cls);
+            case TObject: Reflect.fields(value);
+            case _: throw new PosException('Unexpected behavior');
+          }
           var fields = Reflect.fields(expected);
           var path = status.path;
           for(field in fields) {
-            tfields.remove(field);
             status.path = path == '' ? field : path+'.'+field;
-            if(!Reflect.hasField(value, field)) {
+            if(!allowExtraFields && !tfields.contains(field)) {
               status.error = "expected field " + status.path + " does not exist in " + q(value);
               return false;
             }
+            tfields.remove(field);
             var e = Reflect.field(expected, field);
             if(Reflect.isFunction(e))
               continue;
-            var v = Reflect.field(value, field);
-            if(!sameAs(e, v, status, approx))
+            var v = Reflect.getProperty(value, field);
+            if(!sameAs(e, v, status, approx, allowExtraFields))
               return false;
           }
-          if(tfields.length > 0)
+          if(!allowExtraFields && tfields.length > 0)
           {
             status.error = "the tested object has extra field(s) (" + tfields.join(", ") + ") not included in the expected ones";
             return false;
@@ -467,14 +472,14 @@ class Assert {
           if(status.recursive || status.path == '') {
             var evalues = Lambda.array({ iterator : function() return expected });
             var vvalues = Lambda.array({ iterator : function() return value });
-            if(evalues.length != vvalues.length) {
+            if(!allowExtraFields && evalues.length != vvalues.length) {
               status.error = "expected "+evalues.length+" values in Iterator but they are "+vvalues.length + (status.path == '' ? '' : ' for field '+status.path);
               return false;
             }
             var path = status.path;
             for(i in 0...evalues.length) {
               status.path = path == '' ? 'iterator['+i+']' : path + '['+i+']';
-              if (!sameAs(evalues[i], vvalues[i], status, approx))
+              if (!sameAs(evalues[i], vvalues[i], status, approx, allowExtraFields))
               {
                 status.error = "expected " + q(status.expectedValue) + " but it is " + q(status.actualValue) + (status.path == '' ? '' : ' for field '+status.path);
                 return false;
@@ -493,14 +498,14 @@ class Assert {
           if(status.recursive || status.path == '') {
             var evalues = Lambda.array(expected);
             var vvalues = Lambda.array(value);
-            if(evalues.length != vvalues.length) {
+            if(!allowExtraFields && evalues.length != vvalues.length) {
               status.error = "expected "+evalues.length+" values in Iterable but they are "+vvalues.length + (status.path == '' ? '' : ' for field '+status.path);
               return false;
             }
             var path = status.path;
             for(i in 0...evalues.length) {
               status.path = path == '' ? 'iterable['+i+']' : path + '['+i+']';
-              if(!sameAs(evalues[i], vvalues[i], status, approx))
+              if(!sameAs(evalues[i], vvalues[i], status, approx, allowExtraFields))
                 return false;
             }
           }
@@ -549,7 +554,53 @@ class Assert {
       expectedValue : expected,
       actualValue : value
     };
-    return if(sameAs(expected, value, status, approx)) {
+    return if(sameAs(expected, value, status, approx, false)) {
+      pass(msg, pos);
+    } else {
+      fail(msg == null ? status.error : msg, pos);
+    }
+  }
+
+  /**
+   * Check if `value` is similar to `expected`.
+   * That means:
+   * - For objects: the `value` object has at least the same set of fields and values the `expected` object has;
+   * - For arrays, iterables and iterators: the `value` collection has at least the same amount of items the `expected` collection has, and the items
+   *    at corresponding positions are similar or equal (depending on the value of `recursive` argument);
+   * - For maps: the `value` map has at least the same set of keys and values the `expected` map has;
+   * It doesn't matter if the `value` object has additional fields/keys/items. Other than that `Assert.similar` replicates
+   * the behavior of `Assert.same`.
+   * ```haxe
+   * Assert.similar({foo:'bar'}, {foo:'bar', baz:0}); //pass
+   * ```
+   * If the `value` object is a class instance then the properties get taken into account.
+   * ```haxe
+   * class Foo {
+   *    public var foo(get,never):String;
+   *    function get_foo():String return 'bar';
+   *    public function new() {}
+   * }
+   *
+   * Assert.similar({foo:'bar'}, new Foo()); //pass
+   * ```
+   * @param expected The expected value to check against
+   * @param value The object to test. This may be an anonymous object as well as a class instance.
+   * @param recursive States whether or not the test will apply also to sub-objects.
+   * Defaults to true
+   * @param msg An optional error message. If not passed a default one will be used
+   * @param approx The approximation tollerance. Default is 1e-5
+   * @param pos Code position where the Assert call has been executed. Don't fill it
+   * unless you know what you are doing.
+   */
+  public static function similar(expected : Null<Any>, value : Null<Any>, recursive : Bool = true, ?msg : String, approx : Float = 1e-5, ?pos : PosInfos) : Bool {
+    var status = {
+      recursive : recursive,
+      path : '',
+      error : null,
+      expectedValue : expected,
+      actualValue : value
+    };
+    return if(sameAs(expected, value, status, approx, true)) {
       pass(msg, pos);
     } else {
       fail(msg == null ? status.error : msg, pos);
