@@ -119,7 +119,7 @@ jobs:
         php bin/php/index.php
     - name: Test [lua]
       #see https://github.com/back2dos/travix/pull/146
-      if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' && matrix.haxe != '4.3.3' && matrix.os == 'ubuntu-latest' }}
+      if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' && matrix.haxe != '4.3.3' && matrix.os != 'ubuntu-latest' }}
       run: haxelib run travix lua
     # - name: Test [hashlink]
     #   if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
