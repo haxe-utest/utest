@@ -4,12 +4,6 @@ import utest.Runner;
 import utest.ui.common.IReport;
 import utest.ui.common.HeaderDisplayMode;
 
-#if php
-import php.Web;
-#elseif neko
-import neko.Web;
-#end
-
 class Report {
   public static function create(runner : Runner, ?displaySuccessResults : SuccessResultsDisplayMode, ?headerDisplayMode : HeaderDisplayMode) : IReport<Dynamic> {
     var report:IReport<Dynamic>;
