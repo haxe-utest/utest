@@ -624,7 +624,7 @@ class Assert {
    * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
-  public static function raises(method:() -> Void, ?type:Class<Any>, ?msgNotThrown : String , ?msgWrongType : String, ?pos : PosInfos) : Bool {
+  public static function raises(method:() -> Void, ?type:Any, ?msgNotThrown : String , ?msgWrongType : String, ?pos : PosInfos) : Bool {
     var typeDescr = type == null ? "" : "of type " + Type.getClassName(type);
     inline function handleCatch(ex:Any):Bool {
       return if(null == type) {
@@ -637,12 +637,12 @@ class Assert {
     }
     try {
       method();
-    // Broken on eval since Haxe 4.3.2: https://github.com/HaxeFoundation/haxe/issues/11321
+    // Broken on eval in Haxe 4.3.2: https://github.com/HaxeFoundation/haxe/issues/11321
     // } catch(ex:ValueException) {
     //   return handleCatch(ex.value);
     } catch (ex) {
       if(Std.isOfType(ex, ValueException)) {
-        return handleCatch((cast ex:ValueException).message);
+        return handleCatch((cast ex:ValueException).value);
       }
       return handleCatch(ex);
     }
