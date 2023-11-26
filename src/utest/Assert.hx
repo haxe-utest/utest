@@ -1,5 +1,6 @@
 package utest;
 
+import haxe.display.Display.Package;
 import haxe.ValueException;
 import utest.exceptions.UTestException;
 import utest.exceptions.AssertFailureException;
@@ -216,17 +217,57 @@ class Assert {
     return Reflect.isFunction(Reflect.field(v, "next")) && Reflect.isFunction(Reflect.field(v, "hasNext"));
   }
 
-  static function sameAs(expected : Any, value : Any, status : LikeStatus, approx : Float, allowExtraFields:Bool) {
+  static function checkTypesCompatibility(expected : Any, value : Any, allowDifferentObjectTypes : Bool) : Bool {
+    var texpected = getTypeName(expected);
+    var tvalue = getTypeName(value);
+
+    if(texpected == tvalue) {
+      return true;
+    }
+    //Int and Float are treated as same so that an int and float comaparison will use floatEquals
+    if((texpected == "Int" && tvalue == "Float") || (texpected == "Float" && tvalue == "Int")) {
+      return true;
+    }
+
+    if(allowDifferentObjectTypes) {
+      var valueIsMap = Std.isOfType(value, IMap);
+      var valueIsArray = Std.isOfType(value, Array);
+      if(Std.isOfType(expected, IMap) && !valueIsMap) {
+        return false;
+      }
+      if(Std.isOfType(expected, Array) && !valueIsArray) {
+        return false;
+      }
+      if(valueIsArray || valueIsMap) {
+        return false;
+      }
+
+      function isObject(v:Any) {
+        return switch Type.typeof(value) {
+          case TClass(String): false;
+          case TObject | TClass(_): true;
+          case _: false;
+        }
+      }
+      if(isObject(expected) && isObject(value)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  static function sameAs(expected : Any, value : Any, status : LikeStatus, approx : Float, allowExtraFields : Bool, allowDifferentObjectTypes : Bool) {
     var texpected = getTypeName(expected);
     var tvalue = getTypeName(value);
     status.expectedValue = expected;
     status.actualValue = value;
 
-    if(texpected != tvalue && !((texpected == "Int" && tvalue == "Float") || (texpected == "Float" && tvalue == "Int"))) { //Int and Float are treated as same so that an int and float comaparison will use floatEquals
-
+    if(!checkTypesCompatibility(expected, value, allowDifferentObjectTypes)) {
       status.error = "expected type " + texpected + " but it is " + tvalue + (status.path == '' ? '' : ' for field ' + status.path);
       return false;
     }
+
     switch(Type.typeof(expected))
     {
       case TFloat, TInt:
@@ -283,7 +324,7 @@ class Assert {
             var path = status.path;
             for(i in 0...expected.length) {
               status.path = path == '' ? 'array['+i+']' : path + '['+i+']';
-              if (!sameAs(expected[i], value[i], status, approx, allowExtraFields))
+              if (!sameAs(expected[i], value[i], status, approx, allowExtraFields, allowDifferentObjectTypes))
               {
                 status.error = "expected array element at ["+i+"] to have " + q(status.expectedValue) + " but it is " + q(status.actualValue) + (status.path == '' ? '' : ' for field '+status.path);
                 return false;
@@ -338,7 +379,7 @@ class Assert {
             var path = status.path;
             for(key in keys) {
               status.path = path == '' ? 'hash['+key+']' : path + '['+key+']';
-              if (!sameAs(map.get(key), vmap.get(key), status, approx, allowExtraFields))
+              if (!sameAs(map.get(key), vmap.get(key), status, approx, allowExtraFields, allowDifferentObjectTypes))
               {
                 status.error = "expected " + q(status.expectedValue) + " but it is " + q(status.actualValue) + (status.path == '' ? '' : ' for field '+status.path);
                 return false;
@@ -360,7 +401,7 @@ class Assert {
             var path = status.path;
             for(i in 0...evalues.length) {
               status.path = path == '' ? 'iterator['+i+']' : path + '['+i+']';
-              if (!sameAs(evalues[i], vvalues[i], status, approx, allowExtraFields))
+              if (!sameAs(evalues[i], vvalues[i], status, approx, allowExtraFields, allowDifferentObjectTypes))
               {
                 status.error = "expected " + q(status.expectedValue) + " but it is " + q(status.actualValue) + (status.path == '' ? '' : ' for field '+status.path);
                 return false;
@@ -382,7 +423,7 @@ class Assert {
             var path = status.path;
             for(i in 0...evalues.length) {
               status.path = path == '' ? 'iterable['+i+']' : path + '['+i+']';
-              if(!sameAs(evalues[i], vvalues[i], status, approx, allowExtraFields))
+              if(!sameAs(evalues[i], vvalues[i], status, approx, allowExtraFields, allowDifferentObjectTypes))
                 return false;
             }
           }
@@ -398,7 +439,7 @@ class Assert {
             var e = Reflect.getProperty(expected, field);
             if(Reflect.isFunction(e)) continue;
             var v = Reflect.getProperty(value, field);
-            if(!sameAs(e, v, status, approx, allowExtraFields))
+            if(!sameAs(e, v, status, approx, allowExtraFields, allowDifferentObjectTypes))
               return false;
           }
         }
@@ -425,7 +466,7 @@ class Assert {
           for (i in 0...eparams.length)
           {
             status.path = path == '' ? 'enum[' + i + ']' : path + '[' + i + ']';
-            if (!sameAs(eparams[i], vparams[i], status, approx, allowExtraFields))
+            if (!sameAs(eparams[i], vparams[i], status, approx, allowExtraFields, allowDifferentObjectTypes))
             {
               status.error = "expected enum param " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field ' + status.path) + ' with ' + status.error;
               return false;
@@ -454,7 +495,7 @@ class Assert {
             if(Reflect.isFunction(e))
               continue;
             var v = Reflect.getProperty(value, field);
-            if(!sameAs(e, v, status, approx, allowExtraFields))
+            if(!sameAs(e, v, status, approx, allowExtraFields, allowDifferentObjectTypes))
               return false;
           }
           if(!allowExtraFields && tfields.length > 0)
@@ -480,7 +521,7 @@ class Assert {
             var path = status.path;
             for(i in 0...evalues.length) {
               status.path = path == '' ? 'iterator['+i+']' : path + '['+i+']';
-              if (!sameAs(evalues[i], vvalues[i], status, approx, allowExtraFields))
+              if (!sameAs(evalues[i], vvalues[i], status, approx, allowExtraFields, allowDifferentObjectTypes))
               {
                 status.error = "expected " + q(status.expectedValue) + " but it is " + q(status.actualValue) + (status.path == '' ? '' : ' for field '+status.path);
                 return false;
@@ -506,7 +547,7 @@ class Assert {
             var path = status.path;
             for(i in 0...evalues.length) {
               status.path = path == '' ? 'iterable['+i+']' : path + '['+i+']';
-              if(!sameAs(evalues[i], vvalues[i], status, approx, allowExtraFields))
+              if(!sameAs(evalues[i], vvalues[i], status, approx, allowExtraFields, allowDifferentObjectTypes))
                 return false;
             }
           }
@@ -555,7 +596,7 @@ class Assert {
       expectedValue : expected,
       actualValue : value
     };
-    return if(sameAs(expected, value, status, approx, false)) {
+    return if(sameAs(expected, value, status, approx, false, false)) {
       pass(msg, pos);
     } else {
       fail(msg == null ? status.error : msg, pos);
@@ -601,7 +642,7 @@ class Assert {
       expectedValue : expected,
       actualValue : value
     };
-    return if(sameAs(expected, value, status, approx, true)) {
+    return if(sameAs(expected, value, status, approx, true, true)) {
       pass(msg, pos);
     } else {
       fail(msg == null ? status.error : msg, pos);

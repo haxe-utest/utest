@@ -116,16 +116,27 @@ class TestAssert extends Test {
       }
   }
 
-  // public function testSimilar() {
-  //   success(() -> similar({}, {}));
-  //   failure(() -> similar({a:1}, {a:"1"}));
-  //   success(() -> similar({a:1,b:"c"}, {a:1,b:"c"}));
-  //   success(() -> similar({a:1,b:"c"}, {a:1,c:"c"}));
-  //   success(() -> similar({a:1,b:"c"}, {a:1}));
-  //   success(() -> similar({a:1,b:{a:1,c:"c"}}, {a:1,b:{a:1,c:"c"}}));
-  //   success(() -> similar({a:1,b:{a:1,c:"c"}}, {a:1,b:{}}, false));
-  //   success(() -> similar({a:1,b:{a:1,c:"c"}}, {a:1,b:{}}, true));
-  // }
+  public function testSimilar() {
+    similar({value:'hello'}, new Dummy('hello', new Dummy()));
+    return;
+
+    success(() -> similar({a:'b'}, {a:'b', c:1}));
+    success(() -> similar(['a' => 'b'], ['a' => 'b', 'c' => 'd']));
+    success(() -> similar(['a', 'b'], ['a', 'b', 'c']));
+    success(() -> similar({value:'hello'}, new Dummy('hello', new Dummy())));
+    success(() -> similar({value:'hello', sub:{value:'world'}}, new Dummy('hello', new Dummy('world'))));
+    success(() -> similar({sub:{value:'world'}}, new Dummy('hello', new Dummy('world'))));
+    success(() -> same(new Dummy(), new DummyLike()));
+
+    failure(() -> similar({a:'b'}, {a:'', c:1}));
+    failure(() -> similar({a:'b'}, {c:1}));
+    failure(() -> similar(['a' => 'b', 'c' => 'd'], ['a' => 'b']));
+    failure(() -> similar(['a' => 'b'], ['a' => 'c']));
+    failure(() -> similar(['a', 'b', 'c'], ['a', 'b']));
+    failure(() -> similar(['a', 'b', 'c'], ['a', 'b', 'd']));
+    failure(() -> similar({value:'hello'}, new Dummy('world')));
+    failure(() -> similar({value:'hello', sub:{value:'world'}}, new Dummy('hello', new Dummy('foo'))));
+  }
 
   public function testSamePrimitive() {
     //same primitives
@@ -198,6 +209,8 @@ class TestAssert extends Test {
     success(() -> same(r1, r2));
     success(() -> same(r1, r3, false));
     failure(() -> same(r1, r3, true));
+
+    failure(() -> same(new Dummy(), new DummyLike()));
 
     //same iterables
     var list1 = new List<Any>();
@@ -318,5 +331,17 @@ private class SampleException extends Exception {}
 private class Dummy {
   public var value : Null<String>;
   public var sub : Null<Dummy>;
-  public function new() {}
+  public function new(?value:String, ?sub:Dummy) {
+    this.value = value;
+    this.sub = sub;
+  }
+}
+
+private class DummyLike {
+  public var value : Null<String>;
+  public var sub : Null<DummyLike>;
+  public function new(?value:String, ?sub:DummyLike) {
+    this.value = value;
+    this.sub = sub;
+  }
 }
