@@ -9,7 +9,7 @@ import utest.Assertation;
 @:keep
 class TestAssert extends Test {
 
-  inline function _bypass(fn:()->Void):List<Assertation> {
+  function _bypass(fn:()->Void):List<Assertation> {
     var currentResults = Assert.results;
     Assert.results = new List();
     fn();
@@ -18,19 +18,19 @@ class TestAssert extends Test {
     return results;
   }
 
-  inline function success(assertion:()->Bool, ?msg:String, ?pos:PosInfos) {
+  function success(assertion:()->Bool, ?msg:String, ?pos:PosInfos) {
     var outcome = false;
     _bypass(() -> outcome = assertion());
     Assert.isTrue(outcome, msg, pos);
   }
 
-  inline function failure(assertion:()->Bool, ?msg:String, ?pos:PosInfos) {
+  function failure(assertion:()->Bool, ?msg:String, ?pos:PosInfos) {
     var outcome = true;
     _bypass(() -> outcome = assertion());
     Assert.isFalse(outcome, msg, pos);
   }
 
-  inline function warning(expectedMessage:String, assertion:()->Void, ?pos:PosInfos) {
+  function warning(expectedMessage:String, assertion:()->Void, ?pos:PosInfos) {
     var results = Lambda.array(_bypass(assertion));
     if(results.length != 1) {
       Assert.fail('warnings expects a single warning assertion', pos);
@@ -42,7 +42,7 @@ class TestAssert extends Test {
     }
   }
 
-  inline function failMessages(expectedMessage:String, assertion:()->Bool, ?pos:PosInfos) {
+  function failMessages(expectedMessage:String, assertion:()->Bool, ?pos:PosInfos) {
     var results = Lambda.array(_bypass(assertion));
     if(results.length != 1) {
       Assert.fail('failMessage expects a single failing assertion', pos);
