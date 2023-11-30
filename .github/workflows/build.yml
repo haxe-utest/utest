@@ -1,0 +1,126 @@
+# https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions
+name: Build
+
+on:
+  push:
+    paths-ignore:
+    - '**/*.md'
+  pull_request:
+  workflow_dispatch:
+    # https://github.blog/changelog/2020-07-06-github-actions-manual-triggers-with-workflow_dispatch/
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+        haxe:
+          - latest
+          - 4.3.3
+          - 4.2.5
+          - 4.1.5
+
+    steps:
+    - name: Show environment variables
+      shell: bash
+      run: env | sort
+
+    - name: Git Checkout
+      uses: actions/checkout@v2 #https://github.com/actions/checkout
+
+    - name: "Cache Haxelib Repository"
+      uses: actions/cache@v2
+      with:
+        path: $RUNNER_TOOL_CACHE/haxe/${{ matrix.haxe }}/x64/lib
+        key: ${{ runner.os }}-haxelib-${{ hashFiles('**/haxelib.json') }}
+        restore-keys: |
+          ${{ runner.os }}-haxelib-
+
+    - name: Upgrade brew
+      if: runner.os == 'macOS'
+      env:
+        # https://docs.brew.sh/Manpage#environment
+        HOMEBREW_NO_ANALYTICS: 1
+        HOMEBREW_NO_INSTALL_CLEANUP: 1
+      run: |
+        echo "::group::brew update" && brew update && echo "::endgroup::"
+        echo "::group::brew config" && brew config && echo "::endgroup::"
+
+        # workaround to prevent "/usr/local/... is not inside a keg" during "brew install mono"
+        rm /usr/local/bin/2to3
+        rm /usr/local/share/man/man1/*
+        rm /usr/local/share/man/man5/*
+
+    - name: Set up Python 3
+      uses: actions/setup-python@v2 # https://github.com/actions/setup-python
+      with:
+        python-version: 3.8
+
+    - name: Install Haxe ${{ matrix.haxe }}
+      uses: krdlab/setup-haxe@v1 # https://github.com/krdlab/setup-haxe
+      with:
+        haxe-version: ${{ matrix.haxe }}
+
+    - name: Install haxe libs
+      shell: bash
+      id: prerequisites
+      run: |
+        haxelib install travix
+        haxelib run travix install
+
+
+    ##################################################
+    # Tests
+    ##################################################
+    - name: Test [interp]
+      if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
+      run: haxelib run travix interp
+    - name: Test [neko]
+      if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
+      run: haxelib run travix neko
+    - name: Test [python]
+      if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
+      run: haxelib run travix python
+    - name: Test [node]
+      if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
+      run: haxelib run travix node
+    - name: Test [node advanced minification]
+      if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
+      run: |
+        haxelib install closure --quiet
+        haxe hxml/js-minified.hxml --js bin/test.js
+        node bin/test.js
+    # - name: Test [js]
+    #  if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
+    #   run: haxelib run travix js
+    # - name: Test [flash]
+    #   if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
+    #   run: haxelib run travix flash
+    - name: Test [java]
+      if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
+      run: haxelib run travix java
+    - name: Test [cpp]
+      if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
+      run: haxelib run travix cpp
+    - name: Test [cs]
+      if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
+      run: haxelib run travix cs
+    - name: Test [php]
+      if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' && matrix.haxe != '4.1.5' }}
+      #disabled php tests for Haxe 4.1 because it's not fully compatible with php 8
+      run: |
+        # haxelib run travix php
+        haxe tests.hxml --php bin/php
+        php bin/php/index.php
+    - name: Test [lua]
+      #see https://github.com/back2dos/travix/pull/146
+      if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' && matrix.haxe != '4.3.3' && matrix.haxe != 'latest' && matrix.os == 'ubuntu-latest' }}
+      run: haxelib run travix lua
+    # - name: Test [hashlink]
+    #   if: ${{ !cancelled() && steps.prerequisites.conclusion == 'success' }}
+    #   run: haxelib run travix hl

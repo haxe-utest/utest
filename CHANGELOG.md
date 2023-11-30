@@ -1,3 +1,14 @@
+# v2.0.0
+- Minimum supported Haxe version is 4.1 now.
+- added `Assert.similar()` (see the doc to that method)
+- changed various `Assert` methods to be type safe instead of accepting `Dynamic` arguments
+- added UTEST_IGNORE_DEPENDS flag to ignore failed or missing dependencies (see README.md)
+- added test case name filter to `Runner.addCases`
+- support @:ignore meta (old @Ignored meta is still supported too)
+- support advanced minification for JS target
+- provided defines.json to get UTest compilation flags descriptions with `haxe -lib utest --help-user-defines` (requires Haxe 4.3)
+- provided meta.json to get UTest metadata list with `haxe -lib utest --help-user-metas` (requires Haxe 4.3)
+
 # v1.13.2
 - Haxe 4.2.0 compatibility
 - Diagnostics reporter to show clickable messages in VSCode ([#106](https://github.com/haxe-utest/utest/issues/106)

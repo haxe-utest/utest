@@ -2,7 +2,7 @@ package utest.ui.common;
 
 class ReportTools
 {
-	public static function hasHeader(report : IReport<Dynamic>, stats : ResultStats)
+	public static function hasHeader<T:IReport<T>>(report : IReport<T>, stats : ResultStats)
 	{
 		switch(report.displayHeader)
 		{
@@ -23,7 +23,7 @@ class ReportTools
 		};
 	}
 
-	public static function skipResult(report : IReport<Dynamic>, stats : ResultStats, isOk)
+	public static function skipResult<T:IReport<T>>(report : IReport<T>, stats : ResultStats, isOk)
 	{
 		if (!stats.isOk) return false;
 		return switch(report.displaySuccessResults)
@@ -34,7 +34,7 @@ class ReportTools
 		};
 	}
 
-	public static function hasOutput(report : IReport<Dynamic>, stats : ResultStats)
+	public static function hasOutput<T:IReport<T>>(report : IReport<T>, stats : ResultStats)
 	{
 		if (!stats.isOk) return true;
 		return hasHeader(report, stats);

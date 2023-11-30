@@ -2,15 +2,12 @@ package utest;
 
 import utest.TestHandler;
 import utest.TestFixture;
+import utest.Async;
 
 @:keep
-class TestIgnored {
-  public function new() {
-  }
+class TestIgnored extends Test {
 
-  public function testIgnoredWithoutReason():Void {
-    var async = Assert.createAsync();
-
+  public function testIgnoredWithoutReason(async:Async):Void {
     var runner:Runner = new Runner();
     runner.addCase(new TestCaseWithIgnoredCaseWithoutReason());
 
@@ -31,15 +28,13 @@ class TestIgnored {
         default: Assert.fail('Expected Assertation.Ignore(""), Received: ${th.results.first()}');
       }
 
-      async();
+      async.done();
     });
 
     runner.run();
   }
 
-  public function testIgnoredWithReason():Void {
-    var async = Assert.createAsync();
-
+  public function testIgnoredWithReason(async:Async):Void {
     var runner:Runner = new Runner();
     runner.addCase(new TestCaseWithIgnoredCaseWithReason());
 
@@ -60,7 +55,7 @@ class TestIgnored {
         default: Assert.fail('Expected Assertation.Ignore("REASON"), Received: ${th.results.first()}');
       }
 
-      async();
+      async.done();
     });
 
     runner.run();
@@ -68,20 +63,17 @@ class TestIgnored {
 }
 
 @:keep
-class TestCaseWithIgnoredCaseWithoutReason {
-  public function new() {}
-
-  @Ignored
+class TestCaseWithIgnoredCaseWithoutReason extends Test {
+  @:ignore
   public function testIgnoredWithoutReason():Void {
     Assert.fail();
   }
 }
 
 @:keep
-class TestCaseWithIgnoredCaseWithReason {
-  public function new() {}
+class TestCaseWithIgnoredCaseWithReason extends Test {
 
-  @Ignored("REASON")
+  @:ignore("REASON")
   public function testIgnoredWithReason():Void {
     Assert.fail();
   }

@@ -3,5 +3,6 @@
 -main TestAll
 -D utest
 -dce full
+-D analyzer-optimize
 
 extraParams.hxml

@@ -1,11 +1,15 @@
 package utest;
 
-import utest.utils.Misc;
+import haxe.display.Display.Package;
+import haxe.ValueException;
+import utest.exceptions.UTestException;
+import utest.exceptions.AssertFailureException;
 import haxe.io.Bytes;
 import utest.Assertation;
 import haxe.PosInfos;
-import Map;
 import haxe.Constraints;
+
+typedef PosException = #if (haxe >= version("4.2.0")) haxe.exceptions.PosException #else haxe.Exception #end;
 
 /**
  * This class contains only static members used to perform assertations inside a test method.
@@ -26,7 +30,7 @@ class Assert {
    */
   public static var results : List<Assertation>;
 
-  static inline function processResult(cond : Bool, getMessage : Void -> String, ?pos : PosInfos) : Bool {
+  static inline function processResult(cond : Bool, getMessage : () -> String, ?pos : PosInfos) : Bool {
     if (results == null) {
       throw 'Assert at ${pos.fileName}:${pos.lineNumber} out of context. Most likely you are trying to assert after a test timeout.';
     }
@@ -34,7 +38,7 @@ class Assert {
       results.add(Success(pos));
     else {
       #if UTEST_FAILURE_THROW
-      throw '${pos.fileName}:${pos.lineNumber}: ${getMessage()}';
+      throw new AssertFailureException('${pos.fileName}:${pos.lineNumber}: ${getMessage()}');
       #else
       results.add(Failure(getMessage(), pos));
       #end
@@ -71,7 +75,7 @@ class Assert {
    * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
-  public static function isNull(value : Dynamic, ?msg : String, ?pos : PosInfos) : Bool {
+  public static function isNull<T>(value : Null<T>, ?msg : String, ?pos : PosInfos) : Bool {
     return processResult(value == null, function() return msg != null ? msg : "expected null but it is " + q(value), pos);
   }
 
@@ -82,7 +86,7 @@ class Assert {
    * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
-  public static function notNull(value : Dynamic, ?msg : String, ?pos : PosInfos) : Bool {
+  public static function notNull(value : Null<Any>, ?msg : String, ?pos : PosInfos) : Bool {
     return processResult(value != null, function() return msg != null ? msg : "expected not null", pos);
   }
 
@@ -95,7 +99,7 @@ class Assert {
    * unless you know what you are doing.
    */
   @:deprecated("utest.Assert.is is deprecated. Use utest.Assert.isOfType instead.")
-  public static function is(value : Dynamic, type : Dynamic, ?msg : String , ?pos : PosInfos) : Bool {
+  public static function is(value : Null<Any>, type : Any, ?msg : String , ?pos : PosInfos) : Bool {
     return isOfType(value, type, msg, pos);
   }
 
@@ -107,8 +111,8 @@ class Assert {
    * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
-  public static function isOfType(value : Dynamic, type : Dynamic, ?msg : String , ?pos : PosInfos) : Bool {
-    return processResult(Misc.isOfType(value, type), function() return msg != null ? msg : "expected type " + typeToString(type) + " but it is " + typeToString(value), pos);
+  public static function isOfType(value : Null<Any>, type : Any, ?msg : String , ?pos : PosInfos) : Bool {
+    return processResult(Std.isOfType(value, type), function() return msg != null ? msg : "expected type " + typeToString(type) + " but it is " + typeToString(value), pos);
   }
 
   /**
@@ -122,7 +126,7 @@ class Assert {
    * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
-  public static function notEquals(expected : Dynamic, value : Dynamic, ?msg : String , ?pos : PosInfos) : Bool {
+  public static function notEquals<T>(expected : Null<T>, value : Null<T>, ?msg : String , ?pos : PosInfos) : Bool {
     return processResult(expected != value, function() return msg != null ? msg : "expected " + q(expected) + " and test value " + q(value) + " should be different", pos);
   }
 
@@ -137,7 +141,7 @@ class Assert {
    * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
-  public static function equals(expected : Dynamic, value : Dynamic, ?msg : String , ?pos : PosInfos) : Bool {
+  public static function equals<T>(expected : Null<T>, value : Null<T>, ?msg : String , ?pos : PosInfos) : Bool {
     return processResult(expected == value, function() return msg != null ? msg : "expected " + q(expected) + " but it is " + q(value), pos);
   }
 
@@ -152,7 +156,7 @@ class Assert {
    * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
-  public static function match(pattern : EReg, value : Dynamic, ?msg : String , ?pos : PosInfos) : Bool {
+  public static function match(pattern : EReg, value : String, ?msg : String , ?pos : PosInfos) : Bool {
     return processResult(pattern.match(value), function() return msg != null ? msg : "the value " + q(value) + " does not match the provided pattern", pos);
   }
 
@@ -186,7 +190,7 @@ class Assert {
     return Math.abs(value-expected) <= approx;
   }
 
-  static function getTypeName(v : Dynamic) {
+  static function getTypeName(v : Any) {
     switch(Type.typeof(v))
     {
       case TNull    : return "`null`";
@@ -201,29 +205,69 @@ class Assert {
     }
   }
 
-  static function isIterable(v : Dynamic, isAnonym : Bool) {
+  static function isIterable(v : Any, isAnonym : Bool) {
     var fields = isAnonym ? Reflect.fields(v) : Type.getInstanceFields(Type.getClass(v));
     if(!Lambda.has(fields, "iterator")) return false;
     return Reflect.isFunction(Reflect.field(v, "iterator"));
   }
 
-  static function isIterator(v : Dynamic, isAnonym : Bool) {
+  static function isIterator(v : Any, isAnonym : Bool) {
     var fields = isAnonym ? Reflect.fields(v) : Type.getInstanceFields(Type.getClass(v));
     if(!Lambda.has(fields, "next") || !Lambda.has(fields, "hasNext")) return false;
     return Reflect.isFunction(Reflect.field(v, "next")) && Reflect.isFunction(Reflect.field(v, "hasNext"));
   }
 
-  static function sameAs(expected : Dynamic, value : Dynamic, status : LikeStatus, approx : Float) {
+  static function checkTypesCompatibility(expected : Any, value : Any, allowDifferentObjectTypes : Bool) : Bool {
+    var texpected = getTypeName(expected);
+    var tvalue = getTypeName(value);
+
+    if(texpected == tvalue) {
+      return true;
+    }
+    //Int and Float are treated as same so that an int and float comaparison will use floatEquals
+    if((texpected == "Int" && tvalue == "Float") || (texpected == "Float" && tvalue == "Int")) {
+      return true;
+    }
+
+    if(allowDifferentObjectTypes) {
+      var valueIsMap = Std.isOfType(value, IMap);
+      var valueIsArray = Std.isOfType(value, Array);
+      if(Std.isOfType(expected, IMap) && !valueIsMap) {
+        return false;
+      }
+      if(Std.isOfType(expected, Array) && !valueIsArray) {
+        return false;
+      }
+      if(valueIsArray || valueIsMap) {
+        return false;
+      }
+
+      function isObject(v:Any) {
+        return switch Type.typeof(value) {
+          case TClass(String): false;
+          case TObject | TClass(_): true;
+          case _: false;
+        }
+      }
+      if(isObject(expected) && isObject(value)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  static function sameAs(expected : Any, value : Any, status : LikeStatus, approx : Float, allowExtraFields : Bool, allowDifferentObjectTypes : Bool) {
     var texpected = getTypeName(expected);
     var tvalue = getTypeName(value);
     status.expectedValue = expected;
     status.actualValue = value;
 
-    if(texpected != tvalue && !((texpected == "Int" && tvalue == "Float") || (texpected == "Float" && tvalue == "Int"))) { //Int and Float are treated as same so that an int and float comaparison will use floatEquals
-
+    if(!checkTypesCompatibility(expected, value, allowDifferentObjectTypes)) {
       status.error = "expected type " + texpected + " but it is " + tvalue + (status.path == '' ? '' : ' for field ' + status.path);
       return false;
     }
+
     switch(Type.typeof(expected))
     {
       case TFloat, TInt:
@@ -247,21 +291,19 @@ class Assert {
         }
         return true;
       case TClass(c):
-        var cexpected = Type.getClassName(c);
-        var cvalue = Type.getClassName(Type.getClass(value));
 #if cpp
-        if (cexpected == 'cpp::Pointer') {
+        if (texpected == 'cpp::Pointer') {
           return expected == value;
         }
 #end
-        if (cexpected != cvalue)
+        if (!allowExtraFields && texpected != tvalue)
         {
-          status.error = "expected instance of " + q(cexpected) + " but it is " + q(cvalue) + (status.path == '' ? '' : ' for field '+status.path);
+          status.error = "expected instance of " + q(texpected) + " but it is " + q(tvalue) + (status.path == '' ? '' : ' for field '+status.path);
           return false;
         }
 
         // string
-        if (Misc.isOfType(expected, String)) {
+        if (Std.isOfType(expected, String)) {
           if(expected == value)
             return true;
           else {
@@ -271,16 +313,18 @@ class Assert {
         }
 
         // arrays
-        if(Misc.isOfType(expected, Array)) {
+        if(Std.isOfType(expected, Array)) {
           if(status.recursive || status.path == '') {
-            if(expected.length != value.length) {
+            var expected = (expected:Array<Any>);
+            var value = (value:Array<Any>);
+            if(!allowExtraFields && expected.length != value.length) {
               status.error = "expected "+expected.length+" elements but they are "+value.length + (status.path == '' ? '' : ' for field '+status.path);
               return false;
             }
             var path = status.path;
             for(i in 0...expected.length) {
               status.path = path == '' ? 'array['+i+']' : path + '['+i+']';
-              if (!sameAs(expected[i], value[i], status, approx))
+              if (!sameAs(expected[i], value[i], status, approx, allowExtraFields, allowDifferentObjectTypes))
               {
                 status.error = "expected array element at ["+i+"] to have " + q(status.expectedValue) + " but it is " + q(status.actualValue) + (status.path == '' ? '' : ' for field '+status.path);
                 return false;
@@ -291,7 +335,9 @@ class Assert {
         }
 
         // date
-        if(Misc.isOfType(expected, Date)) {
+        if(Std.isOfType(expected, Date)) {
+          var expected = (expected:Date);
+          var value = (value:Date);
           if(expected.getTime() != value.getTime()) {
             status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
             return false;
@@ -300,7 +346,7 @@ class Assert {
         }
 
         // bytes
-        if(Misc.isOfType(expected, Bytes)) {
+        if(Std.isOfType(expected, Bytes)) {
           if(status.recursive || status.path == '') {
             var ebytes : Bytes = expected;
             var vbytes : Bytes = value;
@@ -319,21 +365,21 @@ class Assert {
         }
 
         // hash, inthash
-        if (Misc.isOfType(expected, IMap)) {
+        if (Std.isOfType(expected, IMap)) {
           if(status.recursive || status.path == '') {
             var map = cast(expected, IMap<Dynamic, Dynamic>);
             var vmap = cast(value, IMap<Dynamic, Dynamic>);
-            var keys:Array<Dynamic> = [for (k in map.keys()) k];
-            var vkeys:Array<Dynamic> = [for (k in vmap.keys()) k];
+            var keys:Array<Any> = [for (k in map.keys()) k];
+            var vkeys:Array<Any> = [for (k in vmap.keys()) k];
 
-            if(keys.length != vkeys.length) {
+            if(!allowExtraFields && keys.length != vkeys.length) {
               status.error = "expected "+keys.length+" keys but they are "+vkeys.length + (status.path == '' ? '' : ' for field '+status.path);
               return false;
             }
             var path = status.path;
             for(key in keys) {
               status.path = path == '' ? 'hash['+key+']' : path + '['+key+']';
-              if (!sameAs(map.get(key), vmap.get(key), status, approx))
+              if (!sameAs(map.get(key), vmap.get(key), status, approx, allowExtraFields, allowDifferentObjectTypes))
               {
                 status.error = "expected " + q(status.expectedValue) + " but it is " + q(status.actualValue) + (status.path == '' ? '' : ' for field '+status.path);
                 return false;
@@ -348,14 +394,14 @@ class Assert {
           if(status.recursive || status.path == '') {
             var evalues = Lambda.array({ iterator : function() return expected });
             var vvalues = Lambda.array({ iterator : function() return value });
-            if(evalues.length != vvalues.length) {
+            if(!allowExtraFields && evalues.length != vvalues.length) {
               status.error = "expected "+evalues.length+" values in Iterator but they are "+vvalues.length + (status.path == '' ? '' : ' for field '+status.path);
               return false;
             }
             var path = status.path;
             for(i in 0...evalues.length) {
               status.path = path == '' ? 'iterator['+i+']' : path + '['+i+']';
-              if (!sameAs(evalues[i], vvalues[i], status, approx))
+              if (!sameAs(evalues[i], vvalues[i], status, approx, allowExtraFields, allowDifferentObjectTypes))
               {
                 status.error = "expected " + q(status.expectedValue) + " but it is " + q(status.actualValue) + (status.path == '' ? '' : ' for field '+status.path);
                 return false;
@@ -370,14 +416,14 @@ class Assert {
           if(status.recursive || status.path == '') {
             var evalues = Lambda.array(expected);
             var vvalues = Lambda.array(value);
-            if(evalues.length != vvalues.length) {
+            if(!allowExtraFields && evalues.length != vvalues.length) {
               status.error = "expected "+evalues.length+" values in Iterable but they are "+vvalues.length + (status.path == '' ? '' : ' for field '+status.path);
               return false;
             }
             var path = status.path;
             for(i in 0...evalues.length) {
               status.path = path == '' ? 'iterable['+i+']' : path + '['+i+']';
-              if(!sameAs(evalues[i], vvalues[i], status, approx))
+              if(!sameAs(evalues[i], vvalues[i], status, approx, allowExtraFields, allowDifferentObjectTypes))
                 return false;
             }
           }
@@ -390,10 +436,10 @@ class Assert {
           var path = status.path;
           for(field in fields) {
             status.path = path == '' ? field : path+'.'+field;
-            var e = Reflect.field(expected, field);
+            var e = Reflect.getProperty(expected, field);
             if(Reflect.isFunction(e)) continue;
-            var v = Reflect.field(value, field);
-            if(!sameAs(e, v, status, approx))
+            var v = Reflect.getProperty(value, field);
+            if(!sameAs(e, v, status, approx, allowExtraFields, allowDifferentObjectTypes))
               return false;
           }
         }
@@ -420,7 +466,7 @@ class Assert {
           for (i in 0...eparams.length)
           {
             status.path = path == '' ? 'enum[' + i + ']' : path + '[' + i + ']';
-            if (!sameAs(eparams[i], vparams[i], status, approx))
+            if (!sameAs(eparams[i], vparams[i], status, approx, allowExtraFields, allowDifferentObjectTypes))
             {
               status.error = "expected enum param " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field ' + status.path) + ' with ' + status.error;
               return false;
@@ -431,24 +477,28 @@ class Assert {
       case TObject  :
         // anonymous object
         if(status.recursive || status.path == '') {
-          var tfields = Reflect.fields(value);
+          var tfields = switch Type.typeof(value) {
+            case TClass(cls): Type.getInstanceFields(cls);
+            case TObject: Reflect.fields(value);
+            case _: throw new PosException('Unexpected behavior');
+          }
           var fields = Reflect.fields(expected);
           var path = status.path;
           for(field in fields) {
-            tfields.remove(field);
             status.path = path == '' ? field : path+'.'+field;
-            if(!Reflect.hasField(value, field)) {
+            if(!allowExtraFields && !tfields.contains(field)) {
               status.error = "expected field " + status.path + " does not exist in " + q(value);
               return false;
             }
+            tfields.remove(field);
             var e = Reflect.field(expected, field);
             if(Reflect.isFunction(e))
               continue;
-            var v = Reflect.field(value, field);
-            if(!sameAs(e, v, status, approx))
+            var v = Reflect.getProperty(value, field);
+            if(!sameAs(e, v, status, approx, allowExtraFields, allowDifferentObjectTypes))
               return false;
           }
-          if(tfields.length > 0)
+          if(!allowExtraFields && tfields.length > 0)
           {
             status.error = "the tested object has extra field(s) (" + tfields.join(", ") + ") not included in the expected ones";
             return false;
@@ -464,14 +514,14 @@ class Assert {
           if(status.recursive || status.path == '') {
             var evalues = Lambda.array({ iterator : function() return expected });
             var vvalues = Lambda.array({ iterator : function() return value });
-            if(evalues.length != vvalues.length) {
+            if(!allowExtraFields && evalues.length != vvalues.length) {
               status.error = "expected "+evalues.length+" values in Iterator but they are "+vvalues.length + (status.path == '' ? '' : ' for field '+status.path);
               return false;
             }
             var path = status.path;
             for(i in 0...evalues.length) {
               status.path = path == '' ? 'iterator['+i+']' : path + '['+i+']';
-              if (!sameAs(evalues[i], vvalues[i], status, approx))
+              if (!sameAs(evalues[i], vvalues[i], status, approx, allowExtraFields, allowDifferentObjectTypes))
               {
                 status.error = "expected " + q(status.expectedValue) + " but it is " + q(status.actualValue) + (status.path == '' ? '' : ' for field '+status.path);
                 return false;
@@ -490,14 +540,14 @@ class Assert {
           if(status.recursive || status.path == '') {
             var evalues = Lambda.array(expected);
             var vvalues = Lambda.array(value);
-            if(evalues.length != vvalues.length) {
+            if(!allowExtraFields && evalues.length != vvalues.length) {
               status.error = "expected "+evalues.length+" values in Iterable but they are "+vvalues.length + (status.path == '' ? '' : ' for field '+status.path);
               return false;
             }
             var path = status.path;
             for(i in 0...evalues.length) {
               status.path = path == '' ? 'iterable['+i+']' : path + '['+i+']';
-              if(!sameAs(evalues[i], vvalues[i], status, approx))
+              if(!sameAs(evalues[i], vvalues[i], status, approx, allowExtraFields, allowDifferentObjectTypes))
                 return false;
             }
           }
@@ -510,17 +560,20 @@ class Assert {
     return throw "Unable to compare values: " + q(expected) + " and " + q(value);
   }
 
-  static function q(v : Dynamic)
+  static function q(v : Any)
   {
-    if (Misc.isOfType(v, String))
+    if (Std.isOfType(v, String))
       return '"' + StringTools.replace(v, '"', '\\"') + '"';
     else
       return Std.string(v);
   }
 
   /**
-   * Check that value is an object with the same fields and values found in expected.
-   * The default behavior is to check nested objects in fields recursively.
+   * Check the values are identical.
+   * Scalar values are checked for equality.
+   * Arrays are checked to have the same sets of values.
+   * If `value` is an object it is checked to have the same fields and values found in `expected`.
+   * The default behavior is to check nested arrays and objects in items and fields recursively.
    * ```haxe
    * Assert.same({ name : "utest"}, ob);
    * ```
@@ -533,7 +586,7 @@ class Assert {
    * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
-  public static function same(expected : Dynamic, value : Dynamic, ?recursive : Bool, ?msg : String, ?approx : Float,  ?pos : PosInfos) : Bool {
+  public static function same(expected : Null<Any>, value : Null<Any>, ?recursive : Bool, ?msg : String, ?approx : Float,  ?pos : PosInfos) : Bool {
     if (null == approx)
       approx = 1e-5;
     var status = {
@@ -543,7 +596,53 @@ class Assert {
       expectedValue : expected,
       actualValue : value
     };
-    return if(sameAs(expected, value, status, approx)) {
+    return if(sameAs(expected, value, status, approx, false, false)) {
+      pass(msg, pos);
+    } else {
+      fail(msg == null ? status.error : msg, pos);
+    }
+  }
+
+  /**
+   * Check if `value` is similar to `expected`.
+   * That means:
+   * - For objects: the `value` object has at least the same set of fields and values the `expected` object has;
+   * - For arrays, iterables and iterators: the `value` collection has at least the same amount of items the `expected` collection has, and the items
+   *    at corresponding positions are similar or equal (depending on the value of `recursive` argument);
+   * - For maps: the `value` map has at least the same set of keys and values the `expected` map has;
+   * It doesn't matter if the `value` object has additional fields/keys/items. Other than that `Assert.similar` replicates
+   * the behavior of `Assert.same`.
+   * ```haxe
+   * Assert.similar({foo:'bar'}, {foo:'bar', baz:0}); //pass
+   * ```
+   * If the `value` object is a class instance then the properties get taken into account.
+   * ```haxe
+   * class Foo {
+   *    public var foo(get,never):String;
+   *    function get_foo():String return 'bar';
+   *    public function new() {}
+   * }
+   *
+   * Assert.similar({foo:'bar'}, new Foo()); //pass
+   * ```
+   * @param expected The expected value to check against
+   * @param value The object to test. This may be an anonymous object as well as a class instance.
+   * @param recursive States whether or not the test will apply also to sub-objects.
+   * Defaults to true
+   * @param msg An optional error message. If not passed a default one will be used
+   * @param approx The approximation tollerance. Default is 1e-5
+   * @param pos Code position where the Assert call has been executed. Don't fill it
+   * unless you know what you are doing.
+   */
+  public static function similar(expected : Null<Any>, value : Null<Any>, recursive : Bool = true, ?msg : String, approx : Float = 1e-5, ?pos : PosInfos) : Bool {
+    var status = {
+      recursive : recursive,
+      path : '',
+      error : null,
+      expectedValue : expected,
+      actualValue : value
+    };
+    return if(sameAs(expected, value, status, approx, true, true)) {
       pass(msg, pos);
     } else {
       fail(msg == null ? status.error : msg, pos);
@@ -553,12 +652,12 @@ class Assert {
   /**
    * It is used to test an application that under certain circumstances must
    * react throwing an error. This assert guarantees that the error is of the
-   * correct type (or Dynamic if non is specified).
+   * correct type (or any type if non is specified).
    * ```haxe
    * Assert.raises(function() { throw "Error!"; }, String);
    * ```
    * @param method A method that generates the exception.
-   * @param type The type of the expected error. Defaults to Dynamic (catch all).
+   * @param type The type of the expected error. Defaults to any type (catch all).
    * @param msgNotThrown An optional error message used when the function fails to raise the expected
    *      exception. If not passed a default one will be used
    * @param msgWrongType An optional error message used when the function raises the exception but it is
@@ -566,21 +665,30 @@ class Assert {
    * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
-  public static function raises(method:Void -> Void, ?type:Class<Dynamic>, ?msgNotThrown : String , ?msgWrongType : String, ?pos : PosInfos) : Bool {
-    var name = type != null ? Type.getClassName(type) : "Dynamic";
-    try {
-      method();
-    } catch (ex : Dynamic) {
+  public static function raises(method:() -> Void, ?type:Any, ?msgNotThrown : String , ?msgWrongType : String, ?pos : PosInfos) : Bool {
+    var typeDescr = type == null ? "" : "of type " + Type.getClassName(type);
+    inline function handleCatch(ex:Any):Bool {
       return if(null == type) {
         pass(pos);
       } else {
         if (null == msgWrongType)
-          msgWrongType = "expected throw of type " + name + " but it is "  + ex;
-        isTrue(Misc.isOfType(ex, type), msgWrongType, pos);
+          msgWrongType = "expected throw " + typeDescr + " but it is "  + ex;
+        isTrue(Std.isOfType(ex, type), msgWrongType, pos);
       }
     }
+    try {
+      method();
+    // Broken on eval in Haxe 4.3.2: https://github.com/HaxeFoundation/haxe/issues/11321
+    // } catch(ex:ValueException) {
+    //   return handleCatch(ex.value);
+    } catch (ex) {
+      if(Std.isOfType(ex, ValueException)) {
+        return handleCatch((cast ex:ValueException).value);
+      }
+      return handleCatch(ex);
+    }
     if (null == msgNotThrown)
-      msgNotThrown = "exception of type " + name + " not raised";
+      msgNotThrown = "exception " + typeDescr + " not raised";
     return fail(msgNotThrown, pos);
   }
 
@@ -609,11 +717,7 @@ class Assert {
    * unless you know what you are doing.
    */
   public static function contains<T>(match : T, values : Array<T>, ?msg : String , ?pos : PosInfos) : Bool {
-    return if(Lambda.has(values, match)) {
-      isTrue(true, msg, pos);
-    } else {
-      fail(msg == null ? "values " + q(values) + " do not contain "+match: msg, pos);
-    }
+    return isTrue(values.contains(match), msg == null ? "values " + q(values) + " do not contain "+match: msg, pos);
   }
 
   /**
@@ -625,11 +729,7 @@ class Assert {
    * unless you know what you are doing.
    */
   public static function notContains<T>(match : T, values : Array<T>, ?msg : String , ?pos : PosInfos) : Bool {
-    return if(!Lambda.has(values, match)) {
-      isTrue(true, msg, pos);
-    } else {
-      fail(msg == null ? "values " + q(values) + " do contain "+match: msg, pos);
-    }
+    return isFalse(values.contains(match), msg == null ? "values " + q(values) + " do contain "+match: msg, pos);
   }
 
   /**
@@ -639,7 +739,7 @@ class Assert {
    * @param msg An optional error message. If not passed a default one will be used
    * @param pos Code position where the Assert call has been executed.
    */
-  public static function stringContains(match : String, value : String, ?msg : String , ?pos : PosInfos) : Bool {
+  public static function stringContains(match : String, value : Null<String>, ?msg : String , ?pos : PosInfos) : Bool {
     return if (value != null && value.indexOf(match) >= 0) {
       isTrue(true, msg, pos);
     } else {
@@ -655,7 +755,7 @@ class Assert {
    * @param msg An optional error message. If not passed a default one is be used
    * @param pos Code position where the Assert call has been executed.
    */
-  public static function stringSequence(sequence : Array<String>, value : String, ?msg : String , ?pos : PosInfos) : Bool {
+  public static function stringSequence(sequence : Array<String>, value : Null<String>, ?msg : String , ?pos : PosInfos) : Bool {
     if (null == value)
     {
       return fail(msg == null ? "null argument value" : msg, pos);
@@ -715,49 +815,34 @@ class Assert {
     results.add(Warning(msg));
   }
 
-  /**
-   * Creates an asynchronous context for test execution. Assertions should be included
-   * in the passed function.
-   * ```haxe
-   * public function assertAsync() {
-   *   var async = Assert.createAsync(function() Assert.isTrue(true));
-   *   haxe.Timer.delay(async, 50);
-   * }
-   * ```
-   * @param f A function that contains other Assert tests
-   * @param timeout Optional timeout value in milliseconds.
-   */
-  public static dynamic function createAsync(?f : Void -> Void, ?timeout : Int) {
-    return function(){};
+  @:noCompletion
+  @:deprecated('Assert.createAsync is not supported since UTest 2.0. Add `async:utest.Async` argument to the test method instead.')
+  public static dynamic function createAsync(?f : () -> Void, ?timeout : Int):()->Void {
+    throw new UTestException('Assert.createAsync() is not supported since UTest 2.0. Add `async:utest.Async` argument to the test method instead.');
   }
 
-  /**
-   * Creates an asynchronous context for test execution of an event like method.
-   * Assertions should be included in the passed function.
-   * It works the same way as Assert.createAsync() but accepts a function with one
-   * argument (usually some event data) instead of a function with no arguments
-   * @param f A function that contains other Assert tests
-   * @param timeout Optional timeout value in milliseconds.
-   */
-  public static dynamic function createEvent<EventArg>(f : EventArg -> Void, ?timeout : Int) {
-    return function(e){};
+
+  @:noCompletion
+  @:deprecated('Assert.createEvent is not supported since UTest 2.0. Add `async:utest.Async` argument to the test method instead.')
+  public static dynamic function createEvent<EventArg>(f : (EventArg) -> Void, ?timeout : Int):(Dynamic) -> Void {
+    throw new UTestException('Assert.createEvent() is not supported since UTest 2.0. Add `async:utest.Async` argument to the test method instead.');
   }
 
-  static function typeToString(t : Dynamic) {
+  static function typeToString(t : Any) {
     try {
       var _t = Type.getClass(t);
       if (_t != null)
         t = _t;
-    } catch(e : Dynamic) { }
-    try return Type.getClassName(t) catch (e : Dynamic) { }
+    } catch(_) { }
+    try return Type.getClassName(t) catch (_) { }
     try {
       var _t = Type.getEnum(t);
       if (_t != null)
         t = _t;
-    } catch(e : Dynamic) { }
-    try return Type.getEnumName(t) catch(e : Dynamic) {}
-    try return Std.string(Type.typeof(t)) catch (e : Dynamic) { }
-    try return Std.string(t) catch (e : Dynamic) { }
+    } catch(_) { }
+    try return Type.getEnumName(t) catch(_) {}
+    try return Std.string(Type.typeof(t)) catch (_) { }
+    try return Std.string(t) catch (_) { }
     return '<unable to retrieve type name>';
   }
 }
@@ -766,6 +851,6 @@ private typedef LikeStatus = {
   recursive : Bool,
   path : String,
   error : String,
-  expectedValue:Dynamic,
-  actualValue:Dynamic
+  expectedValue:Any,
+  actualValue:Any
 };

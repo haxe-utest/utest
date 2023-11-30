@@ -4,8 +4,7 @@ import utest.Assert;
 import utest.Dispatcher;
 
 @:keep
-class TestDispatcher {
-  public function new(){}
+class TestDispatcher extends Test {
 
   public function testBase() {
     var dispatcher : Dispatcher<String> = new Dispatcher();

@@ -28,33 +28,33 @@ enum Assertation {
    * futher assertion to be tested.
    * @param e The captured error/exception
    */
-  Error(e:Dynamic, stack:Array<StackItem>);
+  Error(e:Any, stack:CallStack);
 
   /**
    * An error has occurred during the Setup phase of the test. It prevents
    * the test to be run.
    * @param e The captured error/exception
    */
-  SetupError(e:Dynamic, stack:Array<StackItem>);
+  SetupError(e:Any, stack:CallStack);
 
   /**
    * An error has occurred during the Teardown phase of the test.
    * @param e The captured error/exception
    */
-  TeardownError(e:Dynamic, stack:Array<StackItem>);
+  TeardownError(e:Any, stack:CallStack);
 
   /**
    * The asynchronous phase of a test has gone into timeout.
    * @param missedAsyncs The number of asynchronous calls that was expected
    * to be performed before the timeout.
    */
-  TimeoutError(missedAsyncs:Int, stack:Array<StackItem>);
+  TimeoutError(missedAsyncs:Int, stack:CallStack);
 
   /**
    * An error has occurred during an asynchronous test.
    * @param e The captured error/exception
    */
-  AsyncError(e:Dynamic, stack:Array<StackItem>);
+  AsyncError(e:Any, stack:CallStack);
 
   /**
    * A warning state. This can be declared explicitely by an Assert call

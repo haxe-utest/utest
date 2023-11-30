@@ -1,6 +1,6 @@
 package utest;
 
-import utest.utils.Misc;
+import utest.exceptions.UTestException;
 import utest.utils.Print;
 import haxe.CallStack;
 import haxe.macro.Compiler;
@@ -15,13 +15,15 @@ using StringTools;
 using haxe.macro.Tools;
 #end
 
-#if (haxe_ver >= "3.4.0")
 using utest.utils.AsyncUtils;
 using utest.utils.AccessoriesUtils;
+
+#if (haxe_ver < "4.1.0")
+	#error 'Haxe 4.1.0 or later is required to run UTest'
 #end
 
 /**
- * The Runner class performs a set of tests. The tests can be added using addCase or addFixtures.
+ * The Runner class performs a set of tests. The tests can be added using addCase.
  * Once all the tests are register they are axecuted on the run() call.
  * Note that Runner does not provide any visual output. To visualize the test results use one of
  * the classes in the utest.ui package.
@@ -29,10 +31,7 @@ using utest.utils.AccessoriesUtils;
  * @todo AVOID CHAINING METHODS (long chains do not work properly on IE)
  */
 class Runner {
-  var fixtures(default, null) : Array<TestFixture> = [];
-  #if (haxe_ver >= "3.4.0")
-  var iTestFixtures:Map<String,{caseInstance:ITest, setupClass:Void->Async, dependencies:Array<String>, fixtures:Array<TestFixture>, teardownClass:Void->Async}> = new Map();
-  #end
+  var fixtures:Map<String,{caseInstance:ITest, setupClass:()->Async, dependencies:Array<String>, fixtures:Array<TestFixture>, teardownClass:()->Async}> = new Map();
 
   /**
    * Event object that monitors the progress of the runner.
@@ -102,78 +101,33 @@ class Runner {
 
   /**
    * Adds a new test case.
-   * @param test must be a not null object
-   * @param setup string name of the setup function (defaults to "setup")
-   * @param teardown string name of the teardown function (defaults to "teardown")
-   * @param prefix prefix for methods that are tests (defaults to "test")
+   * @param testCase must be a not null object
    * @param pattern a regular expression that discriminates the names of test
-   *       functions; when set,  the prefix parameter is meaningless
-   * @param setupAsync string name of the asynchronous setup function (defaults to "setupAsync")
-   * @param teardownAsync string name of the asynchronous teardown function (defaults to "teardownAsync")
+   *       functions
    */
-  public function addCase(test : Dynamic, setup = "setup", teardown = "teardown", prefix = "test", ?pattern : EReg, setupAsync = "setupAsync", teardownAsync = "teardownAsync") {
-    #if (haxe_ver >= "3.4.0")
-    if(Misc.isOfType(test, ITest)) {
-      addITest(test, pattern);
-    } else {
-      addCaseOld(test, setup, teardown, prefix, pattern, setupAsync, teardownAsync);
-    }
-    #else
-    addCaseOld(test, setup, teardown, prefix, pattern, setupAsync, teardownAsync);
-    #end
-  }
-
-  #if (haxe_ver >= "3.4.0")
-  function addITest(testCase:ITest, pattern:Null<EReg>) {
+  public function addCase(testCase : ITest, ?pattern : EReg) {
     var className = Type.getClassName(Type.getClass(testCase));
-    if(iTestFixtures.exists(className)) {
-      throw 'Cannot add the same test twice.';
+    if(fixtures.exists(className)) {
+      throw new UTestException('Cannot add the same test twice.');
     }
-    var fixtures = [];
-  #if as3
-  // AS3 can't handle the ECheckType cast. Let's dodge the issue.
-  var tmp:TestData.Initializer = cast testCase;
-  var init:TestData.InitializeUtest = tmp.__initializeUtest__();
-  #else
+    var newFixtures = [];
     var init:TestData.InitializeUtest = (cast testCase:TestData.Initializer).__initializeUtest__();
-  #end
     for(test in init.tests) {
       if(!isTestFixtureName(className, test.name, ['test', 'spec'], pattern, globalPattern)) {
         continue;
       }
-      var fixture = TestFixture.ofData(testCase, test, init.accessories);
-      addFixture(fixture);
-      fixtures.push(fixture);
+      newFixtures.push(new TestFixture(testCase, test, init.accessories));
     }
-    if(fixtures.length > 0) {
-      iTestFixtures.set(className, {
+    if(newFixtures.length > 0) {
+      fixtures.set(className, {
         caseInstance:testCase,
         setupClass:init.accessories.getSetupClass(),
-        dependencies:init.dependencies,
-        fixtures:fixtures,
+        dependencies:#if UTEST_IGNORE_DEPENDS [] #else init.dependencies #end,
+        fixtures:newFixtures,
         teardownClass:init.accessories.getTeardownClass()
       });
+      length += newFixtures.length;
     }
-  }
-  #end
-
-  function addCaseOld(test:Dynamic, setup = "setup", teardown = "teardown", prefix = "test", ?pattern : EReg, setupAsync = "setupAsync", teardownAsync = "teardownAsync") {
-    if(!Reflect.isObject(test)) throw "can't add a null object as a test case";
-    if(!isMethod(test, setup))
-      setup = null;
-    if(!isMethod(test, setupAsync))
-      setupAsync = null;
-    if(!isMethod(test, teardown))
-      teardown = null;
-    if(!isMethod(test, teardownAsync))
-      teardownAsync = null;
-    var fields = Type.getInstanceFields(Type.getClass(test));
-    var className = Type.getClassName(Type.getClass(test));
-      for (field in fields) {
-        if(!isMethod(test, field)) continue;
-        if(!isTestFixtureName(className, field, [prefix], pattern, globalPattern)) continue;
-        addFixture(new TestFixture(test, field, setup, teardown, setupAsync, teardownAsync));
-      }
   }
 
   /**
@@ -182,8 +136,10 @@ class Runner {
    * That means each module should contain a class with a constructor and with the same name as a module name.
    * @param path dot-separated path as a string or as an identifier/field expression. E.g. `"my.pack"` or `my.pack`
    * @param recursive recursively look for test cases in sub packages.
+   * @param nameFilterRegExp regular expression to check modules names against. If the module name does not
+   *              match this argument, the module will not be added.
    */
-  macro public function addCases(eThis:Expr, path:Expr, recursive:Bool = true):Expr {
+  macro public function addCases(eThis:Expr, path:Expr, recursive:Bool = true, nameFilterRegExp:String = '.*'):Expr {
     if(Context.defined('display')) {
       return macro {};
     }
@@ -195,6 +151,7 @@ class Runner {
     if(~/[^a-zA-Z0-9_.]/.match(path)) {
       Context.error('The first argument for utest.Runner.addCases() should be a valid package path.', pos);
     }
+    var nameFilter = new EReg(nameFilterRegExp, '');
     var pack = path.split('.');
     var relativePath = Path.join(pack);
     var exprs = [];
@@ -212,7 +169,7 @@ class Runner {
           continue;
         }
         var className = file.substr(0, file.length - 3);
-        if(className == '') {
+        if(className == '' || !nameFilter.match(className)) {
           continue;
         }
         var testCase = Context.parse('new $path.$className()', pos);
@@ -241,31 +198,10 @@ class Runner {
     return pattern.match('$caseName.$testName');
   }
 
-  public function addFixture(fixture : TestFixture) {
-    fixtures.push(fixture);
-    length++;
-  }
-
-  public function getFixture(index : Int) {
-    return fixtures[index];
-  }
-
-  function isMethod(test : Dynamic, name : String) {
-    try {
-      return Reflect.isFunction(Reflect.field(test, name));
-    } catch(e : Dynamic) {
-      return false;
-    }
-  }
-
   public function run() {
     onStart.dispatch(this);
-    #if (haxe_ver >= "3.4.0")
     var iTestRunner = new ITestRunner(this);
     iTestRunner.run();
-    #else
-    runNext();
-    #end
     waitForCompletion();
   }
 
@@ -275,50 +211,22 @@ class Runner {
    * Can't reproduce it on a separated sample.
    */
   function waitForCompletion() {
-    #if (haxe_ver >= "3.4.0")
     if(!complete) {
       haxe.Timer.delay(waitForCompletion, 100);
     }
-    #end
-  }
-
-  var pos:Int = 0;
-  var executedFixtures:Int = 0;
-  function runNext(?finishedHandler:TestHandler<TestFixture>) {
-    var currentCase = null;
-    for(i in pos...fixtures.length) {
-      var fixture = fixtures[pos++];
-      if(fixture.isITest) continue;
-      if(currentCase != fixture.target) {
-        currentCase = fixture.target;
-        Print.startCase(Type.getClassName(Type.getClass(currentCase)));
-      }
-      var handler = runFixture(fixture);
-      if(!handler.finished) {
-        handler.onComplete.add(runNext);
-        //wait till current test is finished
-        return;
-      }
-    }
-    complete = true;
-    onComplete.dispatch(this);
   }
 
   function runFixture(fixture : TestFixture):TestHandler<TestFixture> {
-    // cast is required by C#
-    #if (haxe_ver >= "3.4.0")
-    var handler = (fixture.isITest ? new ITestHandler(fixture) : new TestHandler(fixture));
-    #else
-    var handler = new TestHandler(cast fixture);
-    #end
+    var handler = new TestHandler(fixture);
     handler.onComplete.add(testComplete);
     handler.onPrecheck.add(this.onPrecheck.dispatch);
-    Print.startTest(fixture.method);
+    Print.startTest(fixture.name);
     onTestStart.dispatch(handler);
     handler.execute();
     return handler;
   }
 
+  var executedFixtures:Int = 0;
   function testComplete(h : TestHandler<TestFixture>) {
     ++executedFixtures;
     onTestComplete.dispatch(h);
@@ -326,21 +234,22 @@ class Runner {
   }
 }
 
-#if (haxe_ver >= "3.4.0")
-@:access(utest.Runner.iTestFixtures)
+@:access(utest.Runner.fixtures)
 @:access(utest.Runner.runNext)
 @:access(utest.Runner.runFixture)
 @:access(utest.Runner.executedFixtures)
+@:access(utest.Runner.complete)
 private class ITestRunner {
   var runner:Runner;
   var cases:Iterator<String>;
   var currentCaseName:String;
   var currentCase:ITest;
   var currentCaseFixtures:Array<TestFixture>;
-  var teardownClass:Void->Async;
+  var teardownClass:()->Async;
   var setupAsync:Async;
   var teardownAsync:Async;
   var failedTestsInCurrentCase:Array<String> = [];
+  var executedTestsInCurrentCase:Array<String> = [];
   var failedCases:Array<String> = [];
 
   public function new(runner:Runner) {
@@ -350,10 +259,11 @@ private class ITestRunner {
         switch result {
           case Success(_):
           case _:
-            failedTestsInCurrentCase.push(handler.fixture.method);
+            failedTestsInCurrentCase.push(handler.fixture.name);
             failedCases.push(Type.getClassName(Type.getClass(handler.fixture.target)));
         }
       }
+      executedTestsInCurrentCase.push(handler.fixture.name);
     });
   }
 
@@ -375,7 +285,7 @@ private class ITestRunner {
     function addClass(cls:String, stack:Array<String>) {
         if(added.exists(cls))
             return;
-        var data = runner.iTestFixtures.get(cls);
+        var data = runner.fixtures.get(cls);
         if(stack.indexOf(cls) >= 0) {
             error(data.caseInstance, 'Circular dependencies among test classes detected: ' + stack.join(' -> '));
             return;
@@ -383,7 +293,7 @@ private class ITestRunner {
         stack.push(cls);
         var dependencies = data.dependencies;
         for(dependency in dependencies) {
-            if(runner.iTestFixtures.exists(dependency)) {
+            if(runner.fixtures.exists(dependency)) {
               addClass(dependency, stack);
             } else {
               error(data.caseInstance, 'This class depends on $dependency, but it cannot be found. Was it added to test runner?');
@@ -393,7 +303,7 @@ private class ITestRunner {
         result.push(cls);
         added.set(cls, true);
     }
-    for(cls in runner.iTestFixtures.keys()) {
+    for(cls in runner.fixtures.keys()) {
         addClass(cls, []);
     }
     return result.iterator();
@@ -410,9 +320,10 @@ private class ITestRunner {
   function runCases() {
     while(cases.hasNext()) {
       currentCaseName = cases.next();
-      var data = runner.iTestFixtures.get(currentCaseName);
+      var data = runner.fixtures.get(currentCaseName);
       currentCase = data.caseInstance;
       failedTestsInCurrentCase = [];
+      executedTestsInCurrentCase = [];
       if(failedDependencies(data)) {
         failedCases.push(currentCaseName);
         continue;
@@ -424,8 +335,8 @@ private class ITestRunner {
         setupAsync = data.setupClass();
       }
       #if !UTEST_FAILURE_THROW
-      catch(e:Dynamic) {
-        setupFailed(SetupError('setupClass failed: $e', CallStack.exceptionStack()));
+      catch(e) {
+        setupFailed(SetupError('setupClass failed: ${e.message}', e.stack));
         return;
       }
       #end
@@ -436,8 +347,8 @@ private class ITestRunner {
         return;
       }
     }
-    //run old-fashioned tests
-    runner.runNext();
+    runner.complete = true;
+    runner.onComplete.dispatch(runner);
   }
 
   function checkSetup() {
@@ -464,12 +375,7 @@ private class ITestRunner {
   function runFixtures(?finishedHandler:TestHandler<TestFixture>):Bool {
     while(currentCaseFixtures.length > 0) {
       var fixture = currentCaseFixtures.shift();
-      for (dep in fixture.test.dependencies) {
-        if(failedTestsInCurrentCase.indexOf(dep) >= 0) {
-          @:privateAccess fixture.ignoringInfo = IgnoredFixture.Ignored('Failed dependencies');
-          break;
-        }
-      }
+      checkFixtureDependencies(fixture);
       var handler = runner.runFixture(fixture);
       if(!handler.finished) {
         handler.onComplete.add(runFixtures);
@@ -481,8 +387,8 @@ private class ITestRunner {
       teardownAsync = teardownClass();
     }
     #if !UTEST_FAILURE_THROW
-    catch(e:Dynamic) {
-      teardownFailed(TeardownError('teardownClass failed: $e', CallStack.exceptionStack()));
+    catch(e) {
+      teardownFailed(TeardownError('teardownClass failed: ${e.message}', e.stack));
       return true;
     }
     #end
@@ -492,6 +398,34 @@ private class ITestRunner {
     }
     teardownAsync.then(checkTeardown);
     return false;
+  }
+
+  function checkFixtureDependencies(fixture:TestFixture) {
+    if(!fixture.ignoringInfo.isIgnored) {
+      #if !UTEST_IGNORE_DEPENDS
+      if(fixture.test.dependencies.length > 0) {
+        var failedDeps = [];
+        var ignoredDeps = [];
+        for (dep in fixture.test.dependencies) {
+          if(failedTestsInCurrentCase.contains(dep)) {
+            failedDeps.push(dep);
+          }
+          if(!executedTestsInCurrentCase.contains(dep)) {
+            ignoredDeps.push(dep);
+          }
+        }
+        var failedDepsMsg = failedDeps.length == 0 ? null : IgnoredFixture.Ignored('Failed dependencies: ${failedDeps.join(', ')}');
+        var ignoredDepsMsg = ignoredDeps.length == 0 ? null : IgnoredFixture.Ignored('Skipped dependencies: ${ignoredDeps.join(', ')}');
+        var ignoringInfo = switch [failedDepsMsg, ignoredDepsMsg] {
+          case [null, null]: IgnoredFixture.NotIgnored();
+          case [_, null]: IgnoredFixture.Ignored(failedDepsMsg);
+          case [null, _]: IgnoredFixture.Ignored(ignoredDepsMsg);
+          case [_, _]: IgnoredFixture.Ignored('$failedDepsMsg. $ignoredDepsMsg');
+        }
+        fixture.setIgnoringInfo(ignoringInfo);
+      }
+      #end
+    }
   }
 
   function checkTeardown() {
@@ -509,4 +443,3 @@ private class ITestRunner {
     });
   }
 }
-#end

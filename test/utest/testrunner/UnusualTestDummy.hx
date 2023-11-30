@@ -1,7 +1,7 @@
-package utest.testrunner.sub;
+package utest.testrunner;
 
 @:keep
-class TestDummy3 implements ITest {
+class UnusualTestDummy implements ITest {
   public function new() {}
 
   public function testDummy() {

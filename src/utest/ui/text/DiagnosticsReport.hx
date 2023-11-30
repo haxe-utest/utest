@@ -27,7 +27,7 @@ class DiagnosticsReport extends PlainTextReport {
     }
   }
 
-  override function dumpStack(stack:Array<StackItem>) {
+  override function dumpStack(stack:CallStack) {
     if (stack.length == 0) {
       return "";
     }
