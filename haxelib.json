@@ -6,7 +6,7 @@
   "description": "Unit Testing for Haxe",
   "version": "2.0.0-alpha",
   "classPath": "src",
-  "releasenote": "Dropped support for Haxe < 4.1",
+  "releasenote": "See CHANGELOG.md",
   "contributors": ["fponticelli", "romanmikhailov", "RealyUniqueName"],
   "dependencies": { },
   "documentation": {
