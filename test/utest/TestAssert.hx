@@ -90,6 +90,10 @@ class TestAssert extends Test {
   }
 
   public function testRaises() {
+    //expect exception of any type
+    success(() -> raises(() -> throw 'error'));
+
+    //expect specific exception type
     var errors : Array<Any> = ["str",    1,   0.1,   new TestAssert(), {},      [1],    new SampleException('sample exception')];
     var types  : Array<Any> = [String, Int, Float, TestAssert,       Dynamic, Array,  SampleException];
     var expectedsuccess = 14;
