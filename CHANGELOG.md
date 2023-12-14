@@ -2,6 +2,7 @@
 - Minimum supported Haxe version is 4.1 now.
 - added `Assert.similar()` (see the doc to that method)
 - changed various `Assert` methods to be type safe instead of accepting `Dynamic` arguments
+- added `Assert.raisesCondition`
 - added UTEST_IGNORE_DEPENDS flag to ignore failed or missing dependencies (see README.md)
 - added test case name filter to `Runner.addCases`
 - support @:ignore meta (old @Ignored meta is still supported too)

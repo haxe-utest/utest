@@ -666,14 +666,60 @@ class Assert {
    * unless you know what you are doing.
    */
   public static function raises(method:() -> Void, ?type:Any, ?msgNotThrown : String , ?msgWrongType : String, ?pos : PosInfos) : Bool {
-    var typeDescr = type == null ? "" : "of type " + Type.getClassName(type);
+    return _raisesImpl(method, type, _ -> true, msgNotThrown, msgWrongType, pos);
+  }
+
+  /**
+   * It is used to test an application that under certain circumstances must
+   * react throwing an error with specific characteristics checked in the `condition` callback.
+   * Simple condition check example:
+   * ```haxe
+   * Assert.raisesCondition(() -> throw new MyException('Hello, world!'), MyException, e -> e.message.indexOf('Hello') == 0);
+   * ```
+   * Complex condition check example:
+   * ```haxe
+   * Assert.raisesCondition(
+   *  () -> throw new MyException('Hello, world!'),
+   *  MyException, e -> {
+   *    Assert.equals(e.code, 10);
+   *    Assert.isTrue(e.message.length > 5);
+   *  }
+   * );
+   * ```
+   * @param method A method that generates the exception.
+   * @param type The type of the expected error.
+   * @param condition The callback which is called upon an exception of expected type. The assertion passes
+   *      if this callback returns `true`. Otherwise assertion fails.
+   * @param msgNotThrown An optional error message used when the function fails to raise the expected
+   *      exception. If not passed a default one will be used.
+   * @param msgWrongType An optional error message used when the function raises the exception but it is
+   *      of a different type than the one expected. If not passed a default one will be used.
+   * @param msgWrongCondition An optional error message used when the `condition` callback returns `false`
+   * @param pos Code position where the Assert call has been executed. Don't fill it
+   * unless you know what you are doing.
+   */
+  public static function raisesCondition<T>(method:() -> Void, type:Class<T>, condition:(e:T)->Bool, ?msgNotThrown : String , ?msgWrongType : String, ?msgWrongCondition : String, ?pos : PosInfos) : Bool {
+    var cond = e -> {
+      if(null == msgWrongCondition)
+        msgWrongCondition = 'exception of ${Type.getClassName(type)} is raised, but condition failed';
+      isTrue(condition(e), msgWrongCondition, pos);
+    }
+    return _raisesImpl(method, type, cond, msgNotThrown, msgWrongType, pos);
+  }
+
+  static function _raisesImpl(method:() -> Void, type:Any, condition : (Dynamic)->Bool, msgNotThrown : String , msgWrongType : String, pos : PosInfos) {
+    var typeDescr = "of type " + Type.getClassName(type);
     inline function handleCatch(ex:Any):Bool {
       return if(null == type) {
         pass(pos);
       } else {
         if (null == msgWrongType)
           msgWrongType = "expected throw " + typeDescr + " but it is "  + ex;
-        isTrue(Std.isOfType(ex, type), msgWrongType, pos);
+        if(isTrue(Std.isOfType(ex, type), msgWrongType, pos)) {
+          condition(ex);
+        } else {
+          false;
+        }
       }
     }
     try {
