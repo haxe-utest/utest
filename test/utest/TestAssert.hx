@@ -96,7 +96,6 @@ class TestAssert extends Test {
     //expect specific exception type
     var errors : Array<Any> = ["str",    1,   0.1,   new TestAssert(), {},      [1],    new SampleException('sample exception')];
     var types  : Array<Any> = [String, Int, Float, TestAssert,       Dynamic, Array,  SampleException];
-    var expectedsuccess = 14;
     for(errorIndex => error in errors)
       for(typeIndex => type in types) {
         if(errorIndex == typeIndex || type == Dynamic || (Std.isOfType(error, Int) && type == Float)) {
@@ -105,6 +104,13 @@ class TestAssert extends Test {
           failure(() -> raises(() -> throw error, type), 'failure expected: Assert.raises($error, $type)');
         }
       }
+  }
+
+  public function testRaisesCondition() {
+    success(() -> raisesCondition(() -> throw new SampleException('haxe.Exception-based'), SampleException, e -> e.message.indexOf('haxe') >= 0));
+    failure(() -> raisesCondition(() -> throw new SampleException('haxe.Exception-based'), SampleException, e -> e.message == 'fail'));
+    success(() -> raisesCondition(() -> throw 'Non-haxe.Exception', String, e -> e.indexOf('haxe') >= 0));
+    failure(() -> raisesCondition(() -> throw 'Non-haxe.Exception', String, e -> e == 'fail'));
   }
 
   public function testIs() {
