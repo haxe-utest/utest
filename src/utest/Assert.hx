@@ -682,6 +682,7 @@ class Assert {
     // } catch(ex:ValueException) {
     //   return handleCatch(ex.value);
     } catch (ex) {
+      var ex = Std.isOfType(ex, ValueException) ? (cast ex:ValueException).value : ex;
       inline function checkCondition():Bool {
         return if(null == condition) {
           pass(pos);
@@ -691,9 +692,6 @@ class Assert {
           isTrue(condition(cast ex), msgWrongCondition, pos);
         }
       }
-      
-      if(Std.isOfType(ex, ValueException))
-        ex = (cast ex:ValueException).value;
       return if(null == type) {
         checkCondition();
       } else {
