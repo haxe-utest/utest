@@ -107,10 +107,10 @@ class TestAssert extends Test {
   }
 
   public function testRaisesCondition() {
-    success(() -> raisesCondition(() -> throw new SampleException('haxe.Exception-based'), SampleException, e -> e.message.indexOf('haxe') >= 0));
-    failure(() -> raisesCondition(() -> throw new SampleException('haxe.Exception-based'), SampleException, e -> e.message == 'fail'));
-    success(() -> raisesCondition(() -> throw 'Non-haxe.Exception', String, e -> e.indexOf('haxe') >= 0));
-    failure(() -> raisesCondition(() -> throw 'Non-haxe.Exception', String, e -> e == 'fail'));
+    success(() -> raises(() -> throw new SampleException('haxe.Exception-based'), SampleException, e -> e.message.indexOf('haxe') >= 0));
+    failure(() -> raises(() -> throw new SampleException('haxe.Exception-based'), SampleException, e -> e.message == 'fail'));
+    success(() -> raises(() -> throw 'Non-haxe.Exception', String, e -> e.indexOf('haxe') >= 0));
+    failure(() -> raises(() -> throw 'Non-haxe.Exception', String, e -> e == 'fail'));
   }
 
   public function testIs() {
