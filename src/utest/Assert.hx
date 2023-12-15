@@ -671,8 +671,8 @@ class Assert {
    * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
-  public static function raises<T>(method:() -> Void, ?type:EitherType<Class<T>, Any>, ?condition:(e:T)->Bool, ?msgNotThrown : String , ?msgWrongType : String, ?msgWrongCondition : String, ?pos : PosInfos) : Bool {
-    #if !js
+  public static function raises<T>(method:() -> Void, ?type:EitherType<Class<T>, Any>, #if (haxe_ver >= 4.2) ?condition:(e:T)->Bool, #end ?msgNotThrown : String , ?msgWrongType : String, #if (haxe_ver >= 4.2) ?msgWrongCondition : String, #end ?pos : PosInfos) : Bool {
+    #if (!js && (haxe_ver >= 4.2))
     if(Reflect.isFunction(type)) {
       condition = (type:Any);
       type = null;
@@ -687,6 +687,7 @@ class Assert {
     } catch (ex) {
       var ex = Std.isOfType(ex, ValueException) ? (cast ex:ValueException).value : (ex:Any);
       inline function checkCondition():Bool {
+        #if (haxe_ver >= 4.2)
         return if(null == condition) {
           pass(pos);
         } else {
@@ -694,6 +695,9 @@ class Assert {
             msgWrongCondition = '$typeDescr is raised, but condition failed';
           isTrue(condition(cast ex), msgWrongCondition, pos);
         }
+        #else
+        return pass(pos);
+        #end
       }
       return if(null == type) {
         checkCondition();

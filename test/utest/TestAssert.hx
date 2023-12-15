@@ -106,12 +106,14 @@ class TestAssert extends Test {
       }
   }
 
+  #if (haxe_ver >= 4.2)
   public function testRaisesCondition() {
     success(() -> raises(() -> throw new SampleException('haxe.Exception-based'), SampleException, e -> e.message.indexOf('haxe') >= 0));
     failure(() -> raises(() -> throw new SampleException('haxe.Exception-based'), SampleException, e -> e.message == 'fail'));
     success(() -> raises(() -> throw 'Non-haxe.Exception', String, e -> e.indexOf('haxe') >= 0));
     failure(() -> raises(() -> throw 'Non-haxe.Exception', String, e -> e == 'fail'));
   }
+  #end
 
   public function testIs() {
     var values : Array<Any> = ["str",    1,   0.1,   new TestAssert(), {},      [1]];
