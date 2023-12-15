@@ -661,7 +661,8 @@ class Assert {
    * @param type The type of the expected error. Defaults to any type (catch all).
    * @param condition The callback which is called upon an exception. The assertion passes
    *      if this callback returns `true`. Otherwise assertion fails. If `type` is specified, that
-   *      will have already been checked before the function is called.
+   *      will have already been checked before the function is called. In JavaScript, you must
+   *      specify `type`.
    * @param msgNotThrown An optional error message used when the function fails to raise the expected
    *      exception. If not passed a default one will be used
    * @param msgWrongType An optional error message used when the function raises the exception but it is
@@ -671,10 +672,12 @@ class Assert {
    * unless you know what you are doing.
    */
   public static function raises<T>(method:() -> Void, ?type:EitherType<Class<T>, Any>, ?condition:(e:T)->Bool, ?msgNotThrown : String , ?msgWrongType : String, ?msgWrongCondition : String, ?pos : PosInfos) : Bool {
+    #if !js
     if(Reflect.isFunction(type)) {
       condition = (type:Any);
       type = null;
     }
+    #end
     var typeDescr = type != null ? "exception of type " + Type.getClassName(type) : "exception";
     try {
       method();
