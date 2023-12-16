@@ -6,7 +6,6 @@ import utest.ui.common.ClassResult;
 import utest.ui.common.FixtureResult;
 import utest.ui.common.IReport;
 import utest.ui.common.HeaderDisplayMode;
-import utest.utils.Misc;
 import utest.Runner;
 import utest.ui.common.ResultAggregator;
 import utest.ui.common.PackageResult;
@@ -32,13 +31,13 @@ class HtmlReport implements IReport<HtmlReport> {
   public var traceRedirected(default, null) : Bool;
   public var displaySuccessResults : SuccessResultsDisplayMode;
   public var displayHeader : HeaderDisplayMode;
-  public var handler : HtmlReport -> Void;
+  public var handler : (HtmlReport) -> Void;
 
   var aggregator : ResultAggregator;
-  var oldTrace : Dynamic;
-  var _traces : Array<{ msg : String, infos : PosInfos, time : Float, delta : Float, stack : Array<StackItem> }>;
+  var oldTrace : Any;
+  var _traces : Array<{ msg : String, infos : PosInfos, time : Float, delta : Float, stack : CallStack }>;
 
-  public function new(runner : Runner, ?outputHandler : HtmlReport -> Void, traceRedirected = true) {
+  public function new(runner : Runner, ?outputHandler : (HtmlReport) -> Void, traceRedirected = true) {
     aggregator = new ResultAggregator(runner, true);
     runner.onStart.add(start);
     aggregator.onComplete.add(complete);
@@ -52,7 +51,7 @@ class HtmlReport implements IReport<HtmlReport> {
     displayHeader = AlwaysShowHeader;
   }
 
-  public function setHandler(handler : HtmlReport -> Void) : Void
+  public function setHandler(handler : (HtmlReport) -> Void) : Void
     this.handler = handler;
 
   public function redirectTrace() {
@@ -70,7 +69,7 @@ class HtmlReport implements IReport<HtmlReport> {
   }
 
   var _traceTime : Null<Float>;
-  function _trace(v : Dynamic, ?infos : PosInfos) {
+  function _trace(v : Any, ?infos : PosInfos) {
     var time = Timer.stamp();
     var delta = _traceTime == null ? 0 : time - _traceTime;
     _traces.push({
@@ -137,7 +136,7 @@ class HtmlReport implements IReport<HtmlReport> {
     buf.add('</div>');
   }
 
-  function formatStack(stack : Array<StackItem>, addNL = true) {
+  function formatStack(stack : CallStack, addNL = true) {
     var parts = [];
     var nl = addNL ? '\n' : '';
     var last = null;
@@ -214,9 +213,9 @@ class HtmlReport implements IReport<HtmlReport> {
     buf.add('</div></li>\n');
   }
 
-  function getErrorDescription(e : Dynamic) {
+  function getErrorDescription(e : Any) {
 #if flash9
-    if (Misc.isOfType(e, flash.errors.Error)) {
+    if (Std.isOfType(e, flash.errors.Error)) {
       var err = cast(e, flash.errors.Error);
       return err.name + ": " + err.message;
     } else {
@@ -227,9 +226,9 @@ class HtmlReport implements IReport<HtmlReport> {
 #end
   }
 
-  function getErrorStack(s : Array<StackItem>, e : Dynamic) {
+  function getErrorStack(s : CallStack, e : Any) {
 #if flash9
-    if (Misc.isOfType(e, flash.errors.Error)) {
+    if (Std.isOfType(e, flash.errors.Error)) {
       var stack = cast(e, flash.errors.Error).getStackTrace();
       if (null != stack) {
         var parts = stack.split("\n");
@@ -290,7 +289,7 @@ class HtmlReport implements IReport<HtmlReport> {
     function indents(count : Int) {
       return [for(i in 0...count) "  "].join("");
     }
-    function dumpStack(stack : Array<StackItem>) {
+    function dumpStack(stack : CallStack) {
       if (stack.length == 0)
         return "";
       var parts = CallStack.toString(stack).split("\n"),
@@ -449,8 +448,8 @@ class HtmlReport implements IReport<HtmlReport> {
     };
 
     #if js
-    if(#if (haxe_ver >= 4.0) js.Syntax.code #else untyped __js__ #end("'undefined' != typeof window")) {
-      #if (haxe_ver >= 4.0) js.Syntax.code #else untyped __js__ #end("window").utest_result = exposedResult;
+    if(js.Syntax.code("'undefined' != typeof window")) {
+      js.Syntax.code("window").utest_result = exposedResult;
     }
     #elseif flash
       flash.external.ExternalInterface.call('(function(result){ window.utest_result = result; })', exposedResult );
@@ -722,11 +721,11 @@ function utestRemoveTooltip() {
       return;
     }
 
-    var isDef = function(v) : Bool return #if (haxe_ver >= 4.0) js.Syntax.code #else untyped __js__ #end("typeof v != 'undefined'");
-    var hasProcess : Bool = #if (haxe_ver >= 4.0) js.Syntax.code #else untyped __js__ #end("typeof process != 'undefined'");
+    var isDef = function(v) : Bool return js.Syntax.code("typeof v != 'undefined'");
+    var hasProcess : Bool = js.Syntax.code("typeof process != 'undefined'");
 
     if(hasProcess) {
-      #if (haxe_ver >= 4.0) js.Syntax.code #else untyped __js__ #end("process.stdout.write")(report.getHtml());
+      js.Syntax.code("process.stdout.write")(report.getHtml());
       return;
     }
 

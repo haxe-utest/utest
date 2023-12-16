@@ -128,6 +128,31 @@ class TestCase extends utest.Test {
 }
 ```
 
+## Ignore a test
+
+To skip certain test or test case one can annotate them with `@:ignore` meta. The meta accpets an optional string argument to indicate the reason ignoring the test.
+```haxe
+class TestCase1 extends utest.Test {
+  @:ignore
+  function testSomethingNotReadyYet() {
+    //this test will not be executed
+  }
+}
+
+@:ignore('The functionality under test is not ready yet')
+class TestCase2 extends utest.Test {
+  function testSomething {
+    //this test will not be executed
+  }
+
+  function testOtherThing {
+    //this test will not be executed
+  }
+}
+```
+
+
+
 ## Inter-test dependencies
 
 It is possible to define how tests depend on each other with `@:depends` meta:
@@ -163,7 +188,7 @@ class TestCase1 extends utest.Test {
 	}
 }
 
-@:depends(some.pack.TestCase2)
+@:depends(some.pack.TestCase1)
 class TestCase2 extends utest.Test {
 	function test2() {
 		//...
@@ -171,6 +196,10 @@ class TestCase2 extends utest.Test {
 }
 ```
 In this example tests from `some.pack.TestCase2` will be executed only if there were no failures in `some.pack.TestCase1`.
+
+## Ignore dependencies
+
+If for some reason you want to run a test regardless the outcome of the tests it depends on, you can use `-D UTEST_IGNORE_DEPENDS` define or set an environment variable with the same name.
 
 ## Running single test from a test suite.
 

@@ -1,0 +1,10 @@
+hxml/common.hxml
+
+#Because of this (until the fix is released): https://github.com/HaxeFoundation/haxe/issues/11327
+-D js-enums-as-arrays
+
+-lib closure
+-D closure_advanced
+-D closure_overwrite
+-D closure_warning_level=QUIET
+--macro includeFile('test/js-minified-header.js')

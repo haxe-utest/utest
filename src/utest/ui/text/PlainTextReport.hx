@@ -12,12 +12,13 @@ import haxe.CallStack;
 class PlainTextReport implements IReport<PlainTextReport> {
   public var displaySuccessResults : SuccessResultsDisplayMode;
   public var displayHeader : HeaderDisplayMode;
-  public var handler : PlainTextReport -> Void;
+  public var handler : (PlainTextReport) -> Void;
 
   var aggregator : ResultAggregator;
   var newline : String;
   var indent : String;
-  public function new(runner : Runner, ?outputHandler : PlainTextReport -> Void) {
+
+  public function new(runner : Runner, ?outputHandler : (PlainTextReport) -> Void) {
     aggregator = new ResultAggregator(runner, true);
     runner.onStart.add(start);
     aggregator.onComplete.add(complete);
@@ -27,7 +28,7 @@ class PlainTextReport implements IReport<PlainTextReport> {
     displayHeader = AlwaysShowHeader;
   }
 
-  public function setHandler(handler : PlainTextReport -> Void) : Void
+  public function setHandler(handler : (PlainTextReport) -> Void) : Void
     this.handler = handler;
 
   var startTime : Float;
@@ -51,7 +52,7 @@ class PlainTextReport implements IReport<PlainTextReport> {
     return s;
   }
 
-  function dumpStack(stack : Array<StackItem>) {
+  function dumpStack(stack : CallStack) {
     if (stack.length == 0)
       return "";
     var parts = CallStack.toString(stack).split("\n"),
@@ -157,22 +158,23 @@ class PlainTextReport implements IReport<PlainTextReport> {
   function complete(result : PackageResult) {
     this.result = result;
     if (handler != null) handler(this);
+    var exitCode = result.stats.isOk ? 0 : 1;
 #if (php || neko || cpp || cs || java || python || lua || eval || hl)
-    Sys.exit(result.stats.isOk ? 0 : 1);
+    Sys.exit(exitCode);
 #elseif js
-    if(#if (haxe_ver >= 4.0) js.Syntax.code #else untyped __js__ #end('typeof phantom != "undefined"'))
-      #if (haxe_ver >= 4.0) js.Syntax.code #else untyped __js__ #end('phantom').exit(result.stats.isOk ? 0 : 1);
-    if(#if (haxe_ver >= 4.0) js.Syntax.code #else untyped __js__ #end('typeof process != "undefined"'))
-      #if (haxe_ver >= 4.0) js.Syntax.code #else untyped __js__ #end('process').exit(result.stats.isOk ? 0 : 1);
+    if(js.Syntax.code('typeof phantom != "undefined"'))
+      js.Syntax.code('phantom').exit(exitCode);
+    if(js.Syntax.code('typeof process != "undefined"'))
+      js.Syntax.code('process').exit(exitCode);
 #elseif air
-    flash.desktop.NativeApplication.nativeApplication.exit(result.stats.isOk ? 0 : 1);		
+    flash.desktop.NativeApplication.nativeApplication.exit(exitCode);
 #elseif (flash && exit)
       if(flash.system.Security.sandboxType == "localTrusted") {
         var delay = 5;
         trace('all done, exiting in $delay seconds');
         haxe.Timer.delay(function() try {
-            flash.system.System.exit(result.stats.isOk ? 0 : 1);
-          } catch(e : Dynamic) {
+            flash.system.System.exit(exitCode);
+          } catch(_) {
             // do nothing
           }, delay * 1000);
       }

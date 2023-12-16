@@ -1,5 +1,8 @@
 package utest;
 
+import haxe.Exception;
+import haxe.ValueException;
+import utest.exceptions.UTestException;
 import haxe.CallStack;
 import haxe.Timer;
 import utest.Assertation;
@@ -10,7 +13,7 @@ class TestHandler<T> {
   public var fixture(default, null) : TestFixture;
   public var finished(default, null) : Bool = false;
   public var executionTime(default, null) : Float = 0;
-  var asyncStack : List<Dynamic>;
+  var asyncStack : List<Any>;
   var startTime:Float = 0;
 
   public var onTested(default, null) : Dispatcher<TestHandler<T>>;
@@ -18,9 +21,15 @@ class TestHandler<T> {
   public var onComplete(default, null) : Dispatcher<TestHandler<T>>;
   public var onPrecheck(default, null) : Dispatcher<TestHandler<T>>;
 
-  public var precheck(default, null) : Void->Void;
+  public var precheck(default, null) : ()->Void;
 
   private var wasBound:Bool = false;
+
+  var testCase:ITest;
+  var test:TestData;
+  var setupAsync:Null<Async>;
+  var testAsync:Null<Async>;
+  var teardownAsync:Null<Async>;
 
   public function new(fixture : TestFixture) {
     if(fixture == null) throw "fixture argument is null";
@@ -35,6 +44,12 @@ class TestHandler<T> {
     if (fixture.ignoringInfo.isIgnored) {
       results.add(Ignore(fixture.ignoringInfo.ignoreReason));
     }
+
+    testCase = fixture.target;
+    test = fixture.test;
+    if(test == null) {
+      throw 'Fixture is missing test data';
+    }
   }
 
   public function execute() {
@@ -43,227 +58,137 @@ class TestHandler<T> {
       executeFinally();
       return;
     }
+    bindHandler();
+    runSetup();
+  }
 
-    //ugly hack to call executeFinally() only once if asynchronous code is involved
-    var isSync = true;
-    var expectingAsync = true;
-    function run() {
-      if(isSync) {
-        expectingAsync = false;
-        return;
-      }
-      executeFixtureMethod();
-      executeFinally();
+  function runSetup() {
+    inline function handleCatch(e:Any, stack:CallStack) {
+      results.add(SetupError(e, stack));
+      completedFinally();
     }
-
     try {
-      executeMethod(fixture.setup);
-      executeAsyncMethod(fixture.setupAsync, run);
-      if(!expectingAsync) {
-        executeFixtureMethod();
-      }
+      setupAsync = fixture.setupMethod();
     }
     #if !UTEST_FAILURE_THROW
-    catch(e : Dynamic) {
-      results.add(SetupError(e, exceptionStack()));
+    catch(e:ValueException) {
+      handleCatch(e.value, e.stack);
+      return;
+    } catch(e) {
+      handleCatch(e, e.stack);
+      return;
     }
     #end
-    isSync = false;
-    if(!expectingAsync) {
-      executeFinally();
+
+    setupAsync.then(checkSetup);
+  }
+
+  function checkSetup() {
+    if(setupAsync.timedOut) {
+      results.add(SetupError('Setup timeout', []));
+      completedFinally();
+    } else {
+      runTest();
     }
   }
 
-  function executeFixtureMethod() {
+  function runTest() {
+    inline function handleCatch(e:Any, stack:CallStack) {
+      results.add(Error(e, stack));
+      runTeardown();
+    }
     try {
-      executeMethod(fixture.method);
+      testAsync = test.execute();
     }
     #if !UTEST_FAILURE_THROW
-    catch (e : Dynamic) {
-      results.add(Error(e, exceptionStack()));
+    catch(e:ValueException) {
+      handleCatch(e.value, e.stack);
+      return;
+    } catch(e) {
+      handleCatch(e, e.stack);
+      return;
     }
     #end
+
+    testAsync.then(checkTest);
+  }
+
+  function checkTest() {
+    onPrecheck.dispatch(this);
+
+    if(testAsync.timedOut) {
+      results.add(TimeoutError(1, []));
+      onTimeout.dispatch(this);
+
+    } else if(testAsync.resolved) {
+      if(results.length == 0) {
+        results.add(Warning('no assertions'));
+      }
+      onTested.dispatch(this);
+
+    } else {
+      throw 'Unexpected test state';
+    }
+
+    runTeardown();
+  }
+
+  function runTeardown() {
+    inline function handleCatch(e:Any, stack:CallStack) {
+      results.add(TeardownError(e, CallStack.exceptionStack()));
+      completedFinally();
+    }
+    try {
+      teardownAsync = fixture.teardownMethod();
+    }
+    #if !UTEST_FAILURE_THROW
+    catch(e:ValueException) {
+      handleCatch(e.value, e.stack);
+      return;
+    } catch(e) {
+      handleCatch(e, e.stack);
+      return;
+    }
+    #end
+
+    teardownAsync.then(checkTeardown);
+  }
+
+  function checkTeardown() {
+    if(teardownAsync.timedOut) {
+      results.add(TeardownError('Teardown timeout', []));
+    }
+    completedFinally();
   }
 
   function executeFinally() {
     onPrecheck.dispatch(this);
-    checkTested();
-  }
-
-  static function exceptionStack(pops = 2)
-  {
-    var stack = haxe.CallStack.exceptionStack();
-    while (pops-- > 0)
-      stack.pop();
-    return stack;
-  }
-
-  function checkTested() {
-#if ((haxe_ver >= "3.4.0") || flash || js)
-    if(expiration == null || asyncStack.length == 0) {
-      tested();
-    } else if(haxe.Timer.stamp() > expiration) {
-      timeout();
-    } else {
-      haxe.Timer.delay(checkTested, POLLING_TIME);
-    }
-#else
-    if(asyncStack.length == 0)
-      tested();
-    else
-      timeout();
-#end
-  }
-
-  public var expiration(default, null) : Null<Float>;
-  public function setTimeout(timeout : Int) {
-    var newExpire = haxe.Timer.stamp() + timeout/1000;
-    expiration = (expiration == null) ? newExpire : (newExpire > expiration ? newExpire : expiration);
+    tested();
   }
 
   function bindHandler() {
     if (wasBound) return;
-    Assert.results     = this.results;
-    Assert.createAsync = this.addAsync;
-    Assert.createEvent = this.addEvent;
+    Assert.results = this.results;
     wasBound = true;
-
   }
 
   function unbindHandler() {
     if (!wasBound) return;
-    Assert.results     = null;
-    Assert.createAsync = function(?f, ?t){ return function(){}};
-    Assert.createEvent = function(f, ?t){ return function(e){}};
+    Assert.results = null;
     wasBound = false;
-  }
-
-  /**
-  * Adds a function that is called asynchronously.
-  *
-  * Example:
-  * <pre>
-  * var fixture = new TestFixture(new TestClass(), "test");
-  * var handler = new TestHandler(fixture);
-  * var flag = false;
-  * var async = handler.addAsync(function() {
-  *   flag = true;
-  * }, 50);
-  * handler.onTimeout.add(function(h) {
-  *   trace("TIMEOUT");
-  * });
-  * handler.onTested.add(function(h) {
-  *   trace(flag ? "OK" : "FAILED");
-  * });
-  * haxe.Timer.delay(function() async(), 10);
-  * handler.execute();
-  * </pre>
-  * @param  f, the function that is called asynchrnously
-  * @param  timeout, the maximum time to wait for f() (default is 250)
-  * @return returns a function closure that must be executed asynchrnously
-  */
-  public function addAsync(?f : Void->Void, timeout = 250) {
-    if (null == f)
-      f = function() { }
-    asyncStack.add(f);
-    var handler = this;
-    setTimeout(timeout);
-    return function() {
-      if(!handler.asyncStack.remove(f)) {
-        handler.results.add(AsyncError("async function already executed", []));
-        return;
-      }
-      try {
-        handler.bindHandler();
-        f();
-      }
-      #if !UTEST_FAILURE_THROW
-      catch(e : Dynamic) {
-        handler.results.add(AsyncError(e, exceptionStack(0))); // TODO check the correct number of functions is popped from the stack
-      }
-      #end
-    };
-  }
-
-  public function addEvent<EventArg>(f : EventArg->Void, timeout = 250) {
-    asyncStack.add(f);
-    var handler = this;
-    setTimeout(timeout);
-    return function(e : EventArg) {
-      if(!handler.asyncStack.remove(f)) {
-        handler.results.add(AsyncError("event already executed", []));
-        return;
-      }
-      try {
-        handler.bindHandler();
-        f(e);
-      }
-      #if !UTEST_FAILURE_THROW
-      catch(e : Dynamic) {
-        handler.results.add(AsyncError(e, exceptionStack(0))); // TODO check the correct number of functions is popped from the stack
-      }
-      #end
-    };
-  }
-
-  function executeMethod(name : String) {
-    if(name == null) return;
-    bindHandler();
-    Reflect.callMethod(fixture.target, Reflect.field(fixture.target, name), []);
-  }
-
-  function executeAsyncMethod(name : String, done : Void->Void) : Void {
-    if(name == null) {
-      done();
-      return;
-    }
-    bindHandler();
-    Reflect.callMethod(fixture.target, Reflect.field(fixture.target, name), [done]);
   }
 
   function tested() {
     if(results.length == 0)
       results.add(Warning("no assertions"));
     onTested.dispatch(this);
-    completed();
+    completedFinally();
   }
 
   function timeout() {
     results.add(TimeoutError(asyncStack.length, []));
     onTimeout.dispatch(this);
-    completed();
-  }
-
-  function completed() {
-    if (fixture.ignoringInfo.isIgnored) {
-      completedFinally();
-      return;
-    }
-
-    //ugly hack to call completedFinally() only once if asynchronous code is involved
-    var isSync = true;
-    var expectingAsync = true;
-    function complete() {
-      if(isSync) {
-        expectingAsync = false;
-        return;
-      }
-      completedFinally();
-    }
-
-    try {
-      executeMethod(fixture.teardown);
-      executeAsyncMethod(fixture.teardownAsync, complete);
-    }
-    #if !UTEST_FAILURE_THROW
-    catch(e : Dynamic) {
-      results.add(TeardownError(e, exceptionStack(2))); // TODO check the correct number of functions is popped from the stack
-    }
-    #end
-    isSync = false;
-    if(!expectingAsync) {
-      completedFinally();
-    }
+    completedFinally();
   }
 
   function completedFinally() {

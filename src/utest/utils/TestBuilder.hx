@@ -1,5 +1,6 @@
 package utest.utils;
 
+import haxe.ds.Option;
 import haxe.macro.Type.MetaAccess;
 import utest.TestData.AccessoryName;
 import haxe.macro.Type.ClassType;
@@ -9,8 +10,7 @@ import haxe.macro.ExprTools;
 
 using Lambda;
 
-@:enum
-private abstract IsAsync(Int) {
+private enum abstract IsAsync(Int) {
 	var Yes = 1;
 	var No = 0;
 	var Unknown = -1;
@@ -22,6 +22,10 @@ class TestBuilder {
 	static inline var PROCESSED_META = ':utestProcessed';
 	static inline var TIMEOUT_META = ':timeout';
 	static inline var DEPENDS_META = ':depends';
+	static inline var IGNORE_META = ':ignore';
+	static inline var IGNORED_META = 'Ignored';
+
+	static inline var DEFAULT_TIMEOUT = 250;
 
 	macro static public function build():Array<Field> {
 		if(Context.defined('display') #if display || true #end) {
@@ -189,6 +193,10 @@ class TestBuilder {
 
 	static function processTest(cls:ClassType, field:Field, fn:Function, dependencies:Array<String>, initExprs:Array<Expr>) {
 		var test = field.name;
+		var ignore = switch getIgnore(cls, field) {
+			case None: macro haxe.ds.Option.None;
+			case Some(reason): macro haxe.ds.Option.Some($v{reason});
+		}
 		switch(fn.args.length) {
 			//synchronous test
 			case 0:
@@ -198,7 +206,8 @@ class TestBuilder {
 					execute:function() {
 						this.$test();
 						return @:privateAccess utest.Async.getResolved();
-					}
+					},
+					ignore:$ignore
 				}));
 			//asynchronous test
 			case 1:
@@ -209,7 +218,8 @@ class TestBuilder {
 						var async = @:privateAccess new utest.Async(${getTimeoutExpr(cls, field)});
 						this.$test(async);
 						return async;
-					}
+					},
+					ignore:$ignore
 				}));
 			//wtf test
 			case _:
@@ -343,19 +353,10 @@ class TestBuilder {
 
 	static function prepareSpec(expr:Expr) {
 		return switch(expr.expr) {
-			case EBlock(exprs):
-				var newExprs = [];
-				for(expr in exprs) {
-					switch(expr.expr) {
-						case EBinop(op, left, right):
-							newExprs.push(parseSpecBinop(expr, op, left, right));
-						case EUnop(op, prefix, subj):
-							newExprs.push(parseSpecUnop(expr, op, prefix, subj));
-						case _:
-							newExprs.push(ExprTools.map(expr, prepareSpec));
-					}
-				}
-				{expr:EBlock(newExprs), pos:expr.pos};
+			case EBinop(op, left, right):
+				parseSpecBinop(expr, op, left, right);
+			case EUnop(op, prefix, subj):
+				parseSpecUnop(expr, op, prefix, subj);
 			case _:
 				ExprTools.map(expr, prepareSpec);
 		}
@@ -423,8 +424,8 @@ class TestBuilder {
 	static function getTimeoutExpr(cls:ClassType, field:Field):Expr {
 		function getValue(meta:MetadataEntry):Expr {
 			if(meta.params == null || meta.params.length != 1) {
-				error('@:timeout meta should have one argument. E.g. @:timeout(250)', meta.pos);
-				return macro 250;
+				error('@$TIMEOUT_META meta should have one argument. E.g. @$TIMEOUT_META($DEFAULT_TIMEOUT)', meta.pos);
+				return macro $v{DEFAULT_TIMEOUT};
 			} else {
 				return meta.params[0];
 			}
@@ -442,7 +443,40 @@ class TestBuilder {
 			return getValue(cls.meta.extract(TIMEOUT_META)[0]);
 		}
 
-		return macro @:pos(field.pos) 250;
+		return macro @:pos(field.pos) $v{DEFAULT_TIMEOUT};
+	}
+
+	static function getIgnore(cls:ClassType, field:Field):Option<Null<String>> {
+		function getReason(meta:MetadataEntry):Option<Null<String>> {
+			if(meta.name == IGNORED_META) {
+				Context.warning('@$IGNORED_META is deprecated, use @$IGNORE_META instead', field.pos);
+			}
+			return Some(switch meta.params {
+				case null | []:
+					null;
+				case [{expr:EConst(CString(reason, _))}]:
+					reason;
+				case _:
+					error('@${meta.name} meta should have either no arguments or a single string argument', meta.pos);
+					null;
+			});
+		}
+
+		if(field.meta != null) {
+			for(meta in field.meta) {
+				if(meta.name == IGNORE_META || meta.name == IGNORED_META) {
+					return getReason(meta);
+				}
+			}
+		}
+
+		if(cls.meta.has(IGNORE_META)) {
+			return getReason(cls.meta.extract(IGNORE_META)[0]);
+		} else if(cls.meta.has(IGNORED_META)) {
+			return getReason(cls.meta.extract(IGNORED_META)[0]);
+		}
+
+		return None;
 	}
 
 	static function strBinop(op:Binop) {

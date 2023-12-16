@@ -1,0 +1,19 @@
+[
+    {
+        "metadata": ":timeout",
+        "doc": "Change timeout (milliseconds) for asynchronous test methods.",
+        "params": ["ms"],
+        "targets": ["TClass", "TClassField"]
+    },
+    {
+        "metadata": ":depends",
+        "doc": "Prevents annotated test (or test case) from being executed if at least one of the tests in the list failed.",
+        "params": ["test1", "test2", "...", "testN"],
+        "targets": ["TClass", "TClassField"]
+    },
+    {
+        "metadata": ":ignore",
+        "doc": "Skip annotated test.",
+        "targets": ["TClass", "TClassField"]
+    }
+]

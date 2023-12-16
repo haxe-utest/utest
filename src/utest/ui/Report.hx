@@ -4,28 +4,22 @@ import utest.Runner;
 import utest.ui.common.IReport;
 import utest.ui.common.HeaderDisplayMode;
 
-#if php
-import php.Web;
-#elseif neko
-import neko.Web;
-#end
-
 class Report {
   public static function create(runner : Runner, ?displaySuccessResults : SuccessResultsDisplayMode, ?headerDisplayMode : HeaderDisplayMode) : IReport<Dynamic> {
-    var report : IReport<Dynamic>;
+    var report:IReport<Dynamic>;
 #if teamcity
     report = new utest.ui.text.TeamcityReport(runner);
 #elseif travis
     report = new utest.ui.text.PrintReport(runner);
-#elseif (php || neko)
-    if (!Web.isModNeko)
+#elseif php
+    if (php.Lib.isCli())
       report = new utest.ui.text.PrintReport(runner);
     else
       report = new utest.ui.text.HtmlReport(runner, true);
 #elseif nodejs
     report = new utest.ui.text.PrintReport(runner);
 #elseif js
-    if(#if (haxe_ver >= 4.0) js.Syntax.code #else untyped __js__ #end("typeof window != 'undefined'")) {
+    if(js.Syntax.code("typeof window != 'undefined'")) {
       report = new utest.ui.text.HtmlReport(runner, true);
     } else
       report = new utest.ui.text.PrintReport(runner);
