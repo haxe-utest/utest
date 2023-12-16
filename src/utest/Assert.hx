@@ -659,9 +659,9 @@ class Assert {
    * ```
    * @param method A method that generates the exception.
    * @param type The type of the expected error. Defaults to any type (catch all).
-   * @param condition The callback which is called upon an exception. The assertion passes
-   *      if this callback returns `true`. Otherwise assertion fails. If `type` is specified, that
-   *      will have already been checked before the function is called.
+   * @param condition The callback which is called upon an exception. The assertion passes if this
+   *      callback returns `true`. Otherwise assertion fails. If specified, `type` will have already been
+   *      checked before the function is called.
    * @param msgNotThrown An optional error message used when the function fails to raise the expected
    *      exception. If not passed a default one will be used
    * @param msgWrongType An optional error message used when the function raises the exception but it is
@@ -674,9 +674,6 @@ class Assert {
     var typeDescr = type != null ? "exception of type " + Type.getClassName(type) : "exception";
     try {
       method();
-    // Broken on eval in Haxe 4.3.2: https://github.com/HaxeFoundation/haxe/issues/11321
-    // } catch(ex:ValueException) {
-    //   return handleCatch(ex.value);
     } catch (ex) {
       var ex = Std.isOfType(ex, ValueException) ? (cast ex:ValueException).value : (ex:Any);
       inline function checkCondition():Bool {
