@@ -112,9 +112,11 @@ class TestAssert extends Test {
     success(() -> exception(() -> throw Sample.Some('error')));
     success(() -> exception(() -> throw 'error'));
     failure(() -> exception(() -> {}));
+    #if !cpp
     //check for enum-based exceptions
     success(() -> exception(() -> throw Sample.Some('error'), e -> Std.isOfType(e, Sample)));
     failure(() -> exception(() -> throw Sample.Some('error'), e -> Std.isOfType(e, haxe.ds.Option)));
+    #end
     //check for specific class-based exceptions
     success(() -> exception(() -> throw new SampleException('haxe.Exception-based'), SampleException, e -> e.message.indexOf('haxe') >= 0));
     failure(() -> exception(() -> throw new SampleException('haxe.Exception-based'), SampleException, e -> e.message == 'fail'));
