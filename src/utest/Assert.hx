@@ -700,43 +700,38 @@ class Assert {
    * unless you know what you are doing.
    */
   public static function exception<T>(method:() -> Void, ?type:Class<T>, ?condition:(e:T)->Bool, ?msgNotThrown : String , ?msgWrongType : String, ?msgWrongCondition : String, ?pos : PosInfos) : Bool {
-    var cond = condition == null ? _ -> true : e -> {
-      if(null == msgWrongCondition)
-        msgWrongCondition = 'exception of ${Type.getClassName(type)} is raised, but condition failed';
-      isTrue(condition(e), msgWrongCondition, pos);
-    }
-    return _raisesImpl(method, type, cond, msgNotThrown, msgWrongType, pos);
+    return _raisesImpl(method, type, condition, msgNotThrown, msgWrongType, msgWrongCondition, pos);
   }
 
-  static function _raisesImpl(method:() -> Void, type:Any, condition : (Dynamic)->Bool, msgNotThrown : String , msgWrongType : String, pos : PosInfos) {
-    var typeDescr = type == null ? '' : "of type " + Type.getClassName(type);
-    inline function handleCatch(ex:Any):Bool {
+  static function _raisesImpl(method:() -> Void, type:Any, condition : (Dynamic)->Bool, msgNotThrown : String , msgWrongType : String, ?msgWrongCondition : String, pos : PosInfos) {
+    var typeDescr = type != null ? "exception of type " + Type.getClassName(type) : "exception";
+    try {
+      method();
+    } catch (ex) {
+      var ex = Std.isOfType(ex, ValueException) ? (cast ex:ValueException).value : (ex:Any);
+      inline function checkCondition():Bool {
+        return if(null == condition) {
+          pass(pos);
+        } else {
+          if(null == msgWrongCondition)
+            msgWrongCondition = '$typeDescr is raised, but condition failed';
+          isTrue(condition(cast ex), msgWrongCondition, pos);
+        }
+      }
       return if(null == type) {
-        pass(pos);
-        condition(ex);
+        checkCondition();
       } else {
         if (null == msgWrongType)
-          msgWrongType = "expected throw " + typeDescr + " but it is "  + ex;
+          msgWrongType = "expected " + typeDescr + " but it is "  + ex;
         if(isTrue(Std.isOfType(ex, type), msgWrongType, pos)) {
-          condition(ex);
+          checkCondition();
         } else {
           false;
         }
       }
     }
-    try {
-      method();
-    // Broken on eval in Haxe 4.3.2: https://github.com/HaxeFoundation/haxe/issues/11321
-    // } catch(ex:ValueException) {
-    //   return handleCatch(ex.value);
-    } catch (ex) {
-      if(Std.isOfType(ex, ValueException)) {
-        return handleCatch((cast ex:ValueException).value);
-      }
-      return handleCatch(ex);
-    }
     if (null == msgNotThrown)
-      msgNotThrown = "exception " + typeDescr + " not raised";
+      msgNotThrown = typeDescr + " not raised";
     return fail(msgNotThrown, pos);
   }
 
