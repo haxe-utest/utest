@@ -710,7 +710,7 @@ class Assert {
   }
 
   static function _raisesImpl(method:() -> Void, type:Any, condition : (Dynamic)->Bool, msgNotThrown : String , msgWrongType : String, pos : PosInfos) {
-    var typeDescr = "of type " + Type.getClassName(type);
+    var typeDescr = type == null ? '' : "of type " + Type.getClassName(type);
     inline function handleCatch(ex:Any):Bool {
       return if(null == type) {
         pass(pos);
