@@ -650,6 +650,8 @@ class Assert {
   }
 
   /**
+   * DEPRECATED: use `utest.Assert.exception` instead.
+   *
    * It is used to test an application that under certain circumstances must
    * react throwing an error. This assert guarantees that the error is of the
    * correct type (or any type if non is specified).
@@ -698,8 +700,8 @@ class Assert {
    * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
-  public static function raisesCondition<T>(method:() -> Void, type:Class<T>, condition:(e:T)->Bool, ?msgNotThrown : String , ?msgWrongType : String, ?msgWrongCondition : String, ?pos : PosInfos) : Bool {
-    var cond = e -> {
+  public static function exception<T>(method:() -> Void, ?type:Class<T>, ?condition:(e:T)->Bool, ?msgNotThrown : String , ?msgWrongType : String, ?msgWrongCondition : String, ?pos : PosInfos) : Bool {
+    var cond = condition == null ? _ -> true : e -> {
       if(null == msgWrongCondition)
         msgWrongCondition = 'exception of ${Type.getClassName(type)} is raised, but condition failed';
       isTrue(condition(e), msgWrongCondition, pos);
@@ -712,6 +714,7 @@ class Assert {
     inline function handleCatch(ex:Any):Bool {
       return if(null == type) {
         pass(pos);
+        condition(ex);
       } else {
         if (null == msgWrongType)
           msgWrongType = "expected throw " + typeDescr + " but it is "  + ex;
