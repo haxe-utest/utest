@@ -650,14 +650,13 @@ class Assert {
   }
 
   /**
-   * DEPRECATED: use `utest.Assert.exception` instead.
-   *
    * It is used to test an application that under certain circumstances must
    * react throwing an error. This assert guarantees that the error is of the
    * correct type (or any type if non is specified).
    * ```haxe
    * Assert.raises(function() { throw "Error!"; }, String);
    * ```
+   * @deprecated use `utest.Assert.exception` instead.
    * @param method A method that generates the exception.
    * @param type The type of the expected error. Defaults to any type (catch all).
    * @param msgNotThrown An optional error message used when the function fails to raise the expected
