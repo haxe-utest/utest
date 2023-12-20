@@ -675,11 +675,11 @@ class Assert {
    * react throwing an error with specific characteristics checked in the `condition` callback.
    * Simple condition check example:
    * ```haxe
-   * Assert.raisesCondition(() -> throw new MyException('Hello, world!'), MyException, e -> e.message.indexOf('Hello') == 0);
+   * Assert.exception(() -> throw new MyException('Hello, world!'), MyException, e -> e.message.indexOf('Hello') == 0);
    * ```
    * Complex condition check example:
    * ```haxe
-   * Assert.raisesCondition(
+   * Assert.exception(
    *  () -> throw new MyException('Hello, world!'),
    *  MyException, e -> {
    *    Assert.equals(e.code, 10);
