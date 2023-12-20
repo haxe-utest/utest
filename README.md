@@ -502,19 +502,3 @@ Creates a warning message.
 `msg` A mandatory message that justifies the warning.
 
 `pos` Code position where the Assert call has been executed. Don't fill it
-
-## Ignoring tests
-
-You can easily ignore one of tests within specifying `@Ignored` meta.
-
-```haxe
-class TestCase extends utest.Test {
-
-  @Ignored("Ignore this test")
-  function testIgnoredWithReason() {}
-
-  @Ignored
-  function testIgnoredWithoutReason():Void {}
-}
-
-```
