@@ -355,7 +355,8 @@ private class ITestRunner {
     if(setupAsync.timedOut) {
       setupFailed(SetupError('setupClass timeout', []));
     } else {
-      runFixtures();
+      if(runFixtures())
+        runCases();
     }
   }
 
