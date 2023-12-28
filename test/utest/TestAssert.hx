@@ -112,8 +112,8 @@ class TestAssert extends Test {
     success(() -> exception(() -> throw Sample.Some('error')));
     success(() -> exception(() -> throw 'error'));
     failure(() -> exception(() -> {}));
-    #if !cpp
     //check for enum-based exceptions
+    #if (haxe >= version("5.0.0-alpha.1") || !cpp) //@see https://github.com/HaxeFoundation/haxe/issues/11442
     success(() -> exception(() -> throw Sample.Some('error'), e -> Std.isOfType(e, Sample)));
     failure(() -> exception(() -> throw Sample.Some('error'), e -> Std.isOfType(e, haxe.ds.Option)));
     #end
