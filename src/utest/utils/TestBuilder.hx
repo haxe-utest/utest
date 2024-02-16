@@ -198,6 +198,25 @@ class TestBuilder {
 			case Some(reason): macro haxe.ds.Option.Some($v{reason});
 		}
 		switch(fn.args.length) {
+			//coroutine without async arg
+			case 0 if (field.meta.exists(m -> m.name == ":coroutine")):
+				initExprs.push(macro @:pos(field.pos) init.tests.push({
+					name:$v{test},
+					dependencies: $v{dependencies},
+					execute:function() {
+						var async = @:privateAccess new utest.Async(${getTimeoutExpr(cls, field)});
+						this.$test.start((_,err) -> {
+							if (async.timedOut) Assert.fail("timeout");
+							else {
+								if (err != null) Assert.fail(err);
+								if (!async.resolved) async.done();
+							}
+						});
+						return async;
+					},
+					ignore:$ignore
+				}));
+
 			//synchronous test
 			case 0:
 				initExprs.push(macro @:pos(field.pos) init.tests.push({
@@ -209,14 +228,28 @@ class TestBuilder {
 					},
 					ignore:$ignore
 				}));
+
 			//asynchronous test
 			case 1:
+				var exec = macro this.$test(async);
+
+				if (field.meta.exists(m -> m.name == ":coroutine")) {
+					exec = macro
+						this.$test.start(async, (_,err) -> {
+							if (async.timedOut) Assert.fail("timeout");
+							else {
+								if (err != null) Assert.fail(err);
+								if (!async.resolved) async.done();
+							}
+						});
+				}
+
 				initExprs.push(macro @:pos(field.pos) init.tests.push({
 					name:$v{test},
 					dependencies: $v{dependencies},
 					execute:function() {
 						var async = @:privateAccess new utest.Async(${getTimeoutExpr(cls, field)});
-						this.$test(async);
+						$exec;
 						return async;
 					},
 					ignore:$ignore
