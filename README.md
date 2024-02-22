@@ -6,6 +6,7 @@ utest is an easy to use unit testing library for Haxe. It works on all the suppo
 - [utest](#utest)
 - [Installation](#installation)
 - [Basic usage](#basic-usage)
+- [How to run the tests](#how-to-run-the-tests)
 - [Inter-test dependencies](#inter-test-dependencies)
 - [Dependencies between test classes](#dependencies-between-test-classes)
 - [Running single test from a test suite.](#running-single-test-from-a-test-suite)
@@ -121,6 +122,18 @@ class TestCase extends utest.Test {
     );
   }
 }
+```
+
+## How to run the tests
+
+You essentially need to "build" the project with the test Main and run it. For example, for a hashlink target:
+
+```bash
+set -e # so that we fail if build fails and not keep running the old tests
+echo Buliding the test target
+haxe --debug -hl myproject_test.hl --class-path src --class-path test -main TestAll -lib heaps -lib hlsdl -lib utest -D utest -D UTEST_PRINT_TESTS
+echo Running the tests
+haxe --debug -hl myproject_test.hl --class-path src --class-path test -main TestAll -lib heaps -lib hlsdl -lib utest -D utest -D UTEST_PRINT_TESTS
 ```
 
 ## Ignore a test
