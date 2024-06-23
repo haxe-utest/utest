@@ -656,6 +656,7 @@ class Assert {
    * ```haxe
    * Assert.raises(function() { throw "Error!"; }, String);
    * ```
+   * @deprecated use `utest.Assert.exception` instead.
    * @param method A method that generates the exception.
    * @param type The type of the expected error. Defaults to any type (catch all).
    * @param msgNotThrown An optional error message used when the function fails to raise the expected
@@ -674,11 +675,11 @@ class Assert {
    * react throwing an error with specific characteristics checked in the `condition` callback.
    * Simple condition check example:
    * ```haxe
-   * Assert.raisesCondition(() -> throw new MyException('Hello, world!'), MyException, e -> e.message.indexOf('Hello') == 0);
+   * Assert.exception(() -> throw new MyException('Hello, world!'), MyException, e -> e.message.indexOf('Hello') == 0);
    * ```
    * Complex condition check example:
    * ```haxe
-   * Assert.raisesCondition(
+   * Assert.exception(
    *  () -> throw new MyException('Hello, world!'),
    *  MyException, e -> {
    *    Assert.equals(e.code, 10);
@@ -698,43 +699,39 @@ class Assert {
    * @param pos Code position where the Assert call has been executed. Don't fill it
    * unless you know what you are doing.
    */
-  public static function raisesCondition<T>(method:() -> Void, type:Class<T>, condition:(e:T)->Bool, ?msgNotThrown : String , ?msgWrongType : String, ?msgWrongCondition : String, ?pos : PosInfos) : Bool {
-    var cond = e -> {
-      if(null == msgWrongCondition)
-        msgWrongCondition = 'exception of ${Type.getClassName(type)} is raised, but condition failed';
-      isTrue(condition(e), msgWrongCondition, pos);
-    }
-    return _raisesImpl(method, type, cond, msgNotThrown, msgWrongType, pos);
+  public static function exception<T>(method:() -> Void, ?type:Class<T>, ?condition:(e:T)->Bool, ?msgNotThrown : String , ?msgWrongType : String, ?msgWrongCondition : String, ?pos : PosInfos) : Bool {
+    return _raisesImpl(method, type, condition, msgNotThrown, msgWrongType, msgWrongCondition, pos);
   }
 
-  static function _raisesImpl(method:() -> Void, type:Any, condition : (Dynamic)->Bool, msgNotThrown : String , msgWrongType : String, pos : PosInfos) {
-    var typeDescr = "of type " + Type.getClassName(type);
-    inline function handleCatch(ex:Any):Bool {
+  static function _raisesImpl(method:() -> Void, type:Any, condition : (Dynamic)->Bool, msgNotThrown : String , msgWrongType : String, ?msgWrongCondition : String, pos : PosInfos) {
+    var typeDescr = type != null ? "exception of type " + Type.getClassName(type) : "exception";
+    try {
+      method();
+    } catch (ex) {
+      var ex = Std.isOfType(ex, ValueException) ? (cast ex:ValueException).value : (ex:Any);
+      inline function checkCondition():Bool {
+        return if(null == condition) {
+          pass(pos);
+        } else {
+          if(null == msgWrongCondition)
+            msgWrongCondition = '$typeDescr is raised, but condition failed';
+          isTrue(condition(cast ex), msgWrongCondition, pos);
+        }
+      }
       return if(null == type) {
-        pass(pos);
+        checkCondition();
       } else {
         if (null == msgWrongType)
-          msgWrongType = "expected throw " + typeDescr + " but it is "  + ex;
+          msgWrongType = "expected " + typeDescr + " but it is "  + ex;
         if(isTrue(Std.isOfType(ex, type), msgWrongType, pos)) {
-          condition(ex);
+          checkCondition();
         } else {
           false;
         }
       }
     }
-    try {
-      method();
-    // Broken on eval in Haxe 4.3.2: https://github.com/HaxeFoundation/haxe/issues/11321
-    // } catch(ex:ValueException) {
-    //   return handleCatch(ex.value);
-    } catch (ex) {
-      if(Std.isOfType(ex, ValueException)) {
-        return handleCatch((cast ex:ValueException).value);
-      }
-      return handleCatch(ex);
-    }
     if (null == msgNotThrown)
-      msgNotThrown = "exception " + typeDescr + " not raised";
+      msgNotThrown = typeDescr + " not raised";
     return fail(msgNotThrown, pos);
   }
 

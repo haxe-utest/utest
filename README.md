@@ -1,11 +1,6 @@
 utest
 ---
 
-[![Build Status](https://travis-ci.org/haxe-utest/utest.svg?branch=master)](https://travis-ci.org/haxe-utest/utest)
-[![Build status](https://ci.appveyor.com/api/projects/status/oy1ashccfh60ayl0/branch/master?svg=true)](https://ci.appveyor.com/project/haxe-utest/utest/branch/master)
-
-[![Sauce Test Status](https://saucelabs.com/browser-matrix/fponticelli-utest.svg)](https://saucelabs.com/u/fponticelli-utest)
-
 utest is an easy to use unit testing library for Haxe. It works on all the supported platforms including nodejs.
 
 - [utest](#utest)
@@ -530,20 +525,4 @@ Normally, when `Assert.isTrue` and `Assert.isFalse` fail, they only print "expec
     Assert.isFalse(bools[0]); // expected false
     Assert.isTrue(bools[1]); // expected true
   }
-```
-
-## Ignoring tests
-
-You can easily ignore one of tests within specifying `@Ignored` meta.
-
-```haxe
-class TestCase extends utest.Test {
-
-  @Ignored("Ignore this test")
-  function testIgnoredWithReason() {}
-
-  @Ignored
-  function testIgnoredWithoutReason():Void {}
-}
-
 ```

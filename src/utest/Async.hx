@@ -28,6 +28,10 @@ class Async {
 		return resolvedInstance;
 	}
 
+	static inline function strPos(pos:PosInfos):String {
+		return pos.fileName + ':' + pos.lineNumber;
+	}
+
 	function new(timeoutMs:Int = 250) {
 		this.timeoutMs = timeoutMs;
 		startTime = Timer.stamp();
@@ -37,9 +41,9 @@ class Async {
 	public function done(?pos:PosInfos) {
 		if(resolved) {
 			if(timedOut) {
-				throw 'Cannot done() at ${pos.fileName}:${pos.lineNumber} because async is timed out.';
+				throw 'Cannot done() at ${strPos(pos)} because async is timed out.';
 			} else {
-				throw 'Cannot done() at ${pos.fileName}:${pos.lineNumber} because async is done already.';
+				throw 'Cannot done() at ${strPos(pos)} because async is done already.';
 			}
 		}
 		resolved = true;
@@ -52,10 +56,10 @@ class Async {
 	 */
 	public function setTimeout(timeoutMs:Int, ?pos:PosInfos) {
 		if(resolved) {
-			throw 'Cannot setTimeout($timeoutMs) at ${pos.fileName}:${pos.lineNumber} because async is done.';
+			throw 'Cannot setTimeout($timeoutMs) at ${strPos(pos)} because async is done.';
 		}
 		if(timedOut) {
-			throw 'Cannot setTimeout($timeoutMs) at ${pos.fileName}:${pos.lineNumber} because async is timed out.';
+			throw 'Cannot setTimeout($timeoutMs) at ${strPos(pos)} because async is timed out.';
 		}
 
 		timer.stop();

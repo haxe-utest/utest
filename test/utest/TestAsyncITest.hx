@@ -80,6 +80,22 @@ class TestAsyncITest extends Test {
 		Assert.isTrue(setupCallCount > 0);
 	}
 
+	function testAsyncSetupClassWithSyncEverythingElse_doesNotHang(async:Async) {
+
+		var currentResults = Assert.results;
+		Assert.results = new List();
+
+		var runner = new Runner();
+		runner.addCase(new TestAsyncSetupClassWithSyncEverythingElse());
+
+		runner.onComplete.add(_ -> {
+			Assert.results = currentResults;
+			Assert.pass();
+			async.done();
+		});
+		runner.run();
+	}
+
 	function teardown(async:Async) {
 		teardownRunning = true;
 
@@ -130,4 +146,15 @@ class TestAsyncITest extends Test {
 			1750
 		);
 	}
+}
+
+private class TestAsyncSetupClassWithSyncEverythingElse extends Test {
+	@:timeout(50)
+    function setupClass(async: Async): Void {
+        haxe.Timer.delay(() -> async.done(), 10);
+    }
+
+    function testSomething() {
+        Assert.pass();
+    }
 }

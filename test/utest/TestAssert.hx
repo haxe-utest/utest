@@ -106,11 +106,22 @@ class TestAssert extends Test {
       }
   }
 
-  public function testRaisesCondition() {
-    success(() -> raisesCondition(() -> throw new SampleException('haxe.Exception-based'), SampleException, e -> e.message.indexOf('haxe') >= 0));
-    failure(() -> raisesCondition(() -> throw new SampleException('haxe.Exception-based'), SampleException, e -> e.message == 'fail'));
-    success(() -> raisesCondition(() -> throw 'Non-haxe.Exception', String, e -> e.indexOf('haxe') >= 0));
-    failure(() -> raisesCondition(() -> throw 'Non-haxe.Exception', String, e -> e == 'fail'));
+  public function testException() {
+    //check for any exception
+    success(() -> exception(() -> throw new Exception('error')));
+    success(() -> exception(() -> throw Sample.Some('error')));
+    success(() -> exception(() -> throw 'error'));
+    failure(() -> exception(() -> {}));
+    //check for enum-based exceptions
+    #if (haxe >= version("5.0.0-alpha.1") || !cpp) //@see https://github.com/HaxeFoundation/haxe/issues/11442
+    success(() -> exception(() -> throw Sample.Some('error'), e -> Std.isOfType(e, Sample)));
+    failure(() -> exception(() -> throw Sample.Some('error'), e -> Std.isOfType(e, haxe.ds.Option)));
+    #end
+    //check for specific class-based exceptions
+    success(() -> exception(() -> throw new SampleException('haxe.Exception-based'), SampleException, e -> e.message.indexOf('haxe') >= 0));
+    failure(() -> exception(() -> throw new SampleException('haxe.Exception-based'), SampleException, e -> e.message == 'fail'));
+    success(() -> exception(() -> throw 'Non-haxe.Exception', String, e -> e.indexOf('haxe') >= 0));
+    failure(() -> exception(() -> throw 'Non-haxe.Exception', String, e -> e == 'fail'));
   }
 
   public function testIs() {
