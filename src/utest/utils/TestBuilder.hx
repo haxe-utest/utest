@@ -205,13 +205,27 @@ class TestBuilder {
 					dependencies: $v{dependencies},
 					execute:function() {
 						var async = @:privateAccess new utest.Async(${getTimeoutExpr(cls, field)});
-						this.$test.start((_,err) -> {
-							if (async.timedOut) Assert.fail("timeout");
-							else {
-								if (err != null) Assert.fail(err);
-								if (!async.resolved) async.done();
-							}
-						});
+
+						CoroutineHelpers
+							.promise(() -> {
+								this.$test();
+							})
+							.then(
+								result -> {
+									if (async.timedOut) {
+										Assert.fail("timeout");
+									} else if (!async.resolved) {
+										async.done();
+									}
+								},
+								error -> {
+									if (async.timedOut) {
+										Assert.fail("timeout");
+									} else if (error != null) {
+										Assert.fail(error);
+									}
+								});
+
 						return async;
 					},
 					ignore:$ignore
@@ -235,13 +249,25 @@ class TestBuilder {
 
 				if (field.meta.exists(m -> m.name == ":coroutine")) {
 					exec = macro
-						this.$test.start(async, (_,err) -> {
-							if (async.timedOut) Assert.fail("timeout");
-							else {
-								if (err != null) Assert.fail(err);
-								if (!async.resolved) async.done();
-							}
-						});
+						CoroutineHelpers
+							.promise(() -> {
+								this.$test(async);
+							})
+							.then(
+								result -> {
+									if (async.timedOut) {
+										Assert.fail("timeout");
+									} else if (!async.resolved) {
+										async.done();
+									}
+								},
+								error -> {
+									if (async.timedOut) {
+										Assert.fail("timeout");
+									} else if (error != null) {
+										Assert.fail(error);
+									}
+								});
 				}
 
 				initExprs.push(macro @:pos(field.pos) init.tests.push({
