@@ -1,4 +1,4 @@
-package;
+package utest;
 
 import js.lib.Promise;
 import haxe.Exception;

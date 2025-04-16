@@ -206,7 +206,7 @@ class TestBuilder {
 					execute:function() {
 						var async = @:privateAccess new utest.Async(${getTimeoutExpr(cls, field)});
 
-						CoroutineHelpers
+						utest.CoroutineHelpers
 							.promise(() -> {
 								this.$test();
 							})
@@ -249,7 +249,7 @@ class TestBuilder {
 
 				if (field.meta.exists(m -> m.name == ":coroutine")) {
 					exec = macro
-						CoroutineHelpers
+						utest.CoroutineHelpers
 							.promise(() -> {
 								this.$test(async);
 							})
