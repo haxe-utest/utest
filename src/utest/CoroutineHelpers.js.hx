@@ -1,35 +1,42 @@
 package utest;
 
+import haxe.Timer;
+import haxe.coro.cancellation.CancellationToken;
 import js.lib.Promise;
 import haxe.Exception;
-import haxe.coro.Primitive;
 import haxe.coro.Coroutine;
-import haxe.coro.Coroutine.delay;
-import haxe.coro.Coroutine.yield;
-import haxe.coro.CoroutineContext;
-import haxe.coro.IScheduler;
+import hxcoro.Coro.*;
+import haxe.coro.context.Context;
+import haxe.coro.schedulers.Scheduler;
 import haxe.coro.IContinuation;
 
-private class JsScheduler implements IScheduler {
-	public function new() {}
-
-	public function schedule(func:() -> Void) {
-		haxe.Timer.delay(func, 0);
+private class JsScheduler extends Scheduler {
+	public function new() {
+		super();
 	}
 
-	public function scheduleIn(func:() -> Void, ms:Int) {
+	public function schedule(ms:Int, func:() -> Void) {
 		haxe.Timer.delay(func, ms);
+		return null; // what to return here?
+	}
+
+	public function now() {
+		return Timer.stamp();
 	}
 }
 
 private class PromiseContinuation<T> implements IContinuation<Any> {
-	var doResolve : (result:T)->Void;
-	var doReject : (reason:Dynamic)->Void;
+	var doResolve:(result:T) -> Void;
+	var doReject:(reason:Dynamic) -> Void;
 
-	public final _hx_context:CoroutineContext;
+	public var context(get, null):Context;
 
-	public function new(scheduler:IScheduler) {
-		_hx_context = new CoroutineContext(scheduler);
+	public function new(context) {
+		this.context = context;
+	}
+
+	public function get_context() {
+		return context;
 	}
 
 	public function resume(result:Any, error:Exception) {
@@ -41,28 +48,27 @@ private class PromiseContinuation<T> implements IContinuation<Any> {
 	}
 
 	public function promise():Promise<T> {
-		return
-			new Promise((resolve, reject) -> {
-				doResolve = resolve;
-				doReject  = reject;
-			});
+		return new Promise((resolve, reject) -> {
+			doResolve = resolve;
+			doReject = reject;
+		});
 	}
 }
 
 class CoroutineHelpers {
-    public static function promise<T>(f:Coroutine<() -> T>):Promise<T> {
-        final cont = new PromiseContinuation(new JsScheduler());
+	public static function promise<T>(f:Coroutine<() -> T>):Promise<T> {
+		final scheduler = new JsScheduler();
+		final context = Context.create(scheduler);
+		final cont = new PromiseContinuation(context);
 
-        return try {
-            final result = f(cont);
-            if (result is Primitive) {
-                cont.promise();
-            } else {
-                Promise.resolve(result);
-            }
-        }
-        catch (exn:Exception) {
-            Promise.reject(exn);
-        }
-    }
+		final result = f(cont);
+		return switch (result.state) {
+			case Pending:
+				cont.promise();
+			case Returned:
+				Promise.resolve(result.result);
+			case Thrown:
+				Promise.reject(result.error);
+		}
+	}
 }
