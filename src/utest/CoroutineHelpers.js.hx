@@ -9,19 +9,25 @@ import hxcoro.Coro.*;
 import haxe.coro.context.Context;
 import haxe.coro.schedulers.Scheduler;
 import haxe.coro.IContinuation;
+import haxe.coro.schedulers.IScheduleObject;
+import haxe.exceptions.CancellationException;
 
 private class JsScheduler extends Scheduler {
 	public function new() {
 		super();
 	}
 
-	public function schedule(ms:Int, func:() -> Void) {
-		haxe.Timer.delay(func, ms);
+	public function schedule(ms:haxe.Int64, func:() -> Void) {
+		haxe.Timer.delay(func, haxe.Int64.toInt(ms));
 		return null; // what to return here?
 	}
 
+	public function scheduleObject(obj:IScheduleObject) {
+		haxe.Timer.delay(() -> obj.onSchedule(), 0);
+	}
+
 	public function now() {
-		return Timer.stamp();
+		return Timer.milliseconds();
 	}
 }
 
@@ -57,8 +63,10 @@ private class PromiseContinuation<T> implements IContinuation<Any> {
 
 class CoroutineHelpers {
 	public static function promise<T>(f:Coroutine<() -> T>):Promise<T> {
-		final scheduler = new JsScheduler();
-		final context = Context.create(scheduler);
+		final context =
+			Context
+				.create(new JsScheduler(), new haxe.coro.BaseContinuation.StackTraceManager())
+				.add(CancellationToken, CancellationToken.none);
 		final cont = new PromiseContinuation(context);
 
 		final result = f(cont);
