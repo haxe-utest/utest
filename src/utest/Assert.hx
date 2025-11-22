@@ -195,6 +195,9 @@ class Assert {
     {
       case TNull    : return "`null`";
       case TInt     : return "Int";
+      #if haxe5
+      case TInt64   : return "Int64";
+      #end
       case TFloat   : return "Float";
       case TBool    : return "Bool";
       case TFunction: return "function";
@@ -277,6 +280,17 @@ class Assert {
           return false;
         }
         return true;
+      #if haxe5
+	  case TInt64:
+		var _exp : haxe.Int64 = expected;
+		var _val : haxe.Int64 = value;
+        if (_exp != _val)
+        {
+          status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
+          return false;
+        }
+        return true;
+	  #end
       case TNull, TBool:
         if(expected != value) {
           status.error = "expected " + q(expected) + " but it is " + q(value) + (status.path == '' ? '' : ' for field '+status.path);
