@@ -28,7 +28,7 @@ class TestBuilder {
 	static inline var DEFAULT_TIMEOUT = 250;
 
 	macro static public function build():Array<Field> {
-		if(Context.defined('display') #if display || true #end) {
+		if(Context.defined('display')) {
 			return null;
 		}
 
