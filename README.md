@@ -273,7 +273,7 @@ Asserts successfully when the condition is true.
 
 `cond` The condition to test
 
-`msg` An optional error message. If not passed a default one will be used
+`msg` An optional error message. If not passed [a default one will be used](#reducing-message-detail).
 
 `pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
@@ -284,7 +284,7 @@ Asserts successfully when the condition is false.
 
 `cond` The condition to test
 
-`msg` An optional error message. If not passed a default one will be used
+`msg` An optional error message. If not passed [a default one will be used](#reducing-message-detail).
 
 `pos` Code position where the Assert call has been executed. Don't fill it
 unless you know what you are doing.
@@ -502,3 +502,27 @@ Creates a warning message.
 `msg` A mandatory message that justifies the warning.
 
 `pos` Code position where the Assert call has been executed. Don't fill it
+
+## Increasing message detail
+
+Normally, when `Assert.isTrue` and `Assert.isFalse` fail, they only print "expected false" or "expected true", making it hard to diagnose the issue. To make diagnosis easier, utest offers the `-D UTEST_DETAILED_MESSAGES` option. Setting this makes the default messages more informative, while leaving custom messages untouched.
+
+```haxe
+  function testSum() {
+    var x = 3;
+    Assert.isTrue(2 + 2 == x + x); // Failed: 2 + 2 == x + x. Values: 4 == 6
+    Assert.isTrue(2 + 3 >= x + x); // Failed: 2 + 3 >= x + x. Values: 5 >= 6
+    Assert.isFalse(2 + 4 <= x + x); // Failed: 2 + 4 <= x + x should be false. Values: 6 <= 6
+    Assert.isTrue(2 + 3 >= x + x, "my custom message"); // my custom message
+
+    var array = [1, 2, 4, 8];
+    Assert.isTrue(array.contains(x)); // Failed: array.contains(x). Values: [1,2,4,8].contains(3)
+    Assert.isFalse(array.contains(2), "didn't expect 2"); // didn't expect 2
+
+    // Currently, only binary operators and function calls are supported.
+    // Other expressions such as array access will fall back to the default.
+    var bools = [true, false];
+    Assert.isFalse(bools[0]); // expected false
+    Assert.isTrue(bools[1]); // expected true
+  }
+```

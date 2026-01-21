@@ -284,6 +284,9 @@ class TestBuilder {
 			case _:
 				error('Wrong arguments count. The only supported argument is utest.Async for asynchronous tests.', field.pos);
 		}
+		if(field.name.indexOf(TEST_PREFIX) == 0 && fn.expr != null && Context.defined("UTEST_DETAILED_MESSAGES")) {
+			fn.expr = prepareTest(fn.expr);
+		}
 		//specification test
 		if(field.name.indexOf(SPEC_PREFIX) == 0 && fn.expr != null) {
 			fn.expr = prepareSpec(fn.expr);
@@ -342,6 +345,71 @@ class TestBuilder {
 		return ancestorHasInitializeUtest(superClass);
 	}
 
+	static function prepareTest(expr:Expr) {
+		return switch(expr.expr) {
+			case ECall({expr: EField({expr: EConst(CIdent("Assert")) | EField(_, "Assert")}, assertion = "isTrue" | "isFalse")}, [condition]):
+				switch(condition.expr) {
+					case EBinop(op = OpEq | OpNotEq | OpGt | OpGte | OpLt | OpLte, left, right):
+						parseSpecBinop(condition, op, left, right, assertion);
+					case EUnop(op = OpNot, prefix, subj):
+						parseSpecUnop(condition, op, prefix, subj, assertion);
+					case ECall(func, args):
+						parseTestCall(condition, func, args, assertion);
+					default:
+						expr;
+				}
+			case _:
+				ExprTools.map(expr, prepareTest);
+		}
+	}
+	
+	static function parseTestCall(expr:Expr, func:Expr, args:Array<Expr>, ?assertion:String = "isTrue"):Expr {
+		var funcStr = ExprTools.toString(func);
+		var funcValue = macro $v{funcStr};
+		var argsStr:String = [for(arg in args) ExprTools.toString(arg)].join(", ");
+
+		var vars:Array<Var> = [];
+		switch(func.expr) {
+			case EField(thisValue, funcName) if(!isCapitalized(thisValue)):
+				vars.push({name: "_utest_this", expr: thisValue});
+				func = {expr: EField(macro _utest_this, funcName), pos: func.pos};
+				funcValue = macro _utest_this + "." + $v{funcName};
+			default:
+		}
+
+		var varValues:Array<Expr> = [];
+		var argValues:Array<Expr> = [];
+		for(i => arg in args) {
+			if(isCapitalized(arg)) {
+				varValues.push(arg);
+				argValues.push(macro $v{ExprTools.toString(arg)});
+			} else {
+				var varName = "_utest_arg_" + i;
+				vars.push({name: varName, expr: arg});
+				varValues.push(macro $i{varName});
+				argValues.push(macro Std.string($i{varName}));
+			}
+		}
+		var varsExpr = {expr: EVars(vars), pos: expr.pos};
+
+		var expected = assertion == "isFalse" ? " should be false" : "";
+		return macro @:pos(expr.pos) {
+			$varsExpr;
+			var _utest_msg = "Failed: " + $v{funcStr} + "(" + $v{argsStr} + ")" + $v{expected} + ". "
+						+ "Values: " + $funcValue + "(" + $a{argValues}.join(", ") + ")";
+			utest.Assert.$assertion($func($a{varValues}), _utest_msg);
+		}
+	}
+
+	static function isCapitalized(expr:Expr) {
+		return switch(expr.expr) {
+			case EConst(CIdent(ident)), EField(_, ident):
+				~/^[A-Z]/.match(ident);
+			default:
+				false;
+		}
+	}
+
 	static function prepareSpec(expr:Expr) {
 		return switch(expr.expr) {
 			case EBinop(op, left, right):
@@ -353,7 +421,7 @@ class TestBuilder {
 		}
 	}
 
-	static function parseSpecBinop(expr:Expr, op:Binop, left:Expr, right:Expr):Expr {
+	static function parseSpecBinop(expr:Expr, op:Binop, left:Expr, right:Expr, ?assertion:String = "isTrue"):Expr {
 		switch op {
 			case OpEq | OpNotEq | OpGt | OpGte | OpLt | OpLte:
 				var leftStr = ExprTools.toString(left);
@@ -363,19 +431,20 @@ class TestBuilder {
 					expr:EBinop(op, macro @:pos(left.pos) _utest_left, macro @:pos(right.pos) _utest_right),
 					pos:expr.pos
 				}
+				var expected = assertion == "isFalse" ? " should be false" : "";
 				return macro @:pos(expr.pos) {
 					var _utest_left = $left;
 					var _utest_right = $right;
-					var _utest_msg = "Failed: " + $v{leftStr} + " " + $v{opStr} + " " + $v{rightStr} + ". "
+					var _utest_msg = "Failed: " + $v{leftStr} + " " + $v{opStr} + " " + $v{rightStr} + $v{expected} + ". "
 								+ "Values: " + _utest_left + " " + $v{opStr} + " " + _utest_right;
-					utest.Assert.isTrue($binop, _utest_msg);
+					utest.Assert.$assertion($binop, _utest_msg);
 				}
 			case _:
 				return ExprTools.map(expr, prepareSpec);
 		}
 	}
 
-	static function parseSpecUnop(expr:Expr, op:Unop, prefix:Bool, subj:Expr):Expr {
+	static function parseSpecUnop(expr:Expr, op:Unop, prefix:Bool, subj:Expr, ?assertion:String = "isTrue"):Expr {
 		switch op {
 			case OpNot if(!prefix):
 				var subjStr = ExprTools.toString(subj);
@@ -384,11 +453,12 @@ class TestBuilder {
 					expr: EUnop(op, prefix, macro @:pos(subj.pos) _utest_subj),
 					pos: expr.pos
 				}
+				var expected = assertion == "isFalse" ? " should be false" : "";
 				return macro @:pos(expr.pos) {
 					var _utest_subj = $subj;
-					var _utest_msg = "Failed: " + $v{opStr} + $v{subjStr} + ". "
+					var _utest_msg = "Failed: " + $v{opStr} + $v{subjStr} + $v{expected} + ". "
 									+ "Values: " + $v{opStr} + _utest_subj;
-					utest.Assert.isTrue($unop, _utest_msg);
+					utest.Assert.$assertion($unop, _utest_msg);
 				}
 			case _:
 				return ExprTools.map(expr, prepareSpec);
