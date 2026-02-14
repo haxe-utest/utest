@@ -346,8 +346,8 @@ class TestBuilder {
 		return switch(expr.expr) {
 			case EBinop(op, left, right):
 				parseSpecBinop(expr, op, left, right);
-			case EUnop(op, prefix, subj):
-				parseSpecUnop(expr, op, prefix, subj);
+			case EUnop(op, postFix, subj):
+				parseSpecUnop(expr, op, postFix, subj);
 			case _:
 				ExprTools.map(expr, prepareSpec);
 		}
@@ -375,13 +375,13 @@ class TestBuilder {
 		}
 	}
 
-	static function parseSpecUnop(expr:Expr, op:Unop, prefix:Bool, subj:Expr):Expr {
+	static function parseSpecUnop(expr:Expr, op:Unop, postFix:Bool, subj:Expr):Expr {
 		switch op {
-			case OpNot if(!prefix):
+			case OpNot if(!postFix):
 				var subjStr = ExprTools.toString(subj);
 				var opStr = strUnop(op);
 				var unop = {
-					expr: EUnop(op, prefix, macro @:pos(subj.pos) _utest_subj),
+					expr: EUnop(op, postFix, macro @:pos(subj.pos) _utest_subj),
 					pos: expr.pos
 				}
 				return macro @:pos(expr.pos) {
