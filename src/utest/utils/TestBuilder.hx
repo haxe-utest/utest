@@ -266,6 +266,7 @@ class TestBuilder {
 										Assert.fail("timeout");
 									} else if (error != null) {
 										Assert.fail(error);
+										async.done();
 									}
 								});
 				}
