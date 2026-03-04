@@ -34,7 +34,7 @@ jobs:
       uses: actions/checkout@v2 #https://github.com/actions/checkout
 
     - name: "Cache Haxelib Repository"
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: $RUNNER_TOOL_CACHE/haxe/${{ matrix.haxe }}/x64/lib
         key: ${{ runner.os }}-haxelib-${{ hashFiles('**/haxelib.json') }}
